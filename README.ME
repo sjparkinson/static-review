@@ -1,0 +1,32 @@
+
+MDM Pre-Commit
+=====================
+
+
+It checks:
+  * git merge conflict markers
+  * Personalized debugging (JS,PHP) statements
+  * PHP Syntax Error
+  * XML Syntax Error
+  * YML Syntax Error
+
+It optimizes PHP and reports about (All features are activated by default):
+  * Fixing coding standards issues (PHP Cs Fixer)
+  * Mess Detection (Unused code, complexity...)
+  * Copy/Paste detection
+
+Required Libraries
+---------------------
+
+Xmllint Install
+apt-get install libxml2-utils
+
+Composer Global Install
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+
+Composer libraries (composer.json):
+ * PHP Cs Fixer Install (https://github.com/fabpot/PHP-CS-Fixer)
+ * PHP Mess Detector
+ * PHP CPD
+
