@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Process\Process;
 
 class PreCommitCommand extends Command
 {
@@ -34,7 +35,10 @@ class PreCommitCommand extends Command
         $this->formatter = $this->getHelperSet()->get('formatter');
 
         // Grab all added, copied or modified files into $output array
-        exec('git diff --cached --name-status --diff-filter=ACM', $files);
+        $gitDiffProcess = new Process('git diff --cached --name-status --diff-filter=ACM');
+        $gitDiffProcess->run();
+        // Transforme the output of an array of list of files
+        $files = explode("\n", $gitDiffProcess->getOutput());
 
         # Git conflict markers
         $stopWordsGit = array(">>>>>>", "<<<<<<", "======");
@@ -48,68 +52,72 @@ class PreCommitCommand extends Command
         $phpFiles = array();
         $perfectSyntax = true;
         foreach ($files as $file) {
-            ++$cpt;
-            $fileName = trim(substr($file, 1));
-            $fileInfo = pathinfo($fileName, PATHINFO_EXTENSION);
-            switch ($fileInfo) {
-                case "php":
-                    $phpFiles[] = $fileName;
+            if("" != $file){
+                ++$cpt;
+                $fileName = trim(substr($file, 1));
+                $fileInfo = pathinfo($fileName, PATHINFO_EXTENSION);
+                switch ($fileInfo) {
+                    case "php":
+                        $phpFiles[] = $fileName;
 
-                    // Check syntax with PHP lint
-                    $lint_output = array();
-                    exec("php -l " . escapeshellarg($fileName) . " 2>&1", $lint_output, $return);
-                    $this->logError($output, $lint_output, $return);
+                        // Check syntax with PHP lint
+                        $lint_output = array();
+                        $phpLintProcess = new Process('git diff --cached --name-status --diff-filter=ACM');
+                        $phpLintProcess->run();
+                        exec("php -l " . escapeshellarg($fileName) . " 2>&1", $lint_output, $return);
+                        $this->logError($output, $lint_output, $return);
 
-                    // Fix syntax with PHP CS FIXER
-                    if (self::PHP_CS_FIXER_ENABLE) {
-                        $csfix_output = array();
-                        exec("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1", $csfix_output, $return);
+                        // Fix syntax with PHP CS FIXER
+                        if (self::PHP_CS_FIXER_ENABLE) {
+                            $csfix_output = array();
+                            exec("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1", $csfix_output, $return);
 
-                        if (count($csfix_output) > 0) {
-                            $this->logInfo($output, $csfix_output, ' PHP Cs Fixer ');
-                            if (self::PHP_CS_FIXER_AUTOADD_GIT) {
-                                $git_output = array();
-                                exec("git add " . escapeshellarg($fileName), $git_output, $return);
+                            if (count($csfix_output) > 0) {
+                                $this->logInfo($output, $csfix_output, ' PHP Cs Fixer ');
+                                if (self::PHP_CS_FIXER_AUTOADD_GIT) {
+                                    $git_output = array();
+                                    exec("git add " . escapeshellarg($fileName), $git_output, $return);
+                                }
+                                $perfectSyntax = false;
                             }
-                            $perfectSyntax = false;
                         }
-                    }
 
-                    // Check StopWords
-                    foreach ($stopWordsPhp as $word) {
-                        if (preg_match("|" . $word . "|i", file_get_contents("./" . $fileName))) {
-                            $this->logError($output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
+                        // Check StopWords
+                        foreach ($stopWordsPhp as $word) {
+                            if (preg_match("|" . $word . "|i", file_get_contents("./" . $fileName))) {
+                                $this->logError($output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case "yml":
-                    try {
-                        Yaml::parse(file_get_contents("./" . $fileName));
-                    } catch (ParseException $e) {
-                        $this->logError($output, sprintf("Unable to parse the YAML file: %s", $fileName));
-                    }
-                    break;
-
-                case "xml":
-                    // Check syntax with XML lint
-                    $lint_output = array();
-                    exec("xmllint --noout 2>&1 " . escapeshellarg($fileName), $lint_output, $return);
-                    $this->logError($output, $lint_output, $return);
-                    break;
-
-                case "js":
-                    // Check StopWords
-                    foreach ($stopWordsJs as $word) {
-                        if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
-                            $this->logError($output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
+                    case "yml":
+                        try {
+                            Yaml::parse(file_get_contents("./" . $fileName));
+                        } catch (ParseException $e) {
+                            $this->logError($output, sprintf("Unable to parse the YAML file: %s", $fileName));
                         }
+                        break;
+
+                    case "xml":
+                        // Check syntax with XML lint
+                        $lint_output = array();
+                        exec("xmllint --noout 2>&1 " . escapeshellarg($fileName), $lint_output, $return);
+                        $this->logError($output, $lint_output, $return);
+                        break;
+
+                    case "js":
+                        // Check StopWords
+                        foreach ($stopWordsJs as $word) {
+                            if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
+                                $this->logError($output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
+                            }
+                        }
+                        break;
+                }
+                foreach ($stopWordsGit as $word) {
+                    if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
+                        $this->logError($output, sprintf("Git conflict marker \"%s\" detected in %s", $word, $fileName));
                     }
-                    break;
-            }
-            foreach ($stopWordsGit as $word) {
-                if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
-                    $this->logError($output, sprintf("Git conflict marker \"%s\" detected in %s", $word, $fileName));
                 }
             }
         }
