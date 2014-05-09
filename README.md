@@ -26,7 +26,7 @@ This script will install all required libraries and cretae a phar file with rece
 
 Usage:
 -----
-After the installation you can execute ./precommit.phar [options] to verify added git file. Well you can add the execution the pahr in the .git add hook.
+After the installation you can execute ./precommit.phar [options] to verify added git file. Well you can add the execution the phar in the .git add hook.
 
 Options:
 -------
