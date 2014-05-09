@@ -4,6 +4,18 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar://$MODULE_DIR$/precommit.phar" />
+          <root url="phar://$MODULE_DIR$/box.phar" />
+        </CLASSES>
+        <SOURCES>
+          <root url="phar://$MODULE_DIR$/precommit.phar" />
+          <root url="phar://$MODULE_DIR$/box.phar" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 

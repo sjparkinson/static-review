@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
 
 class PreCommitCommand extends Command
 {
-    const WITH_PICS = false;
+    const WITH_PICS = true;
 
     const PHP_CS_FIXER_ENABLE = true;
     const PHP_CS_FIXER_FILTERS = 'linefeed,short_tag,indentation,trailing_spaces,phpdoc_params,extra_empty_lines,controls_spaces,braces,elseif';
@@ -52,7 +52,7 @@ class PreCommitCommand extends Command
         $phpFiles = array();
         $perfectSyntax = true;
         foreach ($files as $file) {
-            if("" != $file){
+            if ("" != $file) {
                 ++$cpt;
                 $fileName = trim(substr($file, 1));
                 $fileInfo = pathinfo($fileName, PATHINFO_EXTENSION);
@@ -61,22 +61,34 @@ class PreCommitCommand extends Command
                         $phpFiles[] = $fileName;
 
                         // Check syntax with PHP lint
-                        $lint_output = array();
-                        $phpLintProcess = new Process('git diff --cached --name-status --diff-filter=ACM');
+                        // Create the process and execute the phplint command
+                        $phpLintProcess = new Process("php -l " . escapeshellarg($fileName) . " 2>&1");
                         $phpLintProcess->run();
-                        exec("php -l " . escapeshellarg($fileName) . " 2>&1", $lint_output, $return);
-                        $this->logError($output, $lint_output, $return);
+                        // getting the output of execution of phplint
+                        $lintOutput = $phpLintProcess->getOutput();
+                        // Verify if the execution has been successfully
+                        if (!$phpLintProcess->isSuccessful()) {
+                            $this->logError($output, $lintOutput, $phpLintProcess->getExitCode());
+                        }
 
                         // Fix syntax with PHP CS FIXER
                         if (self::PHP_CS_FIXER_ENABLE) {
-                            $csfix_output = array();
-                            exec("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1", $csfix_output, $return);
+                            // Create the process and execute the phpcsfixer command
+                            $phpCsFixerProcess = new Process("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1");
+                            $phpCsFixerProcess->run();
+                            $csFixOutput = $phpCsFixerProcess->getOutput();
 
-                            if (count($csfix_output) > 0) {
-                                $this->logInfo($output, $csfix_output, ' PHP Cs Fixer ');
+                            //exec("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1", $csfix_output, $return);
+                            if (null != $csFixOutput) {
+                                $this->logInfo($output, $csFixOutput, ' PHP Cs Fixer ');
                                 if (self::PHP_CS_FIXER_AUTOADD_GIT) {
-                                    $git_output = array();
-                                    exec("git add " . escapeshellarg($fileName), $git_output, $return);
+                                    // Create the process and execute the git add command
+                                    $phpGitAddProcess = new Process("git add " . escapeshellarg($fileName));
+                                    $phpGitAddProcess->run();
+                                    // Getting the output of git add command
+                                    $gitAddOutput = $phpGitAddProcess->getOutput();
+
+                                    $this->logInfo($output, $gitAddOutput, ' Git add ');
                                 }
                                 $perfectSyntax = false;
                             }
@@ -99,10 +111,15 @@ class PreCommitCommand extends Command
                         break;
 
                     case "xml":
-                        // Check syntax with XML lint
-                        $lint_output = array();
-                        exec("xmllint --noout 2>&1 " . escapeshellarg($fileName), $lint_output, $return);
-                        $this->logError($output, $lint_output, $return);
+                        // Create the process and execute the xmlLint command
+                        $xmlLintProcess = new Process("xmllint --noout 2>&1 " . escapeshellarg($fileName));
+                        $xmlLintProcess->run();
+
+                        // Verify if the exécution have done without error
+                        if(!$xmlLintProcess->isSuccessful()){
+                            // Write a error message in the output console
+                            $this->logError($output, $xmlLintProcess->getOutput(), $xmlLintProcess->getExitCode());
+                        }
                         break;
 
                     case "js":
@@ -163,13 +180,13 @@ class PreCommitCommand extends Command
         }
     }
 
-    protected function logError($output, $lint_output, $return = -1)
+    protected function logError($output, $process_output, $return = -1)
     {
         if ($return != 0) {
             if (self::WITH_PICS) {
                 $this->asciImg($output);
             }
-            $formattedBlock = $this->formatter->formatBlock($lint_output, 'error');
+            $formattedBlock = $this->formatter->formatBlock($process_output, 'error');
             $output->writeln($formattedBlock);
             $errorMsg = array(" Commit Rejected ", " To commit anyway, use --no-verify ");
             $formattedBlock = $this->formatter->formatBlock($errorMsg, 'error');
@@ -178,12 +195,12 @@ class PreCommitCommand extends Command
         }
     }
 
-    protected function logInfo($output, $lint_output, $title = '')
+    protected function logInfo($output, $process_output, $title = '')
     {
         if ($title != '') {
             $output->writeln("\n" . '<bg=yellow>' . $title . '</bg=yellow>' . "\n");
         }
-        $formattedBlock = $this->formatter->formatBlock($lint_output, 'comment');
+        $formattedBlock = $this->formatter->formatBlock($process_output, 'comment');
         $output->writeln($formattedBlock);
 
     }
