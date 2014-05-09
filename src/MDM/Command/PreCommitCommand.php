@@ -27,17 +27,29 @@ class PreCommitCommand extends Command
 
     protected function configure()
     {
-        $this->setName('check')->setDescription('Scan and check all files added to commit');
+        $this
+            ->setName('check')->setDescription('Scan and check all files added to commit')
+            ->addOption('with-pics', null, InputOption::VALUE_OPTIONAL, 'Showing picture of status of commit', self::WITH_PICS)
+            ->addOption('php-cs-fixer-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling php-cs-fixer when verifying files to commit', self::PHP_CS_FIXER_ENABLE)
+            ->addOption('php-cs-fixer-auto-git-add', null, InputOption::VALUE_OPTIONAL, 'Enabling auto adding to git files after correction ', self::PHP_CS_FIXER_AUTOADD_GIT)
+            ->addOption('php-cpd-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Copy/Paste Detector when verifying files to commit', self::PHP_CPD_ENABLE)
+            ->addOption('php-cpd-min-lines', null, InputOption::VALUE_OPTIONAL, 'Minimum number of identical lines', self::PHP_CPD_MIN_LINES)
+            ->addOption('php-cpd-min-token', null, InputOption::VALUE_OPTIONAL, 'Minimum number of identical tokens', self::PHP_CPD_MIN_TOKENS)
+            ->addOption('php-md-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Mess Detector when verifying files to commit', self::PHP_MD_ENABLE)
+
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $phpCsFixerEnable = $input->getOption('php-cs-fixer-enable');
+
         $this->formatter = $this->getHelperSet()->get('formatter');
 
         // Grab all added, copied or modified files into $output array
         $gitDiffProcess = new Process('git diff --cached --name-status --diff-filter=ACM');
         $gitDiffProcess->run();
-        // Transforme the output of an array of list of files
+        // Transform the output of an array of list of files
         $files = explode("\n", $gitDiffProcess->getOutput());
 
         # Git conflict markers
@@ -68,11 +80,12 @@ class PreCommitCommand extends Command
                         $lintOutput = $phpLintProcess->getOutput();
                         // Verify if the execution has been successfully
                         if (!$phpLintProcess->isSuccessful()) {
-                            $this->logError($output, $lintOutput, $phpLintProcess->getExitCode());
+                            $this->logError($input, $output, $lintOutput, $phpLintProcess->getExitCode());
                         }
 
                         // Fix syntax with PHP CS FIXER
-                        if (self::PHP_CS_FIXER_ENABLE) {
+                        if ($phpCsFixerEnable) {
+
                             // Create the process and execute the phpcsfixer command
                             $phpCsFixerProcess = new Process("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1");
                             $phpCsFixerProcess->run();
@@ -80,8 +93,9 @@ class PreCommitCommand extends Command
 
                             //exec("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1", $csfix_output, $return);
                             if (null != $csFixOutput) {
+                                $phpCsFixerphpAutoGitAdd = $input->getOption('php-cs-fixer-auto-git-add');
                                 $this->logInfo($output, $csFixOutput, ' PHP Cs Fixer ');
-                                if (self::PHP_CS_FIXER_AUTOADD_GIT) {
+                                if ($phpCsFixerphpAutoGitAdd) {
                                     // Create the process and execute the git add command
                                     $phpGitAddProcess = new Process("git add " . escapeshellarg($fileName));
                                     $phpGitAddProcess->run();
@@ -97,7 +111,7 @@ class PreCommitCommand extends Command
                         // Check StopWords
                         foreach ($stopWordsPhp as $word) {
                             if (preg_match("|" . $word . "|i", file_get_contents("./" . $fileName))) {
-                                $this->logError($output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
+                                $this->logError($input, $output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
                             }
                         }
                         break;
@@ -106,7 +120,7 @@ class PreCommitCommand extends Command
                         try {
                             Yaml::parse(file_get_contents("./" . $fileName));
                         } catch (ParseException $e) {
-                            $this->logError($output, sprintf("Unable to parse the YAML file: %s", $fileName));
+                            $this->logError($input, $output, sprintf("Unable to parse the YAML file: %s", $fileName));
                         }
                         break;
 
@@ -118,7 +132,7 @@ class PreCommitCommand extends Command
                         // Verify if the exécution have done without error
                         if(!$xmlLintProcess->isSuccessful()){
                             // Write a error message in the output console
-                            $this->logError($output, $xmlLintProcess->getOutput(), $xmlLintProcess->getExitCode());
+                            $this->logError($input, $output, $xmlLintProcess->getOutput(), $xmlLintProcess->getExitCode());
                         }
                         break;
 
@@ -126,14 +140,14 @@ class PreCommitCommand extends Command
                         // Check StopWords
                         foreach ($stopWordsJs as $word) {
                             if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
-                                $this->logError($output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
+                                $this->logError($input, $output, sprintf("expr \"%s\" detected in %s", $word, $fileName));
                             }
                         }
                         break;
                 }
                 foreach ($stopWordsGit as $word) {
                     if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
-                        $this->logError($output, sprintf("Git conflict marker \"%s\" detected in %s", $word, $fileName));
+                        $this->logError($input, $output, sprintf("Git conflict marker \"%s\" detected in %s", $word, $fileName));
                     }
                 }
             }
@@ -142,21 +156,24 @@ class PreCommitCommand extends Command
         if (count($files) == 0) {
             $this->logInfo($output, "No file to check");
         } else {
-            $this->analysePhpFiles($output, $phpFiles, $perfectSyntax);
-            $this->logSuccess($output, $cpt, $perfectSyntax);
+            $this->analysePhpFiles($input, $output, $phpFiles, $perfectSyntax);
+            $this->logSuccess($input, $output, $cpt, $perfectSyntax);
         }
 
         exit(0);
     }
 
-    protected function analysePhpFiles($output, $phpFiles, &$perfectSyntax)
+    protected function analysePhpFiles($input, $output, $phpFiles, &$perfectSyntax)
     {
+        $phpMdEnable = $input->getOption('php-md-enable');
+        $phpCpdEnable = $input->getOption('php-cpd-enable');
+
         if (count($phpFiles) == 0) {
             return false;
         }
 
         // PHP Mess Detector
-        if (self::PHP_MD_ENABLE) {
+        if ($phpMdEnable) {
             $phpmd_output = array();
             exec("phpmd " . escapeshellarg(implode(",", $phpFiles)) . " text " . self::PHP_MD_RULESET, $phpmd_output, $return);
             if (count($phpmd_output) > 1) {
@@ -166,9 +183,12 @@ class PreCommitCommand extends Command
         }
 
         // Check Copy-paste with PHP CPD
-        if (self::PHP_CPD_ENABLE) {
+        if ($phpCpdEnable) {
+            $phpCpdMinLines = $input->getOption('php-cpd-min-lines');
+            $phpCpdMinTokens = $input->getOption('php-cpd-min-tokens');
+
             $cpd_output = array();
-            exec("phpcpd --min-lines " . self::PHP_CPD_MIN_LINES . " --min-tokens " . self::PHP_CPD_MIN_TOKENS . " " . implode(" ", $phpFiles), $cpd_output, $return);
+            exec("phpcpd --min-lines " . self::$phpCpdMinLines . " --min-tokens " . $phpCpdMinTokens . " " . implode(" ", $phpFiles), $cpd_output, $return);
             if (isset($cpd_output)) {
                 $resultcpd = array();
                 preg_match("|([0-9]{1,2}\.[0-9]{1,2}%)|i", implode("\n", $cpd_output), $resultcpd);
@@ -180,10 +200,13 @@ class PreCommitCommand extends Command
         }
     }
 
-    protected function logError($output, $process_output, $return = -1)
+    protected function logError($input, $output, $process_output, $return = -1)
     {
+
         if ($return != 0) {
-            if (self::WITH_PICS) {
+            $withPics = $input->getOption('with-pics');
+
+            if ($withPics) {
                 $this->asciImg($output);
             }
             $formattedBlock = $this->formatter->formatBlock($process_output, 'error');
@@ -205,9 +228,11 @@ class PreCommitCommand extends Command
 
     }
 
-    protected function logSuccess($output, $cpt, $perfect = false)
+    protected function logSuccess($input, $output, $cpt, $perfect = false)
     {
-        if (self::WITH_PICS) {
+        $withPics = $input->getOption('with-pics');
+
+        if ($withPics) {
             if ($perfect) {
                 $this->asciImgPerfect($output);
             } else {

@@ -17,6 +17,29 @@ It optimizes PHP and reports about (All features are activated by default):
   * Mess Detection (Unused code, complexity...)
   * Copy/Paste detection
 
+Install:
+--------
+To install precommit tool and generate phar package:
+launch install_precommit.sh
+This script will install all required libraries and cretae a phar file with recent source
+
+
+Usage:
+-----
+After the installation you can execute ./precommit.phar [options] to verify added git file. Well you can add the execution the pahr in the .git add hook.
+
+Options:
+-------
+When executing the precommit script you can use some options like:
+  * --with-pics                 Showing picture of status of commit (default: true)
+  * --php-cs-fixer-enable       Enabling php-cs-fixer when verifying files to commit (default: true)
+  * --php-cs-fixer-auto-git-add Enabling auto adding to git files after correction  (default: true)
+  * --php-cpd-enable            Enabling PHP Copy/Paste Detector when verifying files to commit (default: true)
+  * --php-cpd-min-lines         Minimum number of identical lines (default: 5)
+  * --php-cpd-min-token         Minimum number of identical tokens (default: 50)
+  * --php-md-enable             Enabling PHP Mess Detector when verifying files to commit (default: true)
+
+
 Required Libraries
 ---------------------
 Xmllint Install
@@ -31,3 +54,6 @@ Composer libraries (composer.json):
  * PHP Mess Detector
  * PHP CPD
 
+TODO:
+----
+change the used cli libraries by php library that make the same thing (https://scrutinizer-ci.com/docs/tools/php/)

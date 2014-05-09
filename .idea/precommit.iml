@@ -6,14 +6,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="PHARS">
-        <CLASSES>
-          <root url="phar://$MODULE_DIR$/precommit.phar" />
-          <root url="phar://$MODULE_DIR$/box.phar" />
-        </CLASSES>
-        <SOURCES>
-          <root url="phar://$MODULE_DIR$/precommit.phar" />
-          <root url="phar://$MODULE_DIR$/box.phar" />
-        </SOURCES>
+        <CLASSES />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

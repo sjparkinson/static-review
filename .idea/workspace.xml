@@ -23,10 +23,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="composer.json" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="composer.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/composer.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="35" selection-start="221" selection-end="221" vertical-scroll-proportion="0.11945392" vertical-offset="0" max-vertical-offset="879">
+            <state line="7" column="35" selection-start="221" selection-end="221" vertical-scroll-proportion="-4.375" vertical-offset="0" max-vertical-offset="315">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="install_precommit.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/install_precommit.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="0" selection-start="870" selection-end="870" vertical-scroll-proportion="-8.888889" vertical-offset="0" max-vertical-offset="570">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.ME" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.ME">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="32" selection-start="1465" selection-end="1465" vertical-scroll-proportion="0.0" vertical-offset="97" max-vertical-offset="975">
               <folding />
             </state>
           </provider>
@@ -50,10 +71,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PreCommitCommand.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PreCommitCommand.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MDM/Command/PreCommitCommand.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="47" selection-start="913" selection-end="927" vertical-scroll-proportion="-14.375" vertical-offset="90" max-vertical-offset="4260">
+            <state line="31" column="35" selection-start="1020" selection-end="1020" vertical-scroll-proportion="0.36286408" vertical-offset="166" max-vertical-offset="4635">
               <folding>
                 <element signature="e#31#77#0" expanded="true" />
               </folding>
@@ -61,10 +82,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.ME" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.ME">
+      <file leaf-file-name="Command.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/symfony/console/Symfony/Component/Console/Command/Command.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+            <state line="381" column="20" selection-start="10905" selection-end="10989" vertical-scroll-proportion="-12.166667" vertical-offset="5183" max-vertical-offset="9180">
               <folding />
             </state>
           </provider>
@@ -74,15 +95,6 @@
         <entry file="file://$PROJECT_DIR$/vendor/symfony/process/Symfony/Component/Process/Process.php">
           <provider selected="true" editor-type-id="text-editor">
             <state line="517" column="37" selection-start="16730" selection-end="16742" vertical-scroll-proportion="0.0" vertical-offset="7755" max-vertical-offset="19770">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test2.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/MDM/Command/test2.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="397" column="0" selection-start="19580" selection-end="19580" vertical-scroll-proportion="0.0" vertical-offset="5059" max-vertical-offset="7185">
               <folding />
             </state>
           </provider>
@@ -122,8 +134,9 @@
         <option value="$PROJECT_DIR$/src/MDM/Command/testPreCommit.php" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/src/MDM/Command/test2.php" />
-        <option value="$PROJECT_DIR$/src/MDM/Command/PreCommitCommand.php" />
+        <option value="$PROJECT_DIR$/install_precommit.sh" />
         <option value="$PROJECT_DIR$/README.ME" />
+        <option value="$PROJECT_DIR$/src/MDM/Command/PreCommitCommand.php" />
       </list>
     </option>
   </component>
@@ -340,13 +353,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MDM/Command/test2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="397" column="0" selection-start="19580" selection-end="19580" vertical-scroll-proportion="0.0" vertical-offset="5059" max-vertical-offset="7185">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/box.json.dist">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="30" selection-start="242" selection-end="247" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="390">
@@ -390,13 +396,6 @@
     <entry file="file://$PROJECT_DIR$/vendor/symfony/process/Symfony/Component/Process/Process.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="517" column="37" selection-start="16730" selection-end="16742" vertical-scroll-proportion="0.0" vertical-offset="7755" max-vertical-offset="19770">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MDM/Command/test2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="397" column="0" selection-start="19580" selection-end="19580" vertical-scroll-proportion="0.0" vertical-offset="5059" max-vertical-offset="7185">
           <folding />
         </state>
       </provider>
@@ -475,16 +474,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0011709601" vertical-offset="1" max-vertical-offset="1080" />
       </provider>
     </entry>
-    <entry file="phar://$PROJECT_DIR$/box.phar/src/vendors/symfony/process/Symfony/Component/Process/Process.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="0" selection-start="1162" selection-end="1162" vertical-scroll-proportion="-2.6440282" vertical-offset="3308" max-vertical-offset="17865" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MDM/Command/testPreCommit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="427" column="5" selection-start="0" selection-end="22205" vertical-scroll-proportion="0.18360277" vertical-offset="6246" max-vertical-offset="7185" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/symfony/process/Symfony/Component/Process/Process.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="517" column="37" selection-start="16730" selection-end="16742" vertical-scroll-proportion="0.0" vertical-offset="7755" max-vertical-offset="19770">
@@ -492,33 +481,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MDM/Command/test2.php">
+    <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="397" column="0" selection-start="19580" selection-end="19580" vertical-scroll-proportion="0.0" vertical-offset="5059" max-vertical-offset="7185">
+        <state line="7" column="35" selection-start="221" selection-end="221" vertical-scroll-proportion="-4.375" vertical-offset="0" max-vertical-offset="315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/install_precommit.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="0" selection-start="870" selection-end="870" vertical-scroll-proportion="-8.888889" vertical-offset="0" max-vertical-offset="570">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/symfony/console/Symfony/Component/Console/Command/Command.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="381" column="20" selection-start="10905" selection-end="10989" vertical-scroll-proportion="-12.166667" vertical-offset="5183" max-vertical-offset="9180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.ME">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="32" selection-start="1465" selection-end="1465" vertical-scroll-proportion="0.0" vertical-offset="97" max-vertical-offset="975">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MDM/Command/PreCommitCommand.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="47" selection-start="913" selection-end="927" vertical-scroll-proportion="-14.375" vertical-offset="90" max-vertical-offset="4260">
+        <state line="31" column="35" selection-start="1020" selection-end="1020" vertical-scroll-proportion="0.36286408" vertical-offset="166" max-vertical-offset="4635">
           <folding>
             <element signature="e#31#77#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.ME">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="35" selection-start="221" selection-end="221" vertical-scroll-proportion="0.11945392" vertical-offset="0" max-vertical-offset="879">
-          <folding />
         </state>
       </provider>
     </entry>
