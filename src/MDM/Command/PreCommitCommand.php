@@ -34,9 +34,8 @@ class PreCommitCommand extends Command
             ->addOption('php-cs-fixer-auto-git-add', null, InputOption::VALUE_OPTIONAL, 'Enabling auto adding to git files after correction ', self::PHP_CS_FIXER_AUTOADD_GIT)
             ->addOption('php-cpd-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Copy/Paste Detector when verifying files to commit', self::PHP_CPD_ENABLE)
             ->addOption('php-cpd-min-lines', null, InputOption::VALUE_OPTIONAL, 'Minimum number of identical lines', self::PHP_CPD_MIN_LINES)
-            ->addOption('php-cpd-min-token', null, InputOption::VALUE_OPTIONAL, 'Minimum number of identical tokens', self::PHP_CPD_MIN_TOKENS)
+            ->addOption('php-cpd-min-tokens', null, InputOption::VALUE_OPTIONAL, 'Minimum number of identical tokens', self::PHP_CPD_MIN_TOKENS)
             ->addOption('php-md-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Mess Detector when verifying files to commit', self::PHP_MD_ENABLE)
-
         ;
     }
 
