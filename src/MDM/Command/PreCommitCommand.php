@@ -187,7 +187,7 @@ class PreCommitCommand extends Command
             $phpCpdMinTokens = $input->getOption('php-cpd-min-tokens');
 
             $cpd_output = array();
-            exec("phpcpd --min-lines " . self::$phpCpdMinLines . " --min-tokens " . $phpCpdMinTokens . " " . implode(" ", $phpFiles), $cpd_output, $return);
+            exec("phpcpd --min-lines " . $phpCpdMinLines . " --min-tokens " . $phpCpdMinTokens . " " . implode(" ", $phpFiles), $cpd_output, $return);
             if (isset($cpd_output)) {
                 $resultcpd = array();
                 preg_match("|([0-9]{1,2}\.[0-9]{1,2}%)|i", implode("\n", $cpd_output), $resultcpd);
