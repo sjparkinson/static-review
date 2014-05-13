@@ -14,7 +14,7 @@ composer global require 'sebastian/phpcpd=*'
 composer global require 'fabpot/php-cs-fixer @stable'
 composer global require 'phpmd/phpmd=1.4.*'
 # installing the box to build phar
-composer global require 'kherge/box=~2.4' --prefer-source
+composer require 'kherge/box=~2.4' --prefer-source
 
 COMPOSERPATH=${HOME}/.composer/vendor/bin
 
