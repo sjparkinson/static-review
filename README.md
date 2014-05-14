@@ -23,14 +23,14 @@ Change PHP Cli Configuration with:
 phar.readonly = Off
 
 To install precommit tool and generate phar package:
-launch install_precommit.sh
-This script will install all required libraries and cretae a phar file with recent source
+Launch install script ./install_precommit.sh
+This script will install all required libraries, create a phar file with sources files, and move it to /usr/local/bin
 
-In your .git/hooks/pre-commit repository just add "precommit [options]"
+In your .git/hooks/pre-commit file ("cp pre-commit-sample pre-commit" if not exist), just add "precommit check [options]"
 
 Usage:
 -----
-After the installation you can execute ./precommit [options] to verify added git file. Well you can add the execution the phar in the .git add hook.
+After the installation, you can execute "./precommit check [options]" to check added git files. Well you can add the execution the phar in the .git add hook.
 
 Options:
 -------
