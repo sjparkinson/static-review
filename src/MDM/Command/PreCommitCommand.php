@@ -29,12 +29,12 @@ class PreCommitCommand extends Command
     {
         $this
             ->setName('check')->setDescription('Scan and check all files added to commit')
-            ->addOption('with-pics', null, InputOption::VALUE_OPTIONAL, 'Showing picture of status of commit', self::WITH_PICS)
+            ->addOption('with-pics', null, InputOption::VALUE_OPTIONAL, 'Showing picture of commit status', self::WITH_PICS)
             ->addOption('php-cs-fixer-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling php-cs-fixer when verifying files to commit', self::PHP_CS_FIXER_ENABLE)
-            ->addOption('php-cs-fixer-auto-git-add', null, InputOption::VALUE_OPTIONAL, 'Enabling auto adding to git files after correction ', self::PHP_CS_FIXER_AUTOADD_GIT)
+            ->addOption('php-cs-fixer-auto-git-add', null, InputOption::VALUE_OPTIONAL, 'Enabling git auto adding files after cs-fixer ', self::PHP_CS_FIXER_AUTOADD_GIT)
             ->addOption('php-cpd-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Copy/Paste Detector when verifying files to commit', self::PHP_CPD_ENABLE)
-            ->addOption('php-cpd-min-lines', null, InputOption::VALUE_OPTIONAL, 'Minimum number of identical lines', self::PHP_CPD_MIN_LINES)
-            ->addOption('php-cpd-min-tokens', null, InputOption::VALUE_OPTIONAL, 'Minimum number of identical tokens', self::PHP_CPD_MIN_TOKENS)
+            ->addOption('php-cpd-min-lines', null, InputOption::VALUE_OPTIONAL, 'PHPCPD Min number of identical lines', self::PHP_CPD_MIN_LINES)
+            ->addOption('php-cpd-min-tokens', null, InputOption::VALUE_OPTIONAL, 'PHPCPD Min number of identical tokens', self::PHP_CPD_MIN_TOKENS)
             ->addOption('php-md-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Mess Detector when verifying files to commit', self::PHP_MD_ENABLE)
         ;
     }
@@ -84,13 +84,11 @@ class PreCommitCommand extends Command
 
                         // Fix syntax with PHP CS FIXER
                         if ($phpCsFixerEnable) {
-
                             // Create the process and execute the phpcsfixer command
                             $phpCsFixerProcess = new Process("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1");
                             $phpCsFixerProcess->run();
                             $csFixOutput = $phpCsFixerProcess->getOutput();
 
-                            //exec("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -vv 2>&1", $csfix_output, $return);
                             if (null != $csFixOutput) {
                                 $phpCsFixerphpAutoGitAdd = $input->getOption('php-cs-fixer-auto-git-add');
                                 $this->logInfo($output, $csFixOutput, ' PHP Cs Fixer ');
@@ -116,8 +114,10 @@ class PreCommitCommand extends Command
                         break;
 
                     case "yml":
+                        // delete PHP code in yaml files to avoid ParseException
+                        $ymlData = preg_replace("|(<\?php .* \?>)|i", "", file_get_contents("./" . $fileName));
                         try {
-                            Yaml::parse(file_get_contents("./" . $fileName));
+                            Yaml::parse($ymlData);
                         } catch (ParseException $e) {
                             $this->logError($input, $output, sprintf("Unable to parse the YAML file: %s", $fileName));
                         }
@@ -129,7 +129,7 @@ class PreCommitCommand extends Command
                         $xmlLintProcess->run();
 
                         // Verify if the exécution have done without error
-                        if(!$xmlLintProcess->isSuccessful()){
+                        if (!$xmlLintProcess->isSuccessful()) {
                             // Write a error message in the output console
                             $this->logError($input, $output, $xmlLintProcess->getOutput(), $xmlLintProcess->getExitCode());
                         }
@@ -203,7 +203,7 @@ class PreCommitCommand extends Command
     {
 
         if ($return != 0) {
-            $withPics = $input->getOption('with-pics');
+            $withPics = $input->getOption('with-pics') === 'true' ? true : false;
 
             if ($withPics) {
                 $this->asciImg($output);
@@ -229,7 +229,7 @@ class PreCommitCommand extends Command
 
     protected function logSuccess($input, $output, $cpt, $perfect = false)
     {
-        $withPics = $input->getOption('with-pics');
+        $withPics = $input->getOption('with-pics') === 'true' ? true : false;
 
         if ($withPics) {
             if ($perfect) {
