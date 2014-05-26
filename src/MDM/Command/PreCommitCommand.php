@@ -115,7 +115,7 @@ class PreCommitCommand extends Command
 
                     case "yml":
                         // delete PHP code in yaml files to avoid ParseException
-                        $ymlData = preg_replace("|(<\?php .* \?>)|i", "", file_get_contents("./" . $fileName));
+                        $ymlData = preg_replace("|(<\?php.*\?>)|i", "", file_get_contents("./" . $fileName));
                         try {
                             Yaml::parse($ymlData);
                         } catch (ParseException $e) {
