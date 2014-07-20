@@ -2,6 +2,7 @@
 ###########################
 composer.lock
 vendor/
+build/
 
 # OS Generated Files #
 ######################

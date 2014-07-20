@@ -1,13 +1,18 @@
 StaticReview
 ============
 
-[![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)](https://travis-ci.org/sjparkinson/static-review)
-[![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)](https://packagist.org/packages/sjparkinson/static-review)
-[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)](https://github.com/sjparkinson/static-review/blob/master/LICENCE)
+[![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
+[![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)][packagist]
+[![Code Climate](http://img.shields.io/codeclimate/github/sjparkinson/static-review.svg)][codeclimate]
+[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)][licence]
 
 A modular pre-commit hook framework for static analysis of modified files.
 
 ![StaticReview Success Demo](http://i.imgur.com/2hicIEK.gif)
+
+[travis]:      https://travis-ci.org/sjparkinson/static-review
+[packagist]:   https://packagist.org/packages/sjparkinson/static-review
+[codeclimate]: https://codeclimate.com/github/sjparkinson/static-review
 
 ## Usage
 
@@ -57,6 +62,7 @@ $review->review(Helper::getGitStagedFiles());
 
 // Check if any issues were found.
 if ($reporter->hasIssues()) {
+    // Exit with a non-zero to block the commit.
     exit(1);
 }
 
