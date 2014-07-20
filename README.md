@@ -1,6 +1,8 @@
 StaticReview
 ============
 
+[![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)](https://travis-ci.org/sjparkinson/static-review)
+
 A modular pre-commit hook framework for static analysis of modified files.
 
 ### Successful Commit

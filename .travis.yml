@@ -8,6 +8,8 @@ php:
   - hhvm-nightly
 
 before_script:
- - composer install --prefer-source --optimize-autoloader
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction --prefer-source --optimize-autoloader
 
-script: vendor/bin/phpunit --bootstrap vendor/autoload.php tests
+script:
+  - vendor/bin/phpunit --bootstrap vendor/autoload.php tests
