@@ -2,6 +2,8 @@ StaticReview
 ============
 
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)](https://travis-ci.org/sjparkinson/static-review)
+[![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)](https://packagist.org/packages/sjparkinson/static-review)
+[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)](https://packagist.org/packages/sjparkinson/static-review)
 
 A modular pre-commit hook framework for static analysis of modified files.
 
