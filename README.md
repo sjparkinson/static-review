@@ -3,7 +3,7 @@ StaticReview
 
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)](https://travis-ci.org/sjparkinson/static-review)
 [![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)](https://packagist.org/packages/sjparkinson/static-review)
-[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)](https://github.com/sjparkinson/static-review/blob/master/LICENSE)
+[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)](https://github.com/sjparkinson/static-review/blob/master/LICENCE)
 
 A modular pre-commit hook framework for static analysis of modified files.
 
@@ -119,10 +119,10 @@ composer install --dev --optimize-autoloader
 vendor/bin/phpunit --bootstrap vendor/autoload.php tests
 ```
 
-## License
+## Licence
 
 The content of this library is released under the **MIT License** by **Samuel Parkinson**.
 
-You can find a copy of this license in [`LICENSE`][license] or at http://opensource.org/licenses/mit.
+You can find a copy of this licence in [`LICENCE`][licence] or at http://opensource.org/licenses/mit.
 
-[license]: /LICENSE
+[licence]: https://github.com/sjparkinson/static-review/blob/master/LICENCE
