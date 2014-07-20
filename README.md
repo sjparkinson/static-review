@@ -3,7 +3,7 @@ StaticReview
 
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)](https://travis-ci.org/sjparkinson/static-review)
 [![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)](https://packagist.org/packages/sjparkinson/static-review)
-[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)](https://packagist.org/packages/sjparkinson/static-review)
+[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)](https://github.com/sjparkinson/static-review/blob/master/LICENSE)
 
 A modular pre-commit hook framework for static analysis of modified files.
 
@@ -12,6 +12,8 @@ A modular pre-commit hook framework for static analysis of modified files.
 ## Usage
 
 Here `~/project/` should be the path to your project.
+
+Ensure when you create the symlink that you **do not** use relative paths.
 
 ```bash
 git clone https://github.com/sjparkinson/static-review.git StaticReview
@@ -67,7 +69,7 @@ if ($reporter->hasIssues()) {
 exit(0);
 ```
 
-### Example Check
+## Example Check
 
 ```php
 <?php
@@ -113,14 +115,14 @@ class NoCommitTagReview extends AbstractReview
 }
 ```
 
-## Tests
+## Unit Tests
 
 ```bash
 git clone https://github.com/sjparkinson/static-review.git StaticReview
 
 cd StaticReview/
 
-composer install --optimize-autoloader
+composer install --dev --optimize-autoloader
 
 vendor/bin/phpunit --bootstrap vendor/autoload.php tests
 ```
