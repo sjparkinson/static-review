@@ -1,10 +1,10 @@
 StaticReview
 ============
 
-[![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
 [![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)][packagist]
+[![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
 [![Code Climate](http://img.shields.io/codeclimate/github/sjparkinson/static-review.svg)][codeclimate]
-[![License](https://poser.pugx.org/sjparkinson/static-review/license.svg)][licence]
+![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)]
 
 A modular pre-commit hook framework for static analysis of modified files.
 
@@ -21,15 +21,15 @@ Here `~/project/` should be the path to your project.
 Ensure when you create the symlink that you **do not** use relative paths.
 
 ```bash
-git clone https://github.com/sjparkinson/static-review.git StaticReview
+$ git clone https://github.com/sjparkinson/static-review.git StaticReview
 
-cd StaticReview/
+$ cd StaticReview/
 
-composer install --no-dev --optimize-autoloader
+$ composer install --no-dev --optimize-autoloader
 
-ln -s ~/.../StaticReview/src/Hooks/php-pre-commit.php ~/project/.git/hooks/pre-commit
+$ ln -s ~/.../StaticReview/src/Hooks/php-pre-commit.php ~/project/.git/hooks/pre-commit
 
-chmod a+x ~/project/.git/hooks/pre-commit
+$ chmod a+x ~/project/.git/hooks/pre-commit
 ```
 
 ## Example Hook
@@ -116,13 +116,13 @@ class NoCommitTagReview extends AbstractReview
 ## Unit Tests
 
 ```bash
-git clone https://github.com/sjparkinson/static-review.git StaticReview
+$ git clone https://github.com/sjparkinson/static-review.git StaticReview
 
-cd StaticReview/
+$ cd StaticReview/
 
-composer install --dev --optimize-autoloader
+$ composer install --dev --optimize-autoloader
 
-vendor/bin/phpunit --bootstrap vendor/autoload.php tests
+$ vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-text
 ```
 
 ## Licence
