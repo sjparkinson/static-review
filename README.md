@@ -7,13 +7,7 @@ StaticReview
 
 A modular pre-commit hook framework for static analysis of modified files.
 
-### Successful Commit
-
 ![StaticReview Success Demo](http://i.imgur.com/2hicIEK.gif)
-
-### Blocked Commit
-
-![StaticReview Blocked Demo](http://i.imgur.com/oE66ZUC.gif)
 
 ## Usage
 
