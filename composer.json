@@ -1,0 +1,43 @@
+{
+    "name": "sjparkinson/static-review",
+
+    "description": "Modular pre-commit hook for static analysis of modified files.",
+
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "Samuel Parkinson",
+            "email": "sam.james.parkinson@gmail.com",
+            "homepage": "http://samp.im"
+        }
+    ],
+
+    "autoload":
+    {
+        "psr-4":
+        {
+            "StaticReview\\": "src/"
+        }
+    },
+
+    "autoload-dev":
+    {
+        "psr-4":
+        {
+            "StaticReview\\Tests\\": "tests/"
+        }
+    },
+
+    "require":
+    {
+        "php": ">=5.3.0",
+        "symfony/process": "~2.0"
+    },
+
+    "require-dev":
+    {
+        "mockery/mockery": "~0.9",
+        "phpunit/phpunit": "~4.0"
+    }
+}

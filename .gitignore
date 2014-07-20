@@ -1,0 +1,14 @@
+# Project Files & Folders #
+###########################
+composer.lock
+vendor/
+
+# OS Generated Files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
