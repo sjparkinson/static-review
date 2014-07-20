@@ -47,22 +47,17 @@ use StaticReview\StaticReview;
 [...]
 
 $reporter = new Reporter();
-
-$review = new StaticReview($reporter);
+$review   = new StaticReview($reporter);
 
 // Add any checks to the StaticReview instance, supports a fluent interface.
-$review->addCheck(new PhpLintCheck());
+$review->addCheck(new PhpLintReview());
 
-// Generate a FileCollection.
-$files = Helper::getStagedFiles();
+// Review the staged files.
+$review->review(Helper::getGitStagedFiles());
 
-$review->review($files);
-
-// Check if any matching issues were found.
+// Check if any issues were found.
 if ($reporter->hasIssues()) {
-
     exit(1);
-
 }
 
 // Exit with zero to allow the commit.
@@ -102,14 +97,11 @@ class NoCommitTagReview extends AbstractReview
         $cmd = sprintf('grep -Fq "NOCOMMIT" %s', $file->getFileLocation());
 
         $process = $this->getProcess($cmd);
-
         $process->run();
 
         if ($process->isSuccessful()) {
-
             $message = 'NOCOMMIT tag found';
             $reporter->error($message, $this, $file);
-
         }
     }
 }
