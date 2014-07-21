@@ -10,14 +10,13 @@
  *
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
-$autoload = function() {
-    $base = realpath(__DIR__ . '/../');
+$autoload = function($base) {
     require_once (file_exists($base . '/vendor/autoload.php'))
         ? $base . '/vendor/autoload.php'
         : realpath($base . '/../../autoload.php');
 };
 
-$autoload();
+$autoload(realpath(__DIR__ . '/../'));
 
 use StaticReview\StaticReview;
 use StaticReview\Helper;

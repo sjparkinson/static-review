@@ -5,7 +5,7 @@ StaticReview
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
 ![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)
 
-A pre-commit hook framework for static analysis of your version controlled files.
+A version control hook framework built in PHP.
 
 ![StaticReview Success Demo](http://i.imgur.com/2hicIEK.gif)
 
@@ -15,13 +15,25 @@ A pre-commit hook framework for static analysis of your version controlled files
 
 ## Usage
 
-Within a composer managed project you can simply do the following.
+Within a [composer][composer] managed project you can simply do the following.
 
 ```bash
-$ composer require "sjparkinson/static-review"
+$ composer require sjparkinson/static-review:~1.1
 
 $ vendor/bin/static-review --hook example-pre-commit
 ```
+
+Otherwise...
+
+```bash
+$ git clone https://github.com/sjparkinson/static-review.git
+$ cd static-review/
+$ composer install --no-dev --optimize-autoloader
+$ ln -s ~/.../static-review/hooks/php-pre-commit.php ~/project/.git/hooks/pre-commit
+$ chmod a+x ~/project/.git/hooks/pre-commit
+```
+
+[composer]: https://getcomposer.org/
 
 ## Example Hook
 
@@ -30,15 +42,14 @@ Below is a basic hook that you can extend upon.
 ```php
 #!/usr/bin/env php
 <?php
-// StaticReview/src/Hooks/example-pre-commit.php
-
-// Autoload method that resolves the symlink.
-$autoload = function() {
-    $base = pathinfo(realpath(__FILE__), PATHINFO_DIRNAME);
-    require_once $base . 'vendor/autoload.php';
+// StaticReview/hooks/example-pre-commit.php
+$autoload = function($base) {
+   require_once (file_exists($base . '/vendor/autoload.php'))
+       ? $base . '/vendor/autoload.php'
+       : realpath($base . '/../../autoload.php');
 };
 
-$autoload();
+$autoload(realpath(__DIR__ . '/../'));
 
 // Reference the required classes.
 use StaticReview\StaticReview;
@@ -104,13 +115,10 @@ class NoCommitTagReview extends AbstractReview
 ## Unit Tests
 
 ```bash
-$ git clone https://github.com/sjparkinson/static-review.git StaticReview
-
-$ cd StaticReview/
-
+$ git clone https://github.com/sjparkinson/static-review.git
+$ cd static-review/
 $ composer install --dev --optimize-autoloader
-
-$ vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-text
+$ vendor/bin/phpunit
 ```
 
 ## Licence

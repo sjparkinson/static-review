@@ -11,7 +11,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-$args = getopt('', ['hook:', 'target::']);
+$args = getopt('', ['hook:']);
 
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
 
@@ -33,6 +33,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], 'vendor/bin/' . $filename) !== false
 
     if (file_exists($source) && ! file_exists($target)) {
         symlink($source, $target);
+        chmod($target, 0755);
         echo 'Created Link' . PHP_EOL;
         exit(0);
     }
