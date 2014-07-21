@@ -11,10 +11,10 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 $autoload = function() {
-    $base = realpath(dirname(__FILE__) . '/../');
-    require_once (file_exists($base . 'vendor/autoload.php'))
-        ? $base . 'vendor/autoload.php'
-        : realpath($base . '/../../autoload.php');
+    $base = realpath(__DIR__ . '/../');
+    require_once (file_exists($base . '/vendor/autoload.php'))
+        ? $base . '/vendor/autoload.php'
+        : realpath($base . '/../../../../autoload.php');
 };
 
 $autoload();
