@@ -15,9 +15,9 @@ $args = getopt('', ['hook:', 'target::']);
 
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
 
-if (strpos(__FILE__, 'vendor/bin/' . $filename) !== false) {
+if (strpos($_SERVER['SCRIPT_NAME'], 'vendor/bin/' . $filename) !== false) {
     // We're in a Composer included project
-    $base = realpath(dirname(__FILE__) . '/../../');
+    $base = realpath(__DIR__ . '/../../../../');
 
     echo 'Base Dir: ' . $base . PHP_EOL;
 
@@ -27,11 +27,11 @@ if (strpos(__FILE__, 'vendor/bin/' . $filename) !== false) {
     $target = $base . '/.git/hooks/pre-commit';
 
     echo 'Source: ' . $source . PHP_EOL;
-    echo 'Target: ' . $source . PHP_EOL;
+    echo 'Target: ' . $target . PHP_EOL;
 
     if (file_exists($source) && ! file_exists($target)) {
         symlink($source, $target);
-        echo 'Created Link';
+        echo 'Created Link' . PHP_EOL;
         exit(0);
     }
 }
