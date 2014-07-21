@@ -42,6 +42,6 @@
     },
 
     "bin": [
-        "bin/static-review.sh"
+        "bin/static-review"
     ]
 }
