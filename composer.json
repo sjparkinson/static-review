@@ -12,11 +12,11 @@
             "homepage": "http://samp.im"
         }
     ],
-    
+
     "support": {
         "source": "https://github.com/sjparkinson/static-review",
         "issues": "https://github.com/sjparkinson/static-review/issues"
-    }
+    },
 
     "autoload": {
         "psr-4": {
@@ -39,8 +39,8 @@
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0",
         "codeclimate/php-test-reporter": "dev-master"
-    }
-    
+    },
+
     "bin": [
         "bin/static-review.sh"
     ]
