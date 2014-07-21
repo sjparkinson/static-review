@@ -10,11 +10,11 @@
  *
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
-
-// Autoload method that resolves the symlink.
 $autoload = function() {
-    $base = pathinfo(realpath(__FILE__), PATHINFO_DIRNAME);
-    require_once strstr($base, 'src/Hooks', true) . 'vendor/autoload.php';
+    $base = realpath(dirname(__FILE__) . '/../');
+    require_once (file_exists($base . 'vendor/autoload.php'))
+        ? $base . 'vendor/autoload.php'
+        : realpath($base . '/../../autoload.php');
 };
 
 $autoload();
@@ -25,6 +25,7 @@ use StaticReview\Reporter\Reporter;
 
 // Reference the reviews you want to use.
 use StaticReview\Review\General\LineEndingsReview;
+use StaticReview\Review\General\NoCommitTagReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
 
@@ -35,6 +36,7 @@ $review = new StaticReview($reporter);
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview())
        ->addReview(new PhpLeadingLineReview())
+       ->addReview(new NoCommitTagReview())
        ->addReview(new PhpLintReview());
 
 // Generate a FileCollection.

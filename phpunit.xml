@@ -4,7 +4,6 @@
 
          bootstrap="./vendor/autoload.php"
          colors="true"
-         strict="true"
          verbose="true">
 
     <!-- Test suites -->

@@ -17,19 +17,15 @@ use \Countable;
 
 abstract class Collection implements Iterator, Countable
 {
-    protected $collection;
+    protected $collection = [];
 
     /**
      * Initializes a new instance of the Collection class.
      */
-    public function __construct(array $items = null)
+    public function __construct(array $items = [])
     {
-        $this->collection = [];
-
-        if ($items) {
-            foreach ($items as $item) {
-                $this->append($item);
-            }
+        foreach ($items as $item) {
+            $this->append($item);
         }
     }
 

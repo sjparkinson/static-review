@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+/*
+ * This file is part of StaticReview
+ *
+ * Copyright (c) 2014 Samuel Parkinson <@samparkinson_>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ */
+
+$args = getopt('', ['hook:', 'target::']);
+
+$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
+
+if (strpos(__FILE__, 'vendor/bin/' . $filename) !== false) {
+    // We're in a Composer included project
+    $base = realpath(dirname(__FILE__) . '/../../');
+
+    echo 'Base Dir: ' . $base . PHP_EOL;
+
+    $hooks = '/vendor/sjparkinson/static-review/hooks';
+
+    $source = $base . $hooks . '/' . $args['hook'] . '.php';
+    $target = $base . '/.git/hooks/pre-commit';
+
+    echo 'Source: ' . $source . PHP_EOL;
+    echo 'Target: ' . $source . PHP_EOL;
+
+    if (file_exists($source) && ! file_exists($target)) {
+        symlink($source, $target);
+        echo 'Created Link';
+        exit(0);
+    }
+}
+
+exit(1);

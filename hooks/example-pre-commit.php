@@ -10,11 +10,11 @@
  *
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
-
-// Autoload method that resolves the symlink.
 $autoload = function() {
-    $base = pathinfo(realpath(__FILE__), PATHINFO_DIRNAME);
-    require_once strstr($base, 'src/Hooks', true) . 'vendor/autoload.php';
+    $base = realpath(dirname(__FILE__) . '/../');
+    require_once (file_exists($base . 'vendor/autoload.php'))
+        ? $base . 'vendor/autoload.php'
+        : realpath($base . '/../../autoload.php');
 };
 
 $autoload();

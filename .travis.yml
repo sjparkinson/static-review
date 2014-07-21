@@ -22,5 +22,5 @@ before_script:
 script:
   - vendor/bin/phpunit
 
-after_success:
+after_script:
   - vendor/bin/test-reporter

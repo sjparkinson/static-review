@@ -15,20 +15,12 @@ A pre-commit hook framework for static analysis of your version controlled files
 
 ## Usage
 
-Here `~/project/` should be the path to your project.
-
-Ensure when you create the symlink that you **do not** use relative paths.
+Within a composer managed project you can simply do the following.
 
 ```bash
-$ git clone https://github.com/sjparkinson/static-review.git StaticReview
+$ composer require "sjparkinson/static-review"
 
-$ cd StaticReview/
-
-$ composer install --no-dev --optimize-autoloader
-
-$ ln -s ~/.../StaticReview/src/Hooks/php-pre-commit.php ~/project/.git/hooks/pre-commit
-
-$ chmod a+x ~/project/.git/hooks/pre-commit
+$ vendor/bin/static-review --hook example-pre-commit
 ```
 
 ## Example Hook
@@ -43,7 +35,7 @@ Below is a basic hook that you can extend upon.
 // Autoload method that resolves the symlink.
 $autoload = function() {
     $base = pathinfo(realpath(__FILE__), PATHINFO_DIRNAME);
-    require_once strstr($base, 'src/Hooks', true) . 'vendor/autoload.php';
+    require_once $base . 'vendor/autoload.php';
 };
 
 $autoload();
