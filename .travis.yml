@@ -15,11 +15,9 @@ notifications:
   email:
     - sam.james.parkinson@gmail.com
 
-before_install:
-  - travis_retry composer self-update
-
 before_script:
-  - travis_retry composer install --dev --no-interaction --prefer-source --optimize-autoloader
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction --prefer-source --optimize-autoloader
   - mkdir -p build/logs
 
 script:

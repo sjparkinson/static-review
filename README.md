@@ -3,10 +3,9 @@ StaticReview
 
 [![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)][packagist]
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
-[![Code Climate](http://img.shields.io/codeclimate/github/sjparkinson/static-review.svg)][codeclimate]
-![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)]
+![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)
 
-A modular pre-commit hook framework for static analysis of modified files.
+A pre-commit hook framework for static analysis of your version controlled files.
 
 ![StaticReview Success Demo](http://i.imgur.com/2hicIEK.gif)
 
@@ -39,6 +38,8 @@ Below is a basic hook that you can extend upon.
 ```php
 #!/usr/bin/env php
 <?php
+// StaticReview/src/Hooks/example-pre-commit.php
+
 // Autoload method that resolves the symlink.
 $autoload = function() {
     $base = pathinfo(realpath(__FILE__), PATHINFO_DIRNAME);
@@ -55,19 +56,14 @@ $reporter = new Reporter();
 $review   = new StaticReview($reporter);
 
 // Add any checks to the StaticReview instance, supports a fluent interface.
-$review->addCheck(new PhpLintReview());
+$review->addCheck(new LineEndingsReview());
 
 // Review the staged files.
 $review->review(Helper::getGitStagedFiles());
 
 // Check if any issues were found.
-if ($reporter->hasIssues()) {
-    // Exit with a non-zero to block the commit.
-    exit(1);
-}
-
-// Exit with zero to allow the commit.
-exit(0);
+// Exit with a non-zero to block the commit.
+($reporter->hasIssues()) ? exit(1) : exit(0);
 ```
 
 ## Example Check
