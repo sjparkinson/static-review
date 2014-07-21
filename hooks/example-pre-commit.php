@@ -14,7 +14,7 @@ $autoload = function() {
     $base = realpath(__DIR__ . '/../');
     require_once (file_exists($base . '/vendor/autoload.php'))
         ? $base . '/vendor/autoload.php'
-        : realpath($base . '/../../../../autoload.php');
+        : realpath($base . '/../../autoload.php');
 };
 
 $autoload();
