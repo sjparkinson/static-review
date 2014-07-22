@@ -5,7 +5,7 @@ StaticReview
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
 ![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)
 
-A version control hook framework built in PHP.
+An extendable framework for version control hooks.
 
 ![StaticReview Success Demo](http://i.imgur.com/2hicIEK.gif)
 
@@ -15,12 +15,11 @@ A version control hook framework built in PHP.
 
 ## Usage
 
-Within a [composer][composer] managed project you can simply do the following.
+Within a [composer][composer] managed project you can simply do the following...
 
 ```bash
 $ composer require sjparkinson/static-review:~1.1
-
-$ vendor/bin/static-review --hook example-pre-commit
+$ vendor/bin/static-review.php --hook example-pre-commit
 ```
 
 Otherwise...
@@ -29,8 +28,8 @@ Otherwise...
 $ git clone https://github.com/sjparkinson/static-review.git
 $ cd static-review/
 $ composer install --no-dev --optimize-autoloader
-$ ln -s ~/.../static-review/hooks/php-pre-commit.php ~/project/.git/hooks/pre-commit
-$ chmod a+x ~/project/.git/hooks/pre-commit
+$ ln -s ~/.../static-review/hooks/php-pre-commit.php ~/.../.git/hooks/pre-commit
+$ chmod a+x ~/.../.git/hooks/pre-commit
 ```
 
 [composer]: https://getcomposer.org/
@@ -42,11 +41,11 @@ Below is a basic hook that you can extend upon.
 ```php
 #!/usr/bin/env php
 <?php
-// StaticReview/hooks/example-pre-commit.php
+// Autoload StaticReview
 $autoload = function($base) {
-   require_once (file_exists($base . '/vendor/autoload.php'))
-       ? $base . '/vendor/autoload.php'
-       : realpath($base . '/../../autoload.php');
+    require_once (file_exists($base . '/vendor/autoload.php'))
+        ? $base . '/vendor/autoload.php'
+        : realpath($base . '/../../autoload.php');
 };
 
 $autoload(realpath(__DIR__ . '/../'));
@@ -75,14 +74,7 @@ $review->review(Helper::getGitStagedFiles());
 <?php
 class NoCommitTagReview extends AbstractReview
 {
-    /**
-     * Review any text based file.
-     *
-     * @link http://stackoverflow.com/a/632786
-     *
-     * @param FileInterface $file
-     * @return bool
-     */
+    // Review any text based file.
     public function canReview(FileInterface $file)
     {
         // return mime type ala mimetype extension
@@ -92,11 +84,7 @@ class NoCommitTagReview extends AbstractReview
         return substr(finfo_file($finfo, $file->getFileLocation()), 0, 4) == 'text';
     }
 
-    /**
-     * Checks if the file contains `NOCOMMIT`.
-     *
-     * @link http://stackoverflow.com/a/4749368
-     */
+    // Checks if the file contains `NOCOMMIT`.
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
         $cmd = sprintf('grep -Fq "NOCOMMIT" %s', $file->getFileLocation());
@@ -127,4 +115,4 @@ The content of this library is released under the **MIT License** by **Samuel Pa
 
 You can find a copy of this licence in [`LICENCE`][licence] or at http://opensource.org/licenses/mit.
 
-[licence]: https://github.com/sjparkinson/static-review/blob/master/LICENCE
+[licence]: https://github.com/sjparkinson/static-review/blob/master/LICENCE.md

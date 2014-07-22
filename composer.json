@@ -42,6 +42,6 @@
     },
 
     "bin": [
-        "bin/static-review"
+        "bin/static-review.php"
     ]
 }
