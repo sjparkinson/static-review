@@ -45,4 +45,10 @@
     "bin": [
         "bin/static-review.php"
     ]
+
+    "extra": {
+        "branch-alias": {
+            "dev-development": "1.1.x-dev"
+        }
+    }
 }
