@@ -38,8 +38,8 @@
 
     "require-dev": {
         "mockery/mockery": "~0.9",
-        "phpunit/phpunit": "~4.0",
-        "codeclimate/php-test-reporter": "dev-master"
+        "phpunit/phpunit": "~4.1",
+        "codeclimate/php-test-reporter": "~0.1"
     },
 
     "bin": [
