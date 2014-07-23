@@ -39,5 +39,11 @@
     {
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0"
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-development": "1.1.x-alpha"
+        }
     }
 }
