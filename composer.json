@@ -43,7 +43,7 @@
 
     "extra": {
         "branch-alias": {
-            "dev-development": "1.1.x-alpha"
+            "dev-development": "1.1.x-dev"
         }
     }
 }
