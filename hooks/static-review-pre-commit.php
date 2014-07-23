@@ -11,7 +11,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 $autoload = function($base) {
-    require_once (file_exists($base . '/vendor/autoload.php'))
+    require_once file_exists($base . '/vendor/autoload.php')
         ? $base . '/vendor/autoload.php'
         : $base . '/../../autoload.php';
 };

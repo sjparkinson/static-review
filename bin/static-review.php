@@ -12,7 +12,9 @@
  */
 
 // Composer autoloader
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once file_exists(__DIR__ . '/../autoload.php')
+    ? __DIR__ . '/../autoload.php'
+    : __DIR__ . '/../vendor/autoload.php';
 
 use StaticReview\Command\HookListCommand;
 use StaticReview\Command\HookLinkCommand;

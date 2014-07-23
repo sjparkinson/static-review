@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1406155997">
-  <project timestamp="1406155997">
+<coverage generated="1406157390">
+  <project timestamp="1406157390">
     <package name="StaticReview\Collection">
       <file name="/Users/Samuel/Repositories/Personal/StaticReview/src/Collection/Collection.php">
         <class name="Collection" namespace="StaticReview\Collection">
