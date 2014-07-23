@@ -44,7 +44,7 @@
 
     "bin": [
         "bin/static-review.php"
-    ]
+    ],
 
     "extra": {
         "branch-alias": {
