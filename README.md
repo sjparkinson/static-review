@@ -19,19 +19,19 @@ Within a [composer][composer] managed project you can simply do the following...
 
 ```bash
 $ composer require sjparkinson/static-review:~1.1
-$ vendor/bin/static-review.php --help
+$ vendor/bin/static-review.php help
 ```
 
 Then you can add one of the hooks to your project like so...
 
 ```bash
-$ vendor/bin/static-review.php --add-hook example-pre-commit --target .git/hooks/pre-commit
+$ vendor/bin/static-review.php link example-pre-commit .git/hooks/pre-commit
 ```
 
 Or if you just want to run a hook...
 
 ```bash
-$ vendor/bin/static-review.php --run-hook example-pre-commit
+$ vendor/bin/static-review.php run example-pre-commit
 ```
 
 Otherwise, if you don't use composer...
@@ -57,7 +57,7 @@ Below is a basic hook that you can extend upon.
 $autoload = function($base) {
     require_once (file_exists($base . '/vendor/autoload.php'))
         ? $base . '/vendor/autoload.php'
-        : realpath($base . '/../../autoload.php');
+        : $base . '/../../autoload.php';
 };
 
 $autoload(realpath(__DIR__ . '/../'));
@@ -69,8 +69,8 @@ use StaticReview\StaticReview;
 $reporter = new Reporter();
 $review   = new StaticReview($reporter);
 
-// Add any checks to the StaticReview instance, supports a fluent interface.
-$review->addCheck(new LineEndingsReview());
+// Add any reviews to the StaticReview instance, supports a fluent interface.
+$review->addReview(new LineEndingsReview);
 
 // Review the staged files.
 $review->review(Helper::getGitStagedFiles());

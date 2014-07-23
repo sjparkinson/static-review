@@ -11,36 +11,21 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
+// Composer autoloader
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$args = getopt('', ['hook:']);
+use StaticReview\Command\HookListCommand;
+use StaticReview\Command\HookLinkCommand;
+use StaticReview\Command\HookRunCommand;
 
-$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
+use Symfony\Component\Console\Application;
 
-if (strpos($_SERVER['SCRIPT_NAME'], 'vendor/bin/' . $filename) !== false
-    && isset($args['hook'])) {
+$console = new Application();
 
-    // We're in a Composer included project
-    $base = realpath(__DIR__ . '/../../../../');
+$console->addCommands([
+    new HookListCommand,
+    new HookLinkCommand,
+    new HookRunCommand
+]);
 
-    echo 'Base Dir: ' . $base . PHP_EOL;
-
-    $hooks = '/vendor/sjparkinson/static-review/hooks';
-
-    $source = $base . $hooks . '/' . $args['hook'] . '.php';
-    $target = $base . '/.git/hooks/pre-commit';
-
-    echo 'Source: ' . $source . PHP_EOL;
-    echo 'Target: ' . $target . PHP_EOL;
-
-    if (file_exists($source) && ! file_exists($target)) {
-        symlink($source, $target);
-        chmod($target, 0755);
-        echo 'Created Link' . PHP_EOL;
-        exit(0);
-    }
-}
-
-echo 'Something broke! Please add the symlink manually.' . PHP_EOL;
-
-exit(1);
+$console->run();

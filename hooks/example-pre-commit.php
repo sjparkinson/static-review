@@ -13,7 +13,7 @@
 $autoload = function($base) {
     require_once (file_exists($base . '/vendor/autoload.php'))
         ? $base . '/vendor/autoload.php'
-        : realpath($base . '/../../autoload.php');
+        : $base . '/../../autoload.php';
 };
 
 $autoload(realpath(__DIR__ . '/../'));
@@ -29,11 +29,13 @@ use StaticReview\Review\General\LineEndingsReview;
 $reporter = new Reporter();
 $review   = new StaticReview($reporter);
 
-// Add any checks to the StaticReview instance, supports a fluent interface.
-$review->addCheck(new LineEndingsReview());
+// Add any reviews to the StaticReview instance, supports a fluent interface.
+$review->addReview(new LineEndingsReview);
 
 // Review the staged files.
 $review->review(Helper::getGitStagedFiles());
+
+echo PHP_EOL;
 
 // Check if any issues were found.
 // Exit with a non-zero to block the commit.
