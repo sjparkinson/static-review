@@ -19,10 +19,22 @@ Within a [composer][composer] managed project you can simply do the following...
 
 ```bash
 $ composer require sjparkinson/static-review:~1.1
-$ vendor/bin/static-review.php --hook example-pre-commit
+$ vendor/bin/static-review.php --help
 ```
 
-Otherwise...
+Then you can add one of the hooks to your project like so...
+
+```bash
+$ vendor/bin/static-review.php --add-hook example-pre-commit --target .git/hooks/pre-commit
+```
+
+Or if you just want to run a hook...
+
+```bash
+$ vendor/bin/static-review.php --run-hook example-pre-commit
+```
+
+Otherwise, if you don't use composer...
 
 ```bash
 $ git clone https://github.com/sjparkinson/static-review.git

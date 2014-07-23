@@ -11,13 +11,15 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
+require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
+
 $args = getopt('', ['hook:']);
 
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
 
 if (strpos($_SERVER['SCRIPT_NAME'], 'vendor/bin/' . $filename) !== false
-    && isset($args['hook'])
-) {
+    && isset($args['hook'])) {
+
     // We're in a Composer included project
     $base = realpath(__DIR__ . '/../../../../');
 

@@ -4,10 +4,9 @@ The following guidelines for contribution should be followed if you wish to subm
 
 ## Getting Started
 
-* Submit an [issue ticket](https://github.com/anselmh/CONTRIBUTING.md/issues) for your issue if one **does not** exist already
+* Submit an [issue ticket](https://github.com/sjparkinson/static-review/issues) for your issue if one **does not** exist already
 
     * Describe the issue and include steps to reproduce if it's a bug
-
 
 * If you are able and want to fix this, fork the repository on GitHub
 
