@@ -15,6 +15,7 @@ namespace StaticReview\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
@@ -28,6 +29,8 @@ class HookLinkCommand extends Command
 
         $this->addArgument('hook', InputArgument::REQUIRED, 'The hook to link.')
              ->addArgument('target', InputArgument::REQUIRED, 'The target location, including the filename (e.g. .git/hooks/pre-commit).');
+
+        $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Overrite any existing files at the symlink target.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -36,10 +39,19 @@ class HookLinkCommand extends Command
 
         $source = $hooksPath . '/' . $input->getArgument('hook') . '.php';
         $target = $input->getArgument('target');
+        $force  = $input->getOption('force');
 
-        if (file_exists($source) && ! file_exists($target)) {
+        if ($force && file_exists($target)) {
+            unlink($target);
+            $output->write('<info>Removed existing file.</info> ');
+        }
+
+        if (file_exists($source)
+            && (! file_exists($target) || $force)) {
             symlink($source, $target);
-            chmod($target, 0755);
+            $output->writeln('Symlink created.');
+        } else {
+            $output->writeln('<error>A file at the target already exists.</error>');
         }
     }
 }
