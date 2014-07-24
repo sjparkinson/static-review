@@ -43,7 +43,7 @@ class HookLinkCommand extends Command
 
         if ($force && file_exists($target)) {
             unlink($target);
-            $output->write('<info>Removed existing file.</info> ');
+            $output->writeln('Removed existing file.');
         }
 
         if (file_exists($source)

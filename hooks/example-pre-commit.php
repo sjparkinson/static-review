@@ -10,13 +10,9 @@
  *
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
-$autoload = function($base) {
-    require_once file_exists($base . '/vendor/autoload.php')
-        ? $base . '/vendor/autoload.php'
-        : $base . '/../../autoload.php';
-};
-
-$autoload(realpath(__DIR__ . '/../'));
+require_once file_exists(__DIR__ . '/../vendor/autoload.php')
+    ? __DIR__ . '/../vendor/autoload.php'
+    : __DIR__ . '/../../../autoload.php';
 
 // Reference the required classes.
 use StaticReview\StaticReview;

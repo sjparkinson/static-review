@@ -32,7 +32,7 @@ class GitVersionControl implements VersionControlInterface
         $process = new Process('git rev-parse --show-toplevel');
         $process->run();
 
-        $projectLocation = trim($process->getOutput());
+        $base = trim($process->getOutput());
 
         $process = new Process('git diff --cached --name-status --diff-filter=ACMR');
         $process->run();
@@ -41,7 +41,7 @@ class GitVersionControl implements VersionControlInterface
 
         foreach($output as $file) {
             list($status, $path) = explode("\t", $file);
-            $files->append(new File($status, $path, $projectLocation));
+            $files->append(new File($status, $path, $base));
         }
 
         return $files;

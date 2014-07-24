@@ -70,7 +70,7 @@ class File implements FileInterface
      */
     public function getRelativeFileLocation()
     {
-        return str_replace($this->projectLocation, '', $this->fileLocation);
+        return $this->fileLocation;
     }
 
     /**
@@ -80,7 +80,7 @@ class File implements FileInterface
      */
     public function getFileLocation()
     {
-        return $this->fileLocation;
+        return $this->projectLocation . '/' . $this->fileLocation;
     }
 
     /**
