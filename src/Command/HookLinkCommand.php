@@ -35,8 +35,9 @@ class HookLinkCommand extends Command
         $hooksPath = realpath(__DIR__ . '/../../hooks/');
 
         $source = $hooksPath . '/' . $input->getArgument('hook') . '.php';
+        $target = $input->getArgument('target');
 
-        if (file_exists($source) && ! file_exists($input->getArgument('target'))) {
+        if (file_exists($source) && ! file_exists($target)) {
             symlink($source, $target);
             chmod($target, 0755);
         }
