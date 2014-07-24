@@ -1,7 +1,7 @@
 {
     "name": "sjparkinson/static-review",
 
-    "description": "A framework for version control hooks.",
+    "description": "An extendable framework for version control hooks.",
 
     "license": "MIT",
 

@@ -22,6 +22,7 @@ $autoload(realpath(__DIR__ . '/../'));
 use StaticReview\StaticReview;
 use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
+use StaticReview\VersionControl\VersionControlFactory;
 
 // Reference the reviews you want to use.
 use StaticReview\Review\General\LineEndingsReview;
@@ -32,8 +33,10 @@ $review   = new StaticReview($reporter);
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview);
 
+$git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
+
 // Review the staged files.
-$review->review(Helper::getGitStagedFiles());
+$review->review($git->getStagedFiles());
 
 echo PHP_EOL;
 

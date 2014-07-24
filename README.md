@@ -2,6 +2,7 @@ StaticReview
 ============
 
 [![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)][packagist]
+[![Latest Unstable Version](https://poser.pugx.org/sjparkinson/static-review/v/unstable.svg)](https://packagist.org/packages/sjparkinson/static-review)
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
 ![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)
 

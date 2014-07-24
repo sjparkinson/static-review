@@ -21,6 +21,7 @@ $autoload(realpath(__DIR__ . '/../'));
 use StaticReview\StaticReview;
 use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
+use StaticReview\VersionControl\VersionControlFactory;
 
 // Reference the reviews you want to use.
 use StaticReview\Review\General\LineEndingsReview;
@@ -38,10 +39,10 @@ $review->addReview(new LineEndingsReview)
        ->addReview(new NoCommitTagReview)
        ->addReview(new PhpLintReview);
 
-// Generate a FileCollection.
-$files = Helper::getGitStagedFiles();
+$git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 
-$review->review($files);
+// Review the staged files.
+$review->review($git->getStagedFiles());
 
 // Check if any matching issues were found.
 if ($reporter->hasIssues()) {
