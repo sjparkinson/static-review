@@ -21,7 +21,12 @@ use Symfony\Component\Process\Process;
 class GitVersionControl implements VersionControlInterface
 {
     /**
-     * Gets the staged files.
+     * Gets a list of the files currently staged under git.
+     *
+     * Returns either an empty array or a tab seperated list of staged files and
+     * their git status.
+     *
+     * @link http://git-scm.com/docs/git-status
      *
      * @return FileCollection
      */

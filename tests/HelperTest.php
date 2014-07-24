@@ -28,9 +28,4 @@ class HelperTests extends TestCase
 
         $this->assertTrue(strpos($result, $testString) !== false);
     }
-
-    public function testGetIssueColour()
-    {
-        $this->assertTrue(is_string(Helper::getIssueColour(Issue::LEVEL_INFO)));
-    }
 }

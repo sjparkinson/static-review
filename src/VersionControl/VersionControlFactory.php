@@ -24,7 +24,9 @@ class VersionControlFactory
      */
     public static function build($versionControlType)
     {
-        $versionControl = 'StaticReview\\VersionControl\\' . ucwords($versionControlType) . 'VersionControl';
+        $namespace = __NAMESPACE__ . '\\';
+
+        $versionControl = $namespace . ucwords($versionControlType) . 'VersionControl';
 
         return new $versionControl();
     }

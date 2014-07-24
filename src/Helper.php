@@ -31,38 +31,6 @@ class Helper
     ];
 
     /**
-     * Gets a list of the files currently staged under git.
-     *
-     * Returns either an empty array or a tab seperated list of staged files and
-     * their git status.
-     *
-     * @link http://git-scm.com/docs/git-status
-     *
-     * @return FileCollection
-     */
-    public static function getGitStagedFiles()
-    {
-        $files = new FileCollection();
-
-        $process = new Process('git rev-parse --show-toplevel');
-        $process->run();
-
-        $projectLocation = trim($process->getOutput());
-
-        $process = new Process('git diff --cached --name-status --diff-filter=ACMR');
-        $process->run();
-
-        $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-
-        foreach($output as $file) {
-            list($status, $path) = explode("\t", $file);
-            $files->append(new File($status, $path, $projectLocation));
-        }
-
-        return $files;
-    }
-
-    /**
      * Formats a string for colourized outputting to the command line.
      *
      * @param  string $string
@@ -83,25 +51,5 @@ class Helper
         $builder .=  $string . "\033[0m";
 
         return $builder;
-    }
-
-    /**
-     * Gets the colour to use when echoing to the console.
-     *
-     * @param int $level
-     * @return string
-     */
-    public static function getIssueColour($level)
-    {
-        switch ($level) {
-            case Issue::LEVEL_INFO:
-                return 'cyan';
-
-            case Issue::LEVEL_WARNING:
-                return 'brown';
-
-            case Issue::LEVEL_ERROR:
-                return 'red';
-        }
     }
 }

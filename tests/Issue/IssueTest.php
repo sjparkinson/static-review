@@ -97,6 +97,11 @@ class IssueTest extends TestCase
         $badLevelIssue->getLevelName();
     }
 
+    public function testGetColour()
+    {
+        $this->assertTrue(is_string($this->issue->getColour()));
+    }
+
     public function testMatches()
     {
         $shouldMatch = [

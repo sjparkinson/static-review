@@ -109,6 +109,25 @@ class Issue implements IssueInterface
     }
 
     /**
+     * Gets the colour to use when echoing to the console.
+     *
+     * @return string
+     */
+    public function getColour()
+    {
+        switch ($this->level) {
+            case self::LEVEL_INFO:
+                return 'cyan';
+
+            case self::LEVEL_WARNING:
+                return 'brown';
+
+            case self::LEVEL_ERROR:
+                return 'red';
+        }
+    }
+
+    /**
      * Check that the Issue matches the possible level options.
      *
      * @link http://php.net/manual/en/language.operators.bitwise.php#108679

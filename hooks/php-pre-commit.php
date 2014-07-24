@@ -46,7 +46,7 @@ if ($reporter->hasIssues()) {
     echo PHP_EOL . PHP_EOL;
 
     foreach($reporter->getIssues() as $issue) {
-        echo Helper::getColourString($issue, Helper::getIssueColour($issue->getLevel())) . PHP_EOL;
+        echo Helper::getColourString($issue, $issue->getColour()) . PHP_EOL;
     }
 
     echo PHP_EOL . Helper::getColourString('✘ Please fix the errors above.', 'red') . PHP_EOL;

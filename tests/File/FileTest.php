@@ -30,7 +30,7 @@ class FileTests extends TestCase
     public function setUp()
     {
         $this->fileStatus      = 'M';
-        $this->fileLocation    = '/not/a/path/not/a/file.php';
+        $this->fileLocation    = 'not/a/file.php';
         $this->projectLocation = '/not/a/path';
 
         $this->file = new File($this->fileStatus, $this->fileLocation, $this->projectLocation);
@@ -47,14 +47,14 @@ class FileTests extends TestCase
 
     public function testGetRelativeFileLocation()
     {
-        $relativePath = str_replace($this->projectLocation, '', $this->fileLocation);
-
-        $this->assertEquals($relativePath, $this->file->getRelativeFileLocation());
+        $this->assertEquals($this->fileLocation, $this->file->getRelativeFileLocation());
     }
 
     public function testGetFileLocation()
     {
-        $this->assertEquals($this->fileLocation, $this->file->getFileLocation());
+        $expected = $this->projectLocation . '/' . $this->fileLocation;
+
+        $this->assertEquals($expected, $this->file->getFileLocation());
     }
 
     public function testGetExtension()
