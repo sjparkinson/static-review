@@ -19,6 +19,6 @@ script:
   - vendor/bin/phpunit
 
 after_script:
-  - vendor/bin/test-reporter --stdout > build/logs/codeclimate.json
+  - "CODECLIMATE_REPO_TOKEN='db3a9d5167930c783c659b6a713719a2f4b7fac416d579c024fbfce876c30c11' vendor/bin/test-reporter --stdout > build/logs/codeclimate.json"
   - cat build/logs/codeclimate.json
   - "curl -X POST -d @build/logs/codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
