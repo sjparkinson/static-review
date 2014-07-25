@@ -7,7 +7,7 @@ StaticReview
 
 An extendable framework for version control hooks.
 
-![StaticReview Success Demo](http://i.imgur.com/2hicIEK.gif)
+![StaticReview Success Demo](http://i.imgur.com/8G3uORp.gif)
 
 [travis]:    https://travis-ci.org/sjparkinson/static-review
 [packagist]: https://packagist.org/packages/sjparkinson/static-review
@@ -87,13 +87,13 @@ class NoCommitTagReview extends AbstractReview
         $finfo = finfo_open(FILEINFO_MIME);
 
         //check to see if the mime-type starts with 'text'
-        return substr(finfo_file($finfo, $file->getFileLocation()), 0, 4) == 'text';
+        return substr(finfo_file($finfo, $file->getFullPath()), 0, 4) == 'text';
     }
 
     // Checks if the file contains `NOCOMMIT`.
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('grep -Fq "NOCOMMIT" %s', $file->getFileLocation());
+        $cmd = sprintf('grep -Fq "NOCOMMIT" %s', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
@@ -117,8 +117,7 @@ $ vendor/bin/phpunit
 
 ## Licence
 
-The content of this library is released under the **MIT License** by **Samuel Parkinson**.
-
-You can find a copy of this licence in [`LICENCE`][licence] or at http://opensource.org/licenses/mit.
+The content of this library is released under the [MIT License][licence] by [Samuel Parkinson][twitter].
 
 [licence]: https://github.com/sjparkinson/static-review/blob/master/LICENCE.md
+[twitter]: https://twitter.com/samparkinson_

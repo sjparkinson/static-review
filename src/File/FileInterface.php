@@ -16,9 +16,9 @@ interface FileInterface
 {
     public function getFileName();
 
-    public function getRelativeFileLocation();
+    public function getRelativePath();
 
-    public function getFileLocation();
+    public function getFullPath();
 
     public function getExtension();
 

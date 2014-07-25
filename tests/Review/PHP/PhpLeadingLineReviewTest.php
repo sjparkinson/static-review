@@ -41,7 +41,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
     public function testReviewWithBadBeginning()
     {
-        $this->file->shouldReceive('getFileLocation')->once()->andReturn(__FILE__);
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
@@ -57,7 +57,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
     public function testReviewWithDefaultBeginning()
     {
-        $this->file->shouldReceive('getFileLocation')->once()->andReturn(__FILE__);
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
@@ -72,7 +72,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
     public function testReviewWithScriptBeginning()
     {
-        $this->file->shouldReceive('getFileLocation')->once()->andReturn(__FILE__);
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();

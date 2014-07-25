@@ -60,7 +60,7 @@ class File implements FileInterface
      */
     public function getFileName()
     {
-        return pathinfo($this->fileLocation, PATHINFO_FILENAME);
+        return basename($this->fileLocation);
     }
 
     /**
@@ -68,7 +68,7 @@ class File implements FileInterface
      *
      * @return string
      */
-    public function getRelativeFileLocation()
+    public function getRelativePath()
     {
         return $this->fileLocation;
     }
@@ -78,7 +78,7 @@ class File implements FileInterface
      *
      * @return string
      */
-    public function getFileLocation()
+    public function getFullPath()
     {
         return $this->projectLocation . '/' . $this->fileLocation;
     }

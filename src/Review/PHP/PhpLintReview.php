@@ -29,7 +29,7 @@ class PhpLintReview extends AbstractReview
         // return mime type ala mimetype extension
         $finfo = finfo_open(FILEINFO_MIME);
 
-        $mime = finfo_file($finfo, $file->getFileLocation());
+        $mime = finfo_file($finfo, $file->getFullPath());
 
         // check to see if the mime-type contains 'php'
         return (strpos($mime, 'php') !== false);
@@ -40,7 +40,7 @@ class PhpLintReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('php -l %s', $file->getFileLocation());
+        $cmd = sprintf('php -l %s', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
@@ -54,7 +54,7 @@ class PhpLintReview extends AbstractReview
 
             foreach (array_slice($output, 0, count($output) - 1) as $error) {
                 $raw = ucfirst(substr($error, strlen($needle)));
-                $message = str_replace(' in ' . $file->getFileLocation(), '', $raw);
+                $message = str_replace(' in ' . $file->getFullPath(), '', $raw);
                 $reporter->error($message, $this, $file);
             }
 

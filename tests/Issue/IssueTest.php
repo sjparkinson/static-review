@@ -131,7 +131,7 @@ class IssueTest extends TestCase
     {
         $file = $this->issue->getFile();
 
-        $file->shouldReceive('getRelativeFileLocation')
+        $file->shouldReceive('getRelativePath')
              ->twice()
              ->andReturn('/Test');
 
@@ -143,6 +143,6 @@ class IssueTest extends TestCase
         $this->assertContains($this->issue->getReviewName(), $issueStringTokens);
         $this->assertContains($this->issue->getLevelName(), $issueStringTokens);
         $this->assertContains($this->issue->getMessage(), $issueStringTokens);
-        $this->assertContains($this->issue->getFile()->getRelativeFileLocation(), $issueStringTokens);
+        $this->assertContains($this->issue->getFile()->getRelativePath(), $issueStringTokens);
     }
 }

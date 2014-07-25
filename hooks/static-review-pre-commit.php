@@ -23,6 +23,7 @@ use StaticReview\VersionControl\VersionControlFactory;
 use StaticReview\Review\General\LineEndingsReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
+use StaticReview\Review\Config\ComposerConfigReview;
 
 $reporter = new Reporter();
 
@@ -31,7 +32,8 @@ $review = new StaticReview($reporter);
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview)
        ->addReview(new PhpLeadingLineReview)
-       ->addReview(new PhpLintReview);
+       ->addReview(new PhpLintReview)
+       ->addReview(new ComposerConfigReview);
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 

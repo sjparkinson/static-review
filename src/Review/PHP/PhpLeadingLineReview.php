@@ -40,7 +40,7 @@ class PhpLeadingLineReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('read -r LINE < %s && echo $LINE', $file->getFileLocation());
+        $cmd = sprintf('read -r LINE < %s && echo $LINE', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();

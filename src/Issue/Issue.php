@@ -149,6 +149,6 @@ class Issue implements IssueInterface
             $this->getReviewName(),
             $this->getLevelName(),
             $this->getMessage(),
-            $this->getFile()->getRelativeFileLocation());
+            $this->getFile()->getRelativePath());
     }
 }

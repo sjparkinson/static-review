@@ -40,21 +40,21 @@ class FileTests extends TestCase
 
     public function testGetFileName()
     {
-        $expected = pathinfo($this->fileLocation, PATHINFO_FILENAME);
+        $expected = 'file.php';
 
         $this->assertEquals($expected, $this->file->getFileName());
     }
 
-    public function testGetRelativeFileLocation()
+    public function testGetRelativePath()
     {
-        $this->assertEquals($this->fileLocation, $this->file->getRelativeFileLocation());
+        $this->assertEquals($this->fileLocation, $this->file->getRelativePath());
     }
 
-    public function testGetFileLocation()
+    public function testGetFullPath()
     {
         $expected = $this->projectLocation . '/' . $this->fileLocation;
 
-        $this->assertEquals($expected, $this->file->getFileLocation());
+        $this->assertEquals($expected, $this->file->getFullPath());
     }
 
     public function testGetExtension()

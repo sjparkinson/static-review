@@ -34,14 +34,14 @@ class PhpLintReviewTest extends TestCase
 
     public function testCanReview()
     {
-        $this->file->shouldReceive('getFileLocation')->once()->andReturn(__FILE__);
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
         $this->assertTrue($this->review->canReview($this->file));
     }
 
     public function testReview()
     {
-        $this->file->shouldReceive('getFileLocation')->twice()->andReturn(__FILE__);
+        $this->file->shouldReceive('getFullPath')->twice()->andReturn(__FILE__);
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();

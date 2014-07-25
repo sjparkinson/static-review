@@ -33,7 +33,7 @@ class LineEndingsReview extends AbstractReview
         // return mime type ala mimetype extension
         $finfo = finfo_open(FILEINFO_MIME);
 
-        $mime = finfo_file($finfo, $file->getFileLocation());
+        $mime = finfo_file($finfo, $file->getFullPath());
 
         // check to see if the mime-type starts with 'text'
         return (substr($mime, 0, 4) === 'text');
@@ -46,14 +46,14 @@ class LineEndingsReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('file %s | grep -Fq "CRLF"', $file->getFileLocation());
+        $cmd = sprintf('file %s | grep -Fq "CRLF"', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
 
         if ($process->isSuccessful()) {
 
-            $message = 'Contains CRLF line endings.';
+            $message = 'File contains CRLF line endings';
             $reporter->error($message, $this, $file);
 
         }

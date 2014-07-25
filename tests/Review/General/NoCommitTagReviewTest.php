@@ -24,7 +24,7 @@ class NoCommitTagReviewTest extends TestCase
     public function setUp()
     {
         $this->file = Mockery::mock('StaticReview\File\FileInterface');
-        $this->file->shouldReceive('getFileLocation')->once()->andReturn(__FILE__);
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
         $this->review = Mockery::mock('StaticReview\Review\General\NoCommitTagReview[getProcess]');
     }

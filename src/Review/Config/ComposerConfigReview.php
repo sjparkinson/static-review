@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Review\General;
+namespace StaticReview\Review\Config;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
@@ -18,7 +18,7 @@ use StaticReview\Review\AbstractReview;
 
 use Symfony\Component\Process\Process;
 
-class NoCommitTagReview extends AbstractReview
+class ComposerConfigReview extends AbstractReview
 {
     /**
      * Review any text based file.
@@ -30,30 +30,23 @@ class NoCommitTagReview extends AbstractReview
      */
     public function canReview(FileInterface $file)
     {
-        // return mime type ala mimetype extension
-        $finfo = finfo_open(FILEINFO_MIME);
-
-        $mime = finfo_file($finfo, $file->getFullPath());
-
-        // check to see if the mime-type starts with 'text'
-        return (substr($mime, 0, 4) === 'text');
+        // only if the filename is "composer.json"
+        return ($file->getFileName() === 'composer.json');
     }
 
     /**
-     * Checks if the file contains `NOCOMMIT`.
-     *
-     * @link http://stackoverflow.com/a/4749368
+     * Check the composer.json file is valid.
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('grep -Fq "NOCOMMIT" %s', $file->getFullPath());
+        $cmd = 'composer validate';
 
         $process = $this->getProcess($cmd);
         $process->run();
 
-        if ($process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
 
-            $message = 'NOCOMMIT tag found';
+            $message = 'The composer configuration is not valid';
             $reporter->error($message, $this, $file);
 
         }

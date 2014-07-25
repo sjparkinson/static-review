@@ -3,6 +3,8 @@
 
     "description": "An extendable framework for version control hooks.",
 
+    "homepage": "https://github.com/sjparkinson/static-review",
+
     "license": "MIT",
 
     "authors": [
