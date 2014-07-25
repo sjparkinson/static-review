@@ -66,8 +66,10 @@ $review   = new StaticReview($reporter);
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview);
 
+$git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
+
 // Review the staged files.
-$review->review(Helper::getGitStagedFiles());
+$review->review($git->getStagedFiles());
 
 // Check if any issues were found.
 // Exit with a non-zero to block the commit.
