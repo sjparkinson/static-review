@@ -20,4 +20,4 @@ script:
 
 after_script:
   - vendor/bin/test-reporter --stdout > build/logs/codeclimate.json
-  - "curl -X POST -d @build/log/codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
+  - "curl -X POST -d @build/logs/codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
