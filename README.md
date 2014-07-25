@@ -24,7 +24,7 @@ $ vendor/bin/static-review.php list hook
 Then you can add one of the hooks to your project like so...
 
 ```bash
-$ vendor/bin/static-review.php hook:link example-pre-commit .git/hooks/pre-commit
+$ vendor/bin/static-review.php hook:install example-pre-commit .git/hooks/pre-commit
 ```
 
 Or if you just want to run a hook...
