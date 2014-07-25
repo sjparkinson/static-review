@@ -46,12 +46,5 @@
 
     "bin": [
         "bin/static-review.php"
-    ],
-
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev",
-            "dev-development": "1.1.x-dev"
-        }
-    }
+    ]
 }
