@@ -15,16 +15,19 @@ require_once file_exists(__DIR__ . '/../vendor/autoload.php')
     : __DIR__ . '/../../../autoload.php';
 
 use StaticReview\Command\HookListCommand;
-use StaticReview\Command\HookLinkCommand;
+use StaticReview\Command\HookInstallCommand;
 use StaticReview\Command\HookRunCommand;
 
 use Symfony\Component\Console\Application;
 
-$console = new Application();
+$name = 'StaticReview Command Line Tool';
+$version = '1.0.0';
+
+$console = new Application($name, $version);
 
 $console->addCommands([
     new HookListCommand,
-    new HookLinkCommand,
+    new HookInstallCommand,
     new HookRunCommand
 ]);
 

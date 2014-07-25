@@ -9,9 +9,8 @@ An extendable framework for version control hooks.
 
 ![StaticReview Success Demo](http://i.imgur.com/2hicIEK.gif)
 
-[travis]:      https://travis-ci.org/sjparkinson/static-review
-[packagist]:   https://packagist.org/packages/sjparkinson/static-review
-[codeclimate]: https://codeclimate.com/github/sjparkinson/static-review
+[travis]:    https://travis-ci.org/sjparkinson/static-review
+[packagist]: https://packagist.org/packages/sjparkinson/static-review
 
 ## Usage
 
@@ -19,7 +18,7 @@ Within a [composer][composer] managed project you can simply do the following...
 
 ```bash
 $ composer require sjparkinson/static-review:~1.1
-$ vendor/bin/static-review.php list
+$ vendor/bin/static-review.php list hook
 ```
 
 Then you can add one of the hooks to your project like so...
@@ -53,14 +52,9 @@ Below is a basic hook that you can extend upon.
 ```php
 #!/usr/bin/env php
 <?php
-// Autoload StaticReview
-$autoload = function($base) {
-    require_once (file_exists($base . '/vendor/autoload.php'))
-        ? $base . '/vendor/autoload.php'
-        : $base . '/../../autoload.php';
-};
-
-$autoload(realpath(__DIR__ . '/../'));
+require_once file_exists(__DIR__ . '/../vendor/autoload.php')
+   ? __DIR__ . '/../vendor/autoload.php'
+   : __DIR__ . '/../../../autoload.php';
 
 // Reference the required classes.
 use StaticReview\StaticReview;
