@@ -4,7 +4,7 @@ StaticReview
 [![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)][packagist]
 [![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
 [![Test Coverage](http://img.shields.io/codeclimate/coverage/github/sjparkinson/static-review.svg)][codeclimate]
-![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)
+[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)][php]
 
 An extendable framework for version control hooks.
 
@@ -13,6 +13,7 @@ An extendable framework for version control hooks.
 [travis]:      https://travis-ci.org/sjparkinson/static-review
 [packagist]:   https://packagist.org/packages/sjparkinson/static-review
 [codeclimate]: https://codeclimate.com/github/sjparkinson/static-review
+[php]:         https://php.net/
 
 ## Usage
 
