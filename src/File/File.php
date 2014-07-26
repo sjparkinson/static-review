@@ -27,7 +27,7 @@ class File implements FileInterface
     /**
      * The file path as provided by git.
      */
-    private $fileLocation;
+    private $filePath;
 
     /**
      * The file status as provided by git.
@@ -37,20 +37,28 @@ class File implements FileInterface
     /**
      * The git projects base directory.
      */
-    private $projectLocation;
+    private $projectPath;
+
+    /**
+     * The cached location of the file.
+     */
+    private $cachedPath;
 
     /**
      * Initializes a new instance of the File class.
      *
      * @param string $fileStatus
-     * @param string $fileLocation
-     * @param string $projectLocation
+     * @param string $filePath
+     * @param string $projectPath
      */
-    public function __construct($fileStatus, $fileLocation, $projectLocation)
-    {
-        $this->fileStatus      = $fileStatus;
-        $this->fileLocation    = $fileLocation;
-        $this->projectLocation = $projectLocation;
+    public function __construct(
+        $fileStatus,
+        $filePath,
+        $projectPath
+    ) {
+        $this->fileStatus  = $fileStatus;
+        $this->filePath    = $filePath;
+        $this->projectPath = $projectPath;
     }
 
     /**
@@ -60,7 +68,7 @@ class File implements FileInterface
      */
     public function getFileName()
     {
-        return basename($this->fileLocation);
+        return basename($this->filePath);
     }
 
     /**
@@ -70,7 +78,7 @@ class File implements FileInterface
      */
     public function getRelativePath()
     {
-        return $this->fileLocation;
+        return $this->filePath;
     }
 
     /**
@@ -80,7 +88,34 @@ class File implements FileInterface
      */
     public function getFullPath()
     {
-        return $this->projectLocation . '/' . $this->fileLocation;
+        if (file_exists($this->getCachedPath())) {
+            return $this->getCachedPath();
+        }
+
+        return $this->projectPath . '/' . $this->filePath;
+    }
+
+    /**
+     * Returns the path to the cached copy of the file.
+     *
+     * @return string
+     */
+    public function getCachedPath()
+    {
+        return $this->cachedPath;
+    }
+
+    /**
+     * Sets the path to the cached copy of the file.
+     *
+     * @param string $path
+     * @return File
+     */
+    public function setCachedPath($path)
+    {
+        $this->cachedPath = $path;
+
+        return $this;
     }
 
     /**
@@ -90,7 +125,7 @@ class File implements FileInterface
      */
     public function getExtension()
     {
-        return pathinfo($this->fileLocation, PATHINFO_EXTENSION);
+        return pathinfo($this->filePath, PATHINFO_EXTENSION);
     }
 
     /**

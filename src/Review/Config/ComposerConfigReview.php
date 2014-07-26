@@ -39,7 +39,7 @@ class ComposerConfigReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = 'composer validate';
+        $cmd = sprintf('composer validate %s', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();

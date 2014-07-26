@@ -20,6 +20,10 @@ interface FileInterface
 
     public function getFullPath();
 
+    public function getCachedPath();
+
+    public function setCachedPath($path);
+
     public function getExtension();
 
     public function getStatus();

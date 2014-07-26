@@ -45,8 +45,24 @@ class GitVersionControl implements VersionControlInterface
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
 
         foreach($output as $file) {
+
             list($status, $path) = explode("\t", $file);
-            $files->append(new File($status, $path, $base));
+
+            $cachedPath = sys_get_temp_dir() . '/sjparkinson.static-review/cached/' . $path;
+
+            if (! is_dir(dirname($cachedPath))) {
+                mkdir(dirname($cachedPath), 0600, true);
+            }
+
+            $cmd = sprintf('git show :%s > %s', $path, $cachedPath);
+            $process = new Process($cmd);
+            $process->run();
+
+            $file = new File($status, $path, $base);
+            $file->setCachedPath($cachedPath);
+
+            $files->append($file);
+
         }
 
         return $files;

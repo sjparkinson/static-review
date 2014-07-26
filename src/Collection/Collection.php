@@ -103,11 +103,11 @@ abstract class Collection implements Iterator, Countable
      * @return bool
      * @throws InvalidArgumentException
      */
-    abstract public function validate($item);
+    public abstract function validate($item);
 
     /**
      * @param callable $filter
      * @return Collection
      */
-    abstract public function select(callable $filter);
+    public abstract function select(callable $filter);
 }
