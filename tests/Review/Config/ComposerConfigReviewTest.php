@@ -45,6 +45,7 @@ class ComposerConfigReviewTest extends TestCase
     public function testReview()
     {
         $composerFile = Mockery::mock('StaticReview\File\FileInterface');
+        $composerFile->shouldReceive('getFullPath')->once()->andReturn('/some/path/composer.json');
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();

@@ -51,7 +51,7 @@ class GitVersionControl implements VersionControlInterface
             $cachedPath = sys_get_temp_dir() . '/sjparkinson.static-review/cached/' . $path;
 
             if (! is_dir(dirname($cachedPath))) {
-                mkdir(dirname($cachedPath), 0600, true);
+                mkdir(dirname($cachedPath), 0700, true);
             }
 
             $cmd = sprintf('git show :%s > %s', $path, $cachedPath);

@@ -21,19 +21,19 @@ class FileTests extends TestCase
 {
     protected $fileStatus;
 
-    protected $fileLocation;
+    protected $filePath;
 
-    protected $projectLocation;
+    protected $projectPath;
 
     protected $file;
 
     public function setUp()
     {
-        $this->fileStatus      = 'M';
-        $this->fileLocation    = 'not/a/file.php';
-        $this->projectLocation = '/not/a/path';
+        $this->fileStatus  = 'M';
+        $this->filePath    = 'not/a/file.php';
+        $this->projectPath = '/not/a/path';
 
-        $this->file = new File($this->fileStatus, $this->fileLocation, $this->projectLocation);
+        $this->file = new File($this->fileStatus, $this->filePath, $this->projectPath);
 
         $this->assertNotNull($this->file);
     }
@@ -47,19 +47,19 @@ class FileTests extends TestCase
 
     public function testGetRelativePath()
     {
-        $this->assertEquals($this->fileLocation, $this->file->getRelativePath());
+        $this->assertEquals($this->filePath, $this->file->getRelativePath());
     }
 
     public function testGetFullPath()
     {
-        $expected = $this->projectLocation . '/' . $this->fileLocation;
+        $expected = $this->projectPath . '/' . $this->filePath;
 
         $this->assertEquals($expected, $this->file->getFullPath());
     }
 
     public function testGetExtension()
     {
-        $expected = pathinfo($this->fileLocation, PATHINFO_EXTENSION);
+        $expected = pathinfo($this->filePath, PATHINFO_EXTENSION);
 
         $this->assertEquals($expected, $this->file->getExtension());
     }
@@ -74,8 +74,7 @@ class FileTests extends TestCase
         $possiable = [ 'A', 'C', 'M', 'R' ];
 
         foreach($possiable as $status) {
-            $file = new File($status, $this->fileLocation, $this->projectLocation);
-
+            $file = new File($status, $this->filePath, $this->projectPath);
             $this->assertTrue(is_string($file->getFormattedStatus()));
         }
     }
@@ -85,7 +84,7 @@ class FileTests extends TestCase
      */
     public function testGetLevelNameWithInvalidInput()
     {
-        $file = new File('Z', $this->fileLocation, $this->projectLocation);
+        $file = new File('Z', $this->filePath, $this->projectPath);
 
         $this->assertInstanceOf('\UnexpectedValueException', $file->getFormattedStatus());
     }
