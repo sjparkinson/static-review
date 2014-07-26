@@ -13,6 +13,7 @@
 namespace StaticReview\VersionControl;
 
 use StaticReview\VersionControl\VersionControlInterface;
+use StaticReview\File\FileInterface;
 use StaticReview\File\File;
 use StaticReview\Collection\FileCollection;
 
@@ -45,26 +46,37 @@ class GitVersionControl implements VersionControlInterface
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
 
         foreach($output as $file) {
-
             list($status, $path) = explode("\t", $file);
 
-            $cachedPath = sys_get_temp_dir() . '/sjparkinson.static-review/cached/' . $path;
-
-            if (! is_dir(dirname($cachedPath))) {
-                mkdir(dirname($cachedPath), 0700, true);
-            }
-
-            $cmd = sprintf('git show :%s > %s', $path, $cachedPath);
-            $process = new Process($cmd);
-            $process->run();
-
             $file = new File($status, $path, $base);
-            $file->setCachedPath($cachedPath);
+            $this->saveFileToCache($file);
 
             $files->append($file);
-
         }
 
         return $files;
+    }
+
+    /**
+     * Saves a copy of the cached version of the given file to a temp directory.
+     *
+     * @param FileInterface $file
+     * @return FileInterface
+     */
+    private function saveFileToCache(FileInterface $file)
+    {
+        $cachedPath = sys_get_temp_dir() . '/sjparkinson.static-review/cached/' . $file->getRelativePath();
+
+        if (! is_dir(dirname($cachedPath))) {
+            mkdir(dirname($cachedPath), 0700, true);
+        }
+
+        $cmd = sprintf('git show :%s > %s', $file->getRelativePath(), $cachedPath);
+        $process = new Process($cmd);
+        $process->run();
+
+        $file->setCachedPath($cachedPath);
+
+        return $file;
     }
 }
