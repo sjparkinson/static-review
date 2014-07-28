@@ -11,6 +11,7 @@ env:
   - secure: "alM2WV/Izn08ffFO+nOvmrYbth/uPpvBdq2wjsUngGSM0hKXKFOWcEQwNxVxdj+9Y+Qisc28X1Ok1hFKKunzm5KMfsPSZ8NX5bLyDNUFy4aqoLSuvy8fNGyyz7ue8XnMMIinjooFEzUhQRG3bpyI2R2xyBKBeOMud6SQL4mIEtY="
 
 before_script:
+  - composer self-update
   - composer install --dev --no-interaction --prefer-source --optimize-autoloader
   - mkdir -p build/logs
 
