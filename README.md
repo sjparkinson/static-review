@@ -8,7 +8,7 @@ StaticReview
 
 An extendable framework for version control hooks.
 
-![StaticReview Success Demo](http://i.imgur.com/8G3uORp.gif)
+![StaticReview Success Demo]i(http://i.imgur.com/8G3uORp.gif)
 
 [travis]:      https://travis-ci.org/sjparkinson/static-review
 [packagist]:   https://packagist.org/packages/sjparkinson/static-review
