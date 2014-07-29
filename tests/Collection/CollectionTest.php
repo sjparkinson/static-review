@@ -55,7 +55,7 @@ class CollectionTest extends TestCase
 
     public function testAppendWithValidItem()
     {
-        $this->collection->shouldReceive('validate')->once()->andReturn(true);
+        $this->collection->shouldReceive('validate')->twice()->andReturn(true);
 
         $item = 'Test';
 
@@ -63,6 +63,11 @@ class CollectionTest extends TestCase
 
         $this->assertCount(1, $this->collection);
         $this->assertEquals($item, $this->collection->current());
+
+        $this->collection->append($item);
+
+        $this->assertCount(2, $this->collection);
+        $this->assertEquals($item, $this->collection->next());
     }
 
     /**
@@ -77,5 +82,18 @@ class CollectionTest extends TestCase
         $this->collection->append($item);
 
         $this->assertCount(0, $this->collection);
+    }
+
+    public function testToString()
+    {
+        $this->collection->shouldReceive('validate')->twice()->andReturn(true);
+
+        $item = 'Test';
+
+        $this->collection->append($item);
+        $this->assertStringEndsWith('(1)', (string) $this->collection);
+
+        $this->collection->append($item);
+        $this->assertStringEndsWith('(2)', (string) $this->collection);
     }
 }

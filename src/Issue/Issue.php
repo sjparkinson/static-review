@@ -48,10 +48,10 @@ class Issue implements IssueInterface
         ReviewInterface $review,
         FileInterface $file
     ) {
-        $this->level     = $level;
-        $this->message   = $message;
-        $this->review    = $review;
-        $this->file      = $file;
+        $this->level   = $level;
+        $this->message = $message;
+        $this->review  = $review;
+        $this->file    = $file;
     }
 
     /**

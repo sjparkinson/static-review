@@ -1,6 +1,7 @@
 # Project Files & Folders #
 ###########################
 composer.lock
+.vagrant/
 vendor/
 build/
 

@@ -49,7 +49,9 @@ class IssueCollectionTest extends TestCase
 
         $this->collection->append($issue);
 
-        $issues = $this->collection->select(function () { return true; });
+        $filter = function() { return true; };
+
+        $issues = $this->collection->select($filter);
 
         $this->assertCount(1, $issues);
     }
@@ -60,8 +62,17 @@ class IssueCollectionTest extends TestCase
 
         $this->collection->append($issue);
 
-        $issues = $this->collection->select(function () { return false; });
+        $filter = function() { return false; };
+
+        $issues = $this->collection->select($filter);
 
         $this->assertCount(0, $issues);
+    }
+
+    public function testSelectWithEmptyCollection()
+    {
+        $filter = function() { return true; };
+
+        $this->assertEquals(new IssueCollection(), $this->collection->select($filter));
     }
 }

@@ -49,7 +49,9 @@ class ReviewCollectionTest extends TestCase
 
         $this->collection->append($review);
 
-        $reviews = $this->collection->select(function () { return true; });
+        $filter = function() { return true; };
+
+        $reviews = $this->collection->select($filter);
 
         $this->assertCount(1, $reviews);
     }
@@ -60,8 +62,17 @@ class ReviewCollectionTest extends TestCase
 
         $this->collection->append($review);
 
-        $reviews = $this->collection->select(function () { return false; });
+        $filter = function() { return false; };
+
+        $reviews = $this->collection->select($filter);
 
         $this->assertCount(0, $reviews);
+    }
+
+    public function testSelectWithEmptyCollection()
+    {
+        $filter = function() { return true; };
+
+        $this->assertEquals(new ReviewCollection(), $this->collection->select($filter));
     }
 }

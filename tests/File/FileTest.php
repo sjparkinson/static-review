@@ -50,11 +50,42 @@ class FileTests extends TestCase
         $this->assertEquals($this->filePath, $this->file->getRelativePath());
     }
 
-    public function testGetFullPath()
+    public function testGetFullPathWithNoCachedPath()
     {
         $expected = $this->projectPath . '/' . $this->filePath;
 
         $this->assertEquals($expected, $this->file->getFullPath());
+    }
+
+    public function testGetFullPathWithCachedPath()
+    {
+        $path = __FILE__;
+
+        $this->file->setCachedPath($path);
+
+        $this->assertEquals($path, $this->file->getFullPath());
+    }
+
+    public function testGetCachedPath()
+    {
+        $this->assertNull($this->file->getCachedPath());
+
+        $path = '/Test';
+
+        $result = $this->file->setCachedPath($path);
+
+        $this->assertEquals($path, $this->file->getCachedPath());
+    }
+
+    public function testSetCachedPath()
+    {
+        $this->assertNull($this->file->getCachedPath());
+
+        $path = '/Test';
+
+        $this->assertEquals($this->file,  $this->file->setCachedPath($path));
+
+        $this->assertEquals($path, $this->file->getCachedPath());
     }
 
     public function testGetExtension()
