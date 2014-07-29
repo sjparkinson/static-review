@@ -42,8 +42,7 @@ Otherwise, if you don't use composer...
 $ git clone https://github.com/sjparkinson/static-review.git
 $ cd static-review/
 $ composer install --no-dev --optimize-autoloader
-$ ln -s ~/.../static-review/hooks/php-pre-commit.php ~/.../.git/hooks/pre-commit
-$ chmod a+x ~/.../.git/hooks/pre-commit
+$ bin/static-review.php hook:install example-pre-commit ~/.../.git/hooks/pre-commit
 ```
 
 [composer]: https://getcomposer.org/
