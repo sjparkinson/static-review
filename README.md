@@ -119,6 +119,17 @@ $ composer install --dev --optimize-autoloader
 $ vendor/bin/phpunit
 ```
 
+## Vagrant
+
+See http://www.vagrantup.com/.
+
+```bash
+$ vagrant up
+$ vagrant ssh
+...
+$ cd /srv
+```
+
 ## Licence
 
 The content of this library is released under the [MIT License][licence] by [Samuel Parkinson][twitter].
