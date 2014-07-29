@@ -1,4 +1,3 @@
 * text=auto
 
 /.travis.yml export-ignore
-/CONTRIBUTING.md export-ignore
