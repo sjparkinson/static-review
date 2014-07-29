@@ -20,12 +20,25 @@ use StaticReview\Issue\Issue;
 
 class HelperTests extends TestCase
 {
-    public function testGetColourString()
+    public function testGetColourStringWithoutColour()
     {
         $testString = 'Test String';
 
+        $result = Helper::getColourString($testString);
+
+        $this->assertTrue(strpos($result, $testString) === 0);
+
         $result = Helper::getColourString($testString, null);
 
-        $this->assertTrue(strpos($result, $testString) !== false);
+        $this->assertTrue(strpos($result, $testString) === 0);
+    }
+
+    public function testGetColourStringWithColour()
+    {
+        $testString = 'Test String';
+
+        $result = Helper::getColourString($testString, 'red');
+
+        $this->assertTrue(strpos($result, $testString) !== 0);
     }
 }

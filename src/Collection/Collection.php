@@ -30,6 +30,33 @@ abstract class Collection implements Iterator, Countable
     }
 
     /**
+     * Method should throw an InvalidArgumentException if $item is not the
+     * expected type.
+     *
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    public abstract function validate($item);
+
+    /**
+     * @param callable $filter
+     * @return Collection
+     */
+    public abstract function select(callable $filter);
+
+    /**
+     * @return Collection
+     */
+    public function append($item)
+    {
+        $this->validate($item);
+
+        $this->collection[] = $item;
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function count()
@@ -86,28 +113,4 @@ abstract class Collection implements Iterator, Countable
     {
         return sprintf('%s(%s)', get_class($this), $this->count());
     }
-
-    /**
-     * @return Collection
-     */
-    public function append($item)
-    {
-        $this->validate($item);
-
-        $this->collection[] = $item;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     * @throws InvalidArgumentException
-     */
-    public abstract function validate($item);
-
-    /**
-     * @param callable $filter
-     * @return Collection
-     */
-    public abstract function select(callable $filter);
 }
