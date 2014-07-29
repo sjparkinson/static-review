@@ -112,23 +112,21 @@ class NoCommitTagReview extends AbstractReview
 
 ## Unit Tests
 
+See [vagrantup.com][vagrant] and [phpunit.de][phpunit].
+
 ```bash
 $ git clone https://github.com/sjparkinson/static-review.git
 $ cd static-review/
-$ composer install --dev --optimize-autoloader
-$ vendor/bin/phpunit
-```
-
-## Vagrant
-
-See http://www.vagrantup.com/.
-
-```bash
 $ vagrant up
 $ vagrant ssh
 ...
 $ cd /srv
+$ composer install --dev --optimize-autoloader
+$ vendor/bin/phpunit
 ```
+
+[vagrant]: https://www.vagrantup.com
+[phpunit]: http://phpunit.de
 
 ## Licence
 
