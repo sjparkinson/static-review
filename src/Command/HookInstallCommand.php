@@ -27,7 +27,7 @@ class HookInstallCommand extends Command
 
         $this->setDescription('Symlink a hook to the given target.');
 
-        $this->addArgument('hook', InputArgument::REQUIRED, 'The hook to link.')
+        $this->addArgument('hook', InputArgument::REQUIRED, 'The hook to link, either a path to a file or the filename of a hook in the hooks folder.')
              ->addArgument('target', InputArgument::REQUIRED, 'The target location, including the filename (e.g. .git/hooks/pre-commit).');
 
         $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Overrite any existing files at the symlink target.');
@@ -35,9 +35,16 @@ class HookInstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $hooksPath = realpath(__DIR__ . '/../../hooks/');
+        $source = realpath(__DIR__ . '/../../hooks/') . '/' . $input->getArgument('hook') . '.php';
 
-        $source = $hooksPath . '/' . $input->getArgument('hook') . '.php';
+        if (! file_exists($source) && file_exists($input->getArgument('hook'))) {
+            $source = $input->getArgument('hook');
+        } else {
+            $error = sprintf('<error>The hook %s does not exist!</error>', $input->getArgument('hook'));
+            $output->writeln($error);
+            exit(1);
+        }
+
         $target = $input->getArgument('target');
         $force  = $input->getOption('force');
 
