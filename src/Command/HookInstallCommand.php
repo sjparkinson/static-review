@@ -49,6 +49,7 @@ class HookInstallCommand extends Command
         if (file_exists($source)
             && (! file_exists($target) || $force)) {
             symlink($source, $target);
+            chmod($target, 0755);
             $output->writeln('Symlink created.');
         } else {
             $output->writeln('<error>A file at the target already exists.</error>');
