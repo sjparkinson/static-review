@@ -6,7 +6,7 @@ php:
   - 5.6
   - hhvm
   - hhvm-nightly
-  
+
 addons:
   code_climate:
     repo_token: db3a9d5167930c783c659b6a713719a2f4b7fac416d579c024fbfce876c30c11

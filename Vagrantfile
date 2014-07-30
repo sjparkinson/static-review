@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# @see https://www.vagrantup.com
+
 Vagrant.configure("2") do |config|
 
   # Box
