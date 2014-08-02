@@ -4,7 +4,6 @@ composer.lock
 *.sublime-*
 .vagrant/
 vendor/
-build/
 
 # OS Generated Files #
 ######################

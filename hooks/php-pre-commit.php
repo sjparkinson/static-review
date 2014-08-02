@@ -33,7 +33,8 @@ $review = new StaticReview($reporter);
 $review->addReview(new LineEndingsReview)
        ->addReview(new PhpLeadingLineReview)
        ->addReview(new NoCommitTagReview)
-       ->addReview(new PhpLintReview);
+       ->addReview(new PhpLintReview)
+       ->addReview(new ComposerConfigReview);
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 

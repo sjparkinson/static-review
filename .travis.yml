@@ -9,11 +9,11 @@ php:
 
 cache:
   directories:
-    - ./vendor
+    - vendor/
 
 before_script:
   - composer self-update
   - composer install --no-interaction --optimize-autoloader
 
 script:
-  - ./vendor/bin/phpunit
+  - vendor/bin/phpunit
