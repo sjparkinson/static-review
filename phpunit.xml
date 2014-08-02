@@ -9,7 +9,7 @@
     <!-- Test suites -->
     <testsuites>
         <testsuite name="unit">
-            <directory suffix="Test.php">tests/</directory>
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
 
@@ -22,8 +22,9 @@
 
     <!-- Coverage reporting -->
     <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml" />
-        <log type="coverage-text" target="php://stdout" />
+        <log
+            type="coverage-text"
+            target="php://stdout" />
     </logging>
 
 </phpunit>

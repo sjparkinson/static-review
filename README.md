@@ -9,16 +9,16 @@ An extendable framework for version control hooks.
 
 ![StaticReview Success Demo](http://i.imgur.com/8G3uORp.gif)
 
-[travis]:      https://travis-ci.org/sjparkinson/static-review
-[packagist]:   https://packagist.org/packages/sjparkinson/static-review
-[php]:         https://php.net/
+[travis]:    https://travis-ci.org/sjparkinson/static-review
+[packagist]: https://packagist.org/packages/sjparkinson/static-review
+[php]:       https://php.net/
 
 ## Usage
 
 Within a [composer][composer] managed project you can simply do the following...
 
 ```bash
-$ composer require sjparkinson/static-review:~1.1
+$ composer require sjparkinson/static-review:~1.0
 $ vendor/bin/static-review.php list hook
 ```
 

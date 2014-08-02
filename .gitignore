@@ -1,6 +1,7 @@
 # Project Files & Folders #
 ###########################
 composer.lock
+*.sublime-*
 .vagrant/
 vendor/
 build/

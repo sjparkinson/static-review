@@ -12,8 +12,8 @@
 
 namespace StaticReview\Tests\Review\Config;
 
-use \Mockery;
-use \PHPUnit_Framework_TestCase as TestCase;
+use Mockery;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class ComposerConfigReviewTest extends TestCase
 {

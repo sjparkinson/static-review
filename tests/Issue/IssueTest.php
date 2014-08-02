@@ -12,10 +12,10 @@
 
 namespace StaticReview\Tests\Issue;
 
-use \Mockery;
-use \PHPUnit_Framework_TestCase as TestCase;
-
 use StaticReview\Issue\Issue;
+
+use Mockery;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class IssueTest extends TestCase
 {

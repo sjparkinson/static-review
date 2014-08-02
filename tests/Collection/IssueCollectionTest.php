@@ -12,10 +12,11 @@
 
 namespace StaticReview\Tests\Collection;
 
-use \Mockery;
-use \PHPUnit_Framework_TestCase as TestCase;
-
+use StaticReview\Issue\Issue;
 use StaticReview\Collection\IssueCollection;
+
+use Mockery;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class IssueCollectionTest extends TestCase
 {
@@ -26,7 +27,7 @@ class IssueCollectionTest extends TestCase
         $this->collection = new IssueCollection();
     }
 
-    public function testValidate()
+    public function testValidateWithValidObject()
     {
         $object = Mockery::mock('StaticReview\Issue\IssueInterface');
 
@@ -74,5 +75,30 @@ class IssueCollectionTest extends TestCase
         $filter = function() { return true; };
 
         $this->assertEquals(new IssueCollection(), $this->collection->select($filter));
+    }
+
+    public function testForLevelWithMatchingLevel()
+    {
+        $issue = Mockery::mock('StaticReview\Issue\IssueInterface');
+        $issue->shouldReceive('matches')->once()->andReturn(true);
+
+        $this->collection->append($issue);
+
+        $issues = $this->collection->forLevel(Issue::LEVEL_INFO);
+
+        $this->assertCount(1, $issues);
+        $this->assertEquals($issue, $issues->current());
+    }
+
+    public function testForLevelWithNonMatchingLevel()
+    {
+        $issue = Mockery::mock('StaticReview\Issue\IssueInterface');
+        $issue->shouldReceive('matches')->once()->andReturn(false);
+
+        $this->collection->append($issue);
+
+        $issues = $this->collection->forLevel(Issue::LEVEL_INFO);
+
+        $this->assertCount(0, $issues);
     }
 }

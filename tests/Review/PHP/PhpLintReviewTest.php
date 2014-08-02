@@ -12,8 +12,8 @@
 
 namespace StaticReview\Tests\Review\PHP;
 
-use \Mockery;
-use \PHPUnit_Framework_TestCase as TestCase;
+use Mockery;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class PhpLintReviewTest extends TestCase
 {

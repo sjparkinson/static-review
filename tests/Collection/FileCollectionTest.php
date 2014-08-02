@@ -12,10 +12,10 @@
 
 namespace StaticReview\Tests\Collection;
 
-use \Mockery;
-use \PHPUnit_Framework_TestCase as TestCase;
-
 use StaticReview\Collection\FileCollection;
+
+use Mockery;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class FileCollectionTest extends TestCase
 {
@@ -26,7 +26,7 @@ class FileCollectionTest extends TestCase
         $this->collection = new FileCollection();
     }
 
-    public function testValidate()
+    public function testValidateWithValidObject()
     {
         $object = Mockery::mock('StaticReview\File\FileInterface');
 
