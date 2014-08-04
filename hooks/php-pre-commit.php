@@ -24,6 +24,7 @@ use StaticReview\Review\General\LineEndingsReview;
 use StaticReview\Review\General\NoCommitTagReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
+use StaticReview\Review\Config\ComposerConfigReview;
 
 $reporter = new Reporter();
 
