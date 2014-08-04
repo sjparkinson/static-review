@@ -12,10 +12,10 @@
 
 namespace StaticReview\Tests\Collection;
 
-use \Mockery;
-use \PHPUnit_Framework_TestCase as TestCase;
-
 use StaticReview\Collection\ReviewCollection;
+
+use Mockery;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class ReviewCollectionTest extends TestCase
 {
@@ -26,7 +26,7 @@ class ReviewCollectionTest extends TestCase
         $this->collection = new ReviewCollection();
     }
 
-    public function testValidate()
+    public function testValidateWithValidObject()
     {
         $object = Mockery::mock('StaticReview\Review\ReviewInterface');
 
@@ -74,5 +74,34 @@ class ReviewCollectionTest extends TestCase
         $filter = function() { return true; };
 
         $this->assertEquals(new ReviewCollection(), $this->collection->select($filter));
+    }
+
+    public function testForFileWithMatchingFile()
+    {
+        $review = Mockery::mock('StaticReview\Review\ReviewInterface');
+        $review->shouldReceive('canReview')->once()->andReturn(true);
+
+        $file = Mockery::mock('StaticReview\File\FileInterface');
+
+        $this->collection->append($review);
+
+        $reviews = $this->collection->forFile($file);
+
+        $this->assertCount(1, $reviews);
+        $this->assertEquals($review, $reviews->current());
+    }
+
+    public function testForFileWithNonMatchingFile()
+    {
+        $review = Mockery::mock('StaticReview\Review\ReviewInterface');
+        $review->shouldReceive('canReview')->once()->andReturn(false);
+
+        $file = Mockery::mock('StaticReview\File\FileInterface');
+
+        $this->collection->append($review);
+
+        $reviews = $this->collection->forFile($file);
+
+        $this->assertCount(0, $reviews);
     }
 }

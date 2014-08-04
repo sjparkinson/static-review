@@ -27,39 +27,63 @@ class HookInstallCommand extends Command
 
         $this->setDescription('Symlink a hook to the given target.');
 
-        $this->addArgument('hook', InputArgument::REQUIRED, 'The hook to link, either a path to a file or the filename of a hook in the hooks folder.')
-             ->addArgument('target', InputArgument::REQUIRED, 'The target location, including the filename (e.g. .git/hooks/pre-commit).');
+        $this->addArgument('target', InputArgument::REQUIRED, 'The hook to link, either a path to a file or the filename of a hook in the hooks folder.')
+             ->addArgument('link', InputArgument::REQUIRED, 'The target location, including the filename (e.g. .git/hooks/pre-commit).');
 
         $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Overrite any existing files at the symlink target.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $source = realpath(__DIR__ . '/../../hooks/') . '/' . $input->getArgument('hook') . '.php';
+        $force  = $input->getOption('force');
+        $target = $this->getTargetPath($input);
+        $link   = $input->getArgument('link');
 
-        if (! file_exists($source) && file_exists($input->getArgument('hook'))) {
-            $source = $input->getArgument('hook');
+        if ($output->isVeryVerbose()) {
+            $message = sprintf('<info>Using %s for the hook target.</info>', $target);
+            $output->writeln($message);
+
+            $message = sprintf('<info>Using %s for the hook path.</info>', $link);
+            $output->writeln($message);
+        }
+
+        if (file_exists($link) && $force) {
+            unlink($link);
+
+            $message = sprintf('<info>Removed existing file at %s.</info>', $link);
+            $output->writeln($message);
+        }
+
+        if (! file_exists($link) || $force) {
+            symlink($target, $link);
+            chmod($link, 0755);
+            $output->writeln('Symlink created.');
         } else {
-            $error = sprintf('<error>The hook %s does not exist!</error>', $input->getArgument('hook'));
+            $message = sprintf('<error>A file at %s already exists.</error>', $link);
+            $output->writeln($message);
+            exit(1);
+        }
+    }
+
+    /**
+     * @param $input InputInterface
+     * @return string
+     */
+    protected function getTargetPath(InputInterface $input)
+    {
+        if (file_exists($input->getArgument('target'))) {
+            $target = realpath($input->getArgument('target'));
+        } else {
+            $path = '%s/%s.php';
+            $target = sprintf($path, realpath(__DIR__ . '/../../hooks/'), $input->getArgument('target'));
+        }
+
+        if (! file_exists($target)) {
+            $error = sprintf('<error>The hook %s does not exist!</error>', $target);
             $output->writeln($error);
             exit(1);
         }
 
-        $target = $input->getArgument('target');
-        $force  = $input->getOption('force');
-
-        if ($force && file_exists($target)) {
-            unlink($target);
-            $output->writeln('Removed existing file.');
-        }
-
-        if (file_exists($source)
-            && (! file_exists($target) || $force)) {
-            symlink($source, $target);
-            chmod($target, 0755);
-            $output->writeln('Symlink created.');
-        } else {
-            $output->writeln('<error>A file at the target already exists.</error>');
-        }
+        return $target;
     }
 }

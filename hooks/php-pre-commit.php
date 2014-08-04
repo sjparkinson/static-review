@@ -24,6 +24,7 @@ use StaticReview\Review\General\LineEndingsReview;
 use StaticReview\Review\General\NoCommitTagReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
+use StaticReview\Review\Config\ComposerConfigReview;
 
 $reporter = new Reporter();
 
@@ -33,7 +34,8 @@ $review = new StaticReview($reporter);
 $review->addReview(new LineEndingsReview)
        ->addReview(new PhpLeadingLineReview)
        ->addReview(new NoCommitTagReview)
-       ->addReview(new PhpLintReview);
+       ->addReview(new PhpLintReview)
+       ->addReview(new ComposerConfigReview);
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 

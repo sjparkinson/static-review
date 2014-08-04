@@ -12,11 +12,11 @@
 
 namespace StaticReview\Tests;
 
-use \Mockery;
-use \PHPUnit_Framework_TestCase as TestCase;
-
 use StaticReview\Helper;
 use StaticReview\Issue\Issue;
+
+use Mockery;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class HelperTests extends TestCase
 {
