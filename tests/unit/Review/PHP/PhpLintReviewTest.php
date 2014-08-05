@@ -10,18 +10,21 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\Review\Config;
+namespace StaticReview\Test\Unit\Review\PHP;
 
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
-class ComposerConfigReviewTest extends TestCase
+class PhpLintReviewTest extends TestCase
 {
+    protected $file;
+
     protected $review;
 
     public function setUp()
     {
-        $this->review = Mockery::mock('StaticReview\Review\Config\ComposerConfigReview[getProcess]');
+        $this->file   = Mockery::mock('StaticReview\File\FileInterface');
+        $this->review = Mockery::mock('StaticReview\Review\PHP\PhpLintReview[getProcess]');
     }
 
     public function tearDown()
@@ -31,31 +34,25 @@ class ComposerConfigReviewTest extends TestCase
 
     public function testCanReview()
     {
-        $composerFile = Mockery::mock('StaticReview\File\FileInterface');
-        $composerFile->shouldReceive('getFileName')->once()->andReturn('composer.json');
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
-        $this->assertTrue($this->review->canReview($composerFile));
-
-        $normalFile = Mockery::mock('StaticReview\File\FileInterface');
-        $normalFile->shouldReceive('getFileName')->once()->andReturn('somefile.php');
-
-        $this->assertFalse($this->review->canReview($normalFile));
+        $this->assertTrue($this->review->canReview($this->file));
     }
 
     public function testReview()
     {
-        $composerFile = Mockery::mock('StaticReview\File\FileInterface');
-        $composerFile->shouldReceive('getFullPath')->once()->andReturn('/some/path/composer.json');
+        $this->file->shouldReceive('getFullPath')->twice()->andReturn(__FILE__);
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->once()->andReturn(false);
+        $process->shouldReceive('getOutput')->once()->andReturn('Parse error: syntax error, test in ' . __FILE__ . PHP_EOL . 'test' . PHP_EOL);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
         $reporter->shouldReceive('error')->once();
 
-        $this->review->review($reporter, $composerFile);
+        $this->review->review($reporter, $this->file);
     }
 }

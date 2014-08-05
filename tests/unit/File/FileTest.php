@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\Classes;
+namespace StaticReview\Test\Unit\Classes;
 
 use StaticReview\File\File;
 

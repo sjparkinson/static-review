@@ -13,7 +13,7 @@ cache:
 
 before_script:
   - composer self-update
-  - composer install --no-interaction --optimize-autoloader
+  - composer install --no-interaction --optimize-autoloader --prefer-source
 
 script:
   - vendor/bin/phpunit

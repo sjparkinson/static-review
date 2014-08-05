@@ -26,7 +26,8 @@
 
     "autoload-dev": {
         "psr-4": {
-            "StaticReview\\Tests\\": "tests/"
+            "StaticReview\\Test\\Unit\\": "tests/unit/",
+            "StaticReview\\Test\\Functional\\": "tests/functional/"
         }
     },
 

@@ -21,29 +21,34 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class HookInstallCommand extends Command
 {
+    const ARGUMENT_TARGET = 'target';
+    const ARGUMENT_LINK   = 'link';
+
     protected function configure()
     {
         $this->setName('hook:install');
 
         $this->setDescription('Symlink a hook to the given target.');
 
-        $this->addArgument('target', InputArgument::REQUIRED, 'The hook to link, either a path to a file or the filename of a hook in the hooks folder.')
-             ->addArgument('link', InputArgument::REQUIRED, 'The target location, including the filename (e.g. .git/hooks/pre-commit).');
+        $this->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'The hook to link, either a path to a file or the filename of a hook in the hooks folder.')
+             ->addArgument(self::ARGUMENT_LINK, InputArgument::REQUIRED, 'The target location, including the filename (e.g. .git/hooks/pre-commit).');
 
         $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Overrite any existing files at the symlink target.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $hookArgument = $input->getArgument(self::ARGUMENT_HOOK);
+
+        $path   = $this->getTargetPath($hookArgument);
+        $link   = $input->getArgument(self::ARGUMENT_LINK);
         $force  = $input->getOption('force');
-        $target = $this->getTargetPath($input);
-        $link   = $input->getArgument('link');
 
         if ($output->isVeryVerbose()) {
             $message = sprintf('<info>Using %s for the hook target.</info>', $target);
             $output->writeln($message);
 
-            $message = sprintf('<info>Using %s for the hook path.</info>', $link);
+            $message = sprintf('<info>Using %s for the hook.</info>', $link);
             $output->writeln($message);
         }
 
@@ -66,16 +71,16 @@ class HookInstallCommand extends Command
     }
 
     /**
-     * @param $input InputInterface
+     * @param $hookArgument string
      * @return string
      */
-    protected function getTargetPath(InputInterface $input)
+    protected function getTargetPath($hookArgument)
     {
-        if (file_exists($input->getArgument('target'))) {
-            $target = realpath($input->getArgument('target'));
+        if (file_exists($hookArgument)) {
+            $target = realpath($hookArgument);
         } else {
             $path = '%s/%s.php';
-            $target = sprintf($path, realpath(__DIR__ . '/../../hooks/'), $input->getArgument('target'));
+            $target = sprintf($path, realpath(__DIR__ . '/../../hooks/'), $hookArgument);
         }
 
         if (! file_exists($target)) {
