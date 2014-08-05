@@ -38,9 +38,9 @@ class HookInstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $hookArgument = $input->getArgument(self::ARGUMENT_HOOK);
+        $hookArgument = $input->getArgument(self::ARGUMENT_TARGET);
 
-        $path   = $this->getTargetPath($hookArgument);
+        $target = $this->getTargetPath($hookArgument);
         $link   = $input->getArgument(self::ARGUMENT_LINK);
         $force  = $input->getOption('force');
 
