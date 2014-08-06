@@ -88,7 +88,7 @@ class ReviewCollectionTest extends TestCase
         $reviews = $this->collection->forFile($file);
 
         $this->assertCount(1, $reviews);
-        $this->assertEquals($review, $reviews->current());
+        $this->assertSame($review, $reviews->current());
     }
 
     public function testForFileWithNonMatchingFile()

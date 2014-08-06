@@ -87,7 +87,7 @@ class IssueCollectionTest extends TestCase
         $issues = $this->collection->forLevel(Issue::LEVEL_INFO);
 
         $this->assertCount(1, $issues);
-        $this->assertEquals($issue, $issues->current());
+        $this->assertSame($issue, $issues->current());
     }
 
     public function testForLevelWithNonMatchingLevel()

@@ -45,17 +45,23 @@ class HookInstallCommand extends Command
         $force  = $input->getOption('force');
 
         if ($output->isVeryVerbose()) {
-            $message = sprintf('<info>Using %s for the hook target.</info>', $target);
+            $message = sprintf('<info>Using %s for the install path.</info>', $link);
             $output->writeln($message);
 
-            $message = sprintf('<info>Using %s for the hook.</info>', $link);
+            $message = sprintf('<info>Using %s as the hook.</info>', $target);
             $output->writeln($message);
+        }
+
+        if (! is_dir(dirname($link))) {
+            $message = sprintf('<error>The directory at %s does not exist.</error>', $link);
+            $output->writeln($message);
+            exit(1);
         }
 
         if (file_exists($link) && $force) {
             unlink($link);
 
-            $message = sprintf('<info>Removed existing file at %s.</info>', $link);
+            $message = sprintf('<comment>Removed existing file at %s.</comment>', $link);
             $output->writeln($message);
         }
 

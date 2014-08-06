@@ -42,19 +42,19 @@ class FileTests extends TestCase
     {
         $expected = 'file.php';
 
-        $this->assertEquals($expected, $this->file->getFileName());
+        $this->assertSame($expected, $this->file->getFileName());
     }
 
     public function testGetRelativePath()
     {
-        $this->assertEquals($this->filePath, $this->file->getRelativePath());
+        $this->assertSame($this->filePath, $this->file->getRelativePath());
     }
 
     public function testGetFullPathWithNoCachedPath()
     {
         $expected = $this->projectPath . '/' . $this->filePath;
 
-        $this->assertEquals($expected, $this->file->getFullPath());
+        $this->assertSame($expected, $this->file->getFullPath());
     }
 
     public function testGetFullPathWithCachedPath()
@@ -63,7 +63,7 @@ class FileTests extends TestCase
 
         $this->file->setCachedPath($path);
 
-        $this->assertEquals($path, $this->file->getFullPath());
+        $this->assertSame($path, $this->file->getFullPath());
     }
 
     public function testGetCachedPath()
@@ -74,7 +74,7 @@ class FileTests extends TestCase
 
         $result = $this->file->setCachedPath($path);
 
-        $this->assertEquals($path, $this->file->getCachedPath());
+        $this->assertSame($path, $this->file->getCachedPath());
     }
 
     public function testSetCachedPath()
@@ -83,21 +83,21 @@ class FileTests extends TestCase
 
         $path = '/Test';
 
-        $this->assertEquals($this->file,  $this->file->setCachedPath($path));
+        $this->assertSame($this->file,  $this->file->setCachedPath($path));
 
-        $this->assertEquals($path, $this->file->getCachedPath());
+        $this->assertSame($path, $this->file->getCachedPath());
     }
 
     public function testGetExtension()
     {
         $expected = pathinfo($this->filePath, PATHINFO_EXTENSION);
 
-        $this->assertEquals($expected, $this->file->getExtension());
+        $this->assertSame($expected, $this->file->getExtension());
     }
 
     public function testGetStatus()
     {
-        $this->assertEquals($this->fileStatus, $this->file->getStatus());
+        $this->assertSame($this->fileStatus, $this->file->getStatus());
     }
 
     public function testGetFormattedStatus()

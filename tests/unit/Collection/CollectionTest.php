@@ -40,7 +40,7 @@ class CollectionTest extends TestCase
         $this->collection->__construct($items);
 
         for ($i = 0; $i > count($this->collection); $i++) {
-            $this->assertEquals($items[$i], $this->collection[$i]);
+            $this->assertSame($items[$i], $this->collection[$i]);
         }
     }
 
@@ -62,12 +62,12 @@ class CollectionTest extends TestCase
         $this->collection->append($item);
 
         $this->assertCount(1, $this->collection);
-        $this->assertEquals($item, $this->collection->current());
+        $this->assertSame($item, $this->collection->current());
 
         $this->collection->append($item);
 
         $this->assertCount(2, $this->collection);
-        $this->assertEquals($item, $this->collection->next());
+        $this->assertSame($item, $this->collection->next());
     }
 
     /**

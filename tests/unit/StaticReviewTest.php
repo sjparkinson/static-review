@@ -42,16 +42,16 @@ class StaticReviewTests extends TestCase
 
     public function testGetReporter()
     {
-        $this->assertEquals($this->reporter, $this->staticReview->getReporter());
+        $this->assertSame($this->reporter, $this->staticReview->getReporter());
     }
 
     public function testSetReporter()
     {
         $newReporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
 
-        $this->assertEquals($this->staticReview, $this->staticReview->setReporter($newReporter));
+        $this->assertSame($this->staticReview, $this->staticReview->setReporter($newReporter));
 
-        $this->assertEquals($newReporter, $this->staticReview->getReporter());
+        $this->assertSame($newReporter, $this->staticReview->getReporter());
     }
 
     public function testGetReviews()
@@ -67,7 +67,7 @@ class StaticReviewTests extends TestCase
     {
         $this->assertCount(0, $this->staticReview->getReviews());
 
-        $this->assertEquals($this->staticReview, $this->staticReview->addReview($this->review));
+        $this->assertSame($this->staticReview, $this->staticReview->addReview($this->review));
         $this->assertCount(1, $this->staticReview->getReviews());
     }
 
@@ -77,7 +77,7 @@ class StaticReviewTests extends TestCase
 
         $reviews = new ReviewCollection([$this->review, $this->review]);
 
-        $this->assertEquals($this->staticReview, $this->staticReview->addReviews($reviews));
+        $this->assertSame($this->staticReview, $this->staticReview->addReviews($reviews));
         $this->assertCount(2, $this->staticReview->getReviews());
     }
 
@@ -94,6 +94,6 @@ class StaticReviewTests extends TestCase
 
         $this->staticReview->addReviews($reviews);
 
-        $this->assertEquals($this->staticReview, $this->staticReview->review($files));
+        $this->assertSame($this->staticReview, $this->staticReview->review($files));
     }
 }

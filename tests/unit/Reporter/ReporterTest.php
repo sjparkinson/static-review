@@ -49,7 +49,7 @@ class ReporterTest extends TestCase
 
         $this->assertCount(1, $issues);
 
-        $this->assertEquals(Issue::LEVEL_INFO, $issues->current()->getLevel());
+        $this->assertSame(Issue::LEVEL_INFO, $issues->current()->getLevel());
     }
 
     public function testWarning()
@@ -60,7 +60,7 @@ class ReporterTest extends TestCase
 
         $this->assertCount(1, $issues);
 
-        $this->assertEquals(Issue::LEVEL_WARNING, $issues->current()->getLevel());
+        $this->assertSame(Issue::LEVEL_WARNING, $issues->current()->getLevel());
     }
 
     public function testError()
@@ -71,7 +71,7 @@ class ReporterTest extends TestCase
 
         $this->assertCount(1, $issues);
 
-        $this->assertEquals(Issue::LEVEL_ERROR, $issues->current()->getLevel());
+        $this->assertSame(Issue::LEVEL_ERROR, $issues->current()->getLevel());
     }
 
     public function testHasIssues()
@@ -101,7 +101,7 @@ class ReporterTest extends TestCase
         $this->assertCount(3, $this->reporter->getIssues());
 
         foreach($this->reporter->getIssues() as $issue) {
-            $this->assertEquals('Test', $issue->getMessage());
+            $this->assertSame('Test', $issue->getMessage());
         }
     }
 }
