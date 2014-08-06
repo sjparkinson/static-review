@@ -8,7 +8,10 @@
     <!-- Test suites -->
     <testsuites>
         <testsuite name="unit">
-            <directory>tests/</directory>
+            <directory>tests/unit</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>tests/functional</directory>
         </testsuite>
     </testsuites>
 

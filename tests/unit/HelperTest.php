@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests;
+namespace StaticReview\Test\Unit;
 
 use StaticReview\Helper;
 use StaticReview\Issue\Issue;

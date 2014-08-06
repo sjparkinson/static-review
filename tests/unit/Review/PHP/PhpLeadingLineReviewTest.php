@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\Review\PHP;
+namespace StaticReview\Test\Unit\Review\PHP;
 
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;

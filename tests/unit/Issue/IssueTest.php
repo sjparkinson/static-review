@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\Issue;
+namespace StaticReview\Test\Unit\Issue;
 
 use StaticReview\Issue\Issue;
 
@@ -51,22 +51,22 @@ class IssueTest extends TestCase
 
     public function testGetLevel()
     {
-        $this->assertEquals($this->issueLevel, $this->issue->getLevel());
+        $this->assertSame($this->issueLevel, $this->issue->getLevel());
     }
 
     public function testGetMessage()
     {
-        $this->assertEquals($this->issueMessage, $this->issue->getMessage());
+        $this->assertSame($this->issueMessage, $this->issue->getMessage());
     }
 
     public function testGetReviewName()
     {
-        $this->assertEquals('ReviewInterface', $this->issue->getReviewName());
+        $this->assertSame('ReviewInterface', $this->issue->getReviewName());
     }
 
     public function testGetFile()
     {
-        $this->assertEquals($this->issueFile, $this->issue->getFile());
+        $this->assertSame($this->issueFile, $this->issue->getFile());
     }
 
     public function testGetLevelName()

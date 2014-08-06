@@ -24,7 +24,7 @@ class HookListCommand extends Command
     {
         $this->setName('hook:list');
 
-        $this->setDescription('Lists all the avaliable hooks.');
+        $this->setDescription('Lists all the included hooks.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

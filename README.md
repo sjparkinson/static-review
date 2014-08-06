@@ -19,10 +19,9 @@ Within a [composer][composer] managed project you can simply do the following...
 
 ```bash
 $ composer require sjparkinson/static-review:~1.0
-$ vendor/bin/static-review.php list hook
 ```
 
-Then you can add one of the hooks to your project like so...
+You can then add one of the hooks to your project like so...
 
 ```bash
 $ vendor/bin/static-review.php hook:install example-pre-commit .git/hooks/pre-commit

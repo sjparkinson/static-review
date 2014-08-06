@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\VersionControl;
+namespace StaticReview\Test\Unit\VersionControl;
 
 use StaticReview\VersionControl\VersionControlFactory;
 

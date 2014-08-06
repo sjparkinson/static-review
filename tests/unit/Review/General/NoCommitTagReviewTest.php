@@ -10,12 +10,12 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\Review\General;
+namespace StaticReview\Test\Unit\Review\General;
 
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
-class LineEndingsReviewTest extends TestCase
+class NoCommitTagReviewTest extends TestCase
 {
     protected $file;
 
@@ -26,7 +26,7 @@ class LineEndingsReviewTest extends TestCase
         $this->file = Mockery::mock('StaticReview\File\FileInterface');
         $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
-        $this->review = Mockery::mock('StaticReview\Review\General\LineEndingsReview[getProcess]');
+        $this->review = Mockery::mock('StaticReview\Review\General\NoCommitTagReview[getProcess]');
     }
 
     public function tearDown()

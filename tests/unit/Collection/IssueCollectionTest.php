@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\Collection;
+namespace StaticReview\Test\Unit\Collection;
 
 use StaticReview\Issue\Issue;
 use StaticReview\Collection\IssueCollection;
@@ -87,7 +87,7 @@ class IssueCollectionTest extends TestCase
         $issues = $this->collection->forLevel(Issue::LEVEL_INFO);
 
         $this->assertCount(1, $issues);
-        $this->assertEquals($issue, $issues->current());
+        $this->assertSame($issue, $issues->current());
     }
 
     public function testForLevelWithNonMatchingLevel()

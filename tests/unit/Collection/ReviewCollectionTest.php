@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Tests\Collection;
+namespace StaticReview\Test\Unit\Collection;
 
 use StaticReview\Collection\ReviewCollection;
 
@@ -88,7 +88,7 @@ class ReviewCollectionTest extends TestCase
         $reviews = $this->collection->forFile($file);
 
         $this->assertCount(1, $reviews);
-        $this->assertEquals($review, $reviews->current());
+        $this->assertSame($review, $reviews->current());
     }
 
     public function testForFileWithNonMatchingFile()
