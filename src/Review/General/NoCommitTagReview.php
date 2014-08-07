@@ -46,7 +46,7 @@ class NoCommitTagReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('grep -Fq "NOCOMMIT" %s', $file->getFullPath());
+        $cmd = sprintf('grep -Fqi "NOCOMMIT" %s', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
