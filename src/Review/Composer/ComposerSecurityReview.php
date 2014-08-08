@@ -43,7 +43,7 @@ class ComposerSecurityReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $executable = 'vendor/sensiolabs/security-checker/security-checker';
+        $executable = 'vendor/bin/security-checker';
 
         $cmd = sprintf('%s security:check %s', $executable, $file->getFullPath());
 

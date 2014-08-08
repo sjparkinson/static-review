@@ -60,7 +60,9 @@ class PhpLintReviewTest extends TestCase
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->once()->andReturn(false);
-        $process->shouldReceive('getOutput')->once()->andReturn('Parse error: syntax error, test in ' . __FILE__ . PHP_EOL . 'test' . PHP_EOL);
+        $process->shouldReceive('getOutput')
+                ->once()
+                ->andReturn('Parse error: syntax error, test in ' . __FILE__ . PHP_EOL . 'test' . PHP_EOL);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 

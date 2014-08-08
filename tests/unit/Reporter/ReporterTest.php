@@ -99,7 +99,7 @@ class ReporterTest extends TestCase
 
         $this->assertCount(3, $this->reporter->getIssues());
 
-        foreach($this->reporter->getIssues() as $issue) {
+        foreach ($this->reporter->getIssues() as $issue) {
             $this->assertSame('Test', $issue->getMessage());
         }
     }

@@ -81,7 +81,7 @@ class FileTest extends TestCase
 
         $path = __DIR__;
 
-        $this->assertSame($this->file,  $this->file->setCachedPath($path));
+        $this->assertSame($this->file, $this->file->setCachedPath($path));
 
         $this->assertSame($path, $this->file->getCachedPath());
     }
@@ -102,7 +102,7 @@ class FileTest extends TestCase
     {
         $statuses = [ 'A', 'C', 'M', 'R' ];
 
-        foreach($statuses as $status) {
+        foreach ($statuses as $status) {
             $file = new File($status, $this->filePath, $this->projectPath);
             $this->assertTrue(is_string($file->getFormattedStatus()));
         }

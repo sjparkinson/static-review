@@ -145,7 +145,7 @@ class File implements FileInterface
      */
     public function getFormattedStatus()
     {
-        switch($this->fileStatus) {
+        switch ($this->fileStatus) {
             case 'A':
                 return 'added';
             case 'C':

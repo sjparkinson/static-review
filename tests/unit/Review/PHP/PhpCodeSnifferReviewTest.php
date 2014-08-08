@@ -15,7 +15,7 @@ namespace StaticReview\Test\Unit\Review\PHP;
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
-class PhpLeadingLineReviewTest extends TestCase
+class PhpCodeSnifferReviewTest extends TestCase
 {
     protected $file;
 
@@ -24,12 +24,36 @@ class PhpLeadingLineReviewTest extends TestCase
     public function setUp()
     {
         $this->file   = Mockery::mock('StaticReview\File\FileInterface');
-        $this->review = Mockery::mock('StaticReview\Review\PHP\PhpLeadingLineReview[getProcess]');
+        $this->review = Mockery::mock('StaticReview\Review\PHP\PhpCodeSnifferReview[getProcess]');
     }
 
     public function tearDown()
     {
         Mockery::close();
+    }
+
+    public function testGetStandard()
+    {
+        $expected = 'PSR2';
+
+        $this->review->setStandard($expected);
+
+        $this->assertSame($expected, $this->review->getStandard());
+    }
+
+    public function testSetStandard()
+    {
+        $psr2Standard = 'PSR2';
+
+        $this->review->setStandard($psr2Standard);
+
+        $this->assertSame($psr2Standard, $this->review->getStandard());
+
+        $pearStandard = 'PEAR';
+
+        $this->review->setStandard($pearStandard);
+
+        $this->assertSame($pearStandard, $this->review->getStandard());
     }
 
     public function testCanReview()
@@ -46,48 +70,44 @@ class PhpLeadingLineReviewTest extends TestCase
         $this->assertFalse($this->review->canReview($this->file));
     }
 
-    public function testReviewWithBadBeginning()
+    public function testReviewWithPsr2Standard()
     {
         $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
+        $process->shouldReceive('isSuccessful')->once()->andReturn(true);
         $process->shouldReceive('getOutput')->once()->andReturn(PHP_EOL . PHP_EOL);
 
-        $this->review->shouldReceive('getProcess')->once()->andReturn($process);
+        $this->review->shouldReceive('getProcess')
+                     ->once()
+                     ->with('vendor/bin/phpcs --report=csv --standard=PSR2 ' . __FILE__)
+                     ->andReturn($process);
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
-        $reporter->shouldReceive('error')->once();
+
+        $this->review->setStandard('PSR2');
 
         $this->review->review($reporter, $this->file);
     }
 
-    public function testReviewWithDefaultBeginning()
+    public function testReviewWithViolations()
     {
         $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
-        $process->shouldReceive('getOutput')->once()->andReturn('<?php' . PHP_EOL);
+        $process->shouldReceive('isSuccessful')->once()->andReturn(false);
+
+        $testOutput  = 'File,Line,Column,Type,Message,Source,Severity' . PHP_EOL;
+        $testOutput .= '"' . __FILE__ . '",2,1,error,"Message",Violated.Standard,5' . PHP_EOL;
+
+        $process->shouldReceive('getOutput')->once()->andReturn($testOutput);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
-
-        $this->review->review($reporter, $this->file);
-    }
-
-    public function testReviewWithScriptBeginning()
-    {
-        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
-
-        $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
-        $process->shouldReceive('run')->once();
-        $process->shouldReceive('getOutput')->once()->andReturn('#!/usr/bin/env php' . PHP_EOL);
-
-        $this->review->shouldReceive('getProcess')->once()->andReturn($process);
-
-        $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
+        $reporter->shouldReceive('error')->once()->with('Message on line 2', $this->review, $this->file);
 
         $this->review->review($reporter, $this->file);
     }
