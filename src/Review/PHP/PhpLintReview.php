@@ -26,10 +26,7 @@ class PhpLintReview extends AbstractReview
      */
     public function canReview(FileInterface $file)
     {
-        // return mime type ala mimetype extension
-        $finfo = finfo_open(FILEINFO_MIME);
-
-        $mime = finfo_file($finfo, $file->getFullPath());
+        $mime = $file->getMimeType();
 
         // check to see if the mime-type contains 'php'
         return (strpos($mime, 'php') !== false);
@@ -40,7 +37,7 @@ class PhpLintReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('php -l %s', $file->getFullPath());
+        $cmd = sprintf('php --syntax-check %s', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();

@@ -13,6 +13,7 @@
 namespace StaticReview\Review;
 
 use StaticReview\Review\ReviewInterface;
+use StaticReview\File\FileInterface;
 
 use Symfony\Component\Process\Process;
 

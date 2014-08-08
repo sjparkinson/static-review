@@ -160,4 +160,20 @@ class File implements FileInterface
                 throw new \UnexpectedValueException("Unknown file status: $this->fileStatus.");
         }
     }
+
+    /**
+     * Get the mime type for the file.
+     *
+     * @param FileInterface $file
+     * @return string
+     */
+    public function getMimeType()
+    {
+        // return mime type ala mimetype extension
+        $finfo = finfo_open(FILEINFO_MIME);
+
+        $mime = finfo_file($finfo, $this->getFullPath());
+
+        return $mime;
+    }
 }
