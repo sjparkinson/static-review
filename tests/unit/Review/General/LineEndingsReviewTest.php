@@ -24,8 +24,6 @@ class LineEndingsReviewTest extends TestCase
     public function setUp()
     {
         $this->file = Mockery::mock('StaticReview\File\FileInterface');
-        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
-
         $this->review = Mockery::mock('StaticReview\Review\General\LineEndingsReview[getProcess]');
     }
 
@@ -36,11 +34,15 @@ class LineEndingsReviewTest extends TestCase
 
     public function testCanReview()
     {
+        $this->file->shouldReceive('getMimeType')->once()->andReturn('text');
+
         $this->assertTrue($this->review->canReview($this->file));
     }
 
     public function testReview()
     {
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
+
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->once()->andReturn(true);

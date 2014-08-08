@@ -34,7 +34,7 @@ class PhpLintReviewTest extends TestCase
 
     public function testCanReview()
     {
-        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
+        $this->file->shouldReceive('getMimeType')->once()->andReturn('text/x-php');
 
         $this->assertTrue($this->review->canReview($this->file));
     }
