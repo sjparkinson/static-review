@@ -21,16 +21,10 @@ Within a [composer][composer] managed project you can simply do the following...
 $ composer require sjparkinson/static-review:~1.0
 ```
 
-You can then add one of the hooks to your project like so...
+You can then install a hooks to your project like so...
 
 ```bash
-$ vendor/bin/static-review.php hook:install example-pre-commit .git/hooks/pre-commit
-```
-
-Or if you just want to run a hook...
-
-```bash
-$ vendor/bin/static-review.php hook:run example-pre-commit
+$ vendor/bin/static-review.php hook:install vendor/sjparkinson/static-review/hooks/example-pre-commit.php .git/hooks/pre-commit
 ```
 
 Otherwise, if you don't use composer...
@@ -39,7 +33,7 @@ Otherwise, if you don't use composer...
 $ git clone https://github.com/sjparkinson/static-review.git
 $ cd static-review/
 $ composer install --no-dev --optimize-autoloader
-$ bin/static-review.php hook:install example-pre-commit ~/.../.git/hooks/pre-commit
+$ bin/static-review.php hook:install hooks/example-pre-commit.php ~/.../.git/hooks/pre-commit
 ```
 
 [composer]: https://getcomposer.org/
@@ -84,23 +78,22 @@ class NoCommitTagReview extends AbstractReview
     // Review any text based file.
     public function canReview(FileInterface $file)
     {
-        // return mime type ala mimetype extension
-        $finfo = finfo_open(FILEINFO_MIME);
+        $mime = $file->getMimeType();
 
-        //check to see if the mime-type starts with 'text'
-        return substr(finfo_file($finfo, $file->getFullPath()), 0, 4) == 'text';
+        // check to see if the mime-type starts with 'text'
+        return (substr($mime, 0, 4) === 'text');
     }
 
     // Checks if the file contains `NOCOMMIT`.
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('grep -Fq "NOCOMMIT" %s', $file->getFullPath());
+        $cmd = sprintf('grep --fixed-strings --ignore-case --quiet "NOCOMMIT" %s', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
 
         if ($process->isSuccessful()) {
-            $message = 'NOCOMMIT tag found';
+            $message = 'A NOCOMMIT tag was found';
             $reporter->error($message, $this, $file);
         }
     }

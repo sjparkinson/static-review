@@ -82,12 +82,7 @@ class HookInstallCommand extends Command
      */
     protected function getTargetPath($hookArgument)
     {
-        if (file_exists($hookArgument)) {
-            $target = realpath($hookArgument);
-        } else {
-            $path = '%s/%s.php';
-            $target = sprintf($path, realpath(__DIR__ . '/../../hooks/'), $hookArgument);
-        }
+        $target = realpath($hookArgument);
 
         if (! file_exists($target)) {
             $error = sprintf('<error>The hook %s does not exist!</error>', $target);

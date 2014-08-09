@@ -30,8 +30,8 @@ class FileTests extends TestCase
     public function setUp()
     {
         $this->fileStatus  = 'M';
-        $this->filePath    = 'not/a/file.php';
-        $this->projectPath = '/not/a/path';
+        $this->filePath    = str_replace(__DIR__, '', __FILE__);
+        $this->projectPath = __DIR__;
 
         $this->file = new File($this->fileStatus, $this->filePath, $this->projectPath);
 
@@ -40,7 +40,7 @@ class FileTests extends TestCase
 
     public function testGetFileName()
     {
-        $expected = 'file.php';
+        $expected = basename($this->filePath);
 
         $this->assertSame($expected, $this->file->getFileName());
     }
@@ -118,5 +118,10 @@ class FileTests extends TestCase
         $file = new File('Z', $this->filePath, $this->projectPath);
 
         $this->assertInstanceOf('\UnexpectedValueException', $file->getFormattedStatus());
+    }
+
+    public function testGetMimeType()
+    {
+        $this->assertTrue(strpos($this->file->getMimeType(), 'php') !== false);
     }
 }
