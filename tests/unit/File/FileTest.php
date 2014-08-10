@@ -30,7 +30,7 @@ class FileTests extends TestCase
     public function setUp()
     {
         $this->fileStatus  = 'M';
-        $this->filePath    = str_replace(__DIR__, '', __FILE__);
+        $this->filePath    = __FILE__;
         $this->projectPath = __DIR__;
 
         $this->file = new File($this->fileStatus, $this->filePath, $this->projectPath);
@@ -47,14 +47,14 @@ class FileTests extends TestCase
 
     public function testGetRelativePath()
     {
-        $this->assertSame($this->filePath, $this->file->getRelativePath());
+        $expected = str_replace($this->projectPath, '', $this->filePath);
+
+        $this->assertSame($expected, $this->file->getRelativePath());
     }
 
     public function testGetFullPathWithNoCachedPath()
     {
-        $expected = $this->projectPath . '/' . $this->filePath;
-
-        $this->assertSame($expected, $this->file->getFullPath());
+        $this->assertSame($this->filePath, $this->file->getFullPath());
     }
 
     public function testGetFullPathWithCachedPath()
@@ -70,7 +70,7 @@ class FileTests extends TestCase
     {
         $this->assertNull($this->file->getCachedPath());
 
-        $path = '/Test';
+        $path = __DIR__;
 
         $result = $this->file->setCachedPath($path);
 
@@ -81,7 +81,7 @@ class FileTests extends TestCase
     {
         $this->assertNull($this->file->getCachedPath());
 
-        $path = '/Test';
+        $path = __DIR__;
 
         $this->assertSame($this->file,  $this->file->setCachedPath($path));
 
@@ -102,9 +102,9 @@ class FileTests extends TestCase
 
     public function testGetFormattedStatus()
     {
-        $possiable = [ 'A', 'C', 'M', 'R' ];
+        $statuses = [ 'A', 'C', 'M', 'R' ];
 
-        foreach($possiable as $status) {
+        foreach($statuses as $status) {
             $file = new File($status, $this->filePath, $this->projectPath);
             $this->assertTrue(is_string($file->getFormattedStatus()));
         }

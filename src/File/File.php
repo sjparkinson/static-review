@@ -25,17 +25,17 @@ class File implements FileInterface
     const STATUS_RENAMED  = 'R';
 
     /**
-     * The file path as provided by git.
+     * The full path to the file.
      */
     private $filePath;
 
     /**
-     * The file status as provided by git.
+     * The files status.
      */
     private $fileStatus;
 
     /**
-     * The git projects base directory.
+     * The projects base directory.
      */
     private $projectPath;
 
@@ -78,7 +78,7 @@ class File implements FileInterface
      */
     public function getRelativePath()
     {
-        return $this->filePath;
+        return str_replace($this->projectPath, '', $this->filePath);
     }
 
     /**
@@ -92,7 +92,7 @@ class File implements FileInterface
             return $this->getCachedPath();
         }
 
-        return $this->projectPath . '/' . $this->filePath;
+        return $this->filePath;
     }
 
     /**

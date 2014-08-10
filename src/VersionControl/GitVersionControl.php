@@ -21,12 +21,14 @@ use Symfony\Component\Process\Process;
 
 class GitVersionControl implements VersionControlInterface
 {
+    const CACHE_DIR = '/sjparkinson.static-review/cached/';
+
     /**
      * Gets a list of the files currently staged under git.
      *
      * Returns either an empty array or a tab seperated list of staged files and
      * their git status.
-     *
+     *47
      * @link http://git-scm.com/docs/git-status
      *
      * @return FileCollection
@@ -46,9 +48,11 @@ class GitVersionControl implements VersionControlInterface
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
 
         foreach($output as $file) {
-            list($status, $path) = explode("\t", $file);
+            list($status, $relativePath) = explode("\t", $file);
 
-            $file = new File($status, $path, $base);
+            $fullPath = $base . '/' . $relativePath;
+
+            $file = new File($status, $fullPath, $base);
             $this->saveFileToCache($file);
 
             $files->append($file);
@@ -65,7 +69,7 @@ class GitVersionControl implements VersionControlInterface
      */
     private function saveFileToCache(FileInterface $file)
     {
-        $cachedPath = sys_get_temp_dir() . '/sjparkinson.static-review/cached/' . $file->getRelativePath();
+        $cachedPath = sys_get_temp_dir() . self::CACHE_DIR . $file->getRelativePath();
 
         if (! is_dir(dirname($cachedPath))) {
             mkdir(dirname($cachedPath), 0700, true);
