@@ -26,7 +26,7 @@ class GitVersionControl implements VersionControlInterface
     /**
      * Gets a list of the files currently staged under git.
      *
-     * Returns either an empty array or a tab seperated list of staged files and
+     * Returns either an empty array or a tab separated list of staged files and
      * their git status.
      *47
      * @link http://git-scm.com/docs/git-status
