@@ -21,9 +21,13 @@ class CollectionTest extends TestCase
 {
     protected $collection;
 
+    protected $item;
+
     public function setUp()
     {
         $this->collection = Mockery::mock('StaticReview\Collection\Collection')->makePartial();
+
+        $this->item = 'Example Item';
     }
 
     public function tearDown()
@@ -57,29 +61,34 @@ class CollectionTest extends TestCase
     {
         $this->collection->shouldReceive('validate')->twice()->andReturn(true);
 
-        $item = 'Test';
-
-        $this->collection->append($item);
+        $this->collection->append($this->item);
 
         $this->assertCount(1, $this->collection);
-        $this->assertSame($item, $this->collection->current());
+        $this->assertSame($this->item, $this->collection->current());
 
-        $this->collection->append($item);
+        $this->collection->append($this->item);
 
         $this->assertCount(2, $this->collection);
-        $this->assertSame($item, $this->collection->next());
+        $this->assertSame($this->item, $this->collection->next());
+    }
+
+    public function testAppendWithNotTrueOnValidate()
+    {
+        $this->collection->shouldReceive('validate')->once()->andReturn(false);
+
+        $this->collection->append($this->item);
+
+        $this->assertCount(0, $this->collection);
     }
 
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testAppendWithInvalidItem()
+    public function testAppendWithExceptionOnValidate()
     {
         $this->collection->shouldReceive('validate')->once()->andThrow(new \InvalidArgumentException);
 
-        $item = 'Test';
-
-        $this->collection->append($item);
+        $this->collection->append($this->item);
 
         $this->assertCount(0, $this->collection);
     }
@@ -88,12 +97,10 @@ class CollectionTest extends TestCase
     {
         $this->collection->shouldReceive('validate')->twice()->andReturn(true);
 
-        $item = 'Test';
-
-        $this->collection->append($item);
+        $this->collection->append($this->item);
         $this->assertStringEndsWith('(1)', (string) $this->collection);
 
-        $this->collection->append($item);
+        $this->collection->append($this->item);
         $this->assertStringEndsWith('(2)', (string) $this->collection);
     }
 }
