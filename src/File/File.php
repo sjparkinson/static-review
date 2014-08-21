@@ -78,7 +78,7 @@ class File implements FileInterface
      */
     public function getRelativePath()
     {
-        return str_replace($this->projectPath, '', $this->filePath);
+        return str_replace($this->projectPath . DIRECTORY_SEPARATOR, '', $this->filePath);
     }
 
     /**

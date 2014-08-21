@@ -39,7 +39,12 @@
 
     "require-dev": {
         "mockery/mockery": "~0.9",
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+        "sensiolabs/security-checker": "~2.0"
+    },
+
+    "suggest": {
+        "sensiolabs/security-checker": "Required by the ComposerSecurityReview."
     },
 
     "bin": [
