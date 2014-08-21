@@ -10,18 +10,18 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Test\Unit\Review\Config;
+namespace StaticReview\Test\Unit\Review\Composer;
 
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
-class ComposerConfigReviewTest extends TestCase
+class ComposerLintReviewTest extends TestCase
 {
     protected $review;
 
     public function setUp()
     {
-        $this->review = Mockery::mock('StaticReview\Review\Config\ComposerConfigReview[getProcess]');
+        $this->review = Mockery::mock('StaticReview\Review\Composer\ComposerLintReview[getProcess]');
     }
 
     public function tearDown()

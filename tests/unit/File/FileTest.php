@@ -47,7 +47,7 @@ class FileTests extends TestCase
 
     public function testGetRelativePath()
     {
-        $expected = str_replace($this->projectPath, '', $this->filePath);
+        $expected = str_replace($this->projectPath . DIRECTORY_SEPARATOR, '', $this->filePath);
 
         $this->assertSame($expected, $this->file->getRelativePath());
     }

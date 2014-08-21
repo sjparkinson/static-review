@@ -10,7 +10,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Review\Config;
+namespace StaticReview\Review\Composer;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
@@ -18,35 +18,42 @@ use StaticReview\Review\AbstractReview;
 
 use Symfony\Component\Process\Process;
 
-class ComposerConfigReview extends AbstractReview
+class ComposerSecurityReview extends AbstractReview
 {
     /**
-     * Review any text based file.
-     *
-     * @link http://stackoverflow.com/a/632786
+     * Check the composer.lock file for security issues.
      *
      * @param FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)
     {
-        // only if the filename is "composer.json"
-        return ($file->getFileName() === 'composer.json');
+        if ($file->getFileName() === 'composer.lock') {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Check the composer.json file is valid.
+     * Check the composer.lock file doesn't contain dependencies
+     * with known security vulnerabilities.
+     *
+     * @param ReporterInterface $reporter
+     * @param FileInterface $file
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('composer validate %s', $file->getFullPath());
+        $executable = 'vendor/sensiolabs/security-checker/security-checker';
+
+        $cmd = sprintf('%s security:check %s', $executable, $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
 
         if (! $process->isSuccessful()) {
 
-            $message = 'The composer configuration is not valid';
+            $message = 'The composer project dependencies contain known vulnerabilities';
             $reporter->error($message, $this, $file);
 
         }

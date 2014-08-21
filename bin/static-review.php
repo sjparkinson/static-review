@@ -21,7 +21,7 @@ use StaticReview\Command\HookRunCommand;
 use Symfony\Component\Console\Application;
 
 $name    = 'StaticReview Command Line Tool';
-$version = '1.1.4';
+$version = '1.1.5';
 
 $console = new Application($name, $version);
 
