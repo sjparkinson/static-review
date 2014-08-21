@@ -35,22 +35,14 @@ class GitVersionControl implements VersionControlInterface
      */
     public function getStagedFiles()
     {
+        $base = $this->getProjectBase();
+
         $files = new FileCollection();
 
-        $process = new Process('git rev-parse --show-toplevel');
-        $process->run();
-
-        $base = trim($process->getOutput());
-
-        $process = new Process('git diff --cached --name-status --diff-filter=ACMR');
-        $process->run();
-
-        $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-
-        foreach($output as $file) {
+        foreach($this->getFiles() as $file) {
             list($status, $relativePath) = explode("\t", $file);
 
-            $fullPath = $base . '/' . $relativePath;
+            $fullPath = $base . DIRECTORY_SEPARATOR . $relativePath;
 
             $file = new File($status, $fullPath, $base);
             $this->saveFileToCache($file);
@@ -59,6 +51,32 @@ class GitVersionControl implements VersionControlInterface
         }
 
         return $files;
+    }
+
+    /**
+     * Gets the projects base directory.
+     *
+     * @return string
+     */
+    private function getProjectBase()
+    {
+        $process = new Process('git rev-parse --show-toplevel');
+        $process->run();
+
+        return trim($process->getOutput());
+    }
+
+    /**
+     * Gets the list of files from the index.
+     *
+     * @return string[]
+     */
+    private function getFiles()
+    {
+        $process = new Process('git diff --cached --name-status --diff-filter=ACMR');
+        $process->run();
+
+        return array_filter(explode(PHP_EOL, $process->getOutput()));
     }
 
     /**

@@ -10,15 +10,23 @@
  *
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
-require_once file_exists(__DIR__ . '/../vendor/autoload.php')
+$included = include file_exists(__DIR__ . '/../vendor/autoload.php')
     ? __DIR__ . '/../vendor/autoload.php'
     : __DIR__ . '/../../../autoload.php';
+
+if (! $included) {
+    echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
+         . 'curl -sS https://getcomposer.org/installer | php' . PHP_EOL
+         . 'php composer.phar install' . PHP_EOL;
+
+    exit(1);
+}
 
 // Reference the required classes.
 use StaticReview\StaticReview;
 use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
-use StaticReview\VersionControl\VersionControlFactory;
+use StaticReview\VersionControl\GitVersionControl;
 
 // Reference the reviews you want to use.
 use StaticReview\Review\General\LineEndingsReview;
@@ -29,7 +37,7 @@ $review   = new StaticReview($reporter);
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview);
 
-$git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
+$git = new GitVersionControl();
 
 // Review the staged files.
 $review->review($git->getStagedFiles());

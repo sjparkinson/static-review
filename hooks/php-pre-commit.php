@@ -10,14 +10,22 @@
  *
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
-require_once file_exists(__DIR__ . '/../vendor/autoload.php')
+$included = include file_exists(__DIR__ . '/../vendor/autoload.php')
     ? __DIR__ . '/../vendor/autoload.php'
     : __DIR__ . '/../../../autoload.php';
+
+if (! $included) {
+    echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
+         . 'curl -sS https://getcomposer.org/installer | php' . PHP_EOL
+         . 'php composer.phar install' . PHP_EOL;
+
+    exit(1);
+}
 
 use StaticReview\StaticReview;
 use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
-use StaticReview\VersionControl\VersionControlFactory;
+use StaticReview\VersionControl\GitVersionControl;
 
 // Reference the reviews you want to use.
 use StaticReview\Review\General\LineEndingsReview;
@@ -25,7 +33,6 @@ use StaticReview\Review\General\NoCommitTagReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
 use StaticReview\Review\Composer\ComposerLintReview;
-use StaticReview\Review\Composer\ComposerSecurityReview;
 
 $reporter = new Reporter();
 
@@ -36,10 +43,9 @@ $review->addReview(new LineEndingsReview)
        ->addReview(new PhpLeadingLineReview)
        ->addReview(new NoCommitTagReview)
        ->addReview(new PhpLintReview)
-       ->addReview(new ComposerLintReview)
-       ->addReview(new ComposerSecurityReview);
+       ->addReview(new ComposerLintReview);
 
-$git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
+$git = new GitVersionControl();
 
 // Review the staged files.
 $review->review($git->getStagedFiles());

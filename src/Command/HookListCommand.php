@@ -37,7 +37,7 @@ class HookListCommand extends Command
             while (false !== ($entry = readdir($handle))) {
                 if (pathinfo($entry, PATHINFO_EXTENSION) === 'php') {
                     if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                        $output->writeln($hooksPath . '/' . $entry);
+                        $output->writeln($hooksPath . DIRECTORY_SEPARATOR . $entry);
                     }
                     else {
                         $output->writeln(pathinfo($entry, PATHINFO_FILENAME));
