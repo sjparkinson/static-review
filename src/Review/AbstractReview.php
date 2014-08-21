@@ -34,7 +34,7 @@ abstract class AbstractReview implements ReviewInterface
         array $env = null,
         $input = null,
         $timeout = 60,
-        array $options = array()
+        array $options = []
     ) {
         return new Process($commandline, $cwd, $env, $input, $timeout, $options);
     }
