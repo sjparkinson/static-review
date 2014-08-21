@@ -18,7 +18,6 @@ use StaticReview\Review\AbstractReview;
 
 use Symfony\Component\Process\Process;
 
-
 class PhpLeadingLineReview extends AbstractReview
 {
     /**
