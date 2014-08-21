@@ -25,7 +25,7 @@ class LineEndingsReview extends AbstractReview
      *
      * @link http://stackoverflow.com/a/632786
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)

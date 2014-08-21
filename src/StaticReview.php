@@ -54,7 +54,7 @@ class StaticReview
     /**
      * Sets the ReporterInterface instance.
      *
-     * @param ReporterInterface $reporter
+     * @param  ReporterInterface $reporter
      * @return StaticReview
      */
     public function setReporter(ReporterInterface $reporter)
@@ -77,7 +77,7 @@ class StaticReview
     /**
      * Adds a Review to be run.
      *
-     * @param ReviewInterface $check
+     * @param  ReviewInterface $check
      * @return StaticReview
      */
     public function addReview(ReviewInterface $review)
@@ -90,7 +90,7 @@ class StaticReview
     /**
      * Appends a ReviewCollection to the current list of reviews.
      *
-     * @param ReviewCollection $checks
+     * @param  ReviewCollection $checks
      * @return StaticReview
      */
     public function addReviews(ReviewCollection $reviews)

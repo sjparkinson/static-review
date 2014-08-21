@@ -20,7 +20,7 @@ class IssueCollection extends Collection
     /**
      * Validates that $object is an instance of IssueInterface.
      *
-     * @param IssueInterface $object
+     * @param  IssueInterface           $object
      * @return bool
      * @throws InvalidArgumentException
      */
@@ -52,7 +52,7 @@ class IssueCollection extends Collection
     /**
      * Returns a new IssueCollection filtered by the given level option.
      *
-     * @param int $level
+     * @param  int             $level
      * @return IssueCollection
      */
     public function forLevel($option)

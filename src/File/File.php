@@ -108,7 +108,7 @@ class File implements FileInterface
     /**
      * Sets the path to the cached copy of the file.
      *
-     * @param string $path
+     * @param  string $path
      * @return File
      */
     public function setCachedPath($path)

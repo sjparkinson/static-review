@@ -60,7 +60,7 @@ class GitVersionControl implements VersionControlInterface
     /**
      * Saves a copy of the cached version of the given file to a temp directory.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return FileInterface
      */
     private function saveFileToCache(FileInterface $file)

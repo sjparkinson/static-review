@@ -25,7 +25,7 @@ class Reporter implements ReporterInterface
     /**
      * Initializes a new instance of the Reporter class.
      *
-     * @param IssueCollection $issues
+     * @param  IssueCollection $issues
      * @return Reporter
      */
     public function __construct()
@@ -43,10 +43,10 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Issue raised by a Review.
      *
-     * @param int $level
-     * @param string $message
-     * @param ReviewInterface $review
-     * @param FileInterface $file
+     * @param  int             $level
+     * @param  string          $message
+     * @param  ReviewInterface $review
+     * @param  FileInterface   $file
      * @return Reporter
      */
     public function report($level, $message, ReviewInterface $review, FileInterface $file)
@@ -61,9 +61,9 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Info Issue raised by a Review.
      *
-     * @param string $message
-     * @param ReviewInterface $review
-     * @param FileInterface $file
+     * @param  string          $message
+     * @param  ReviewInterface $review
+     * @param  FileInterface   $file
      * @return Reporter
      */
     public function info($message, ReviewInterface $review, FileInterface $file)
@@ -76,9 +76,9 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Warning Issue raised by a Review.
      *
-     * @param string $message
-     * @param ReviewInterface $review
-     * @param FileInterface $file
+     * @param  string          $message
+     * @param  ReviewInterface $review
+     * @param  FileInterface   $file
      * @return Reporter
      */
     public function warning($message, ReviewInterface $review, FileInterface $file)
@@ -91,9 +91,9 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Error Issue raised by a Review.
      *
-     * @param string $message
-     * @param ReviewInterface $review
-     * @param FileInterface $file
+     * @param  string          $message
+     * @param  ReviewInterface $review
+     * @param  FileInterface   $file
      * @return Reporter
      */
     public function error($message, ReviewInterface $review, FileInterface $file)

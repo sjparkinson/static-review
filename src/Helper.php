@@ -33,8 +33,8 @@ class Helper
     /**
      * Formats a string for colourized outputting to the command line.
      *
-     * @param  string $string
-     * @param  string $foreground
+     * @param string $string
+     * @param string $foreground
      *
      * @return string
      */

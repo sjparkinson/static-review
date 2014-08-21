@@ -23,7 +23,7 @@ class PhpLeadingLineReview extends AbstractReview
     /**
      * Determins if the given file should be revewed.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)

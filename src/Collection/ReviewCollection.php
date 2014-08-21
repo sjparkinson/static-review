@@ -21,7 +21,7 @@ class ReviewCollection extends Collection
     /**
      * Validates that $object is an instance of ReviewInterface.
      *
-     * @param ReviewInterface $object
+     * @param  ReviewInterface          $object
      * @return bool
      * @throws InvalidArgumentException
      */
@@ -54,7 +54,7 @@ class ReviewCollection extends Collection
      * Returns a filtered ReviewCollection that should be run against the given
      * file.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function forFile(FileInterface $file)

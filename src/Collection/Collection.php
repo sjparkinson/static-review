@@ -39,7 +39,7 @@ abstract class Collection implements Iterator, Countable
     abstract public function validate($item);
 
     /**
-     * @param callable $filter
+     * @param  callable   $filter
      * @return Collection
      */
     abstract public function select(callable $filter);
