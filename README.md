@@ -1,9 +1,9 @@
 StaticReview
 ============
 
-[![Latest Stable Version](https://poser.pugx.org/sjparkinson/static-review/v/stable.svg)][packagist]
-[![Build Status](https://travis-ci.org/sjparkinson/static-review.svg?branch=master)][travis]
-[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)][php]
+[![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
+[![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
+[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat)][php]
 
 An extendable framework for version control hooks.
 
