@@ -26,9 +26,9 @@ $version = '1.0.0';
 $console = new Application($name, $version);
 
 $console->addCommands([
-    new HookListCommand,
-    new HookInstallCommand,
-    new HookRunCommand,
+    new HookListCommand(),
+    new HookInstallCommand(),
+    new HookRunCommand(),
 ]);
 
 $console->run();

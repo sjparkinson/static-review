@@ -75,7 +75,7 @@ class CollectionTest extends TestCase
      */
     public function testAppendWithInvalidItem()
     {
-        $this->collection->shouldReceive('validate')->once()->andThrow(new \InvalidArgumentException);
+        $this->collection->shouldReceive('validate')->once()->andThrow(new \InvalidArgumentException());
 
         $item = 'Test';
 

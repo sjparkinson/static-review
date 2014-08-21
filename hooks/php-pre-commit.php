@@ -31,11 +31,11 @@ $reporter = new Reporter();
 $review = new StaticReview($reporter);
 
 // Add any reviews to the StaticReview instance, supports a fluent interface.
-$review->addReview(new LineEndingsReview)
-       ->addReview(new PhpLeadingLineReview)
-       ->addReview(new NoCommitTagReview)
-       ->addReview(new PhpLintReview)
-       ->addReview(new ComposerConfigReview);
+$review->addReview(new LineEndingsReview())
+       ->addReview(new PhpLeadingLineReview())
+       ->addReview(new NoCommitTagReview())
+       ->addReview(new PhpLintReview())
+       ->addReview(new ComposerConfigReview());
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 

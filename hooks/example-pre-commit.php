@@ -27,7 +27,7 @@ $reporter = new Reporter();
 $review   = new StaticReview($reporter);
 
 // Add any reviews to the StaticReview instance, supports a fluent interface.
-$review->addReview(new LineEndingsReview);
+$review->addReview(new LineEndingsReview());
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 
