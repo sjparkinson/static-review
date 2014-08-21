@@ -19,7 +19,7 @@ use StaticReview\Collection\FileCollection;
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
-class StaticReviewTests extends TestCase
+class StaticReviewTest extends TestCase
 {
     protected $review;
 

@@ -18,7 +18,7 @@ use StaticReview\Issue\Issue;
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
-class HelperTests extends TestCase
+class HelperTest extends TestCase
 {
     public function testGetColourStringWithoutColour()
     {
