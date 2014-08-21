@@ -58,7 +58,7 @@ class IssueCollection extends Collection
     public function forLevel($option)
     {
         // Only return issues matching the level.
-        $filter = function($issue) use ($option) {
+        $filter = function ($issue) use ($option) {
             if ($issue->matches($option)) {
                 return true;
             }

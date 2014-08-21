@@ -59,7 +59,7 @@ class ReviewCollection extends Collection
      */
     public function forFile(FileInterface $file)
     {
-        $filter = function($review) use ($file) {
+        $filter = function ($review) use ($file) {
             if ($review->canReview($file)) {
                 return true;
             }

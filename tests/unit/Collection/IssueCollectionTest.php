@@ -50,7 +50,7 @@ class IssueCollectionTest extends TestCase
 
         $this->collection->append($issue);
 
-        $filter = function() { return true; };
+        $filter = function () { return true; };
 
         $issues = $this->collection->select($filter);
 
@@ -63,7 +63,7 @@ class IssueCollectionTest extends TestCase
 
         $this->collection->append($issue);
 
-        $filter = function() { return false; };
+        $filter = function () { return false; };
 
         $issues = $this->collection->select($filter);
 
@@ -72,7 +72,7 @@ class IssueCollectionTest extends TestCase
 
     public function testSelectWithEmptyCollection()
     {
-        $filter = function() { return true; };
+        $filter = function () { return true; };
 
         $this->assertEquals(new IssueCollection(), $this->collection->select($filter));
     }

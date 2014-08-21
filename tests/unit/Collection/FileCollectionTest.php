@@ -49,7 +49,7 @@ class FileCollectionTest extends TestCase
 
         $this->collection->append($file);
 
-        $filter = function() { return true; };
+        $filter = function () { return true; };
 
         $files = $this->collection->select($filter);
 
@@ -62,7 +62,7 @@ class FileCollectionTest extends TestCase
 
         $this->collection->append($file);
 
-        $filter = function() { return false; };
+        $filter = function () { return false; };
 
         $files = $this->collection->select($filter);
 
@@ -71,7 +71,7 @@ class FileCollectionTest extends TestCase
 
     public function testSelectWithEmptyCollection()
     {
-        $filter = function() { return true; };
+        $filter = function () { return true; };
 
         $this->assertEquals(new FileCollection(), $this->collection->select($filter));
     }

@@ -42,7 +42,7 @@ class HookRunCommand extends Command
 
             $process = new Process($cmd);
 
-            $process->run(function ($type, $buffer) use($output) {
+            $process->run(function ($type, $buffer) use ($output) {
                 $output->write($buffer);
             });
         }
