@@ -26,10 +26,9 @@ class PhpLintReview extends AbstractReview
      */
     public function canReview(FileInterface $file)
     {
-        $mime = $file->getMimeType();
+        $extension = $file->getExtension();
 
-        // check to see if the mime-type contains 'php'
-        return (strpos($mime, 'php') !== false);
+        return ($extension === 'php' || $extension == 'phtml');
     }
 
     /**

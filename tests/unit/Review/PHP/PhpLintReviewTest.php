@@ -32,11 +32,25 @@ class PhpLintReviewTest extends TestCase
         Mockery::close();
     }
 
-    public function testCanReview()
+    public function testCanReviewWithPhpExtension()
     {
-        $this->file->shouldReceive('getMimeType')->once()->andReturn('text/x-php');
+        $this->file->shouldReceive('getExtension')->once()->andReturn('php');
 
         $this->assertTrue($this->review->canReview($this->file));
+    }
+
+    public function testCanReviewWithPhtmlExtension()
+    {
+        $this->file->shouldReceive('getExtension')->once()->andReturn('phtml');
+
+        $this->assertTrue($this->review->canReview($this->file));
+    }
+
+    public function testCanReviewWithInvalidExtension()
+    {
+        $this->file->shouldReceive('getExtension')->once()->andReturn('txt');
+
+        $this->assertFalse($this->review->canReview($this->file));
     }
 
     public function testReview()
