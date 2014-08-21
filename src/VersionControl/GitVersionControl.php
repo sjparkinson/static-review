@@ -12,7 +12,6 @@
 
 namespace StaticReview\VersionControl;
 
-use StaticReview\VersionControl\VersionControlInterface;
 use StaticReview\File\FileInterface;
 use StaticReview\File\File;
 use StaticReview\Collection\FileCollection;

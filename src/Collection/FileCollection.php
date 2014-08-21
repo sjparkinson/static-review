@@ -13,7 +13,6 @@
 namespace StaticReview\Collection;
 
 use StaticReview\File\FileInterface;
-use StaticReview\Collection\Collection;
 
 class FileCollection extends Collection
 {

@@ -12,8 +12,6 @@
 
 namespace StaticReview\Review;
 
-use StaticReview\Review\ReviewInterface;
-
 use Symfony\Component\Process\Process;
 
 abstract class AbstractReview implements ReviewInterface

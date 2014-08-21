@@ -14,7 +14,6 @@ namespace StaticReview\Test\Unit\Classes;
 
 use StaticReview\File\File;
 
-use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class FileTest extends TestCase

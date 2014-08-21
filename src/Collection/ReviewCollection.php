@@ -14,7 +14,6 @@ namespace StaticReview\Collection;
 
 use StaticReview\Review\ReviewInterface;
 use StaticReview\File\FileInterface;
-use StaticReview\Collection\Collection;
 
 class ReviewCollection extends Collection
 {

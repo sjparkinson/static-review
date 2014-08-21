@@ -12,8 +12,6 @@
 
 namespace StaticReview\File;
 
-use StaticReview\File\FileInterface;
-
 class File implements FileInterface
 {
     const STATUS_ADDED    = 'A';

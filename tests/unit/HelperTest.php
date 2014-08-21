@@ -13,9 +13,7 @@
 namespace StaticReview\Test\Unit;
 
 use StaticReview\Helper;
-use StaticReview\Issue\Issue;
 
-use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class HelperTest extends TestCase

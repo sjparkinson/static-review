@@ -13,10 +13,6 @@
 namespace StaticReview;
 
 use StaticReview\File\File;
-use StaticReview\Issue\Issue;
-use StaticReview\Collection\FileCollection;
-
-use Symfony\Component\Process\Process;
 
 class Helper
 {

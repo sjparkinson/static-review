@@ -16,7 +16,6 @@ require_once file_exists(__DIR__ . '/../vendor/autoload.php')
 
 // Reference the required classes.
 use StaticReview\StaticReview;
-use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
 use StaticReview\VersionControl\VersionControlFactory;
 

@@ -13,7 +13,6 @@
 namespace StaticReview\Collection;
 
 use StaticReview\Issue\IssueInterface;
-use StaticReview\Collection\Collection;
 
 class IssueCollection extends Collection
 {

@@ -13,7 +13,6 @@
 namespace StaticReview\Issue;
 
 use StaticReview\File\FileInterface;
-use StaticReview\Issue\IssueInterface;
 use StaticReview\Review\ReviewInterface;
 
 class Issue implements IssueInterface
