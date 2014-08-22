@@ -12,10 +12,10 @@
 
 namespace StaticReview;
 
-use StaticReview\Review\ReviewInterface;
-use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Collection\FileCollection;
 use StaticReview\Collection\ReviewCollection;
+use StaticReview\Reporter\ReporterInterface;
+use StaticReview\Review\ReviewInterface;
 
 class StaticReview
 {

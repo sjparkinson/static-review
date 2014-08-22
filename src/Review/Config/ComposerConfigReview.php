@@ -15,7 +15,6 @@ namespace StaticReview\Review\Config;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-
 use Symfony\Component\Process\Process;
 
 class ComposerConfigReview extends AbstractReview

@@ -12,10 +12,9 @@
 
 namespace StaticReview\VersionControl;
 
-use StaticReview\File\FileInterface;
-use StaticReview\File\File;
 use StaticReview\Collection\FileCollection;
-
+use StaticReview\File\File;
+use StaticReview\File\FileInterface;
 use Symfony\Component\Process\Process;
 
 class GitVersionControl implements VersionControlInterface

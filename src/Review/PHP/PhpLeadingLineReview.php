@@ -15,7 +15,6 @@ namespace StaticReview\Review\PHP;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-
 use Symfony\Component\Process\Process;
 
 class PhpLeadingLineReview extends AbstractReview

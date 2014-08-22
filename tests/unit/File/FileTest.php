@@ -12,9 +12,8 @@
 
 namespace StaticReview\Test\Unit\Classes;
 
-use StaticReview\File\File;
-
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\File\File;
 
 class FileTest extends TestCase
 {

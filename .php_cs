@@ -27,5 +27,6 @@ return Symfony\CS\Config\Config::create()->fixers([
     'unused_use',
     'whitespacy_lines',
     'concat_with_spaces',
+    'ordered_use',
     'short_array_syntax',
 ]);

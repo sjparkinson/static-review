@@ -15,7 +15,6 @@ namespace StaticReview\Review\General;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-
 use Symfony\Component\Process\Process;
 
 class NoCommitTagReview extends AbstractReview

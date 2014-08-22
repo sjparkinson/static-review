@@ -12,11 +12,11 @@
 
 namespace StaticReview\Reporter;
 
+use StaticReview\Collection\IssueCollection;
 use StaticReview\File\FileInterface;
-use StaticReview\Review\ReviewInterface;
 use StaticReview\Helper;
 use StaticReview\Issue\Issue;
-use StaticReview\Collection\IssueCollection;
+use StaticReview\Review\ReviewInterface;
 
 class Reporter implements ReporterInterface
 {

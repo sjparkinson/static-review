@@ -12,11 +12,10 @@
 
 namespace StaticReview\Test\Unit\Collection;
 
-use StaticReview\Issue\Issue;
-use StaticReview\Collection\IssueCollection;
-
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\Collection\IssueCollection;
+use StaticReview\Issue\Issue;
 
 class IssueCollectionTest extends TestCase
 {

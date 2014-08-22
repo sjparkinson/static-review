@@ -12,10 +12,9 @@
 
 namespace StaticReview\Test\Unit\Collection;
 
-use StaticReview\Collection\Collection;
-
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\Collection\Collection;
 
 class CollectionTest extends TestCase
 {

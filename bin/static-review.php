@@ -14,10 +14,9 @@ require_once file_exists(__DIR__ . '/../vendor/autoload.php')
     ? __DIR__ . '/../vendor/autoload.php'
     : __DIR__ . '/../../../autoload.php';
 
-use StaticReview\Command\HookListCommand;
 use StaticReview\Command\HookInstallCommand;
+use StaticReview\Command\HookListCommand;
 use StaticReview\Command\HookRunCommand;
-
 use Symfony\Component\Console\Application;
 
 $name    = 'StaticReview Command Line Tool';
