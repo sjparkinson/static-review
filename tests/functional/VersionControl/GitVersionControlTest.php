@@ -31,7 +31,7 @@ class GitVersionControlTest extends TestCase
             mkdir($this->directory, 0755, true);
         } else {
             // Clean up any created files.
-            $cmd = 'rm -rf ' . $this->directory . DIRECTORY_SEPERATOR . '*';
+            $cmd = 'rm -rf ' . $this->directory . DIRECTORY_SEPARATOR . '*';
             $process = new Process($cmd);
             $process->run();
         }
