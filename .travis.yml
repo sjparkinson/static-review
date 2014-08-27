@@ -13,3 +13,4 @@ before_script:
 
 script:
   - vendor/bin/phpunit
+  - vendor/bin/php-cs-fixer --dry-run -v --config-file=.php_cs.travis fix
