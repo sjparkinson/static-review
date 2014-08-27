@@ -13,10 +13,9 @@
 namespace StaticReview\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Process\Process;
 
 class HookRunCommand extends Command
@@ -42,7 +41,7 @@ class HookRunCommand extends Command
 
             $process = new Process($cmd);
 
-            $process->run(function ($type, $buffer) use($output) {
+            $process->run(function ($type, $buffer) use ($output) {
                 $output->write($buffer);
             });
         }

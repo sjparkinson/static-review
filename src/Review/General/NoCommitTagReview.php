@@ -15,7 +15,6 @@ namespace StaticReview\Review\General;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-
 use Symfony\Component\Process\Process;
 
 class NoCommitTagReview extends AbstractReview
@@ -25,7 +24,7 @@ class NoCommitTagReview extends AbstractReview
      *
      * @link http://stackoverflow.com/a/632786
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)

@@ -15,7 +15,6 @@ namespace StaticReview\Review\Composer;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-
 use Symfony\Component\Process\Process;
 
 class ComposerSecurityReview extends AbstractReview
@@ -23,7 +22,7 @@ class ComposerSecurityReview extends AbstractReview
     /**
      * Check the composer.lock file for security issues.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)
@@ -40,7 +39,7 @@ class ComposerSecurityReview extends AbstractReview
      * with known security vulnerabilities.
      *
      * @param ReporterInterface $reporter
-     * @param FileInterface $file
+     * @param FileInterface     $file
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {

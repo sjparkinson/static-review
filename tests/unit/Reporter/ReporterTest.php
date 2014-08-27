@@ -12,11 +12,10 @@
 
 namespace StaticReview\Test\Unit\Reporter;
 
-use StaticReview\Reporter\Reporter;
-use StaticReview\Issue\Issue;
-
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\Issue\Issue;
+use StaticReview\Reporter\Reporter;
 
 class ReporterTest extends TestCase
 {

@@ -12,14 +12,13 @@
 
 namespace StaticReview\Test\Unit;
 
-use StaticReview\StaticReview;
-use StaticReview\Collection\ReviewCollection;
-use StaticReview\Collection\FileCollection;
-
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\Collection\FileCollection;
+use StaticReview\Collection\ReviewCollection;
+use StaticReview\StaticReview;
 
-class StaticReviewTests extends TestCase
+class StaticReviewTest extends TestCase
 {
     protected $review;
 

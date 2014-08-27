@@ -12,11 +12,9 @@
 
 namespace StaticReview\VersionControl;
 
-use StaticReview\VersionControl\VersionControlInterface;
-use StaticReview\File\FileInterface;
-use StaticReview\File\File;
 use StaticReview\Collection\FileCollection;
-
+use StaticReview\File\File;
+use StaticReview\File\FileInterface;
 use Symfony\Component\Process\Process;
 
 class GitVersionControl implements VersionControlInterface
@@ -28,7 +26,7 @@ class GitVersionControl implements VersionControlInterface
      *
      * Returns either an empty array or a tab separated list of staged files and
      * their git status.
-     *47
+     *§
      * @link http://git-scm.com/docs/git-status
      *
      * @return FileCollection
@@ -64,7 +62,7 @@ class GitVersionControl implements VersionControlInterface
     /**
      * Saves a copy of the cached version of the given file to a temp directory.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return FileInterface
      */
     private function saveFileToCache(FileInterface $file)

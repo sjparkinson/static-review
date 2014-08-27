@@ -13,14 +13,13 @@
 namespace StaticReview\Collection;
 
 use StaticReview\File\FileInterface;
-use StaticReview\Collection\Collection;
 
 class FileCollection extends Collection
 {
     /**
      * Validates that $object is an instance of FileInterface.
      *
-     * @param FileInterface $object
+     * @param  FileInterface            $object
      * @return bool
      * @throws InvalidArgumentException
      */

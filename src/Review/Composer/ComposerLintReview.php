@@ -15,7 +15,6 @@ namespace StaticReview\Review\Composer;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-
 use Symfony\Component\Process\Process;
 
 class ComposerLintReview extends AbstractReview
@@ -23,7 +22,7 @@ class ComposerLintReview extends AbstractReview
     /**
      * Lint only the composer.json file.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)
@@ -36,7 +35,7 @@ class ComposerLintReview extends AbstractReview
      * Check the composer.json file is valid.
      *
      * @param ReporterInterface $reporter
-     * @param FileInterface $file
+     * @param FileInterface     $file
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {

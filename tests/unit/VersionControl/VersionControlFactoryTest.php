@@ -12,9 +12,8 @@
 
 namespace StaticReview\Test\Unit\VersionControl;
 
-use StaticReview\VersionControl\VersionControlFactory;
-
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\VersionControl\VersionControlFactory;
 
 class VersionControlFactoryTest extends TestCase
 {

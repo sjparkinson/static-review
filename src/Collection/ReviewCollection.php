@@ -12,16 +12,15 @@
 
 namespace StaticReview\Collection;
 
-use StaticReview\Review\ReviewInterface;
 use StaticReview\File\FileInterface;
-use StaticReview\Collection\Collection;
+use StaticReview\Review\ReviewInterface;
 
 class ReviewCollection extends Collection
 {
     /**
      * Validates that $object is an instance of ReviewInterface.
      *
-     * @param ReviewInterface $object
+     * @param  ReviewInterface          $object
      * @return bool
      * @throws InvalidArgumentException
      */
@@ -54,13 +53,12 @@ class ReviewCollection extends Collection
      * Returns a filtered ReviewCollection that should be run against the given
      * file.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function forFile(FileInterface $file)
     {
-        $filter = function($review) use ($file)
-        {
+        $filter = function ($review) use ($file) {
             if ($review->canReview($file)) {
                 return true;
             }

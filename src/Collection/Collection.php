@@ -12,8 +12,8 @@
 
 namespace StaticReview\Collection;
 
-use \Iterator;
 use \Countable;
+use \Iterator;
 
 abstract class Collection implements Iterator, Countable
 {
@@ -36,13 +36,13 @@ abstract class Collection implements Iterator, Countable
      * @return bool
      * @throws InvalidArgumentException
      */
-    public abstract function validate($item);
+    abstract public function validate($item);
 
     /**
-     * @param callable $filter
+     * @param  callable   $filter
      * @return Collection
      */
-    public abstract function select(callable $filter);
+    abstract public function select(callable $filter);
 
     /**
      * @return Collection

@@ -12,10 +12,9 @@
 
 namespace StaticReview\Test\Unit\Collection;
 
-use StaticReview\Collection\Collection;
-
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\Collection\Collection;
 
 class CollectionTest extends TestCase
 {
@@ -86,7 +85,7 @@ class CollectionTest extends TestCase
      */
     public function testAppendWithExceptionOnValidate()
     {
-        $this->collection->shouldReceive('validate')->once()->andThrow(new \InvalidArgumentException);
+        $this->collection->shouldReceive('validate')->once()->andThrow(new \InvalidArgumentException());
 
         $this->collection->append($this->item);
 

@@ -21,7 +21,7 @@ class PhpLintReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)
