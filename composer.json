@@ -39,7 +39,8 @@
 
     "require-dev": {
         "mockery/mockery": "~0.9",
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+        "fabpot/php-cs-fixer": "@dev"
     },
 
     "bin": [
