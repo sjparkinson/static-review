@@ -12,19 +12,17 @@
 
 namespace StaticReview\Review;
 
-use StaticReview\Review\ReviewInterface;
-
 use Symfony\Component\Process\Process;
 
 abstract class AbstractReview implements ReviewInterface
 {
     /**
-     * @param string         $commandline
-     * @param null|string    $cwd
-     * @param null|array     $env
-     * @param null|string    $input
-     * @param int            $timeout
-     * @param array          $options
+     * @param string      $commandline
+     * @param null|string $cwd
+     * @param null|array  $env
+     * @param null|string $input
+     * @param int         $timeout
+     * @param array       $options
      *
      * @return Process
      */
@@ -34,7 +32,7 @@ abstract class AbstractReview implements ReviewInterface
         array $env = null,
         $input = null,
         $timeout = 60,
-        array $options = array()
+        array $options = []
     ) {
         return new Process($commandline, $cwd, $env, $input, $timeout, $options);
     }

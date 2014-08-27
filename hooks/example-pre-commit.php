@@ -14,20 +14,17 @@ require_once file_exists(__DIR__ . '/../vendor/autoload.php')
     ? __DIR__ . '/../vendor/autoload.php'
     : __DIR__ . '/../../../autoload.php';
 
-// Reference the required classes.
-use StaticReview\StaticReview;
-use StaticReview\Helper;
+// Reference the required classes and the reviews you want to use.
 use StaticReview\Reporter\Reporter;
-use StaticReview\VersionControl\VersionControlFactory;
-
-// Reference the reviews you want to use.
 use StaticReview\Review\General\LineEndingsReview;
+use StaticReview\StaticReview;
+use StaticReview\VersionControl\VersionControlFactory;
 
 $reporter = new Reporter();
 $review   = new StaticReview($reporter);
 
 // Add any reviews to the StaticReview instance, supports a fluent interface.
-$review->addReview(new LineEndingsReview);
+$review->addReview(new LineEndingsReview());
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 

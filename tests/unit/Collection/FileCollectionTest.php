@@ -12,10 +12,9 @@
 
 namespace StaticReview\Test\Unit\Collection;
 
-use StaticReview\Collection\FileCollection;
-
 use Mockery;
 use PHPUnit_Framework_TestCase as TestCase;
+use StaticReview\Collection\FileCollection;
 
 class FileCollectionTest extends TestCase
 {
@@ -49,7 +48,7 @@ class FileCollectionTest extends TestCase
 
         $this->collection->append($file);
 
-        $filter = function() { return true; };
+        $filter = function () { return true; };
 
         $files = $this->collection->select($filter);
 
@@ -62,7 +61,7 @@ class FileCollectionTest extends TestCase
 
         $this->collection->append($file);
 
-        $filter = function() { return false; };
+        $filter = function () { return false; };
 
         $files = $this->collection->select($filter);
 
@@ -71,7 +70,7 @@ class FileCollectionTest extends TestCase
 
     public function testSelectWithEmptyCollection()
     {
-        $filter = function() { return true; };
+        $filter = function () { return true; };
 
         $this->assertEquals(new FileCollection(), $this->collection->select($filter));
     }

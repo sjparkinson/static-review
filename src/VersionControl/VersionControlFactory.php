@@ -19,7 +19,7 @@ class VersionControlFactory
     /**
      * Returns a new instance of a VersionControlInterface implmenting class.
      *
-     * @param string $versionControlType
+     * @param  string                  $versionControlType
      * @return VersionControlInterface
      */
     public static function build($versionControlType)

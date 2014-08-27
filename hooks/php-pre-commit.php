@@ -14,28 +14,27 @@ require_once file_exists(__DIR__ . '/../vendor/autoload.php')
     ? __DIR__ . '/../vendor/autoload.php'
     : __DIR__ . '/../../../autoload.php';
 
-use StaticReview\StaticReview;
+// Reference the required classes and the reviews you want to use.
 use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
-use StaticReview\VersionControl\VersionControlFactory;
-
-// Reference the reviews you want to use.
+use StaticReview\Review\Config\ComposerConfigReview;
 use StaticReview\Review\General\LineEndingsReview;
 use StaticReview\Review\General\NoCommitTagReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
-use StaticReview\Review\Config\ComposerConfigReview;
+use StaticReview\StaticReview;
+use StaticReview\VersionControl\VersionControlFactory;
 
 $reporter = new Reporter();
 
 $review = new StaticReview($reporter);
 
 // Add any reviews to the StaticReview instance, supports a fluent interface.
-$review->addReview(new LineEndingsReview)
-       ->addReview(new PhpLeadingLineReview)
-       ->addReview(new NoCommitTagReview)
-       ->addReview(new PhpLintReview)
-       ->addReview(new ComposerConfigReview);
+$review->addReview(new LineEndingsReview())
+       ->addReview(new PhpLeadingLineReview())
+       ->addReview(new NoCommitTagReview())
+       ->addReview(new PhpLintReview())
+       ->addReview(new ComposerConfigReview());
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 

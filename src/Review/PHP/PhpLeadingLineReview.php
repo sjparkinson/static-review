@@ -15,16 +15,14 @@ namespace StaticReview\Review\PHP;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-
 use Symfony\Component\Process\Process;
-
 
 class PhpLeadingLineReview extends AbstractReview
 {
     /**
      * Determins if the given file should be revewed.
      *
-     * @param FileInterface $file
+     * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)

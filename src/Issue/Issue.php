@@ -13,7 +13,6 @@
 namespace StaticReview\Issue;
 
 use StaticReview\File\FileInterface;
-use StaticReview\Issue\IssueInterface;
 use StaticReview\Review\ReviewInterface;
 
 class Issue implements IssueInterface
@@ -37,10 +36,10 @@ class Issue implements IssueInterface
     /**
      * Initializes a new instance of the Issue class.
      *
-     * @param int $level
-     * @param string $message
+     * @param int             $level
+     * @param string          $message
      * @param ReviewInterface $review
-     * @param FileInterface $file
+     * @param FileInterface   $file
      */
     public function __construct(
         $level,
