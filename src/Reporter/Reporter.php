@@ -15,7 +15,6 @@ namespace StaticReview\Reporter;
 
 use StaticReview\Collection\IssueCollection;
 use StaticReview\File\FileInterface;
-use StaticReview\Helper;
 use StaticReview\Issue\Issue;
 use StaticReview\Review\ReviewInterface;
 
@@ -36,9 +35,7 @@ class Reporter implements ReporterInterface
 
     public function progress($current, $total)
     {
-        $progress = sprintf("Reviewing file %d of %d.\r", $current, $total);
-
-        echo Helper::getColourString($progress, 'cyan');
+        echo sprintf("Reviewing file %d of %d.\r", $current, $total);
     }
 
     /**

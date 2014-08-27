@@ -25,7 +25,8 @@ if (! $included) {
 }
 
 // Reference the required classes and the reviews you want to use.
-use StaticReview\Helper;
+use JoeTannenbaum\CLImate\CLImate;
+use StaticReview\Issue\Issue;
 use StaticReview\Reporter\Reporter;
 use StaticReview\Review\Composer\ComposerLintReview;
 use StaticReview\Review\Composer\ComposerSecurityReview;
@@ -37,8 +38,10 @@ use StaticReview\StaticReview;
 use StaticReview\VersionControl\GitVersionControl;
 
 $reporter = new Reporter();
+$climate  = new CLImate();
+$git      = new GitVersionControl();
 
-$review = new StaticReview($reporter);
+$review   = new StaticReview($reporter);
 
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview())
@@ -51,32 +54,25 @@ $codeSniffer = new PhpCodeSnifferReview();
 $codeSniffer->setOption('standard', 'PSR2');
 $review->addReview($codeSniffer);
 
-$git = new GitVersionControl();
-
 // Review the staged files.
 $review->review($git->getStagedFiles());
 
 // Check if any matching issues were found.
 if ($reporter->hasIssues()) {
 
-    echo PHP_EOL . PHP_EOL;
+    $climate->out('')->out('');
 
     foreach ($reporter->getIssues() as $issue) {
-        echo Helper::getColourString($issue, $issue->getColour()) . PHP_EOL;
+        $climate->red($issue);
     }
 
-    echo PHP_EOL . Helper::getColourString('✘ Please fix the errors above.', 'red') . PHP_EOL;
+    $climate->out('')->red('✘ Please fix the errors above.');
 
     exit(1);
 
 } else {
 
-    echo PHP_EOL;
+    $climate->out('')->green('✔ Looking good.')->white('Have you tested everything?');
 
-    echo Helper::getColourString('✔ Looking good. ', 'green');
-    echo Helper::getColourString('Have you tested everything?', 'gray') . PHP_EOL;
-
-    // Exit with zero to allow the commit.
     exit(0);
-
 }

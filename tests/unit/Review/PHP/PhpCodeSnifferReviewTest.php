@@ -133,7 +133,7 @@ class PhpCodeSnifferReviewTest extends TestCase
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
-        $reporter->shouldReceive('error')->once()->with('Message on line 2', $this->review, $this->file);
+        $reporter->shouldReceive('warning')->once()->with('Message on line 2', $this->review, $this->file);
 
         $this->review->review($reporter, $this->file);
     }
