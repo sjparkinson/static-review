@@ -7,9 +7,8 @@ php:
   - hhvm
   - hhvm-nightly
 
-before_script:
-  - composer self-update
-  - composer install --no-interaction --optimize-autoloader --prefer-source
+install:
+  - travis_retry composer install --no-interaction --optimize-autoloader --prefer-source
 
 script:
   - vendor/bin/phpunit
