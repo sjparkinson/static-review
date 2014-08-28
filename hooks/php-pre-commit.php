@@ -17,13 +17,13 @@ require_once file_exists(__DIR__ . '/../vendor/autoload.php')
 // Reference the required classes and the reviews you want to use.
 use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
+use StaticReview\Review\Composer\ComposerLintReview;
 use StaticReview\Review\General\LineEndingsReview;
 use StaticReview\Review\General\NoCommitTagReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
 use StaticReview\StaticReview;
 use StaticReview\VersionControl\VersionControlFactory;
-use StaticReview\Review\Composer\ComposerLintReview;
 
 $reporter = new Reporter();
 
