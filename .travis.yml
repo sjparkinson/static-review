@@ -7,10 +7,9 @@ php:
   - hhvm
   - hhvm-nightly
 
-before_script:
-  - composer self-update
-  - composer install --no-interaction --optimize-autoloader --prefer-source
+install:
+  - travis_retry composer install --no-interaction --optimize-autoloader --prefer-source
 
 script:
   - vendor/bin/phpunit
-  - vendor/bin/php-cs-fixer --dry-run -v --config-file=.php_cs.travis fix
+  - vendor/bin/php-cs-fixer --dry-run -vvv fix

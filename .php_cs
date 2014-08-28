@@ -31,5 +31,6 @@ return Symfony\CS\Config\Config::create()
         'concat_with_spaces',
         'ordered_use',
         'short_array_syntax',
+        'strict',
     ])
 ;
