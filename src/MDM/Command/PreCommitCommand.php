@@ -3,7 +3,6 @@
 namespace MDM\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +14,7 @@ class PreCommitCommand extends Command
     const WITH_PICS = true;
 
     const PHP_CS_FIXER_ENABLE = true;
-    const PHP_CS_FIXER_FILTERS = 'linefeed,short_tag,indentation,trailing_spaces,phpdoc_params,extra_empty_lines,controls_spaces,braces,elseif';
+    const PHP_CS_FIXER_FILTERS = 'linefeed,short_tag,indentation,trailing_spaces,phpdoc_params,extra_empty_lines,controls_spaces,braces,elseif,lowercase_constants,lowercase_keywords,operators_spaces,return,ternary_spaces,unused_use,whitespacy_lines';
     const PHP_CS_FIXER_AUTOADD_GIT = true;
 
     const PHP_CPD_ENABLE = true;
