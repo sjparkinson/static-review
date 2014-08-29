@@ -52,8 +52,13 @@ class PreCommitCommand extends Command
 
         # Git conflict markers
         $stopWordsGit = array(">>>>>>", "<<<<<<", "======");
-
         $stopWordsPhp = array("var_dump\(", "die\(");
+
+        // Files Blacklist
+        $blacklistFiles = array(
+          '_inline_end_js.mobile.php',
+          '_inline_end_js.php'
+        );
 
         // JavaScript debug code that would break IE.
         $stopWordsJs = array("console.debug", "console.log", "alert\(");
@@ -65,6 +70,10 @@ class PreCommitCommand extends Command
             if ("" != $file) {
                 ++$cpt;
                 $fileName = trim(substr($file, 1));
+                if (in_array($fileName, $blacklistFiles)) {
+                    continue;
+                }
+
                 $fileInfo = pathinfo($fileName, PATHINFO_EXTENSION);
                 switch ($fileInfo) {
                     case "php":
