@@ -68,12 +68,13 @@ class PreCommitCommand extends Command
         $perfectSyntax = true;
         foreach ($files as $file) {
             if ("" != $file) {
-                ++$cpt;
                 $fileName = trim(substr($file, 1));
-                if (in_array($fileName, $blacklistFiles)) {
+                $fileBaseName = pathinfo($fileName, PATHINFO_BASENAME);
+                if (in_array($fileBaseName, $blacklistFiles)) {
                     continue;
                 }
 
+                ++$cpt;
                 $fileInfo = pathinfo($fileName, PATHINFO_EXTENSION);
                 switch ($fileInfo) {
                     case "php":
