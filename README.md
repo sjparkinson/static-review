@@ -1,5 +1,5 @@
-StaticReview
-============
+Static-Review
+=============
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
 [![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
@@ -15,19 +15,19 @@ An extendable framework for version control hooks.
 
 ## Usage
 
-Within a [composer][composer] managed project you can simply do the following...
+For a [composer][composer] managed project you can simply run the following ...
 
 ```bash
 $ composer require sjparkinson/static-review:~2.0
 ```
 
-You can then install a hooks to your project like so...
+Hooks can then be installed like so ...
 
 ```bash
 $ vendor/bin/static-review.php hook:install vendor/sjparkinson/static-review/hooks/example-pre-commit.php .git/hooks/pre-commit
 ```
 
-Otherwise, if you don't use composer...
+Otherwise, if you don't use composer ...
 
 ```bash
 $ git clone https://github.com/sjparkinson/static-review.git
@@ -64,14 +64,13 @@ $git = new GitVersionControl();
 $review->review($git->getStagedFiles());
 
 // Check if any issues were found.
-// Exit with a non-zero to block the commit.
+// Exit with a non-zero status to block the commit.
 ($reporter->hasIssues()) ? exit(1) : exit(0);
 ```
 
 ## Example Review
 
 ```php
-<?php
 class NoCommitTagReview extends AbstractReview
 {
     // Review any text based file.
@@ -112,6 +111,7 @@ $ vagrant ssh
 $ cd /srv
 $ composer install --dev --optimize-autoloader
 $ vendor/bin/phpunit
+$ vendor/bin/php-cs-fixer fix --dry-run --verbose
 ```
 
 [vagrant]: https://www.vagrantup.com
