@@ -18,7 +18,7 @@ An extendable framework for version control hooks.
 Within a [composer][composer] managed project you can simply do the following...
 
 ```bash
-$ composer require sjparkinson/static-review:~1.0
+$ composer require sjparkinson/static-review:~2.0
 ```
 
 You can then install a hooks to your project like so...
