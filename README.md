@@ -45,9 +45,8 @@ Below is a basic hook that you can extend upon.
 ```php
 #!/usr/bin/env php
 <?php
-require_once file_exists(__DIR__ . '/../vendor/autoload.php')
-   ? __DIR__ . '/../vendor/autoload.php'
-   : __DIR__ . '/../../../autoload.php';
+
+include __DIR__ . '/../../../autoload.php';
 
 // Reference the required classes.
 use StaticReview\StaticReview;
@@ -57,7 +56,7 @@ $reporter = new Reporter();
 $review   = new StaticReview($reporter);
 
 // Add any reviews to the StaticReview instance, supports a fluent interface.
-$review->addReview(new LineEndingsReview);
+$review->addReview(new LineEndingsReview());
 
 $git = new GitVersionControl();
 
