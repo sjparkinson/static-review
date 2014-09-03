@@ -21,6 +21,8 @@ class PhpCodeSnifferReview extends AbstractReview
 {
     protected $standard;
 
+    protected $options = [];
+
     /**
      * Gets the standard to use when reviewing with PHP_CodeSniffer.
      *
@@ -45,6 +47,29 @@ class PhpCodeSnifferReview extends AbstractReview
     }
 
     /**
+     * Gets the custom options to include when running PHP_CodeSniffer.
+     *
+     * @return string
+     */
+    public function getOptions()
+    {
+        return implode(' ', $this->options);
+    }
+
+    /**
+     * Adds a custom option to be included when running PHP_CodeSniffer.
+     *
+     * @param  string               $option
+     * @return PhpCodeSnifferReview
+     */
+    public function addOption($option)
+    {
+        $this->options[] = $option;
+
+        return $this;
+    }
+
+    /**
      * Determins if a given file should be reviewed.
      *
      * @param  FileInterface $file
@@ -64,6 +89,10 @@ class PhpCodeSnifferReview extends AbstractReview
 
         if ($this->getStandard()) {
             $cmd .= sprintf('--standard=%s ', $this->getStandard());
+        }
+
+        if ($this->getOptions()) {
+            $cmd .= $this->getOptions() . ' ';
         }
 
         $cmd .= $file->getFullPath();
