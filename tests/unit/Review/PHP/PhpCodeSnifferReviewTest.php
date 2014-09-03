@@ -56,6 +56,28 @@ class PhpCodeSnifferReviewTest extends TestCase
         $this->assertSame($pearStandard, $this->review->getStandard());
     }
 
+    public function testGetOptions()
+    {
+        $expected = '--test-option';
+
+        $this->review->addOption($expected);
+
+        $this->assertSame($expected, $this->review->getOptions());
+    }
+
+    public function testAddOption()
+    {
+        $option = '--test-option';
+
+        $this->review->addOption($option);
+
+        $this->assertSame($option, $this->review->getOptions());
+
+        $this->review->addOption($option);
+
+        $this->assertSame($option . ' ' . $option, $this->review->getOptions());
+    }
+
     public function testCanReview()
     {
         $this->file->shouldReceive('getExtension')->once()->andReturn('php');
@@ -87,6 +109,27 @@ class PhpCodeSnifferReviewTest extends TestCase
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
 
         $this->review->setStandard('PSR2');
+
+        $this->review->review($reporter, $this->file);
+    }
+
+    public function testReviewWithOptions()
+    {
+        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
+
+        $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
+        $process->shouldReceive('run')->once();
+        $process->shouldReceive('isSuccessful')->once()->andReturn(true);
+        $process->shouldReceive('getOutput')->once()->andReturn(PHP_EOL . PHP_EOL);
+
+        $this->review->shouldReceive('getProcess')
+                     ->once()
+                     ->with('vendor/bin/phpcs --report=csv --test-option ' . __FILE__)
+                     ->andReturn($process);
+
+        $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
+
+        $this->review->addOption('--test-option');
 
         $this->review->review($reporter, $this->file);
     }
