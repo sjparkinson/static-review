@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of StaticReview
  *
@@ -26,37 +27,58 @@ class GitVersionControl implements VersionControlInterface
      *
      * Returns either an empty array or a tab separated list of staged files and
      * their git status.
-     *§
+     *
      * @link http://git-scm.com/docs/git-status
      *
      * @return FileCollection
      */
     public function getStagedFiles()
     {
+        $base = $this->getProjectBase();
+
         $files = new FileCollection();
 
-        $process = new Process('git rev-parse --show-toplevel');
-        $process->run();
-
-        $base = trim($process->getOutput());
-
-        $process = new Process('git diff --cached --name-status --diff-filter=ACMR');
-        $process->run();
-
-        $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-
-        foreach ($output as $file) {
+        foreach ($this->getFiles() as $file) {
             list($status, $relativePath) = explode("\t", $file);
 
-            $fullPath = $base . '/' . $relativePath;
+            $fullPath = $base . DIRECTORY_SEPARATOR . $relativePath;
 
             $file = new File($status, $fullPath, $base);
             $this->saveFileToCache($file);
-
             $files->append($file);
         }
 
         return $files;
+    }
+
+    /**
+     * Gets the projects base directory.
+     *
+     * @return string
+     */
+    private function getProjectBase()
+    {
+        $process = new Process('git rev-parse --show-toplevel');
+        $process->run();
+
+        return trim($process->getOutput());
+    }
+
+    /**
+     * Gets the list of files from the index.
+     *
+     * @return array
+     */
+    private function getFiles()
+    {
+        $process = new Process('git diff --cached --name-status --diff-filter=ACMR');
+        $process->run();
+
+        if ($process->isSuccessful()) {
+        return array_filter(explode(PHP_EOL, $process->getOutput()));
+    }
+
+        return [];
     }
 
     /**

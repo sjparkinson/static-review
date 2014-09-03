@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of StaticReview
  *
@@ -183,14 +184,14 @@ class IssueTest extends TestCase
             Issue::LEVEL_INFO,
             Issue::LEVEL_INFO | Issue::LEVEL_WARNING,
             Issue::LEVEL_INFO | Issue::LEVEL_ERROR,
-            Issue::LEVEL_ALL
+            Issue::LEVEL_ALL,
         ];
 
         $shouldNotMatch = [
             Issue::LEVEL_WARNING,
             Issue::LEVEL_ERROR,
             Issue::LEVEL_WARNING | Issue::LEVEL_ERROR,
-            Issue::LEVEL_ALL & ~Issue::LEVEL_INFO
+            Issue::LEVEL_ALL & ~Issue::LEVEL_INFO,
         ];
 
         foreach ($shouldMatch as $option) {
