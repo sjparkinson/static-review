@@ -92,7 +92,7 @@ class Issue implements IssueInterface
      */
     public function getLevelName()
     {
-        switch($this->getLevel()) {
+        switch ($this->getLevel()) {
             case self::LEVEL_INFO:
                 return 'Info';
 
@@ -151,6 +151,7 @@ class Issue implements IssueInterface
             $this->getReviewName(),
             $this->getLevelName(),
             $this->getMessage(),
-            $this->getFile()->getRelativePath());
+            $this->getFile()->getRelativePath()
+        );
     }
 }

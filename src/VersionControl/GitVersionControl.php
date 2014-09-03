@@ -45,7 +45,7 @@ class GitVersionControl implements VersionControlInterface
 
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
 
-        foreach($output as $file) {
+        foreach ($output as $file) {
             list($status, $relativePath) = explode("\t", $file);
 
             $fullPath = $base . '/' . $relativePath;

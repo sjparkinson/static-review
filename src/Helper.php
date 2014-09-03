@@ -19,7 +19,7 @@ class Helper
     /**
      * Dictonary of bash colour prefixes.
      */
-    private static $_foregroundPrefix = [
+    private static $foregroundPrefix = [
         'black' => '0;30', 'blue'   => '0;34',
         'green' => '0;32', 'cyan'   => '0;36',
         'red'   => '0;31', 'purple' => '0;35',
@@ -39,8 +39,8 @@ class Helper
         $builder = "";
 
         // Check if given foreground color found
-        if (array_key_exists($foreground, self::$_foregroundPrefix)) {
-            $builder .= "\033[" . self::$_foregroundPrefix[$foreground] . "m";
+        if (array_key_exists($foreground, self::$foregroundPrefix)) {
+            $builder .= "\033[" . self::$foregroundPrefix[$foreground] . "m";
         }
 
         // Add string and end coloring

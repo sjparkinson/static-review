@@ -116,7 +116,7 @@ class IssueTest extends TestCase
 
     public function testGetLevelName()
     {
-        foreach($this->levels as $level) {
+        foreach ($this->levels as $level) {
             $issue = new Issue(
                 $level,
                 $this->issueMessage,
@@ -137,14 +137,15 @@ class IssueTest extends TestCase
             Issue::LEVEL_ALL,
             $this->issueMessage,
             $this->issueReview,
-            $this->issueFile);
+            $this->issueFile
+        );
 
         $this->assertNull($issue->getLevelName());
     }
 
     public function testGetColour()
     {
-        foreach($this->levels as $level) {
+        foreach ($this->levels as $level) {
             $issue = new Issue(
                 $level,
                 $this->issueMessage,
@@ -192,11 +193,11 @@ class IssueTest extends TestCase
             Issue::LEVEL_ALL & ~Issue::LEVEL_INFO
         ];
 
-        foreach($shouldMatch as $option) {
+        foreach ($shouldMatch as $option) {
             $this->assertTrue($this->issue->matches($option));
         }
 
-        foreach($shouldNotMatch as $option) {
+        foreach ($shouldNotMatch as $option) {
             $this->assertFalse($this->issue->matches($option));
         }
     }

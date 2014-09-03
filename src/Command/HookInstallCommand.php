@@ -29,8 +29,17 @@ class HookInstallCommand extends Command
 
         $this->setDescription('Symlink a hook to the given target.');
 
-        $this->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'The hook to link, either a path to a file or the filename of a hook in the hooks folder.')
-             ->addArgument(self::ARGUMENT_LINK, InputArgument::REQUIRED, 'The target location, including the filename (e.g. .git/hooks/pre-commit).');
+        $this->addArgument(
+            self::ARGUMENT_TARGET,
+            InputArgument::REQUIRED,
+            'The hook to link, either a path to a file or the filename of a hook in the hooks folder.'
+        );
+
+        $this->addArgument(
+            self::ARGUMENT_LINK,
+            InputArgument::REQUIRED,
+            'The target location, including the filename (e.g. .git/hooks/pre-commit).'
+        );
 
         $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Overrite any existing files at the symlink target.');
     }

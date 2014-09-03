@@ -18,8 +18,9 @@ require_once file_exists(__DIR__ . '/../vendor/autoload.php')
 use StaticReview\Helper;
 use StaticReview\Reporter\Reporter;
 use StaticReview\Review\Composer\ComposerLintReview;
+use StaticReview\Review\Composer\ComposerSecurityReview;
 use StaticReview\Review\General\LineEndingsReview;
-use StaticReview\Review\General\NoCommitTagReview;
+use StaticReview\Review\PHP\PhpCodeSnifferReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
 use StaticReview\StaticReview;
@@ -32,9 +33,13 @@ $review = new StaticReview($reporter);
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview())
        ->addReview(new PhpLeadingLineReview())
-       ->addReview(new NoCommitTagReview())
        ->addReview(new PhpLintReview())
-       ->addReview(new ComposerLintReview());
+       ->addReview(new ComposerLintReview())
+       ->addReview(new ComposerSecurityReview());
+
+$codeSniffer = new PhpCodeSnifferReview();
+$codeSniffer->setStandard('PSR2');
+$review->addReview($codeSniffer);
 
 $git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
 
