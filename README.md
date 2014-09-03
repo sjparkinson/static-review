@@ -59,7 +59,7 @@ $review   = new StaticReview($reporter);
 // Add any reviews to the StaticReview instance, supports a fluent interface.
 $review->addReview(new LineEndingsReview);
 
-$git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
+$git = new GitVersionControl();
 
 // Review the staged files.
 $review->review($git->getStagedFiles());
@@ -69,7 +69,7 @@ $review->review($git->getStagedFiles());
 ($reporter->hasIssues()) ? exit(1) : exit(0);
 ```
 
-## Example Check
+## Example Review
 
 ```php
 <?php

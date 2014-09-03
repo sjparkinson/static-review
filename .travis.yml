@@ -11,5 +11,5 @@ install:
   - travis_retry composer install --no-interaction --optimize-autoloader --prefer-source
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --testsuite unit
   - vendor/bin/php-cs-fixer fix --dry-run --verbose

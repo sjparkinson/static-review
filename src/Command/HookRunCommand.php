@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of StaticReview
  *
@@ -36,8 +37,8 @@ class HookRunCommand extends Command
         $hookArg = $input->getArgument(self::ARGUMENT_HOOK);
         $path = $this->getTargetPath($hookArg);
 
-        if (file_exists($hook)) {
-            $cmd = 'php ' . $hook;
+        if (file_exists($path)) {
+            $cmd = 'php ' . $path;
 
             $process = new Process($cmd);
 
