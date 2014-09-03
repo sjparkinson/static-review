@@ -29,4 +29,6 @@ interface FileInterface
     public function getStatus();
 
     public function getFormattedStatus();
+
+    public function getMimeType();
 }

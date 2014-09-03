@@ -23,17 +23,17 @@ class File implements FileInterface
     const STATUS_RENAMED  = 'R';
 
     /**
-     * The file path as provided by git.
+     * The full path to the file.
      */
     private $filePath;
 
     /**
-     * The file status as provided by git.
+     * The files status.
      */
     private $fileStatus;
 
     /**
-     * The git projects base directory.
+     * The projects base directory.
      */
     private $projectPath;
 
@@ -76,7 +76,7 @@ class File implements FileInterface
      */
     public function getRelativePath()
     {
-        return $this->filePath;
+        return str_replace($this->projectPath . DIRECTORY_SEPARATOR, '', $this->filePath);
     }
 
     /**
@@ -90,7 +90,7 @@ class File implements FileInterface
             return $this->getCachedPath();
         }
 
-        return $this->projectPath . '/' . $this->filePath;
+        return $this->filePath;
     }
 
     /**
@@ -145,7 +145,7 @@ class File implements FileInterface
      */
     public function getFormattedStatus()
     {
-        switch($this->fileStatus) {
+        switch ($this->fileStatus) {
             case 'A':
                 return 'added';
             case 'C':
@@ -157,5 +157,21 @@ class File implements FileInterface
             default:
                 throw new \UnexpectedValueException("Unknown file status: $this->fileStatus.");
         }
+    }
+
+    /**
+     * Get the mime type for the file.
+     *
+     * @param  FileInterface $file
+     * @return string
+     */
+    public function getMimeType()
+    {
+        // return mime type ala mimetype extension
+        $finfo = finfo_open(FILEINFO_MIME);
+
+        $mime = finfo_file($finfo, $this->getFullPath());
+
+        return $mime;
     }
 }

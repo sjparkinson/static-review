@@ -10,19 +10,17 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Review\Config;
+namespace StaticReview\Review\Composer;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
 use Symfony\Component\Process\Process;
 
-class ComposerConfigReview extends AbstractReview
+class ComposerLintReview extends AbstractReview
 {
     /**
-     * Review any text based file.
-     *
-     * @link http://stackoverflow.com/a/632786
+     * Lint only the composer.json file.
      *
      * @param  FileInterface $file
      * @return bool
@@ -35,6 +33,9 @@ class ComposerConfigReview extends AbstractReview
 
     /**
      * Check the composer.json file is valid.
+     *
+     * @param ReporterInterface $reporter
+     * @param FileInterface     $file
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {

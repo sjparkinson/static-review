@@ -29,10 +29,7 @@ class NoCommitTagReview extends AbstractReview
      */
     public function canReview(FileInterface $file)
     {
-        // return mime type ala mimetype extension
-        $finfo = finfo_open(FILEINFO_MIME);
-
-        $mime = finfo_file($finfo, $file->getFullPath());
+        $mime = $file->getMimeType();
 
         // check to see if the mime-type starts with 'text'
         return (substr($mime, 0, 4) === 'text');
@@ -45,14 +42,14 @@ class NoCommitTagReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('grep -Fqi "NOCOMMIT" %s', $file->getFullPath());
+        $cmd = sprintf('grep --fixed-strings --ignore-case --quiet "NOCOMMIT" %s', $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
 
         if ($process->isSuccessful()) {
 
-            $message = 'NOCOMMIT tag found';
+            $message = 'A NOCOMMIT tag was found';
             $reporter->error($message, $this, $file);
 
         }

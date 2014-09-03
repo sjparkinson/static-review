@@ -1,9 +1,11 @@
 # Project Files & Folders #
 ###########################
 composer.lock
+phpunit.xml
 *.sublime-*
 .vagrant/
 vendor/
+build/
 
 # OS Generated Files #
 ######################

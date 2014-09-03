@@ -74,7 +74,7 @@ class Issue implements IssueInterface
      */
     public function getReviewName()
     {
-        $classPath = explode(' ', str_replace(['\\', '_'], ' ', get_class($this->review)));
+        $classPath = explode('\\', get_class($this->review));
 
         return end($classPath);
     }
@@ -92,7 +92,7 @@ class Issue implements IssueInterface
      */
     public function getLevelName()
     {
-        switch($this->getLevel()) {
+        switch ($this->getLevel()) {
             case self::LEVEL_INFO:
                 return 'Info';
 
@@ -123,6 +123,9 @@ class Issue implements IssueInterface
 
             case self::LEVEL_ERROR:
                 return 'red';
+
+            default:
+                throw new \UnexpectedValueException('Could not get a colour. Level was set to ' . $this->getLevel());
         }
     }
 
@@ -148,6 +151,7 @@ class Issue implements IssueInterface
             $this->getReviewName(),
             $this->getLevelName(),
             $this->getMessage(),
-            $this->getFile()->getRelativePath());
+            $this->getFile()->getRelativePath()
+        );
     }
 }

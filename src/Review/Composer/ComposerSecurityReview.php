@@ -10,46 +10,49 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-namespace StaticReview\Review\General;
+namespace StaticReview\Review\Composer;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
 use Symfony\Component\Process\Process;
 
-class LineEndingsReview extends AbstractReview
+class ComposerSecurityReview extends AbstractReview
 {
     /**
-     * Review any text based file.
-     *
-     * @link http://stackoverflow.com/a/632786
+     * Check the composer.lock file for security issues.
      *
      * @param  FileInterface $file
      * @return bool
      */
     public function canReview(FileInterface $file)
     {
-        $mime = $file->getMimeType();
+        if ($file->getFileName() === 'composer.lock') {
+            return true;
+        }
 
-        // check to see if the mime-type starts with 'text'
-        return (substr($mime, 0, 4) === 'text');
+        return false;
     }
 
     /**
-     * Checks if the set file contains any CRLF line endings.
+     * Check the composer.lock file doesn't contain dependencies
+     * with known security vulnerabilities.
      *
-     * @link http://stackoverflow.com/a/3570574
+     * @param ReporterInterface $reporter
+     * @param FileInterface     $file
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('file %s | grep --fixed-strings --quiet "CRLF"', $file->getFullPath());
+        $executable = 'vendor/bin/security-checker';
+
+        $cmd = sprintf('%s security:check %s', $executable, $file->getFullPath());
 
         $process = $this->getProcess($cmd);
         $process->run();
 
-        if ($process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
 
-            $message = 'File contains CRLF line endings';
+            $message = 'The composer project dependencies contain known vulnerabilities';
             $reporter->error($message, $this, $file);
 
         }

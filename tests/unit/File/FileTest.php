@@ -28,8 +28,8 @@ class FileTest extends TestCase
     public function setUp()
     {
         $this->fileStatus  = 'M';
-        $this->filePath    = 'not/a/file.php';
-        $this->projectPath = '/not/a/path';
+        $this->filePath    = __FILE__;
+        $this->projectPath = __DIR__;
 
         $this->file = new File($this->fileStatus, $this->filePath, $this->projectPath);
 
@@ -38,21 +38,21 @@ class FileTest extends TestCase
 
     public function testGetFileName()
     {
-        $expected = 'file.php';
+        $expected = basename($this->filePath);
 
         $this->assertSame($expected, $this->file->getFileName());
     }
 
     public function testGetRelativePath()
     {
-        $this->assertSame($this->filePath, $this->file->getRelativePath());
+        $expected = str_replace($this->projectPath . DIRECTORY_SEPARATOR, '', $this->filePath);
+
+        $this->assertSame($expected, $this->file->getRelativePath());
     }
 
     public function testGetFullPathWithNoCachedPath()
     {
-        $expected = $this->projectPath . '/' . $this->filePath;
-
-        $this->assertSame($expected, $this->file->getFullPath());
+        $this->assertSame($this->filePath, $this->file->getFullPath());
     }
 
     public function testGetFullPathWithCachedPath()
@@ -68,7 +68,7 @@ class FileTest extends TestCase
     {
         $this->assertNull($this->file->getCachedPath());
 
-        $path = '/Test';
+        $path = __DIR__;
 
         $result = $this->file->setCachedPath($path);
 
@@ -79,9 +79,9 @@ class FileTest extends TestCase
     {
         $this->assertNull($this->file->getCachedPath());
 
-        $path = '/Test';
+        $path = __DIR__;
 
-        $this->assertSame($this->file,  $this->file->setCachedPath($path));
+        $this->assertSame($this->file, $this->file->setCachedPath($path));
 
         $this->assertSame($path, $this->file->getCachedPath());
     }
@@ -100,9 +100,9 @@ class FileTest extends TestCase
 
     public function testGetFormattedStatus()
     {
-        $possiable = [ 'A', 'C', 'M', 'R' ];
+        $statuses = [ 'A', 'C', 'M', 'R' ];
 
-        foreach($possiable as $status) {
+        foreach ($statuses as $status) {
             $file = new File($status, $this->filePath, $this->projectPath);
             $this->assertTrue(is_string($file->getFormattedStatus()));
         }
@@ -116,5 +116,10 @@ class FileTest extends TestCase
         $file = new File('Z', $this->filePath, $this->projectPath);
 
         $this->assertInstanceOf('\UnexpectedValueException', $file->getFormattedStatus());
+    }
+
+    public function testGetMimeType()
+    {
+        $this->assertTrue(strpos($this->file->getMimeType(), 'php') !== false);
     }
 }

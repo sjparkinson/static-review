@@ -1,31 +1,45 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
 
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+
          bootstrap="vendor/autoload.php"
          colors="true"
          verbose="true">
 
     <!-- Test suites -->
     <testsuites>
+
         <testsuite name="unit">
-            <directory>tests/unit</directory>
+            <directory>tests/unit/</directory>
         </testsuite>
+
         <testsuite name="functional">
-            <directory>tests/functional</directory>
+            <directory>tests/functional/</directory>
         </testsuite>
+
     </testsuites>
 
     <!-- Coverage filter -->
     <filter>
+
         <whitelist>
             <directory>src/</directory>
         </whitelist>
+
     </filter>
 
     <!-- Coverage reporting -->
     <logging>
+
         <log type="coverage-text"
              target="php://stdout" />
+
+        <log type="coverage-html"
+             target="build/coverage/" />
+
     </logging>
 
 </phpunit>

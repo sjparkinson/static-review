@@ -32,11 +32,25 @@ class PhpLintReviewTest extends TestCase
         Mockery::close();
     }
 
-    public function testCanReview()
+    public function testCanReviewWithPhpExtension()
     {
-        $this->file->shouldReceive('getFullPath')->once()->andReturn(__FILE__);
+        $this->file->shouldReceive('getExtension')->once()->andReturn('php');
 
         $this->assertTrue($this->review->canReview($this->file));
+    }
+
+    public function testCanReviewWithPhtmlExtension()
+    {
+        $this->file->shouldReceive('getExtension')->once()->andReturn('phtml');
+
+        $this->assertTrue($this->review->canReview($this->file));
+    }
+
+    public function testCanReviewWithInvalidExtension()
+    {
+        $this->file->shouldReceive('getExtension')->once()->andReturn('txt');
+
+        $this->assertFalse($this->review->canReview($this->file));
     }
 
     public function testReview()
@@ -46,7 +60,9 @@ class PhpLintReviewTest extends TestCase
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->once()->andReturn(false);
-        $process->shouldReceive('getOutput')->once()->andReturn('Parse error: syntax error, test in ' . __FILE__ . PHP_EOL . 'test' . PHP_EOL);
+        $process->shouldReceive('getOutput')
+                ->once()
+                ->andReturn('Parse error: syntax error, test in ' . __FILE__ . PHP_EOL . 'test' . PHP_EOL);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 

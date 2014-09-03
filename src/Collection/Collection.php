@@ -49,9 +49,9 @@ abstract class Collection implements Iterator, Countable
      */
     public function append($item)
     {
-        $this->validate($item);
-
-        $this->collection[] = $item;
+        if ($this->validate($item)) {
+            $this->collection[] = $item;
+        }
 
         return $this;
     }

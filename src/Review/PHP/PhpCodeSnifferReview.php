@@ -16,8 +16,33 @@ use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
 
-class PhpLintReview extends AbstractReview
+class PhpCodeSnifferReview extends AbstractReview
 {
+    protected $standard;
+
+    /**
+     * Gets the standard to use when reviewing with PHP_CodeSniffer.
+     *
+     * @return string
+     */
+    public function getStandard()
+    {
+        return $this->standard;
+    }
+
+    /**
+     * Sets the standard to use when reviewing with PHP_CodeSniffer.
+     *
+     * @param  string               $standard
+     * @return PhpCodeSnifferReview
+     */
+    public function setStandard($standard)
+    {
+        $this->standard = $standard;
+
+        return $this;
+    }
+
     /**
      * Determins if a given file should be reviewed.
      *
@@ -26,17 +51,21 @@ class PhpLintReview extends AbstractReview
      */
     public function canReview(FileInterface $file)
     {
-        $extension = $file->getExtension();
-
-        return ($extension === 'php' || $extension === 'phtml');
+        return ($file->getExtension() === 'php');
     }
 
     /**
-     * Checks PHP files using the builtin PHP linter, `php -l`.
+     * Checks PHP files using PHP_CodeSniffer.
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = sprintf('php --syntax-check %s', $file->getFullPath());
+        $cmd = 'vendor/bin/phpcs --report=csv ';
+
+        if ($this->getStandard()) {
+            $cmd .= sprintf('--standard=%s ', $this->getStandard());
+        }
+
+        $cmd .= $file->getFullPath();
 
         $process = $this->getProcess($cmd);
         $process->run();
@@ -44,13 +73,13 @@ class PhpLintReview extends AbstractReview
         // Create the array of outputs and remove empty values.
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
 
-        $needle = 'Parse error: syntax error, ';
-
         if (! $process->isSuccessful()) {
 
-            foreach (array_slice($output, 0, count($output) - 1) as $error) {
-                $raw = ucfirst(substr($error, strlen($needle)));
-                $message = str_replace(' in ' . $file->getFullPath(), '', $raw);
+            array_shift($output);
+
+            foreach ($output as $error) {
+                $split = explode(',', $error);
+                $message = str_replace('"', '', $split[4]) . ' on line ' . $split[1];
                 $reporter->error($message, $this, $file);
             }
 
