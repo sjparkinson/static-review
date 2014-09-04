@@ -34,7 +34,7 @@ use StaticReview\Review\PHP\PhpCodeSnifferReview;
 use StaticReview\Review\PHP\PhpLeadingLineReview;
 use StaticReview\Review\PHP\PhpLintReview;
 use StaticReview\StaticReview;
-use StaticReview\VersionControl\VersionControlFactory;
+use StaticReview\VersionControl\GitVersionControl;
 
 $reporter = new Reporter();
 
@@ -48,10 +48,10 @@ $review->addReview(new LineEndingsReview())
        ->addReview(new ComposerSecurityReview());
 
 $codeSniffer = new PhpCodeSnifferReview();
-$codeSniffer->setStandard('PSR2');
+$codeSniffer->setOption('standard', 'PSR2');
 $review->addReview($codeSniffer);
 
-$git = VersionControlFactory::build(VersionControlFactory::SYSTEM_GIT);
+$git = new GitVersionControl();
 
 // Review the staged files.
 $review->review($git->getStagedFiles());

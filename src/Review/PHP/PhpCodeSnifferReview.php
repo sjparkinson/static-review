@@ -19,27 +19,55 @@ use StaticReview\Review\AbstractReview;
 
 class PhpCodeSnifferReview extends AbstractReview
 {
-    protected $standard;
+    protected $options = [];
 
     /**
-     * Gets the standard to use when reviewing with PHP_CodeSniffer.
+     * Gets the value of an option.
      *
+     * @param  string $option
      * @return string
      */
-    public function getStandard()
+    public function getOption($option)
     {
-        return $this->standard;
+        return $this->options[$option];
     }
 
     /**
-     * Sets the standard to use when reviewing with PHP_CodeSniffer.
+     * Gets a string of the set options to pass to the command line.
      *
-     * @param  string               $standard
+     * @return string
+     */
+    public function getOptionsForConsole()
+    {
+        $builder = '';
+
+        foreach ($this->options as $option => $value) {
+            $builder .= '--' . $option;
+
+            if ($value) {
+                $builder .= '=' . $value;
+            }
+
+            $builder .= ' ';
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Adds an option to be included when running PHP_CodeSniffer. Overwrites the values of options with the same name.
+     *
+     * @param  string               $option
+     * @param  string               $value
      * @return PhpCodeSnifferReview
      */
-    public function setStandard($standard)
+    public function setOption($option, $value)
     {
-        $this->standard = $standard;
+        if ($option === 'report') {
+            throw new \RuntimeException('"report" is not a valid option name.');
+        }
+
+        $this->options[$option] = $value;
 
         return $this;
     }
@@ -62,8 +90,8 @@ class PhpCodeSnifferReview extends AbstractReview
     {
         $cmd = 'vendor/bin/phpcs --report=csv ';
 
-        if ($this->getStandard()) {
-            $cmd .= sprintf('--standard=%s ', $this->getStandard());
+        if ($this->getOptionsForConsole()) {
+            $cmd .= $this->getOptionsForConsole();
         }
 
         $cmd .= $file->getFullPath();
