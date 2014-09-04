@@ -33,28 +33,53 @@ class PhpCodeSnifferReviewTest extends TestCase
         Mockery::close();
     }
 
-    public function testGetStandard()
+    public function testGetOption()
     {
-        $expected = 'PSR2';
+        $this->review->setOption('standard', 'PSR2');
 
-        $this->review->setStandard($expected);
-
-        $this->assertSame($expected, $this->review->getStandard());
+        $this->assertSame('PSR2', $this->review->getOption('standard'));
     }
 
-    public function testSetStandard()
+    public function testGetOptionForConsole()
     {
-        $psr2Standard = 'PSR2';
+        $this->review->setOption('standard', 'PSR2');
 
-        $this->review->setStandard($psr2Standard);
+        $this->assertSame('--standard=PSR2 ', $this->review->getOptionsForConsole());
+    }
 
-        $this->assertSame($psr2Standard, $this->review->getStandard());
+    public function testSetOption()
+    {
+        $this->review->setOption('standard', 'PSR2');
 
-        $pearStandard = 'PEAR';
+        $this->assertSame('PSR2', $this->review->getOption('standard'));
 
-        $this->review->setStandard($pearStandard);
+        $this->review->setOption('test', 'value');
 
-        $this->assertSame($pearStandard, $this->review->getStandard());
+        $this->assertSame('value', $this->review->getOption('test'));
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testSetOptionWithReportOption()
+    {
+        $this->review->setOption('report', 'value');
+    }
+
+    public function testSetOptionWithOverwrite()
+    {
+        $this->review->setOption('standard', 'PSR2');
+
+        $this->assertSame('PSR2', $this->review->getOption('standard'));
+
+        $this->review->setOption('standard', 'PEAR');
+
+        $this->assertSame('PEAR', $this->review->getOption('standard'));
+    }
+
+    public function testSetOptionReturnsReview()
+    {
+        $this->assertInstanceOf(get_class($this->review), $this->review->setOption('test', 'test'));
     }
 
     public function testCanReview()
@@ -87,7 +112,7 @@ class PhpCodeSnifferReviewTest extends TestCase
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
 
-        $this->review->setStandard('PSR2');
+        $this->review->setOption('standard', 'PSR2');
 
         $this->review->review($reporter, $this->file);
     }
@@ -108,7 +133,7 @@ class PhpCodeSnifferReviewTest extends TestCase
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
-        $reporter->shouldReceive('error')->once()->with('Message on line 2', $this->review, $this->file);
+        $reporter->shouldReceive('warning')->once()->with('Message on line 2', $this->review, $this->file);
 
         $this->review->review($reporter, $this->file);
     }
