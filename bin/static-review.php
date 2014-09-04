@@ -30,7 +30,7 @@ use StaticReview\Command\HookRunCommand;
 use Symfony\Component\Console\Application;
 
 $name    = 'StaticReview Command Line Tool';
-$version = '2.0.0';
+$version = '3.0.0';
 
 $console = new Application($name, $version);
 
