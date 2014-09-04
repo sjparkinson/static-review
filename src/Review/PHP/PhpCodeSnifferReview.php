@@ -109,7 +109,7 @@ class PhpCodeSnifferReview extends AbstractReview
             foreach ($output as $error) {
                 $split = explode(',', $error);
                 $message = str_replace('"', '', $split[4]) . ' on line ' . $split[1];
-                $reporter->error($message, $this, $file);
+                $reporter->warning($message, $this, $file);
             }
 
         }
