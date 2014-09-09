@@ -25,7 +25,7 @@ if (! $included) {
 }
 
 // Reference the required classes and the reviews you want to use.
-use JoeTannenbaum\CLImate\CLImate;
+use CLImate\CLImate;
 use StaticReview\Issue\Issue;
 use StaticReview\Reporter\Reporter;
 use StaticReview\Review\Composer\ComposerLintReview;

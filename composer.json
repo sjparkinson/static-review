@@ -35,7 +35,7 @@
         "php": ">=5.4.0",
         "symfony/process": "~2.0",
         "symfony/console": "~2.0",
-        "joetannenbaum/climate": "~0.1"
+        "joetannenbaum/climate": "~1.0"
     },
 
     "require-dev": {
