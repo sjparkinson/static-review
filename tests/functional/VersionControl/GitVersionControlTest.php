@@ -60,7 +60,7 @@ class GitVersionControlTest extends TestCase
     }
 
     /**
-     * @group excludeFromTravis
+     * @group exclude-from-travis
      */
     public function testGetStagedFilesWithGitRepo()
     {
@@ -78,7 +78,7 @@ class GitVersionControlTest extends TestCase
     }
 
     /**
-     * @group excludeFromTravis
+     * @group exclude-from-travis
      */
     public function testGetStagedFilesWithNewFile()
     {
@@ -102,7 +102,7 @@ class GitVersionControlTest extends TestCase
     }
 
     /**
-     * @group excludeFromTravis
+     * @group exclude-from-travis
      */
     public function testGetStagedFilesWithModifiedFile()
     {
@@ -129,7 +129,7 @@ class GitVersionControlTest extends TestCase
     }
 
     /**
-     * @group excludeFromTravis
+     * @group exclude-from-travis
      */
     public function testGetStagedFilesWithPartiallyStagedFile()
     {

@@ -75,8 +75,8 @@ class GitVersionControl implements VersionControlInterface
         $process->run();
 
         if ($process->isSuccessful()) {
-        return array_filter(explode(PHP_EOL, $process->getOutput()));
-    }
+            return array_filter(explode(PHP_EOL, $process->getOutput()));
+        }
 
         return [];
     }
