@@ -21,8 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class HookInstallCommand extends Command
 {
-    const ARGUMENT_TARGET = 'target';
-    const ARGUMENT_LINK   = 'link';
+    const ARG_SOURCE = 'source';
+    const ARG_TARGET = 'target';
 
     protected function configure()
     {
@@ -31,13 +31,13 @@ class HookInstallCommand extends Command
         $this->setDescription('Symlink a hook to the given target.');
 
         $this->addArgument(
-            self::ARGUMENT_TARGET,
+            self::ARG_SOURCE,
             InputArgument::REQUIRED,
             'The hook to link, either a path to a file or the filename of a hook in the hooks folder.'
         );
 
         $this->addArgument(
-            self::ARGUMENT_LINK,
+            self::ARG_TARGET,
             InputArgument::REQUIRED,
             'The target location, including the filename (e.g. .git/hooks/pre-commit).'
         );
@@ -47,58 +47,45 @@ class HookInstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $hookArgument = $input->getArgument(self::ARGUMENT_TARGET);
-
-        $target = $this->getTargetPath($hookArgument);
-        $link   = $input->getArgument(self::ARGUMENT_LINK);
+        $source = realpath($input->getArgument(self::ARG_SOURCE));
+        $target = $input->getArgument(self::ARG_TARGET);
         $force  = $input->getOption('force');
 
         if ($output->isVeryVerbose()) {
-            $message = sprintf('<info>Using %s for the install path.</info>', $link);
+            $message = sprintf('<info>Using %s as the hook.</info>', $source);
             $output->writeln($message);
 
-            $message = sprintf('<info>Using %s as the hook.</info>', $target);
-            $output->writeln($message);
-        }
-
-        if (! is_dir(dirname($link))) {
-            $message = sprintf('<error>The directory at %s does not exist.</error>', $link);
-            $output->writeln($message);
-            exit(1);
-        }
-
-        if (file_exists($link) && $force) {
-            unlink($link);
-
-            $message = sprintf('<comment>Removed existing file at %s.</comment>', $link);
+            $message = sprintf('<info>Using %s for the install path.</info>', $target);
             $output->writeln($message);
         }
 
-        if (! file_exists($link) || $force) {
-            symlink($target, $link);
-            chmod($link, 0755);
-            $output->writeln('Symlink created.');
-        } else {
-            $message = sprintf('<error>A file at %s already exists.</error>', $link);
-            $output->writeln($message);
-            exit(1);
-        }
-    }
-
-    /**
-     * @param $hookArgument string
-     * @return string
-     */
-    protected function getTargetPath($hookArgument)
-    {
-        $target = realpath($hookArgument);
-
-        if (! file_exists($target)) {
-            $error = sprintf('<error>The hook %s does not exist!</error>', $target);
+        if (! file_exists($source)) {
+            $error = sprintf('<error>The hook %s does not exist!</error>', $source);
             $output->writeln($error);
             exit(1);
         }
 
-        return $target;
+        if (! is_dir(dirname($target))) {
+            $message = sprintf('<error>The directory at %s does not exist.</error>', $target);
+            $output->writeln($message);
+            exit(1);
+        }
+
+        if (file_exists($target) && $force) {
+            unlink($target);
+
+            $message = sprintf('<comment>Removed existing file at %s.</comment>', $target);
+            $output->writeln($message);
+        }
+
+        if (! file_exists($target) || $force) {
+            symlink($source, $target);
+            chmod($target, 0755);
+            $output->writeln('Symlink created.');
+        } else {
+            $message = sprintf('<error>A file at %s already exists.</error>', $target);
+            $output->writeln($message);
+            exit(1);
+        }
     }
 }
