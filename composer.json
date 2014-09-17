@@ -31,11 +31,15 @@
         }
     },
 
+    "bin": [
+        "bin/static-review.php"
+    ],
+
     "require": {
         "php": ">=5.4.0",
         "symfony/process": "~2.0",
         "symfony/console": "~2.0",
-        "joetannenbaum/climate": "~1.0"
+        "league/climate": "~2.0"
     },
 
     "require-dev": {
@@ -50,16 +54,8 @@
         "squizlabs/php_codesniffer":   "Required for PhpCodeSnifferReview."
     },
 
-    "bin": [
-        "bin/static-review.php"
-    ],
-
-    "scripts": {
-        "post-install-cmd": [
-            "composer dump-autoload --optimize"
-        ],
-        "post-update-cmd": [
-            "composer dump-autoload --optimize"
-        ]
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
     }
 }
