@@ -88,7 +88,7 @@ class PhpCodeSnifferReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
-        $cmd = 'vendor/bin/phpcs --report=csv ';
+        $cmd = 'vendor/bin/phpcs --report=json ';
 
         if ($this->getOptionsForConsole()) {
             $cmd .= $this->getOptionsForConsole();
@@ -99,19 +99,21 @@ class PhpCodeSnifferReview extends AbstractReview
         $process = $this->getProcess($cmd);
         $process->run();
 
-        // Create the array of outputs and remove empty values.
-        $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-
         if (! $process->isSuccessful()) {
 
-            array_shift($output);
+            // Create the array of outputs and remove empty values.
+            $output = json_decode($process->getOutput(), true);
 
-            foreach ($output as $error) {
-                $split = explode(',', $error);
-                $message = str_replace('"', '', $split[4]) . ' on line ' . $split[1];
+            $filter = function ($acc, $file) {
+                if ($file['errors'] > 0 || $file['warnings'] > 0) {
+                    return $acc + $file['messages'];
+                }
+            };
+
+            foreach (array_reduce($output['files'], $filter, []) as $error) {
+                $message = $error['message'] . ' on line ' . $error['line'];
                 $reporter->warning($message, $this, $file);
             }
-
         }
     }
 }
