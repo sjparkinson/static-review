@@ -18,7 +18,7 @@ An extendable framework for version control hooks.
 For a [composer][composer] managed project you can simply run the following ...
 
 ```bash
-$ composer require sjparkinson/static-review:~4.0
+$ composer require sjparkinson/static-review
 ```
 
 Hooks can then be installed like so ...
@@ -109,9 +109,9 @@ $ vagrant up
 $ vagrant ssh
 ...
 $ cd /srv
-$ composer install --dev --optimize-autoloader
+$ composer update
 $ vendor/bin/phpunit
-$ vendor/bin/php-cs-fixer fix --dry-run --verbose
+$ vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/
 ```
 
 [vagrant]: https://www.vagrantup.com
