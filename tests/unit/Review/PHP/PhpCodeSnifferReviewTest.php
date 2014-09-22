@@ -103,11 +103,11 @@ class PhpCodeSnifferReviewTest extends TestCase
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->once()->andReturn(true);
-        $process->shouldReceive('getOutput')->once()->andReturn(PHP_EOL . PHP_EOL);
+        $process->shouldReceive('getOutput')->never();
 
         $this->review->shouldReceive('getProcess')
                      ->once()
-                     ->with('vendor/bin/phpcs --report=csv --standard=PSR2 ' . __FILE__)
+                     ->with('vendor/bin/phpcs --report=json --standard=PSR2 ' . __FILE__)
                      ->andReturn($process);
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
@@ -125,8 +125,7 @@ class PhpCodeSnifferReviewTest extends TestCase
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->once()->andReturn(false);
 
-        $testOutput  = 'File,Line,Column,Type,Message,Source,Severity' . PHP_EOL;
-        $testOutput .= '"' . __FILE__ . '",2,1,error,"Message",Violated.Standard,5' . PHP_EOL;
+        $testOutput  = '{"files":{"test.php":{"errors":1,"warnings":0,"messages":[{"message":"Message","line":2}]}}}';
 
         $process->shouldReceive('getOutput')->once()->andReturn($testOutput);
 
