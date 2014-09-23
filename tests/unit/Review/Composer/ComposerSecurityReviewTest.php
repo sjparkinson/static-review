@@ -57,6 +57,6 @@ class ComposerSecurityReviewTest extends TestCase
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
         $reporter->shouldReceive('error')->once();
 
-        $this->review->review($reporter, $composerFile);
+        $this->assertNull($this->review->review($reporter, $composerFile));
     }
 }

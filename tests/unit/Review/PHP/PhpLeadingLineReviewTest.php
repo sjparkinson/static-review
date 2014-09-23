@@ -60,7 +60,7 @@ class PhpLeadingLineReviewTest extends TestCase
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
         $reporter->shouldReceive('error')->once();
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 
     public function testReviewWithDefaultBeginning()
@@ -75,7 +75,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 
     public function testReviewWithScriptBeginning()
@@ -90,6 +90,6 @@ class PhpLeadingLineReviewTest extends TestCase
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 }

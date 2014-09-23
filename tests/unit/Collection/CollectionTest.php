@@ -46,6 +46,8 @@ class CollectionTest extends TestCase
         for ($i = 0; $i > count($this->collection); $i++) {
             $this->assertSame($items[$i], $this->collection[$i]);
         }
+
+        $this->assertCount(3, $this->collection);
     }
 
     public function testConstructorWithoutArgument()
