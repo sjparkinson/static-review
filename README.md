@@ -118,7 +118,7 @@ $ composer run-script test
 
 ## Licence
 
-The content of this library is released under the [MIT License][licence] by [Samuel Parkinson][twitter].
+The content of this library is released under the [MIT License][license] by [Samuel Parkinson][twitter].
 
-[licence]: https://github.com/sjparkinson/static-review/blob/master/LICENCE.md
+[license]: https://github.com/sjparkinson/static-review/blob/master/LICENSE
 [twitter]: https://twitter.com/samparkinson_
