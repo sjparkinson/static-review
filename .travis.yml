@@ -8,8 +8,7 @@ php:
   - hhvm-nightly
 
 install:
-  - travis_retry composer install --no-interaction --optimize-autoloader --prefer-source
+  - travis_retry composer install --no-interaction
 
 script:
-  - vendor/bin/phpunit --exclude-group exclude-from-travis
-  - vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/
+  - composer run-script test-travis

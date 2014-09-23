@@ -110,8 +110,7 @@ $ vagrant ssh
 ...
 $ cd /srv
 $ composer update
-$ vendor/bin/phpunit
-$ vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/
+$ composer run-script test
 ```
 
 [vagrant]: https://www.vagrantup.com

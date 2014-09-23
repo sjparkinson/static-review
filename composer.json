@@ -5,7 +5,8 @@
 
     "license": "MIT",
 
-    "authors": [
+    "authors":
+    [
         {
             "name": "Samuel Parkinson",
             "email": "sam.james.parkinson@gmail.com",
@@ -13,49 +14,73 @@
         }
     ],
 
-    "support": {
+    "support":
+    {
         "source": "https://github.com/sjparkinson/static-review",
         "issues": "https://github.com/sjparkinson/static-review/issues"
     },
 
-    "autoload": {
-        "psr-4": {
+    "autoload":
+    {
+        "psr-4":
+        {
             "StaticReview\\": "src/"
         }
     },
 
-    "autoload-dev": {
-        "psr-4": {
+    "autoload-dev":
+    {
+        "psr-4":
+        {
             "StaticReview\\Test\\Unit\\": "tests/unit/",
             "StaticReview\\Test\\Functional\\": "tests/functional/"
         }
     },
 
-    "bin": [
+    "bin":
+    [
         "bin/static-review.php"
     ],
 
-    "require": {
+    "require":
+    {
         "php": ">=5.4.0",
         "symfony/process": "~2.0",
         "symfony/console": "~2.0",
         "league/climate": "~2.0"
     },
 
-    "require-dev": {
+    "require-dev":
+    {
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0",
         "sensiolabs/security-checker": "~2.0",
         "squizlabs/php_codesniffer": "~1.0"
     },
 
-    "suggest": {
+    "suggest":
+    {
         "sensiolabs/security-checker": "Required for ComposerSecurityReview.",
         "squizlabs/php_codesniffer":   "Required for PhpCodeSnifferReview."
     },
 
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist"
+    "scripts":
+    {
+        "test":
+        [
+            "vendor/bin/phpunit",
+            "vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/"
+        ],
+
+        "test-travis":
+        [
+            "vendor/bin/phpunit --exclude-group exclude-from-travis",
+            "vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/"
+        ]
+    },
+
+    "config":
+    {
+        "optimize-autoloader": true
     }
 }
