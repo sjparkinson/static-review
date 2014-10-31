@@ -3,9 +3,9 @@
     "description": "Pre-Commit tools for git",
     "license": "MIT",
     "require": {
-        "symfony/console": "2.5.*",
-        "symfony/yaml": "2.5.*",
-        "symfony/process": "2.5.*",
+        "symfony/console": "~2.5",
+        "symfony/yaml": "~2.5",
+        "symfony/process": "~2.5",
         "herrera-io/phar-update": "~1.0",
         "kherge/box": "~2.4"
     },
