@@ -10,18 +10,28 @@ sudo bash <<EOF
 EOF
 fi
 
+if ! type xmllint > /dev/null; then
+echo "LibXml install..."
+sudo bash <<EOF
+	apt-get install libxml2
+EOF
+fi
+
 composer global require 'sebastian/phpcpd=*'
 composer global require 'fabpot/php-cs-fixer @stable'
 composer global require 'phpmd/phpmd=1.4.*'
+composer global require 'kherge/box=2.4.*'
 
 COMPOSERPATH=${HOME}/.composer/vendor/bin
 
 if [ -d "$COMPOSERPATH" ] && [[ :$PATH: != *:"$COMPOSERPATH":* ]] ; then
-	echo "export PATH=\$PATH:${COMPOSERPATH}" >> $HOME/.bashrc	
-	echo "Mettez à jour votre PATH en executant la commande suivante: "
-	echo "source $HOME/.bashrc"
-	echo " Relancez le script d'installation ensuite..."
+   if grep -Fxq "export PATH=\$PATH:${COMPOSERPATH}" $HOME/.bashrc ; then
+        echo "export PATH=\$PATH:${COMPOSERPATH}" >> $HOME/.bashrc
+        echo "Mettez à jour votre PATH en executant la commande suivante: "
+        echo "source $HOME/.bashrc"
+        echo " Relancez le script d'installation ensuite..."
         exit 0
+    fi
 fi
 
 composer install

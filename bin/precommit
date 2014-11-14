@@ -8,4 +8,6 @@ use Symfony\Component\Console\Application;
 
 $application = new Application('Precommit', '@package_version@');
 $application->add(new Command\PreCommitCommand());
+$application->add(new Command\CheckFileCommand());
+$application->add(new Command\PhpCsFixerCommand());
 $application->run();
