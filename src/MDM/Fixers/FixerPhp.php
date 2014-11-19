@@ -16,7 +16,7 @@ class FixerPhp
     const PHP_CPD_MIN_TOKENS = 50;
 
     const PHP_MD_ENABLE = true;
-    const PHP_MD_RULESET = 'codesize,unusedcode';
+    const PHP_MD_RULESET = 'codesize,unusedcode,controversial';
 
     private $phpCsFixerEnable;
     private $phpMdEnable;
@@ -49,7 +49,7 @@ class FixerPhp
         // Fix syntax with PHP CS FIXER
         if ($this->phpCsFixerEnable) {
             // Create the process and execute the phpcsfixer command
-            $phpCsFixerProcess = new Process("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " -v 2>&1");
+            $phpCsFixerProcess = new Process("php-cs-fixer fix " . escapeshellarg($fileName) . " --fixers=" . self::PHP_CS_FIXER_FILTERS . " 2>&1");
             $phpCsFixerProcess->run();
             $csFixOutput = $phpCsFixerProcess->getOutput();
 

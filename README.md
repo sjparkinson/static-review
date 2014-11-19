@@ -11,6 +11,7 @@ It's a tool ho can checks:
 * PHP Syntax Error
 * XML Syntax Error
 * YML Syntax Error
+* Composer Sync .json and .lock files
 
 It optimizes PHP and reports about (All features are activated by default):
 * Fixing coding standards issues (PHP Cs Fixer)
@@ -30,34 +31,23 @@ In your .git/hooks/pre-commit file ("cp pre-commit-sample pre-commit" if not exi
 
 Usage:
 -----
-After the installation, you can execute "./precommit check [options]" to check added git files. Well you can add the execution the phar in the .git add hook.
+After the installation, you can execute "precommit" command to:
+* check : Execute pre-commit
+* checkFile [file] : Execute pre-commit checks on single file
+* php-cs-fixer [file] : Execute php-cs-fixer rule on single file
 
 Options:
 -------
-When executing the precommit script you can use some options like:
-* --with-pics                 Showing picture of status of commit (default: true)
+When executing the precommit and checkFile command you can use some options like:
 * --php-cs-fixer-enable       Enabling php-cs-fixer when verifying files to commit (default: true)
 * --php-cs-fixer-auto-git-add Enabling auto adding to git files after correction  (default: true)
 * --php-cpd-enable            Enabling PHP Copy/Paste Detector when verifying files to commit (default: true)
-* --php-cpd-min-lines         Minimum number of identical lines (default: 5)
-* --php-cpd-min-token         Minimum number of identical tokens (default: 50)
 * --php-md-enable             Enabling PHP Mess Detector when verifying files to commit (default: true)
 
 
-Required Libraries
+Libraries
 ---------------------
-Xmllint Install
-apt-get install libxml2-utils
-
-Composer Global Install
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
-
-Composer libraries (composer.json):
- * PHP Cs Fixer Install (https://github.com/fabpot/PHP-CS-Fixer)
+ * libxml2-utils
+ * PHP Cs Fixer Install (https://github.com/FriendsOfPHP/PHP-CS-Fixer)
  * PHP Mess Detector
  * PHP CPD
-
-TODO:
-----
-change the used cli libraries by php library that make the same thing (https://scrutinizer-ci.com/docs/tools/php/)

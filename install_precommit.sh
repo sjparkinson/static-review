@@ -35,6 +35,7 @@ if [ -d "$COMPOSERPATH" ] && [[ :$PATH: != *:"$COMPOSERPATH":* ]] ; then
 fi
 
 composer install
+
 box build
 
 echo "Putting the precommit phar globally..."

@@ -60,6 +60,9 @@ class PreCommitCommand extends Command
         $phpFiles = array();
         $perfectSyntax = true;
 
+        $composerJsonDetected = false;
+        $composerLockDetected = false;
+
         $phpFixer = new FixerPhp($this->formatter, $phpCsFixerEnable, $phpMdEnable, $phpCpdEnable);
 
         foreach ($files as $file) {
@@ -90,6 +93,15 @@ class PreCommitCommand extends Command
                         $jsFixer->scan($fileName, $output);
                         break;
                 }
+
+                if ($fileBaseName == 'composer.json') {
+                    $composerJsonDetected = true;
+                }
+
+                if ($fileBaseName == 'composer.lock') {
+                    $composerLockDetected = true;
+                }
+
                 foreach ($stopWordsGit as $word) {
                     if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
                         $this->logError($output, sprintf("Git conflict marker \"%s\" detected in %s", $word, $fileName));
@@ -101,6 +113,11 @@ class PreCommitCommand extends Command
         if (count($files) == 0) {
             $this->logInfo($output, "No file to check");
         } else {
+
+            if ($composerJsonDetected && !$composerLockDetected) {
+                $this->logError($output, "composer.lock must be commited if composer.json is modified!");
+            }
+
             $phpFixer->analysePhpFiles($output, $phpFiles, $perfectSyntax);
             $this->logSuccess($output, $cpt, $perfectSyntax);
         }
@@ -108,3 +125,4 @@ class PreCommitCommand extends Command
         exit(0);
     }
 }
+
