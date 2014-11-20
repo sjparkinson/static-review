@@ -5,7 +5,7 @@ Static-Review
 [![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat)][php]
 
-An extendable framework for version control hooks.
+An extendible framework for version control hooks.
 
 ![StaticReview Success Demo](http://i.imgur.com/8G3uORp.gif)
 
