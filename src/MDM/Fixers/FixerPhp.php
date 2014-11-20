@@ -84,23 +84,26 @@ class FixerPhp
 
         // PHP Mess Detector
         if ($this->phpMdEnable) {
-            $phpmd_output = array();
-            exec("phpmd " . escapeshellarg(implode(",", $phpFiles)) . " text " . self::PHP_MD_RULESET, $phpmd_output, $return);
-            if (count($phpmd_output) > 1) {
-                $this->logInfo($output, array_slice($phpmd_output, 1), ' PHP Mess Detector ');
+            $phpmdProcess = new Process("phpmd " . escapeshellarg(implode(",", $phpFiles)) . " text " . self::PHP_MD_RULESET);
+            $phpmdProcess->run();
+            $phpmdOutput = $phpmdProcess->getOutput();
+            if (null != $phpmdOutput && $phpmdOutput != "\n") {
+                $this->logInfo($output, $phpmdOutput, ' PHP Mess Detector ');
                 $perfectSyntax = false;
             }
         }
 
         // Check Copy-paste with PHP CPD
         if ($this->phpCpdEnable) {
-            $cpd_output = array();
-            exec("phpcpd --min-lines " . self::PHP_CPD_MIN_LINES . " --min-tokens " . self::PHP_CPD_MIN_TOKENS . " " . implode(" ", $phpFiles), $cpd_output, $return);
-            if (isset($cpd_output)) {
-                $resultcpd = array();
-                preg_match("|([0-9]{1,2}\.[0-9]{1,2}%)|i", implode("\n", $cpd_output), $resultcpd);
+            $phpcpdProcess = new Process("phpcpd --min-lines " . self::PHP_CPD_MIN_LINES . " --min-tokens " . self::PHP_CPD_MIN_TOKENS . " " . implode(" ", $phpFiles));
+            $phpcpdProcess->run();
+            $phpcpdOutput = $phpcpdProcess->getOutput();
+            if (null != $phpcpdOutput) {
+                // get dupplicate code ratio
+                preg_match("|([0-9]{1,2}\.[0-9]{1,2}%)|i", $phpcpdOutput, $resultcpd);
                 if ($resultcpd[1] != '0.00%') {
-                    $this->logInfo($output, array_slice($cpd_output, 1, -2), ' PHP Copy/Paste Detector ');
+                    $cpdOutput = array_slice(explode("\n", $phpcpdOutput), 1, -2);
+                    $this->logInfo($output, implode("\n", $cpdOutput), ' PHP Copy/Paste Detector ');
                     $perfectSyntax = false;
                 }
             }
