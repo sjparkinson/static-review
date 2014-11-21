@@ -7,6 +7,10 @@ php:
   - hhvm
   - hhvm-nightly
 
+matrix:
+  allow_failures:
+    - php: hhvm-nightly
+
 sudo: false
 
 install:
