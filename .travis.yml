@@ -16,5 +16,9 @@ sudo: false
 install:
   - travis_retry composer install --no-interaction
 
+before_script:
+  - git config --global user.name travis-ci
+  - git config --global user.email travis@example.com
+
 script:
-  - composer run-script test-travis
+  - composer run-script test

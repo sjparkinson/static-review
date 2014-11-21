@@ -59,9 +59,6 @@ class GitVersionControlTest extends TestCase
         $this->assertCount(0, $collection);
     }
 
-    /**
-     * @group exclude-from-travis
-     */
     public function testGetStagedFilesWithGitRepo()
     {
         $cmd  = 'touch ' . $this->testFileName;
@@ -77,9 +74,6 @@ class GitVersionControlTest extends TestCase
         $this->assertCount(0, $collection);
     }
 
-    /**
-     * @group exclude-from-travis
-     */
     public function testGetStagedFilesWithNewFile()
     {
         $cmd  = 'touch ' . $this->testFileName;
@@ -101,9 +95,6 @@ class GitVersionControlTest extends TestCase
         $this->assertSame('A', $file->getStatus());
     }
 
-    /**
-     * @group exclude-from-travis
-     */
     public function testGetStagedFilesWithModifiedFile()
     {
         $cmd  = 'touch ' . $this->testFileName;
@@ -128,9 +119,6 @@ class GitVersionControlTest extends TestCase
         $this->assertSame('M', $file->getStatus());
     }
 
-    /**
-     * @group exclude-from-travis
-     */
     public function testGetStagedFilesWithPartiallyStagedFile()
     {
         $cmd  = 'touch ' . $this->testFileName;
