@@ -1,6 +1,5 @@
 # Project Files & Folders #
 ###########################
-composer.lock
 phpunit.xml
 *.sublime-*
 .vagrant/
