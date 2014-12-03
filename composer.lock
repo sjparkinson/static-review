@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3fbb1608b3b66664ffd1f73800f7aa32",
+    "hash": "f38fd929734099b6b4ca4306c89a7d95",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -182,22 +182,23 @@
         },
         {
             "name": "herrera-io/box",
-            "version": "1.5.3",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/herrera-io/php-box.git",
-                "reference": "b5432951f85a56df6012f503881174e7aeec6611"
+                "url": "https://github.com/box-project/box2-lib.git",
+                "reference": "b55dceb5c65cc831e94ec0786b0b9b15f1103e8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/herrera-io/php-box/zipball/b5432951f85a56df6012f503881174e7aeec6611",
-                "reference": "b5432951f85a56df6012f503881174e7aeec6611",
+                "url": "https://api.github.com/repos/box-project/box2-lib/zipball/b55dceb5c65cc831e94ec0786b0b9b15f1103e8e",
+                "reference": "b55dceb5c65cc831e94ec0786b0b9b15f1103e8e",
                 "shasum": ""
             },
             "require": {
                 "ext-phar": "*",
                 "phine/path": "~1.0",
-                "php": ">=5.3.3"
+                "php": ">=5.3.3",
+                "tedivm/jshrink": "~1.0"
             },
             "require-dev": {
                 "herrera-io/annotations": "~1.0",
@@ -229,16 +230,15 @@
                 {
                     "name": "Kevin Herrera",
                     "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io",
-                    "role": "Developer"
+                    "homepage": "http://kevin.herrera.io"
                 }
             ],
             "description": "A library for simplifying the PHAR build process.",
-            "homepage": "http://herrera-io.github.com/php-box",
+            "homepage": "https://github.com/box-project/box2-lib",
             "keywords": [
                 "phar"
             ],
-            "time": "2014-02-07 15:48:46"
+            "time": "2014-12-03 23:26:45"
         },
         {
             "name": "herrera-io/json",
@@ -482,74 +482,6 @@
             "time": "2013-03-20 20:22:14"
         },
         {
-            "name": "kherge/box",
-            "version": "2.4.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kherge/php-box.git",
-                "reference": "71938bf622e230a58246a6b732b137eb4051a37a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kherge/php-box/zipball/71938bf622e230a58246a6b732b137eb4051a37a",
-                "reference": "71938bf622e230a58246a6b732b137eb4051a37a",
-                "shasum": ""
-            },
-            "require": {
-                "herrera-io/annotations": "~1.0",
-                "herrera-io/box": "~1.5",
-                "herrera-io/json": "~1.0",
-                "justinrainbow/json-schema": "~1.3",
-                "kherge/amend": "~3.0",
-                "phine/path": "~1.0",
-                "php": ">=5.3.3",
-                "phpseclib/phpseclib": "~0.3",
-                "symfony/console": "~2.1",
-                "symfony/finder": "~2.1",
-                "symfony/process": "~2.1"
-            },
-            "require-dev": {
-                "herrera-io/phpunit-test-case": "1.*",
-                "mikey179/vfsstream": "1.1.0",
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "ext-openssl": "To accelerate private key generation."
-            },
-            "bin": [
-                "bin/box"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "KevinGH\\Box": "src/lib"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Herrera",
-                    "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A tool to simplify building PHARs.",
-            "homepage": "http://kherge.github.com/Box",
-            "keywords": [
-                "phar"
-            ],
-            "time": "2014-02-27 16:19:20"
-        },
-        {
             "name": "kherge/version",
             "version": "1.0.1",
             "source": {
@@ -591,6 +523,54 @@
             "description": "A parsing and comparison library for semantic versioning.",
             "homepage": "http://github.com/kherge/Version",
             "time": "2012-08-16 17:13:03"
+        },
+        {
+            "name": "league/climate",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/climate.git",
+                "reference": "c6a5b3bbe1300a2b6a58c98d0bad1b2d560420eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/climate/zipball/c6a5b3bbe1300a2b6a58c98d0bad1b2d560420eb",
+                "reference": "c6a5b3bbe1300a2b6a58c98d0bad1b2d560420eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\CLImate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joe Tannenbaum",
+                    "email": "hey@joe.codes",
+                    "homepage": "http://joe.codes/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP's best friend for the terminal. CLImate allows you to easily output colored text, special formats, and more.",
+            "keywords": [
+                "cli",
+                "colors",
+                "command",
+                "php",
+                "terminal"
+            ],
+            "time": "2014-09-16 16:04:27"
         },
         {
             "name": "phine/exception",
@@ -840,18 +820,91 @@
             "time": "2014-09-05 15:36:20"
         },
         {
+            "name": "squizlabs/php_codesniffer",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "5b63fd3fe960e2020770c845e04254e5ca2b722a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5b63fd3fe960e2020770c845e04254e5ca2b722a",
+                "reference": "5b63fd3fe960e2020770c845e04254e5ca2b722a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.1.2"
+            },
+            "bin": [
+                "scripts/phpcs",
+                "scripts/phpcbf"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-phpcs-fixer": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "CodeSniffer.php",
+                    "CodeSniffer/CLI.php",
+                    "CodeSniffer/Exception.php",
+                    "CodeSniffer/File.php",
+                    "CodeSniffer/Fixer.php",
+                    "CodeSniffer/Report.php",
+                    "CodeSniffer/Reporting.php",
+                    "CodeSniffer/Sniff.php",
+                    "CodeSniffer/Tokens.php",
+                    "CodeSniffer/Reports/",
+                    "CodeSniffer/Tokenizers/",
+                    "CodeSniffer/DocGenerators/",
+                    "CodeSniffer/Standards/AbstractPatternSniff.php",
+                    "CodeSniffer/Standards/AbstractScopeSniff.php",
+                    "CodeSniffer/Standards/AbstractVariableSniff.php",
+                    "CodeSniffer/Standards/IncorrectPatternException.php",
+                    "CodeSniffer/Standards/Generic/Sniffs/",
+                    "CodeSniffer/Standards/MySource/Sniffs/",
+                    "CodeSniffer/Standards/PEAR/Sniffs/",
+                    "CodeSniffer/Standards/PSR1/Sniffs/",
+                    "CodeSniffer/Standards/PSR2/Sniffs/",
+                    "CodeSniffer/Standards/Squiz/Sniffs/",
+                    "CodeSniffer/Standards/Zend/Sniffs/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "lead"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenises PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "http://www.squizlabs.com/php-codesniffer",
+            "keywords": [
+                "phpcs",
+                "standards"
+            ],
+            "time": "2014-12-05 00:14:12"
+        },
+        {
             "name": "symfony/console",
-            "version": "v2.5.6",
+            "version": "v2.6.1",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "6f177fca24200a5b97aef5ce7a5c98124a0f0db0"
+                "reference": "ef825fd9f809d275926547c9e57cbf14968793e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/6f177fca24200a5b97aef5ce7a5c98124a0f0db0",
-                "reference": "6f177fca24200a5b97aef5ce7a5c98124a0f0db0",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/ef825fd9f809d275926547c9e57cbf14968793e8",
+                "reference": "ef825fd9f809d275926547c9e57cbf14968793e8",
                 "shasum": ""
             },
             "require": {
@@ -859,16 +912,18 @@
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/event-dispatcher": "~2.1"
+                "symfony/event-dispatcher": "~2.1",
+                "symfony/process": "~2.1"
             },
             "suggest": {
                 "psr/log": "For using the console logger",
-                "symfony/event-dispatcher": ""
+                "symfony/event-dispatcher": "",
+                "symfony/process": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -892,21 +947,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-05 13:57:04"
+            "time": "2014-12-02 20:19:20"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.5.6",
+            "version": "v2.6.1",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "cf66df4e783e6aade319b273c9bcf9e42aa9b10f"
+                "reference": "0d3ef7f6ec55a7af5eca7914eaa0dacc04ccc721"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/cf66df4e783e6aade319b273c9bcf9e42aa9b10f",
-                "reference": "cf66df4e783e6aade319b273c9bcf9e42aa9b10f",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/0d3ef7f6ec55a7af5eca7914eaa0dacc04ccc721",
+                "reference": "0d3ef7f6ec55a7af5eca7914eaa0dacc04ccc721",
                 "shasum": ""
             },
             "require": {
@@ -915,7 +970,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -939,21 +994,21 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-01 05:50:18"
+            "time": "2014-12-02 20:19:20"
         },
         {
             "name": "symfony/process",
-            "version": "v2.5.6",
+            "version": "v2.6.1",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "9bbacbb3a7a27b17c0d51e2f126f59e0e588ad3a"
+                "reference": "bf0c9bd625f13b0b0bbe39919225cf145dfb935a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/9bbacbb3a7a27b17c0d51e2f126f59e0e588ad3a",
-                "reference": "9bbacbb3a7a27b17c0d51e2f126f59e0e588ad3a",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/bf0c9bd625f13b0b0bbe39919225cf145dfb935a",
+                "reference": "bf0c9bd625f13b0b0bbe39919225cf145dfb935a",
                 "shasum": ""
             },
             "require": {
@@ -962,7 +1017,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -986,21 +1041,21 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-01 05:50:18"
+            "time": "2014-12-02 20:19:20"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.6",
+            "version": "v2.6.1",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726"
+                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
-                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/3346fc090a3eb6b53d408db2903b241af51dcb20",
+                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20",
                 "shasum": ""
             },
             "require": {
@@ -1009,7 +1064,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -1033,7 +1088,53 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-01 05:50:18"
+            "time": "2014-12-02 20:19:20"
+        },
+        {
+            "name": "tedivm/jshrink",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tedious/JShrink.git",
+                "reference": "7575d9d96f113bc7c1c28ec8231ee086751a9078"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tedious/JShrink/zipball/7575d9d96f113bc7c1c28ec8231ee086751a9078",
+                "reference": "7575d9d96f113bc7c1c28ec8231ee086751a9078",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "0.4.0",
+                "phpunit/phpunit": "4.0.*",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JShrink": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Hafner",
+                    "email": "tedivm@tedivm.com"
+                }
+            ],
+            "description": "Javascript Minifier built in PHP",
+            "homepage": "http://github.com/tedious/JShrink",
+            "keywords": [
+                "javascript",
+                "minifier"
+            ],
+            "time": "2014-11-11 03:54:14"
         }
     ],
     "packages-dev": [],
@@ -1041,6 +1142,7 @@
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

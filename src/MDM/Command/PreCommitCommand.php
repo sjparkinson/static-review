@@ -2,127 +2,75 @@
 
 namespace MDM\Command;
 
-use MDM\Fixers\FixerPhp;
-use MDM\Fixers\FixerYml;
-use MDM\Fixers\FixerXml;
-use MDM\Fixers\FixerJs;
-use MDM\Traits\OutputFormatter;
+use MDM\Review\PHP\PhpLintReview;
+use MDM\Review\PHP\PhpCsFixerReview;
+use MDM\Review\PHP\ComposerReview;
+use MDM\Review\PHP\PhpStopWordsReview;
+use MDM\Review\PHP\PhpCPDReview;
+use MDM\Review\PHP\PhpMDReview;
+use MDM\Review\PHP\PhpCodeSnifferReview;
+use MDM\Review\YML\YmlLintReview;
+use MDM\Review\XML\XmlLintReview;
+use MDM\Review\JS\JsStopWordsReview;
+use MDM\Review\GIT\GitConflictReview;
+use MDM\Review\GIT\NoCommitTagReview;
+use MDM\StaticReview;
+use MDM\VersionControl\GitVersionControl;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
+use League\CLImate\CLImate;
+use MDM\Reporter\Reporter;
 
 class PreCommitCommand extends Command
 {
-    use OutputFormatter;
-
-    const PHP_CS_FIXER_AUTOADD_GIT = true;
-    const PHP_CS_FIXER_ENABLE = true;
-    const PHP_CPD_ENABLE = true;
-    const PHP_MD_ENABLE = true;
+    const AUTO_ADD_GIT = true;
 
     protected function configure()
     {
         $this
-          ->setName('check')->setDescription('Scan and check all files added to commit')
-          ->addOption('php-cs-fixer-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling php-cs-fixer when verifying files to commit', self::PHP_CS_FIXER_ENABLE)
-          ->addOption('php-cs-fixer-auto-git-add', null, InputOption::VALUE_OPTIONAL, 'Enabling git auto adding files after cs-fixer ', self::PHP_CS_FIXER_AUTOADD_GIT)
-          ->addOption('php-cpd-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Copy/Paste Detector when verifying files to commit', self::PHP_CPD_ENABLE)
-          ->addOption('php-md-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Mess Detector when verifying files to commit', self::PHP_MD_ENABLE);
+          ->setName('check')->setDescription('Scan and check all files added to commit');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $phpCsFixerEnable = $input->getOption('php-cs-fixer-enable');
-        $phpCsFixerAutoGitAdd = $input->getOption('php-cs-fixer-auto-git-add');
-        $phpCpdEnable = $input->getOption('php-cpd-enable');
-        $phpMdEnable = $input->getOption('php-md-enable');
+        $git = new GitVersionControl();
+        $stagedFiles = $git->getStagedFiles();
+        $reporter = new Reporter($output, count($stagedFiles));
+        $climate = new CLImate();
 
-        $this->formatter = $this->getHelperSet()->get('formatter');
+        $review = new StaticReview($reporter);
+        $review->addReview(new PhpLintReview())
+          ->addReview(new PhpStopWordsReview())
+          ->addReview(new ComposerReview())
+          ->addReview(new PhpCPDReview())
+          ->addReview(new JsStopWordsReview())
+          ->addReview(new PhpCsFixerReview(self::AUTO_ADD_GIT))
+          ->addReview(new PhpMDReview())
+          ->addReview(new YmlLintReview())
+          ->addReview(new XmlLintReview())
+          ->addReview(new GitConflictReview())
+          ->addReview(new NoCommitTagReview());
 
-        // Grab all added, copied or modified files into $output array
-        $gitDiffProcess = new Process('git diff --cached --name-status --diff-filter=ACM');
-        $gitDiffProcess->run();
-        // Transform the output of an array of list of files
-        $files = explode("\n", $gitDiffProcess->getOutput());
+        $codeSniffer = new PhpCodeSnifferReview();
+        $codeSniffer->setOption('standard', 'Pear');
+        $codeSniffer->setOption('sniffs', 'PEAR.Commenting.FunctionComment');
+        $review->addReview($codeSniffer);
 
-        # Git conflict markers
-        $stopWordsGit = array(">>>>>>", "<<<<<<", "======");
+        // Review the staged files.
+        $review->review($stagedFiles);
 
-        // Files Blacklist
-        $blacklistFiles = array(
-          '_inline_end_js.mobile.php',
-          '_inline_end_js.php'
-        );
-
-        $cpt = 0;
-        $phpFiles = array();
-        $perfectSyntax = true;
-
-        $composerJsonDetected = false;
-        $composerLockDetected = false;
-
-        $phpFixer = new FixerPhp($this->formatter, $phpCsFixerEnable, $phpMdEnable, $phpCpdEnable);
-
-        foreach ($files as $file) {
-            if ("" != $file) {
-                $fileName = trim(substr($file, 1));
-                $fileBaseName = pathinfo($fileName, PATHINFO_BASENAME);
-                if (in_array($fileBaseName, $blacklistFiles)) {
-                    continue;
-                }
-
-                ++$cpt;
-                $fileInfo = pathinfo($fileName, PATHINFO_EXTENSION);
-                switch ($fileInfo) {
-                    case "php":
-                        $phpFiles[] = $fileName;
-                        $phpFixer->scan($fileName, $output, $perfectSyntax, $phpCsFixerAutoGitAdd);
-                        break;
-                    case "yml":
-                        $ymlFixer = new FixerYml($this->formatter);
-                        $ymlFixer->scan($fileName, $output);
-                        break;
-                    case "xml":
-                        $xmlFixer = new FixerXml($this->formatter);
-                        $xmlFixer->scan($fileName, $output);
-                        break;
-                    case "js":
-                        $jsFixer = new FixerJs($this->formatter);
-                        $jsFixer->scan($fileName, $output);
-                        break;
-                }
-
-                if ($fileBaseName == 'composer.json') {
-                    $composerJsonDetected = true;
-                }
-
-                if ($fileBaseName == 'composer.lock') {
-                    $composerLockDetected = true;
-                }
-
-                foreach ($stopWordsGit as $word) {
-                    if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
-                        $this->logError($output, sprintf("Git conflict marker \"%s\" detected in %s", $word, $fileName));
-                    }
-                }
-            }
+        // Check if any matching issues were found.
+        if ($reporter->hasIssues()) {
+            $reporter->displayReport($climate);
         }
 
-        if (count($files) == 0) {
-            $this->logInfo($output, "No file to check");
+        if ($reporter->hasError()) {
+            $climate->br()->red('✘ Please fix the errors above or use --no-verify.')->br();
+            exit(1);
         } else {
-
-            if ($composerJsonDetected && !$composerLockDetected) {
-                $this->logError($output, "composer.lock must be commited if composer.json is modified!");
-            }
-
-            $phpFixer->analysePhpFiles($output, $phpFiles, $perfectSyntax);
-            $this->logSuccess($output, $cpt, $perfectSyntax);
+            $climate->br()->green('✔ Looking good.')->br();
+            exit(0);
         }
-
-        exit(0);
     }
 }
-

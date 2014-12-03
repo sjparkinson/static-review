@@ -20,7 +20,8 @@ fi
 composer global require 'sebastian/phpcpd=*'
 composer global require 'fabpot/php-cs-fixer @stable'
 composer global require 'phpmd/phpmd=@stable'
-composer global require 'kherge/box=2.4.*'
+composer global require 'kherge/box=2.5.*'
+composer global require 'squizlabs/php_codesniffer=2.*'
 
 COMPOSERPATH=${HOME}/.composer/vendor/bin
 

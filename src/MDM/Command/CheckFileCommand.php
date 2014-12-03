@@ -2,94 +2,82 @@
 
 namespace MDM\Command;
 
-use MDM\Fixers\FixerPhp;
-use MDM\Fixers\FixerYml;
-use MDM\Fixers\FixerXml;
-use MDM\Fixers\FixerJs;
-use MDM\Traits\OutputFormatter;
+use MDM\Collection\FileCollection;
+use MDM\File\File;
+use MDM\Review\PHP\PhpLintReview;
+use MDM\Review\PHP\PhpCsFixerReview;
+use MDM\Review\PHP\ComposerReview;
+use MDM\Review\PHP\PhpCodeSnifferReview;
+use MDM\Review\PHP\PhpStopWordsReview;
+use MDM\Review\PHP\PhpCPDReview;
+use MDM\Review\PHP\PhpMDReview;
+use MDM\Review\YML\YmlLintReview;
+use MDM\Review\XML\XmlLintReview;
+use MDM\Review\JS\JsStopWordsReview;
+use MDM\Review\GIT\GitConflictReview;
+use MDM\Review\GIT\NoCommitTagReview;
+use MDM\StaticReview;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
+use League\CLImate\CLImate;
+use MDM\Reporter\Reporter;
 
 class CheckFileCommand extends Command
 {
-    use OutputFormatter;
-
-    const PHP_CS_FIXER_ENABLE = true;
-    const PHP_CPD_ENABLE = true;
-    const PHP_MD_ENABLE = true;
+    const AUTO_ADD_GIT = false;
 
     protected function configure()
     {
         $this
           ->setName('checkFile')->setDescription('Scan specific file')
-          ->addArgument('file', InputArgument::REQUIRED, 'Filename to check ?')
-          ->addOption('php-cs-fixer-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling php-cs-fixer when verifying files to commit', self::PHP_CS_FIXER_ENABLE)
-          ->addOption('php-cpd-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Copy/Paste Detector when verifying files to commit', self::PHP_CPD_ENABLE)
-          ->addOption('php-md-enable', null, InputOption::VALUE_OPTIONAL, 'Enabling PHP Mess Detector when verifying files to commit', self::PHP_MD_ENABLE);
+          ->addArgument('file', InputArgument::REQUIRED, 'Filename to check ?');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $phpCsFixerEnable = $input->getOption('php-cs-fixer-enable');
-        $phpCpdEnable = $input->getOption('php-cpd-enable');
-        $phpMdEnable = $input->getOption('php-md-enable');
+        $fileInput = trim($input->getArgument('file'));
+        $pathInfoFile = pathinfo(realpath($fileInput));
+        $file = new File('', realpath($fileInput), $pathInfoFile['dirname']);
+        $fileCollection = new FileCollection();
+        $fileCollection = $fileCollection->append($file);
 
-        $this->formatter = $this->getHelperSet()->get('formatter');
+        $reporter = new Reporter($output, 1);
+        $climate = new CLImate();
 
-        // Transform the output of an array of list of files
-        $fileName = trim($input->getArgument('file'));
+        $review = new StaticReview($reporter);
+        $review->addReview(new PhpLintReview())
+          ->addReview(new PhpStopWordsReview())
+          ->addReview(new ComposerReview())
+          ->addReview(new PhpCPDReview())
+          ->addReview(new JsStopWordsReview())
+          ->addReview(new PhpCsFixerReview(self::AUTO_ADD_GIT))
+          ->addReview(new PhpMDReview())
+          ->addReview(new YmlLintReview())
+          ->addReview(new XmlLintReview())
+          ->addReview(new GitConflictReview())
+          ->addReview(new NoCommitTagReview());
 
-        # Git conflict markers
-        $stopWordsGit = array(">>>>>>", "<<<<<<", "======");
+        $codeSniffer = new PhpCodeSnifferReview();
+        $codeSniffer->setOption('standard', 'Pear');
+        $codeSniffer->setOption('sniffs', 'PEAR.Commenting.FunctionComment');
+        $review->addReview($codeSniffer);
 
-        // Files Blacklist
-        $blacklistFiles = array(
-          '_inline_end_js.mobile.php',
-          '_inline_end_js.php'
-        );
+        // Review the staged files.
+        $review->review($fileCollection);
 
-        $cpt = 0;
-        $phpFiles = array();
-        $perfectSyntax = true;
-
-        $phpFixer = new FixerPhp($this->formatter, $phpCsFixerEnable, $phpMdEnable, $phpCpdEnable);
-
-        $fileBaseName = pathinfo($fileName, PATHINFO_BASENAME);
-        if ("" != $fileName && !in_array($fileBaseName, $blacklistFiles)) {
-            ++$cpt;
-            $fileInfo = pathinfo($fileName, PATHINFO_EXTENSION);
-
-            switch ($fileInfo) {
-                case "php":
-                    $phpFiles[] = $fileName;
-                    $phpFixer->scan($fileName, $output, $perfectSyntax);
-                    break;
-                case "yml":
-                    $ymlFixer = new FixerYml($this->formatter);
-                    $ymlFixer->scan($fileName, $output);
-                    break;
-                case "xml":
-                    $xmlFixer = new FixerXml($this->formatter);
-                    $xmlFixer->scan($fileName, $output);
-                    break;
-                case "js":
-                    $jsFixer = new FixerJs($this->formatter);
-                    $jsFixer->scan($fileName, $output);
-                    break;
-            }
-            foreach ($stopWordsGit as $word) {
-                if (preg_match("|" . $word . "|i", file_get_contents($fileName))) {
-                    $this->logError($output, sprintf("Git conflict marker \"%s\" detected in %s", $word, $fileName));
-                }
-            }
+        // Check if any matching issues were found.
+        if ($reporter->hasIssues()) {
+            $reporter->displayReport($climate);
         }
 
-        $phpFixer->analysePhpFiles($output, $phpFiles, $perfectSyntax);
-        $this->logSuccess($output, $cpt, $perfectSyntax);
-
-        exit(0);
+        if ($reporter->hasError()) {
+            $climate->br()->red('✘ Please fix the errors above.')->br();
+            exit(1);
+        } else {
+            $climate->br()->green('✔ Looking good.')->br();
+            exit(0);
+        }
     }
 }
