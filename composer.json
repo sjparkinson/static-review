@@ -46,7 +46,7 @@
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0",
         "sensiolabs/security-checker": "~2.0",
-        "squizlabs/php_codesniffer": "~1.0"
+        "squizlabs/php_codesniffer": "~2.0"
     },
 
     "suggest": {
@@ -55,8 +55,15 @@
     },
 
     "scripts": {
-        "test": [
-            "vendor/bin/phpunit",
+        "test:unit": [
+            "vendor/bin/phpunit --testsuite unit"
+        ],
+
+        "test:functional": [
+            "vendor/bin/phpunit --testsuite functional"
+        ],
+
+        "lint": [
             "vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/"
         ]
     },

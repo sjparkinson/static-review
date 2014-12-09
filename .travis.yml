@@ -21,4 +21,6 @@ before_script:
   - git config --global user.email travis@example.com
 
 script:
-  - composer run-script test
+  - composer run-script test:unit
+  - composer run-script test:functional
+  - composer run-script lint
