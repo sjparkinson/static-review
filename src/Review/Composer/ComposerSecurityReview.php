@@ -52,10 +52,8 @@ class ComposerSecurityReview extends AbstractReview
         $process->run();
 
         if (! $process->isSuccessful()) {
-
             $message = 'The composer project dependencies contain known vulnerabilities';
             $reporter->error($message, $this, $file);
-
         }
     }
 }

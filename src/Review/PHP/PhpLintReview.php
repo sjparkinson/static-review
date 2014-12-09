@@ -48,13 +48,11 @@ class PhpLintReview extends AbstractReview
         $needle = 'Parse error: syntax error, ';
 
         if (! $process->isSuccessful()) {
-
             foreach (array_slice($output, 0, count($output) - 1) as $error) {
                 $raw = ucfirst(substr($error, strlen($needle)));
                 $message = str_replace(' in ' . $file->getFullPath(), '', $raw);
                 $reporter->error($message, $this, $file);
             }
-
         }
     }
 }

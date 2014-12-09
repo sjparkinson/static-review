@@ -100,7 +100,6 @@ class PhpCodeSnifferReview extends AbstractReview
         $process->run();
 
         if (! $process->isSuccessful()) {
-
             // Create the array of outputs and remove empty values.
             $output = json_decode($process->getOutput(), true);
 

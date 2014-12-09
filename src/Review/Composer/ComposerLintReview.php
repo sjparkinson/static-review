@@ -46,10 +46,8 @@ class ComposerLintReview extends AbstractReview
         $process->run();
 
         if (! $process->isSuccessful()) {
-
             $message = 'The composer configuration is not valid';
             $reporter->error($message, $this, $file);
-
         }
     }
 }

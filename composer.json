@@ -55,6 +55,12 @@
     },
 
     "scripts": {
+        "test": [
+            "composer run-script test:unit",
+            "composer run-script test:functional",
+            "composer run-script lint"
+        ],
+
         "test:unit": [
             "vendor/bin/phpunit --testsuite unit"
         ],
