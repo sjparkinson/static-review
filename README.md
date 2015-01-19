@@ -27,15 +27,6 @@ Hooks can then be installed like so ...
 $ vendor/bin/static-review.php hook:install vendor/sjparkinson/static-review/hooks/example-pre-commit.php .git/hooks/pre-commit
 ```
 
-Otherwise, if you don't use composer ...
-
-```bash
-$ git clone https://github.com/sjparkinson/static-review.git
-$ cd static-review/
-$ composer install --no-dev --optimize-autoloader
-$ bin/static-review.php hook:install hooks/example-pre-commit.php ~/.../.git/hooks/pre-commit
-```
-
 [composer]: https://getcomposer.org/
 
 ## Example Hook
