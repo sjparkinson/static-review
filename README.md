@@ -1,21 +1,25 @@
 Static-Review
 =============
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
-[![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
-[![Minimum PHP Version](http://img.shields.io/badge/php-~5.4-8892BF.svg?style=flat)][php]
+[![Latest Stable Version][icon-version][packagist]
+[![Build Status][icon-build-status]][travis]
+[![Minimum PHP Version][icon-php-version][php]
+
+[packagist]: https://packagist.org/packages/sjparkinson/static-review
+[travis]:    https://travis-ci.org/sjparkinson/static-review
+[php]:       https://php.net/
+
+[icon-version]: http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat
+[icon-build-status]: http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat
+[icon-php-version]: http://img.shields.io/badge/php-~5.4-8892BF.svg?style=flat
 
 An extendible framework for version control hooks.
 
 ![StaticReview Success Demo](https://i.imgur.com/8G3uORp.gif)
 
-[travis]:    https://travis-ci.org/sjparkinson/static-review
-[packagist]: https://packagist.org/packages/sjparkinson/static-review
-[php]:       https://php.net/
-
 ## Usage
 
-For a [composer][composer] managed project you can simply run the following ...
+For a [composer](https://getcomposer.org) managed project you can simply run the following ...
 
 ```bash
 $ composer require sjparkinson/static-review
@@ -26,8 +30,6 @@ Hooks can then be installed like so ...
 ```bash
 $ vendor/bin/static-review.php hook:install vendor/sjparkinson/static-review/hooks/example-pre-commit.php .git/hooks/pre-commit
 ```
-
-[composer]: https://getcomposer.org/
 
 ## Example Hook
 
