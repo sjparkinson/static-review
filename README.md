@@ -15,9 +15,12 @@ This Code Reviewing tool can check:
 * YML Syntax Error
 * Composer Sync .json and .lock files
 
-It specifically optimizes PHP and reports about :
+It optimizes PHP Syntax :
 
-* Fixing coding standards issues (PHP CS Fixer)
+* Automatically Fix coding standards issues (PHP CS Fixer)
+
+It reports about bad PHP statements :
+
 * Mess Detection (Unused code, complexity...)
 * Copy/Paste detection
 * Code sniffing to notify missing PHPDOC function
@@ -32,6 +35,13 @@ Launch install script ./install_precommit.sh
 This script will install all required libraries, create a phar file with sources files, and move it to /usr/local/bin
 
 In your **.git/hooks/pre-commit** file ("cp pre-commit-sample pre-commit" if not exist), just add: **precommit check**
+
+Update:
+--------
+
+Get latest libraries version with a "composer global update"
+
+Just update your GIT fork and re-launch install script.
 
 Usage:
 -----

@@ -31,6 +31,9 @@ class PhpCsFixerReview extends AbstractReview
         return ($extension === 'php');
     }
 
+    /**
+     * Checks PHP files using php-cs-fixer.
+     */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
         $cmd = sprintf('php-cs-fixer fix  -v %s --fixers=%s', $file->getFullPath(), self::PHP_CS_FIXER_FILTERS);

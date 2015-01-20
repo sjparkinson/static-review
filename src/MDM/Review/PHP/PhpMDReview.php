@@ -39,7 +39,7 @@ class PhpMDReview extends AbstractReview
                 $error = preg_replace("/:[0-9]*/", "", $error);
                 $error = str_replace("\t", ' ', $error);
                 $message = trim(str_replace($file->getFullPath(), '', $error));
-                $reporter->info($message, $this, $file);
+                $reporter->warning($message, $this, $file);
             }
         }
     }

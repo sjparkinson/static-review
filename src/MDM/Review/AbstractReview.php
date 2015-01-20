@@ -18,6 +18,10 @@ abstract class AbstractReview implements ReviewInterface
 
     public function isBlacklistFile(FileInterface $fileName)
     {
+        if (preg_match('/\.js\.php$/', $fileName->getFileName())) {
+            return true;
+        }
+
         $blacklistFiles = array(
           '_inline_end_js.mobile.php',
           '_inline_end_js.php'

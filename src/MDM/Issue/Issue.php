@@ -104,9 +104,9 @@ class Issue implements IssueInterface
     {
         switch ($this->level) {
             case self::LEVEL_INFO:
-                return 'yellow';
+                return 'cyan';
             case self::LEVEL_WARNING:
-                return 'brown';
+                return 'yellow';
             case self::LEVEL_ERROR:
                 return 'red';
             default:

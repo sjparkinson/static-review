@@ -24,6 +24,7 @@ class PhpCPDReview extends AbstractReview
 
         return ($extension === 'php');
     }
+
     /**
      * Checks PHP files using the builtin PHP linter, `php -l`.
      */
@@ -42,7 +43,7 @@ class PhpCPDReview extends AbstractReview
                 foreach (array_slice($output, 1, -3) as $error) {
                     //$raw = ucfirst(substr($error, strlen($needle)));
                     $error = str_replace($file->getFullPath(), '', $error);
-                    $reporter->info($error, $this, $file);
+                    $reporter->warning($error, $this, $file);
                 }
             }
         }

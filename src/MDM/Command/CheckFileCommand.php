@@ -23,11 +23,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use League\CLImate\CLImate;
 use MDM\Reporter\Reporter;
+use MDM\Issue\Issue;
 
 class CheckFileCommand extends Command
 {
     const AUTO_ADD_GIT = false;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
@@ -35,6 +39,9 @@ class CheckFileCommand extends Command
           ->addArgument('file', InputArgument::REQUIRED, 'Filename to check ?');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fileInput = trim($input->getArgument('file'));
@@ -72,9 +79,12 @@ class CheckFileCommand extends Command
             $reporter->displayReport($climate);
         }
 
-        if ($reporter->hasError()) {
-            $climate->br()->red('✘ Please fix the errors above.')->br();
+        if ($reporter->hasIssueLevel(Issue::LEVEL_ERROR)) {
+            $climate->br()->red('✘ Please fix the errors above or use --no-verify.')->br();
             exit(1);
+        } elseif ($reporter->hasIssueLevel(Issue::LEVEL_WARNING)) {
+            $climate->br()->yellow('Try to fix warnings !')->br();
+            exit(0);
         } else {
             $climate->br()->green('✔ Looking good.')->br();
             exit(0);

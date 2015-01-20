@@ -12,11 +12,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use League\CLImate\CLImate;
 use MDM\Reporter\Reporter;
+use MDM\Issue\Issue;
 
 class PhpCsFixerCommand extends Command
 {
     const AUTO_ADD_GIT = false;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
@@ -24,6 +28,9 @@ class PhpCsFixerCommand extends Command
           ->addArgument('file', InputArgument::REQUIRED, 'Filename to check ?');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fileInput = trim($input->getArgument('file'));
@@ -46,7 +53,7 @@ class PhpCsFixerCommand extends Command
             $reporter->displayReport($climate);
         }
 
-        if ($reporter->hasError()) {
+        if ($reporter->hasIssueLevel(Issue::LEVEL_ERROR)) {
             $climate->br()->red('✘ Please fix the errors above.')->br();
             exit(1);
         } else {

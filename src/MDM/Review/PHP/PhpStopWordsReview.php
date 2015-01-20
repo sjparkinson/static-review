@@ -22,6 +22,9 @@ class PhpStopWordsReview extends AbstractReview
         return ($extension === 'php');
     }
 
+    /**
+     * Checks PHP StopWords.
+     */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
         $stopWordsPhp = array("var_dump()" => "var_dump\(", "die()" => "die\(");

@@ -21,17 +21,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use League\CLImate\CLImate;
 use MDM\Reporter\Reporter;
+use MDM\Issue\Issue;
 
 class PreCommitCommand extends Command
 {
     const AUTO_ADD_GIT = true;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
           ->setName('check')->setDescription('Scan and check all files added to commit');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $git = new GitVersionControl();
@@ -65,9 +72,12 @@ class PreCommitCommand extends Command
             $reporter->displayReport($climate);
         }
 
-        if ($reporter->hasError()) {
+        if ($reporter->hasIssueLevel(Issue::LEVEL_ERROR)) {
             $climate->br()->red('✘ Please fix the errors above or use --no-verify.')->br();
             exit(1);
+        } elseif ($reporter->hasIssueLevel(Issue::LEVEL_WARNING)) {
+            $climate->br()->yellow('Try to fix warnings !')->br();
+            exit(0);
         } else {
             $climate->br()->green('✔ Looking good.')->br();
             exit(0);

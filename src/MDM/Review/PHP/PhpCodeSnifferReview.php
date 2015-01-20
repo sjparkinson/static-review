@@ -101,7 +101,7 @@ class PhpCodeSnifferReview extends AbstractReview
             foreach (array_reduce($output['files'], $filter, []) as $error) {
                 $message = $error['message'] . ' on line ' . $error['line'];
                 if ($error['message'] == "Missing function doc comment") {
-                    $reporter->info($message, $this, $file);
+                    $reporter->warning($message, $this, $file);
                 }
             }
         }

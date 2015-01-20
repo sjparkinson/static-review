@@ -40,6 +40,9 @@ class Reporter implements ReporterInterface
         $this->current = 1;
     }
 
+    /**
+     * Advance ProgressBar
+     */
     public function progress()
     {
         if (isset($this->progress)) {
@@ -48,11 +51,17 @@ class Reporter implements ReporterInterface
         ++$this->current;
     }
 
+    /**
+     * @return int
+     */
     public function getCurrent()
     {
         return $this->current;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTotal()
     {
         return $this->total;
@@ -130,6 +139,11 @@ class Reporter implements ReporterInterface
         return (count($this->issues) > 0);
     }
 
+    /**
+     * @param $a
+     * @param $b
+     * @return int
+     */
     private static function cmpIssues($a, $b)
     {
         if ($a->getReviewName() == $b->getReviewName()) {
@@ -144,21 +158,45 @@ class Reporter implements ReporterInterface
      *
      * @return IssueCollection
      */
-    public function getIssues($ordered = false)
+    public function getIssues($ordered = false, $filterLevel = false)
     {
-        if ($ordered) {
-            $arrayIssues = $this->issues->toArray();
-            usort($arrayIssues, array('MDM\Reporter\Reporter', 'cmpIssues'));
-            $this->issues = new IssueCollection($arrayIssues);
+        $issues = $this->issues;
+        if ($filterLevel !== false) {
+            $issues = $this->filterIssues($filterLevel);
         }
 
-        return $this->issues;
+        if ($ordered) {
+            $arrayIssues = $issues->toArray();
+            usort($arrayIssues, array('MDM\Reporter\Reporter', 'cmpIssues'));
+            $issues = new IssueCollection($arrayIssues);
+        }
+
+        return $issues;
     }
 
-    public function hasError()
+    /**
+     * @param $filterLevel
+     * @return IssueCollection
+     */
+    public function filterIssues($filterLevel)
+    {
+        $issues = array();
+        foreach ($this->getIssues() as $issue) {
+            if ($issue->getLevel() == $filterLevel) {
+                $issues[] = $issue;
+            }
+        }
+
+        return new IssueCollection($issues);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasIssueLevel($level)
     {
         foreach ($this->getIssues() as $issue) {
-            if ($issue->getLevel() == Issue::LEVEL_ERROR) {
+            if ($issue->matches($level)) {
                 return true;
             }
         }
@@ -166,18 +204,30 @@ class Reporter implements ReporterInterface
         return false;
     }
 
+    /**
+     * @param $climate
+     */
     public function displayReport($climate)
     {
         $lastReviewName = '';
-        foreach ($this->getIssues(true) as $issue) {
-            $colorMethod = $issue->getColour();
+        $this->displayIssues($this->getIssues(true, Issue::LEVEL_INFO), $lastReviewName, $climate);
+        $this->displayIssues($this->getIssues(true, Issue::LEVEL_WARNING), $lastReviewName, $climate);
+        $this->displayIssues($this->getIssues(true, Issue::LEVEL_ERROR), $lastReviewName, $climate);
+    }
 
+    /**
+     * @param $issues
+     * @param $lastReviewName
+     * @param $climate
+     */
+    public function displayIssues($issues, &$lastReviewName, $climate)
+    {
+        foreach ($issues as $issue) {
+            $colorMethod = $issue->getColour();
             if ($lastReviewName == '' || $lastReviewName != $issue->getReviewName()) {
-                $backgroundMethod = 'background' . ucfirst($colorMethod);
                 $climate->br()->$colorMethod()->out($issue->getReviewName() . ' :');
                 $lastReviewName = $issue->getReviewName();
             }
-
             $climate->$colorMethod($issue);
         }
     }
