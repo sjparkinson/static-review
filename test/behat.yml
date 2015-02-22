@@ -1,0 +1,30 @@
+default:
+
+  suites:
+  
+    default:
+      paths:
+        - %paths.base%/behavorial/features
+      contexts:
+        - MainThread\StaticReview\Test\Behavorial\Context\FeatureContext
+      filters:
+        role: user
+
+    git:
+      paths:
+        - %paths.base%/behavorial/features
+      contexts:
+        - MainThread\StaticReview\Test\Behavorial\Context\FeatureContext
+        - MainThread\StaticReview\Test\Behavorial\Context\GitContext
+      filters:
+        role: git user
+        
+
+    mercurial:
+      paths:
+        - %paths.base%/behavorial/features
+      contexts:
+        - MainThread\StaticReview\Test\Behavorial\Context\FeatureContext
+        - MainThread\StaticReview\Test\Behavorial\Context\MercurialContext
+      filters:
+        role: mercurial user

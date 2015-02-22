@@ -17,10 +17,6 @@
             <directory>tests/unit/</directory>
         </testsuite>
 
-        <testsuite name="functional">
-            <directory>tests/functional/</directory>
-        </testsuite>
-
     </testsuites>
 
     <!-- Coverage filter -->
@@ -37,9 +33,6 @@
 
         <log type="coverage-text"
              target="php://stdout" />
-
-        <log type="coverage-html"
-             target="build/coverage/" />
 
     </logging>
 
