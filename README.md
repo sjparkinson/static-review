@@ -17,6 +17,7 @@ For a [composer][composer] managed project you can simply run the following ...
 
 ```bash
 $ composer require sjparkinson/static-review
+```
 
 [composer]: https://getcomposer.org/
 
