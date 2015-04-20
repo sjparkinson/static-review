@@ -1,17 +1,37 @@
-# Welcome to your new Koding workspace
+Static-Review
+=============
 
-This workspace, which lives inside the 'Workspaces' folder of your
-home directory, is the place where you can store all relevant and
-related files to this project.
+[![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
+[![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
+[![Minimum PHP Version](http://img.shields.io/badge/php-~5.4-8892BF.svg?style=flat)][php]
 
-Workspaces help keep your projects organized. You can create any
-number of sub-folders within this workspace in order to further
-organize your work.
+An extendible framework for version control hooks.
 
-As you move back and forth between your workspaces, Koding will try
-and remember everything about each workspace. This includes things
-like IDE settings, files open, Terminals open, etc.
+[travis]:    https://travis-ci.org/sjparkinson/static-review
+[packagist]: https://packagist.org/packages/sjparkinson/static-review
+[php]:       https://php.net/
 
-You can create as many new workspaces as you need on your VM.
+## Usage
 
-Enjoy and Happy Koding!
+For a [composer][composer] managed project you can simply run the following ...
+
+```bash
+$ composer require sjparkinson/static-review
+
+[composer]: https://getcomposer.org/
+
+## Tests
+
+```bash
+$ git clone https://github.com/sjparkinson/static-review.git
+$ cd static-review/
+$ composer install
+$ composer run-script test
+```
+
+## Licence
+
+The content of this library is released under the [MIT License][license] by [Samuel Parkinson][twitter].
+
+[license]: https://github.com/sjparkinson/static-review/blob/master/LICENSE
+[twitter]: https://twitter.com/samparkinson_
