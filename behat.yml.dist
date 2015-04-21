@@ -1,8 +1,8 @@
 default:
   suites:
-    features:
+    application:
       paths:
-        - test/features
+        - test/features/application/
       contexts:
         - MainThread\StaticReview\Test\Context\ApplicationContext
         - MainThread\StaticReview\Test\Context\FilesystemContext
