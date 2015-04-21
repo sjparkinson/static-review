@@ -12,17 +12,15 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-require file_exists(__DIR__ . '/vendor/autoload.php')
-    ? __DIR__ . '/vendor/autoload.php'
-    : __DIR__ . '/../../autoload.php';
+$included = include file_exists(__DIR__ . '/../vendor/autoload.php')
+    ? __DIR__ . '/../vendor/autoload.php'
+    : __DIR__ . '/../../../autoload.php';
 
-$version = '5.0.0-dev';
-
-// Windows uses Path instead of PATH
-if (! isset($_SERVER['PATH']) && isset($_SERVER['Path'])) {
-    $_SERVER['PATH'] = $_SERVER['Path'];
+if (! $included) {
+    echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
+       . 'curl -sS https://getcomposer.org/installer | php' . PHP_EOL
+       . 'php composer.phar install' . PHP_EOL;
+    exit(1);
 }
 
-$app = new MainThread\StaticReview\Application($version);
-
-$app->run();
+(new MainThread\StaticReview\Application('5.0.0-dev'))->run();

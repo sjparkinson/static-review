@@ -40,6 +40,8 @@ class Application extends BaseApplication
     {
         $this->container = new Container();
 
+        $this->container->tag([], 'console.commands');
+
         parent::__construct('static-review', $version);
     }
 
@@ -94,7 +96,7 @@ class Application extends BaseApplication
                     $container->tag($class, 'config.reviews');
                 }
             } else {
-                $container->bind('config.' . $key, $value);
+                $container->instance('config.' . $key, $value);
             }
         }
     }
@@ -108,14 +110,15 @@ class Application extends BaseApplication
      */
     protected function parseConfigurationFile(InputInterface $input)
     {
-        $paths = ['static-review.yml', 'static-review.yml.dist'];
+        $paths = ['static-review.yml', 'static-review.yml.dist', '.static-review.yml', '.static-review.yml.dist'];
 
         if ($input->hasParameterOption(['-c','--config'])) {
             $path = $input->getParameterOption(['-c', '--config']);
 
             if (! file_exists($path)) {
                 throw new RuntimeException(sprintf(
-                    'Configuration file not found at %s.'
+                    'Configuration file not found at `%s`.',
+                    $path
                 ));
             }
 
@@ -123,11 +126,23 @@ class Application extends BaseApplication
         }
 
         foreach ($paths as $path) {
-            $config = Yaml::parse(file_get_contents($path));
+            if ($path && file_exists($path)) {
+                $config = Yaml::parse(file_get_contents($path));
 
-            if ($path && file_exists($path) && $config) {
+                foreach (['vcs', 'reviews', 'formatter'] as $field) {
+                    if (! in_array($field, array_keys($config))) {
+                        throw new RuntimeException(
+                            'Configuration file requires values for `vcs`, `reviews`, and `formatter`.'
+                        );
+                    }
+                }
+
                 return $config;
             }
         }
+
+        throw new RuntimeException(
+            'Configuration file not found.'
+        );
     }
 }

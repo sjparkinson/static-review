@@ -17,10 +17,12 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Tester\ApplicationTester;
 use LogicException;
+use Exception;
 use MainThread\StaticReview\Application;
+use MainThread\StaticReview\Test\Application\ApplicationTester;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Input\StringInput;
 
 /**
  * The behat Context class to make use of the Symfony ApplicationTester.
@@ -38,26 +40,37 @@ class ApplicationContext implements SnippetAcceptingContext
     private $tester;
 
     /**
+     * @var Exception;
+     */
+    private $exception;
+
+    /**
      * @beforeScenario
      */
     public function setupApplication()
     {
-        $this->application = new Application('behat');
+        $this->application = new Application('development');
         $this->application->setAutoExit(false);
+        $this->application->setCatchExceptions(false);
 
         $this->tester = new ApplicationTester($this->application);
+
+        $this->exception = null;
     }
 
     /**
-     * @When I run :command
-     * @When I run :command with :options
+     * @When I run the application
+     * @When I call the application with :args
      *
-     * @param string $command
-     * @param string $options
+     * @param string $args
      */
-    public function iRunCommand($command, $options = null)
+    public function iCallTheApplication($args = '')
     {
-        $this->tester->run([$command, $options]);
+        try {
+            $this->tester->run($args);
+        } catch (Exception $e) {
+            $this->exception = $e;
+        }
     }
 
     /**
@@ -69,20 +82,61 @@ class ApplicationContext implements SnippetAcceptingContext
     {
         $this->assertApplicationHasRun();
 
-        assertSame((string) $output, $this->tester->getDisplay());
+        assertThat(trim($this->tester->getDisplay()), is(identicalTo((string) $output)));
     }
 
     /**
-     * @Then the command should exit successfully
-     * @Then the command should exit with :exitCode
+     * @Then the application should exit successfully
+     * @Then the application should exit with a :statusCode status code
      *
-     * @param integer $exitCode
+     * @param integer $statusCode
      */
-    public function theCommandExitCodeShouldBe($exitCode = 0)
+    public function theCommandStatusCodeShouldBe($statusCode = 0)
     {
         $this->assertApplicationHasRun();
 
-        assertSame($exitCode, $this->getStatusCode());
+        assertThat($this->tester->getStatusCode(), is(identicalTo($statusCode)));
+    }
+
+    /**
+     * @Then the application should throw a :exception
+     * @Then the application should throw a :exception with :message
+     *
+     * @param string $exception
+     * @param string $message
+     */
+    public function theApplicationShouldThrow($exception, $message = null)
+    {
+        assertThat($this->exception, is(anInstanceOf($exception)));
+
+        if ($message) {
+            assertThat($this->exception->getMessage(), is(identicalTo($message)));
+        }
+    }
+
+    /**
+     * @Then the application should throw a :exception with:
+     *
+     * @param string       $exception
+     * @param PyStringNode $message
+     */
+    public function theApplicationShouldThrowWith($exception, PyStringNode $message)
+    {
+        $this->theApplicationShouldThrow($exception, (string) $message);
+    }
+
+    /**
+     * @Then the application should have loaded :key with :expected
+     *
+     * @param string $key
+     * @param string $expected
+     */
+    public function theApplicationShouldHaveLoaded($key, $expected)
+    {
+        $value = $this->application->getContainer()->make($key);
+
+        assertThat(notNullValue($value));
+        assertThat($value, is(identicalTo($expected)));
     }
 
     /**
@@ -92,7 +146,7 @@ class ApplicationContext implements SnippetAcceptingContext
      */
     private function assertApplicationHasRun()
     {
-        if ($this->getStatusCode() === null) {
+        if ($this->tester->getStatusCode() === null) {
             throw new LogicException(
                 'You first need to run a command to use this step.'
             );

@@ -35,10 +35,11 @@
 
     "require-dev": {
         "behat/behat": "~3.0",
+        "leaphub/phpcs-symfony2-standard": "dev-master",
+        "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
         "squizlabs/php_codesniffer": "~2.0",
-        "leaphub/phpcs-symfony2-standard": "dev-master",
-        "mockery/mockery": "0.9.*"
+        "symfony/filesystem": "~2.0"
     },
 
     "scripts": {
@@ -58,11 +59,11 @@
         ],
 
         "test:features": [
-            "vendor/bin/behat --colors"
+            "vendor/bin/behat --colors --suite features"
         ],
 
         "lint": [
-            "vendor/bin/phpcs --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ -p src/ test/"
+            "vendor/bin/phpcs -p --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ test/"
         ]
     }
 }
