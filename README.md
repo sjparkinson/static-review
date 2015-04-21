@@ -33,7 +33,7 @@ $ vendor/bin/static-review
 $ git clone https://github.com/sjparkinson/static-review.git
 $ cd static-review/
 $ composer install
-$ composer run-script test
+$ composer test
 ```
 
 ## Licence
