@@ -8,6 +8,10 @@ php:
   - hhvm
   - hhvm-nightly
 
+cache:
+  directories:
+    - vendor/
+
 install:
   - travis_retry composer install --no-interaction
 

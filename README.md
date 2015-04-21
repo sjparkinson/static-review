@@ -11,15 +11,21 @@ An extendible framework for version control hooks.
 [packagist]: https://packagist.org/packages/sjparkinson/static-review
 [php]:       https://php.net/
 
-## Usage
+## Installation
 
-For a [composer][composer] managed project you can simply run the following ...
+For a [composer][composer] managed project simply run the following ...
 
 ```bash
 $ composer require sjparkinson/static-review
 ```
 
 [composer]: https://getcomposer.org/
+
+## Usage
+
+```bash
+$ vendor/bin/static-review
+```
 
 ## Tests
 

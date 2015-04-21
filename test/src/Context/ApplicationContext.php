@@ -13,15 +13,17 @@
 
 namespace MainThread\StaticReview\Test\Context;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Tester\ApplicationTester;
+use LogicException;
+use MainThread\StaticReview\Application;
 
 /**
- * The behat Context class to make use of the Symfony ApplicationTester. 
+ * The behat Context class to make use of the Symfony ApplicationTester.
  */
 class ApplicationContext implements SnippetAcceptingContext
 {
@@ -29,7 +31,7 @@ class ApplicationContext implements SnippetAcceptingContext
      * @var Application
      */
     private $application;
-    
+
     /**
      * @var ApplicationTester
      */
@@ -42,39 +44,60 @@ class ApplicationContext implements SnippetAcceptingContext
     {
         $this->application = new Application('behat');
         $this->application->setAutoExit(false);
-        
+
         $this->tester = new ApplicationTester($this->application);
     }
-    
+
     /**
      * @When I run :command
-     * 
+     * @When I run :command with :options
+     *
      * @param string $command
+     * @param string $options
      */
-    public function iRunCommand($command)
+    public function iRunCommand($command, $options = null)
     {
-        $input = new StringInput($command);
-        
-        $command = $this->application->find($input->getFirstArgument('command'));
-        
-        $input = new StringInput($command, $command->getDefinition());
-        
-        $this->output = new StreamOutput(fopen('php://memory', 'w', false));
-        
-        $command->run($input, $this->output);
+        $this->tester->run([$command, $options]);
     }
-    
+
     /**
      * @Then I should see:
-     * 
+     *
      * @param PyStringNode $output
      */
     public function iShouldSee(PyStringNode $output)
     {
-        rewind($this->output->getStream());
-        
-        $display = stream_get_contents($this->output->getStream());
-        
-        assertSame($string->getRaw(), $display);
+        $this->assertApplicationHasRun();
+
+        assertSame((string) $output, $this->tester->getDisplay());
+    }
+
+    /**
+     * @Then the command should exit successfully
+     * @Then the command should exit with :exitCode
+     *
+     * @param integer $exitCode
+     */
+    public function theCommandExitCodeShouldBe($exitCode = 0)
+    {
+        $this->assertApplicationHasRun();
+
+        assertSame($exitCode, $this->getStatusCode());
+    }
+
+    /**
+     * @return bool
+     *
+     * @throws LogicException
+     */
+    private function assertApplicationHasRun()
+    {
+        if ($this->getStatusCode() === null) {
+            throw new LogicException(
+                'You first need to run a command to use this step.'
+            );
+        }
+
+        return true;
     }
 }

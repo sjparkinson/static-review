@@ -44,15 +44,25 @@
     "scripts": {
         "test": [
             "composer run-script --quiet lint",
+            "composer run-script --quiet test:unit",
+            "composer run-script --quiet test:functional",
             "composer run-script --quiet test:features"
         ],
 
+        "test:unit": [
+            "vendor/bin/phpunit --colors=always --testsuite unit"
+        ],
+
+        "test:functional": [
+            "vendor/bin/phpunit --colors=always --testsuite functional"
+        ],
+
         "test:features": [
-            "vendor/bin/behat"
+            "vendor/bin/behat --colors"
         ],
 
         "lint": [
-            "vendor/bin/phpcs --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ test/"
+            "vendor/bin/phpcs --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ -p src/ test/"
         ]
     }
 }

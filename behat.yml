@@ -4,6 +4,6 @@ default:
     features:
       paths:
         - test/features
- 
+
       contexts:
         - MainThread\StaticReview\Test\Context\ApplicationContext

@@ -1,8 +1,6 @@
 ---
 vcs: git
 
-reviews:
-  - MainThread\StaticReview\Review\PhpLintReview
-  - MainThread\StaticReview\Review\LineEndingsReview
-    
+reviews: null
+
 formatter: progress
