@@ -7,8 +7,7 @@
 
          bootstrap="vendor/autoload.php"
          colors="true"
-         verbose="true"
-         strict="true">
+         verbose="true">
 
     <!-- Test suites -->
     <testsuites>

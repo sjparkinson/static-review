@@ -99,15 +99,15 @@ class ApplicationContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then the application should throw a :exception
-     * @Then the application should throw a :exception with :message
+     * @Then the application should throw a/an :exception
+     * @Then the application should throw a/an :exception with :message
      *
      * @param string $exception
      * @param string $message
      */
     public function theApplicationShouldThrow($exception, $message = null)
     {
-        assertThat($this->exception, is(anInstanceOf($exception)));
+        assertThat(get_class($this->exception), endsWith($exception));
 
         if ($message) {
             assertThat($this->exception->getMessage(), is(identicalTo($message)));

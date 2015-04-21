@@ -14,8 +14,8 @@
 namespace MainThread\StaticReview;
 
 use Illuminate\Container\Container;
+use MainThread\StaticReview\Configuration\ConfigurationException;
 use MainThread\StaticReview\Review\ReviewInterface;
-use RuntimeException;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,10 +23,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Application class for MainThred\StaticReview, extending Symfony\Component\Console\Application
+ * Application class for MainThread\StaticReview, extending Symfony\Component\Console\Application
  * with configuration autoloading and the Illuminate\Container\Container container.
  */
-class Application extends BaseApplication
+final class Application extends BaseApplication
 {
     /**
      * @var Container
@@ -77,17 +77,24 @@ class Application extends BaseApplication
      * @param InputInterface   $input
      * @param Container $container
      *
-     * @throws RuntimeException
+     * @throws ConfigurationException
      */
-    protected function loadConfiguration(InputInterface $input, Container $container)
+    private function loadConfiguration(InputInterface $input, Container $container)
     {
         $config = $this->parseConfigurationFile($input);
 
         foreach ($config as $key => $value) {
-            if ('reviews' === $key && is_array($value)) {
-                foreach ($value as $class) {
+            if ('reviews' === $key) {
+                foreach ((array) $value as $class) {
+                    if (! class_exists($class)) {
+                        throw new ConfigurationException(sprintf(
+                            'Review class `%s` does not exist.',
+                            $class
+                        ));
+                    }
+
                     if (! new $class() instanceof ReviewInterface) {
-                        throw new RuntimeException(sprintf(
+                        throw new ConfigurationException(sprintf(
                             'ReviewInterface class must implement ReviewInterface. But `%s` is not.',
                             $class
                         ));
@@ -106,43 +113,46 @@ class Application extends BaseApplication
      *
      * @return array
      *
-     * @throws RuntimeException
+     * @throws ConfigurationException
      */
-    protected function parseConfigurationFile(InputInterface $input)
+    private function parseConfigurationFile(InputInterface $input)
     {
         $paths = ['static-review.yml', 'static-review.yml.dist', '.static-review.yml', '.static-review.yml.dist'];
 
         if ($input->hasParameterOption(['-c','--config'])) {
-            $path = $input->getParameterOption(['-c', '--config']);
-
-            if (! file_exists($path)) {
-                throw new RuntimeException(sprintf(
-                    'Configuration file not found at `%s`.',
-                    $path
-                ));
-            }
-
-            $paths = [$path];
+            $paths = [$input->getParameterOption(['-c', '--config'])];
         }
 
         foreach ($paths as $path) {
-            if ($path && file_exists($path)) {
-                $config = Yaml::parse(file_get_contents($path));
-
-                foreach (['vcs', 'reviews', 'formatter'] as $field) {
-                    if (! in_array($field, array_keys($config))) {
-                        throw new RuntimeException(
-                            'Configuration file requires values for `vcs`, `reviews`, and `formatter`.'
-                        );
-                    }
-                }
+            if ($path && file_exists($path) && $config = Yaml::parse(file_get_contents($path))) {
+                $this->validateConfiguration($config);
 
                 return $config;
             }
         }
 
-        throw new RuntimeException(
+        throw new ConfigurationException(
             'Configuration file not found.'
         );
+    }
+
+    /**
+     * Check that the configuration has all the required fields.
+     *
+     * @param array $config
+     *
+     * @throws ConfigurationException
+     */
+    private function validateConfiguration(array $config)
+    {
+        $required = ['vcs', 'reviews', 'formatter'];
+
+        foreach ($required as $field) {
+            if (! in_array($field, array_keys($config))) {
+                throw new ConfigurationException(
+                    'Configuration file requires values for `vcs`, `reviews`, and `formatter`.'
+                );
+            }
+        }
     }
 }
