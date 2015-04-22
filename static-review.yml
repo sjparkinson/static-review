@@ -1,8 +1,6 @@
 ---
 vcs: git
 
-reviews:
-  - MainThread\StaticReview\Review\TrailingWhitespaceReview
-  - MainThread\StaticReview\Review\PhpLintReview
+reviews: null
 
 formatter: progress
