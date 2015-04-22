@@ -29,6 +29,11 @@ class ConfigurationLoader
     private $container;
 
     /**
+     * @var array
+     */
+    private $configuration;
+
+    /**
      * Creates a new instance of the Configuration class.
      *
      * @param Container $container
@@ -46,9 +51,15 @@ class ConfigurationLoader
      */
     public function loadConfiguration(InputInterface $input)
     {
-        $config = $this->parseConfigurationFile($input);
+        // Load configuration from file.
+        $this->parseConfigurationFile($input);
 
-        foreach ($config as $key => $value) {
+        // Load any configuration from any command line options.
+        $this->parseCommandLineOptions($input);
+
+        $this->validateConfiguration();
+
+        foreach ($this->configuration as $key => $value) {
             if ('reviews' === $key) {
                 foreach ((array) $value as $class) {
                     if (! class_exists($class)) {
@@ -90,15 +101,29 @@ class ConfigurationLoader
 
         foreach ($paths as $path) {
             if ($path && file_exists($path) && $config = Yaml::parse(file_get_contents($path))) {
-                $this->validateConfiguration($config);
-
-                return $config;
+                return $this->configuration = $config;
             }
         }
+    }
 
-        throw new ConfigurationException(
-            'Configuration file not found.'
-        );
+    /**
+     * Loads any configuration options specified in the command line.
+     *
+     * @param InputInterface $input
+     */
+    private function parseCommandLineOptions(InputInterface $input)
+    {
+        if ($input->hasParameterOption(['-d', '--driver'])) {
+            $this->configuration['driver'] = $input->getParameterOption(['-d', '--driver']);
+        }
+
+        if ($input->hasParameterOption(['-r', '--review'])) {
+            $this->configuration['reviews'] = $input->getParameterOption(['-r', '--review']);
+        }
+
+        if ($input->hasParameterOption(['-f', '--format'])) {
+            $this->configuration['format'] = $input->getParameterOption(['-f', '--format']);
+        }
     }
 
     /**
@@ -108,14 +133,20 @@ class ConfigurationLoader
      *
      * @throws ConfigurationException
      */
-    private function validateConfiguration(array $config)
+    private function validateConfiguration()
     {
-        $required = ['vcs', 'reviews', 'formatter'];
+        $required = ['driver', 'reviews', 'format'];
+
+        if (! $this->configuration) {
+            throw new ConfigurationException(
+                'No configuration file found, and no command line options specified.'
+            );
+        }
 
         foreach ($required as $field) {
-            if (! in_array($field, array_keys($config))) {
+            if (! in_array($field, array_keys($this->configuration))) {
                 throw new ConfigurationException(
-                    'Configuration file requires values for `vcs`, `reviews`, and `formatter`.'
+                    'Configuration requires values for `driver`, `reviews`, and `format`.'
                 );
             }
         }

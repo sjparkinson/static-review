@@ -17,8 +17,8 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use LogicException;
 use Exception;
+use LogicException;
 use MainThread\StaticReview\Application;
 use MainThread\StaticReview\Test\Application\ApplicationTester;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -56,6 +56,7 @@ class ApplicationContext implements SnippetAcceptingContext
         $this->tester = new ApplicationTester($this->application);
 
         $this->exception = null;
+        $this->catchExceptions = false;
     }
 
     /**
@@ -67,7 +68,7 @@ class ApplicationContext implements SnippetAcceptingContext
     public function iCallTheApplication($args = '')
     {
         try {
-            $this->tester->run($args);
+            $this->tester->run('--no-ansi ' . $args);
         } catch (Exception $e) {
             $this->exception = $e;
         }
@@ -146,6 +147,10 @@ class ApplicationContext implements SnippetAcceptingContext
      */
     private function assertApplicationHasRun()
     {
+        if ($this->exception) {
+            throw $this->exception;
+        }
+
         if ($this->tester->getStatusCode() === null) {
             throw new LogicException(
                 'You first need to run a command to use this step.'
