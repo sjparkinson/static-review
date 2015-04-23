@@ -13,7 +13,7 @@ cache:
     - vendor/
 
 install:
-  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
+  - composer config --global --quiet github-oauth.github.com $GITHUB_COMPOSER_AUTH
   - travis_retry composer install --no-interaction
 
 before_script:
@@ -25,4 +25,4 @@ script:
 
 env:
   global:
-    secure: CJTrLsEvCAmZw8J2kEEFHhXfHJyV5iJ3JKI/A8R7FGw9MhdLoliiqt6dtdbxyvq9+yCRAjq2SRJof+pDOPoOxIAjpfSpEh+FI/vTIrQM0otIR+9LFr4B7uirCrYc5D02TvIpEzLLEKVq60IXUFIcV+LAcl10uBQ0PE7GlE4vRs4=
+    secure: VYF/uhA4KZyaXAzjZCtPpeRq2G/SJZMKBeZG/mru8pZk5sPIWaZZGwu/hnKme7EcsK6ESB5P2fXUBJ2LjEi8JlxWqQ71aSNOY+X06d8xM9LOwnHvAAHo1HvS5H+UukvhGhtU6dK9Lq4w1WyZ9bDUY3QszmqL25lIx7JKkhgWIzg=
