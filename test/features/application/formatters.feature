@@ -4,6 +4,9 @@ Feature: Output Formatters
     I would like to specify the format of the applications output
     So that I can use the most useful output format
 
+    Supported formatters:
+        - progress
+
     Scenario: I run the application with the progress formatter
         Given the configuration file contains:
             """

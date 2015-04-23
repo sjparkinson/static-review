@@ -71,6 +71,11 @@
         "lint": [
             "echo '+++ Linting source code\n'",
             "vendor/bin/phpcs -p --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ test/"
+        ],
+
+        "lint:auto-fix": [
+            "echo '+++ Running \\033[33mphpcbf\\033[0m with the Symfony 2 standard\n'",
+            "vendor/bin/phpcbf --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ test/"
         ]
     }
 }

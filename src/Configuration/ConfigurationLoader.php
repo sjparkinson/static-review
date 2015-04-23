@@ -3,7 +3,7 @@
 /*
  * This file is part of MainThread\StaticReview
  *
- * Copyright (c) 2014 Samuel Parkinson <@samparkinson_>
+ * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,15 +19,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * This class handles parsing and loading of configuration files into the container.
+ * Configuration loader.
+ *
+ * Loads configuration from both a file and the command line options.
+ *
+ * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
 class ConfigurationLoader
 {
-    /**
-     * @var Container
-     */
-    private $container;
-
     /**
      * @var array
      */
@@ -35,21 +34,19 @@ class ConfigurationLoader
 
     /**
      * Creates a new instance of the Configuration class.
-     *
-     * @param Container $container
      */
-    public function __construct(Container $container)
+    public function __construct()
     {
-        $this->container = $container;
+        $this->configuration = [];
     }
 
     /**
-     * @param InputInterface   $input
-     * @param Container $container
+     * @param InputInterface $input
+     * @param Container      $container
      *
      * @throws ConfigurationException
      */
-    public function loadConfiguration(InputInterface $input)
+    public function loadConfiguration(InputInterface $input, Container $container)
     {
         // Load configuration from file.
         $this->parseConfigurationFile($input);
@@ -57,7 +54,7 @@ class ConfigurationLoader
         // Load any configuration from any command line options.
         $this->parseCommandLineOptions($input);
 
-        $this->validateConfiguration();
+        $this->validateConfiguration($this->configuration);
 
         foreach ($this->configuration as $key => $value) {
             if ('reviews' === $key) {
@@ -76,10 +73,10 @@ class ConfigurationLoader
                         ));
                     }
 
-                    $this->container->tag($class, 'config.reviews');
+                    $container->tag($class, 'config.reviews');
                 }
             } else {
-                $this->container->instance('config.' . $key, $value);
+                $container->instance('config.' . $key, $value);
             }
         }
     }
@@ -129,22 +126,22 @@ class ConfigurationLoader
     /**
      * Check that the configuration has all the required fields.
      *
-     * @param array $config
+     * @param array $configuration
      *
      * @throws ConfigurationException
      */
-    private function validateConfiguration()
+    private function validateConfiguration(array $configuration)
     {
         $required = ['driver', 'reviews', 'format'];
 
-        if (! $this->configuration) {
+        if (! $configuration) {
             throw new ConfigurationException(
                 'No configuration file found, and no command line options specified.'
             );
         }
 
         foreach ($required as $field) {
-            if (! in_array($field, array_keys($this->configuration))) {
+            if (! in_array($field, array_keys($configuration))) {
                 throw new ConfigurationException(
                     'Configuration requires values for `driver`, `reviews`, and `format`.'
                 );

@@ -3,7 +3,7 @@
 /*
  * This file is part of MainThread\StaticReview
  *
- * Copyright (c) 2014 Samuel Parkinson <@samparkinson_>
+ * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,6 +26,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Application class for MainThread\StaticReview, extending Symfony\Component\Console\Application
  * with configuration autoloading and the Illuminate\Container\Container container.
+ *
+ * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
 final class Application extends BaseApplication
 {
@@ -35,18 +37,11 @@ final class Application extends BaseApplication
     private $container;
 
     /**
-     * @var ConfigurationLoader
-     */
-    private $configurationLoader;
-
-    /**
      * @param string $version
      */
     public function __construct($version)
     {
         $this->container = new Container();
-
-        $this->configurationLoader = new ConfigurationLoader($this->container);
 
         parent::__construct('static-review', $version);
     }
@@ -71,7 +66,7 @@ final class Application extends BaseApplication
         $this->container->bind('console.output', $output);
 
         if (! $input->hasParameterOption(['--help', '-h', '--version', '-V'])) {
-            $this->configurationLoader->loadConfiguration($input);
+            (new ConfigurationLoader())->loadConfiguration($input, $this->container);
         }
 
         return parent::doRun($input, $output);
@@ -128,12 +123,12 @@ final class Application extends BaseApplication
     protected function getDefaultInputDefinition()
     {
         return new InputDefinition([
-            new InputOption('--help',    '-h', InputOption::VALUE_NONE, 'Display this help message'),
-            new InputOption('--quiet',   '-q', InputOption::VALUE_NONE, 'Do not output any message'),
+            new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display this help message'),
+            new InputOption('--quiet', '-q', InputOption::VALUE_NONE, 'Do not output any message'),
             new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
             new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Display this application version'),
-            new InputOption('--ansi',    '',   InputOption::VALUE_NONE, 'Force ANSI output'),
-            new InputOption('--no-ansi', '',   InputOption::VALUE_NONE, 'Disable ANSI output'),
+            new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
+            new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
         ]);
     }
 }
