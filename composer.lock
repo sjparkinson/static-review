@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bd017d48723130c0c8f643a548dc17ed",
+    "hash": "756dcfde1638424d131ac7b90d507ec1",
     "packages": [
         {
             "name": "illuminate/container",
@@ -1420,16 +1420,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "5046b0e01c416fc2b06df961d0673c85bcdc896c"
+                "reference": "f3100143e94bbeeaa4f1cd7c6389c3733d3d1ce1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5046b0e01c416fc2b06df961d0673c85bcdc896c",
-                "reference": "5046b0e01c416fc2b06df961d0673c85bcdc896c",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/f3100143e94bbeeaa4f1cd7c6389c3733d3d1ce1",
+                "reference": "f3100143e94bbeeaa4f1cd7c6389c3733d3d1ce1",
                 "shasum": ""
             },
             "require": {
@@ -1490,7 +1490,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2015-03-04 02:07:03"
+            "time": "2015-04-23 03:40:59"
         },
         {
             "name": "symfony/class-loader",
