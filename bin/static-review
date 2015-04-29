@@ -2,7 +2,7 @@
 <?php
 
 /*
- * This file is part of MainThread\StaticReview
+ * This file is part of MainThread\StaticReview.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
@@ -20,7 +20,10 @@ if (! $included) {
     echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
        . 'curl -sS https://getcomposer.org/installer | php' . PHP_EOL
        . 'php composer.phar install' . PHP_EOL;
+
     exit(1);
 }
+
+unset($included);
 
 (new MainThread\StaticReview\Application('5.0.0-dev'))->run();

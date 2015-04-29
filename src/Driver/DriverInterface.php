@@ -11,13 +11,28 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\File;
+namespace MainThread\StaticReview\Driver;
 
 /**
- * File interface.
+ * Driver interface.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-interface FileInterface
+interface DriverInterface
 {
+    /**
+     * Verify that the driver supports the project at the given path.
+     *
+     * @param string $path
+     *
+     * @return boolean
+     */
+    public function supports($path);
+
+    /**
+     * Returns the name of the driver.
+     *
+     * @return string
+     */
+    public function getName();
 }

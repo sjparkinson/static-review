@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MainThread\StaticReview
+ * This file is part of MainThread\StaticReview.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
@@ -54,7 +54,7 @@ class ConfigurationLoader
         // Load any configuration from any command line options.
         $this->parseCommandLineOptions($input);
 
-        $this->validateConfiguration($this->configuration);
+        self::validateConfiguration($this->configuration);
 
         foreach ($this->configuration as $key => $value) {
             if ('reviews' === $key) {
@@ -130,7 +130,7 @@ class ConfigurationLoader
      *
      * @throws ConfigurationException
      */
-    private function validateConfiguration(array $configuration)
+    private static function validateConfiguration(array $configuration)
     {
         $required = ['driver', 'reviews', 'format'];
 

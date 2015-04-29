@@ -3,7 +3,7 @@ Static-Review
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
 [![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
-[![Minimum PHP Version](http://img.shields.io/badge/php-~5.4-8892BF.svg?style=flat)][php]
+[![Minimum PHP Version](http://img.shields.io/badge/php-~5.5-8892BF.svg?style=flat)][php]
 
 An extendible framework for version control hooks.
 

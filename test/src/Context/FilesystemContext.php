@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MainThread\StaticReview
+ * This file is part of MainThread\StaticReview.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *

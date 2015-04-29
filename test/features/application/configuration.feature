@@ -16,6 +16,23 @@ Feature: Configuration File
         And the application should have loaded "config.format" with "progress"
         And the application should exit successfully
 
+    Scenario Outline: I run the application using the diffrent configuration file names
+        Given the file "<filename>" contains:
+            """
+            driver: git
+            reviews: null
+            format: progress
+            """
+        When I run the application
+        Then the application should exit successfully
+
+        Examples:
+            | filename                |
+            | .static-review.yml      |
+            | .static-review.yml.dist |
+            | static-review.yml       |
+            | static-review.yml.dist  |
+
     Scenario: I specify a review that doesn't exist
         Given the configuration file contains:
             """
