@@ -26,6 +26,8 @@ class VarDumperReview implements ReviewInterface
     /**
      * @inheritdoc
      *
+     * @param FileInterface $file
+     *
      * @return boolean
      */
     public function supports(FileInterface $file)
@@ -36,10 +38,12 @@ class VarDumperReview implements ReviewInterface
     /**
      * @inheritdoc
      *
+     * @param FileInterface $file
+     *
      * @return Result
      */
     public function review(FileInterface $file)
     {
-        return new Result($file, $this, 1);
+        return new Result(1, $file, $this);
     }
 }

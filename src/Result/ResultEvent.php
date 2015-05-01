@@ -22,11 +22,26 @@ use League\Event\AbstractEvent;
  */
 class ResultEvent extends AbstractEvent
 {
+    /**
+     * @var Result
+     */
+    protected $result;
+
+    /**
+     * Creates a new instance of the ResultEvent class.
+     *
+     * @param Result $result
+     */
     public function __construct(Result $result)
     {
         $this->result = $result;
     }
 
+    /**
+     * Gets the Result object.
+     *
+     * @return Result
+     */
     public function getResult()
     {
         return $this->result;

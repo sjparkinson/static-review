@@ -69,6 +69,9 @@ class ApplicationContext implements SnippetAcceptingContext
      */
     public function iCallTheApplication($args = '')
     {
+        // escape '/' characters
+        $args = str_replace('\\', '\\\\', $args);
+
         try {
             $this->tester->run('--no-ansi ' . $args);
         } catch (Exception $e) {

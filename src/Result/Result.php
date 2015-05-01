@@ -27,6 +27,14 @@ class Result
 
     const STATUS_FAILED = 2;
 
+    /**
+     * Creates a new instance of the Result class.
+     *
+     * @param integer         $status
+     * @param FileInterface   $file
+     * @param ReviewInterface $review
+     * @param string          $message
+     */
     public function __construct($status, FileInterface $file, ReviewInterface $review, $message = null)
     {
         $this->status = $status;
@@ -35,21 +43,41 @@ class Result
         $this->message = $message;
     }
 
+    /**
+     * Gets the results FileInterface.
+     *
+     * @return FileInterface
+     */
     public function getFile()
     {
         return $this->file;
     }
 
+    /**
+     * Gets the results ReviewInterface.
+     *
+     * @return ReviewInterface
+     */
     public function getReview()
     {
         return $this->review;
     }
 
+    /**
+     * Gets the results status.
+     *
+     * @return integer
+     */
     public function getStatus()
     {
         return $this->status;
     }
 
+    /**
+     * Gets the results message.
+     *
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;

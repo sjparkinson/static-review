@@ -23,11 +23,21 @@ use MainThread\StaticReview\Result\ResultEvent;
  */
 class ProgressFormatter implements FormatterInterface
 {
+    /**
+     * Creates a new instance of the ProgressFormatter class.
+     *
+     * @param OutputInterface $output
+     */
     public function __construct(OutputInterface $output)
     {
         $this->output = $output;
     }
 
+    /**
+     * Handles a ResultEvent
+     *
+     * @param ResultEvent $event
+     */
     public function handleResult(ResultEvent $event)
     {
         $this->output->write('.');

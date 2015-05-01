@@ -37,10 +37,10 @@ class ReviewCommand extends Command
 
         $definition = $this->getDefinition();
 
-        $definition->addOption(new InputOption('--config',    '-c', InputOption::VALUE_REQUIRED, 'Specify a configuration file to use'));
-        $definition->addOption(new InputOption('--driver',    '-d', InputOption::VALUE_REQUIRED, 'Specify the driver to use (<comment>file</comment> is default)'));
+        $definition->addOption(new InputOption('--config', '-c', InputOption::VALUE_REQUIRED, 'Specify a configuration file to use'));
+        $definition->addOption(new InputOption('--driver', '-d', InputOption::VALUE_REQUIRED, 'Specify the driver to use (<comment>file</comment> is default)'));
         $definition->addOption(new InputOption('--formatter', '-f', InputOption::VALUE_REQUIRED, 'Specify the format of the output (<comment>progress</comment> is default)'));
-        $definition->addOption(new InputOption('--review',    '-r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Specify the reviews to use'));
+        $definition->addOption(new InputOption('--review', '-r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Specify the reviews to use'));
 
         $this->addArgument('path', InputArgument::OPTIONAL, 'Spefify the folder to review', '.');
     }

@@ -5,71 +5,23 @@ Feature: Configuration File
     So that I can use the same tool in diffrent projects
 
     Scenario: I run the application with a valid configuration
-        Given the class file "src/Driver/ExampleDriver.php" contains:
+        Given the configuration file contains:
             """
-            <?php
-            use MainThread\StaticReview\Driver\DriverInterface;
-            class ExampleDriver implements DriverInterface
-            {
-                public function supports($path)
-                {
-                    return true;
-                }
-
-                public function getFiles($path)
-                {
-                    return [];
-                }
-            }
-            """
-        And the class file "src/Formatter/ExampleFormatter.php" contains:
-            """
-            <?php
-            use MainThread\StaticReview\Formatter\FormatterInterface;
-            class ExampleFormatter implements FormatterInterface
-            {
-                public function getPrinter()
-                {
-                    return null;
-                }
-
-                public function getResultsCollector()
-                {
-                    return null;
-                }
-            }
-            """
-        And the class file "src/Review/ExampleReview.php" contains:
-            """
-            <?php
-            use MainThread\StaticReview\Review\ReviewInterface;
-            use MainThread\StaticReview\File\FileInterface;
-            class ExampleReview implements ReviewInterface
-            {
-                public function supports(FileInterface $file) { return true; }
-                public function review(FileInterface $file)
-                {
-                    return 1;
-                }
-            }
-            """
-        And the configuration file contains:
-            """
-            driver: ExampleDriver
-            reviews: null
-            formatter: ExampleFormatter
+            driver: MainThread\StaticReview\Driver\LocalDriver
+            reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
+            formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
         When I run the application
-        Then the application should have loaded "config.driver" with "ExampleDriver"
-        And the application should have loaded "config.formatter" with "ExampleFormatter"
+        Then the application should have loaded "config.driver" with "MainThread\StaticReview\Driver\LocalDriver"
+        And the application should have loaded "config.formatter" with "MainThread\StaticReview\Formatter\ProgressFormatter"
         And the application should exit successfully
 
     Scenario Outline: I run the application using the diffrent configuration file names
         Given the file "<filename>" contains:
             """
-            driver: ExampleDriver
-            reviews: null
-            formatter: ExampleFormatter
+            driver: MainThread\StaticReview\Driver\LocalDriver
+            reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
+            formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
         When I run the application
         Then the application should exit successfully
@@ -84,9 +36,9 @@ Feature: Configuration File
     Scenario: I specify a review that doesn't exist
         Given the configuration file contains:
             """
-            driver: ExampleDriver
+            driver: MainThread\StaticReview\Driver\LocalDriver
             reviews: ClassNotFound
-            formatter: ExampleFormatter
+            formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
         When I run the application
         And the application should throw a "ConfigurationException" with:
@@ -116,9 +68,9 @@ Feature: Configuration File
     Scenario: I specifiy a configuration file
         Given the file "test.yml" contains:
             """
-            driver: ExampleDriver
-            reviews: null
-            formatter: ExampleFormatter
+            driver: MainThread\StaticReview\Driver\LocalDriver
+            reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
+            formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
         When I call the application with "--config test.yml"
         Then the application should exit successfully
@@ -137,8 +89,8 @@ Feature: Configuration File
     Scenario: I run the application with a missing field
         Given the configuration file contains:
             """
-            driver: ExampleDriver
-            formatter: ExampleFormatter
+            driver: MainThread\StaticReview\Driver\LocalDriver
+            formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
         When I run the application
         Then the application should throw a "ConfigurationException" with:
@@ -147,43 +99,43 @@ Feature: Configuration File
              """
 
     Scenario: I run the application with all the configuration specified in the command line
-        When I call the application with "--driver ExampleDriver --formatter ExampleFormatter --review ExampleReview"
+        When I call the application with "--driver MainThread\StaticReview\Driver\LocalDriver --formatter MainThread\StaticReview\Formatter\ProgressFormatter --review MainThread\StaticReview\Review\VarDumperReview"
         Then the application should exit successfully
 
     Scenario: I run the application with driver and formatter specified as command line options
         Given the configuration file contains:
             """
-            reviews: null
+            reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             """
-        When I call the application with "--driver ExampleDriver --formatter ExampleFormatter"
+        When I call the application with "--driver MainThread\StaticReview\Driver\LocalDriver --formatter MainThread\StaticReview\Formatter\ProgressFormatter"
         Then the application should exit successfully
 
     Scenario: I run the application with driver specified as a command line option
         Given the configuration file contains:
             """
-            reviews: null
-            formatter: ExampleFormatter
+            reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
+            formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
-        When I call the application with "--driver ExampleDriver"
+        When I call the application with "--driver MainThread\StaticReview\Driver\LocalDriver"
         Then the application should exit successfully
 
     Scenario: I run the application with formatter specified as a command line option
         Given the configuration file contains:
             """
-            driver: ExampleDriver
-            reviews: null
+            driver: MainThread\StaticReview\Driver\LocalDriver
+            reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             """
-        When I call the application with "--formatter ExampleFormatter"
+        When I call the application with "--formatter MainThread\StaticReview\Formatter\ProgressFormatter"
         Then the application should exit successfully
 
     Scenario: I run the application and override configuration using the command line options
         Given the configuration file contains:
             """
             driver: null
-            reviews: null
+            reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             formatter: null
             """
-        When I call the application with "--formatter ExampleFormatter --driver ExampleDriver"
-        Then the application should have loaded "config.driver" with "ExampleDriver"
-        And the application should have loaded "config.formatter" with "ExampleFormatter"
+        When I call the application with "--formatter MainThread\StaticReview\Formatter\ProgressFormatter --driver MainThread\StaticReview\Driver\LocalDriver"
+        Then the application should have loaded "config.driver" with "MainThread\StaticReview\Driver\LocalDriver"
+        And the application should have loaded "config.formatter" with "MainThread\StaticReview\Formatter\ProgressFormatter"
         And the application should exit successfully

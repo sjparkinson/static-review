@@ -67,19 +67,6 @@ class FilesystemContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Given the class file :file contains:
-     *
-     * @param string       $file
-     * @param PyStringNode $contents
-     */
-    public function theClassFileContains($file, PyStringNode $contents)
-    {
-        $this->theFileContains($file, $contents);
-
-        require_once($file);
-    }
-
-    /**
      * @Given the file :file contains:
      *
      * @param string       $file

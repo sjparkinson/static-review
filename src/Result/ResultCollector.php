@@ -20,12 +20,27 @@ namespace MainThread\StaticReview\Result;
  */
 class ResultCollector
 {
+    /**
+     * @var array An array of Result objects.
+     */
     protected $results;
 
+    /**
+     * @var integer
+     */
     protected $fileCount;
 
+    /**
+     * @var integer
+     */
     protected $reviewCount;
 
+    /**
+     * Creates a new instance of the ResultCollector class.
+     *
+     * @param integer $fileCount
+     * @param integer $reviewCount
+     */
     public function __construct($fileCount, $reviewCount)
     {
         $this->results = [];
@@ -33,11 +48,23 @@ class ResultCollector
         $this->reviewCount = $reviewCount;
     }
 
+    /**
+     * Gets the Result objects stored in this collector.
+     *
+     * @return array
+     */
     public function getResults()
     {
         return $this->results;
     }
 
+    /**
+     * Adds a Result object to this collector.
+     *
+     * @param Result $result
+     *
+     * @return ResultCollector
+     */
     public function addResult(Result $result)
     {
         $this->results[] = $result;
@@ -45,27 +72,42 @@ class ResultCollector
         return $this;
     }
 
+    /**
+     * Gets the total number of files being reviewed.
+     *
+     * @return integer
+     */
     public function getTotalFiles()
     {
         return $this->fileCount;
     }
 
+    /**
+     * Gets the total number of reviews.
+     *
+     * @return integer
+     */
     public function getTotalReviews()
     {
-        
+        return $this->reviewCount;
     }
 
+    /**
+     * Gets the number of passed results.
+     *
+     * @return integer
+     */
     public function getPassedCount()
     {
         return 0;
     }
 
+    /**
+     * Gets the number of failed results.
+     *
+     * @return integer
+     */
     public function getFailedCount()
-    {
-        return 0;
-    }
-
-    public function getSkippedCount()
     {
         return 0;
     }

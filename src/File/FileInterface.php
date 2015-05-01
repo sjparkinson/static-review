@@ -22,22 +22,16 @@ interface FileInterface
 {
     /**
      * Gets the filename including its extension.
-     *
-     * @return string
      */
     public function getFileName();
 
     /**
      * Gets the relative path of the file.
-     *
-     * @return string
      */
     public function getRelativePath();
 
     /**
      * Gets the absolute path to the file.
-     *
-     * @return string
      */
     public function getAbsolutePath();
 
@@ -48,22 +42,16 @@ interface FileInterface
 
     /**
      * Gets the cache path of the file, used to handle partially staged files under version control.
-     *
-     * @return string
      */
     public function getCachedPath();
 
     /**
      * Gets the extension of the file.
-     *
-     * @return string
      */
     public function getExtension();
 
     /**
      * Gets the mime type of the file.
-     *
-     * @return string
      */
     public function getMimeType();
 }

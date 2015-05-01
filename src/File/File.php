@@ -28,16 +28,15 @@ class File implements FileInterface
     protected $file;
 
     /**
-     * @var string The cache directory.
+     * @var string
      */
     protected $cache;
 
     /**
      * Creates a new instance of the File class.
      *
-     * @param string $file
-     * @param string $base
-     * @param string $cache
+     * @param SplFileInfo $file
+     * @param string      $cache
      */
     public function __construct(SplFileInfo $file, $cache = null)
     {
@@ -47,6 +46,8 @@ class File implements FileInterface
 
     /**
      * @inheritdoc
+     *
+     * @return string
      */
     public function getFileName()
     {
@@ -55,6 +56,8 @@ class File implements FileInterface
 
     /**
      * @inheritdoc
+     *
+     * @return string
      */
     public function getRelativePath()
     {
@@ -63,6 +66,8 @@ class File implements FileInterface
 
     /**
      * @inheritdoc
+     *
+     * @return string
      */
     public function getAbsolutePath()
     {
@@ -85,6 +90,8 @@ class File implements FileInterface
 
     /**
      * @inheritdoc
+     *
+     * @return string
      */
     public function getCachedPath()
     {
@@ -97,6 +104,8 @@ class File implements FileInterface
 
     /**
      * @inheritdoc
+     *
+     * @return string
      */
     public function getExtension()
     {
@@ -105,6 +114,8 @@ class File implements FileInterface
 
     /**
      * @inheritdoc
+     *
+     * @return string
      */
     public function getMimeType()
     {
