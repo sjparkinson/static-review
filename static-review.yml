@@ -1,6 +1,6 @@
 ---
-vcs: git
+driver: MainThread\StaticReview\Driver\GitDriver
+
+formatter: null
 
 reviews: null
-
-formatter: progress

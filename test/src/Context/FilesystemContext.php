@@ -49,13 +49,34 @@ class FilesystemContext implements SnippetAcceptingContext
      */
     public function prepareWorkingDirectory()
     {
-        $this->workingDirectory = tempnam(sys_get_temp_dir(), 'static-review-behat');
+        $this->workingDirectory = tempnam(sys_get_temp_dir(), 'static-review-behat-');
 
         $this->filesystem->remove($this->workingDirectory);
 
         $this->filesystem->mkdir($this->workingDirectory);
 
         chdir($this->workingDirectory);
+    }
+
+    /**
+     * @afterScenario
+     */
+    public function removeWorkingDirectory()
+    {
+        $this->filesystem->remove($this->workingDirectory);
+    }
+
+    /**
+     * @Given the class file :file contains:
+     *
+     * @param string       $file
+     * @param PyStringNode $contents
+     */
+    public function theClassFileContains($file, PyStringNode $contents)
+    {
+        $this->theFileContains($file, $contents);
+
+        require_once($file);
     }
 
     /**

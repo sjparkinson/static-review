@@ -11,30 +11,24 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Driver;
+namespace MainThread\StaticReview\Output\Formatter;
 
 /**
- * Driver interface.
+ * Formatter interface.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-interface DriverInterface
+interface FormatterInterface
 {
     /**
-     * Verify that the driver supports the project at the given path.
-     *
-     * @param string $path
-     *
-     * @return boolean
+     * Gets the printer.
      */
-    public function supports($path);
+    public function getPrinter();
 
     /**
-     * Returns an array of FileInterface objects.
+     * Gets the results collector.
      *
-     * @param string $path
-     *
-     * @return array
+     * @return ResultsCollector
      */
-    public function getFiles($path);
+    public function getResultsCollector();
 }

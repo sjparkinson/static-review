@@ -14,6 +14,8 @@
 namespace MainThread\StaticReview\Configuration;
 
 use Illuminate\Container\Container;
+use MainThread\StaticReview\Driver\DriverInterface;
+use MainThread\StaticReview\Output\Formatter\FormatterInterface;
 use MainThread\StaticReview\Review\ReviewInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -57,7 +59,44 @@ class ConfigurationLoader
         self::validateConfiguration($this->configuration);
 
         foreach ($this->configuration as $key => $value) {
-            if ('reviews' === $key) {
+            if ($key === 'driver') {
+                if (! class_exists($value)) {
+                    throw new ConfigurationException(sprintf(
+                        'Driver class `%s` does not exist.',
+                        $value
+                    ));
+                }
+
+                if (! new $value() instanceof DriverInterface) {
+                    throw new ConfigurationException(sprintf(
+                        'Driver class must implement %s. But `%s` does not.',
+                        DriverInterface::class,
+                        $value
+                    ));
+                }
+
+                $container->bind('config.driver', $value);
+            }
+
+            if ($key === 'formatter') {
+                if (! class_exists($value)) {
+                    throw new ConfigurationException(sprintf(
+                        'Formatter class `%s` does not exist.',
+                        $value
+                    ));
+                }
+
+                if (! new $value() instanceof FormatterInterface) {
+                    throw new ConfigurationException(sprintf(
+                        'Formatter class must implement FormatterInterface. But `%s` does not.',
+                        $value
+                    ));
+                }
+
+                $container->bind('config.formatter', $value);
+            }
+
+            if ($key === 'reviews') {
                 foreach ((array) $value as $class) {
                     if (! class_exists($class)) {
                         throw new ConfigurationException(sprintf(
@@ -68,15 +107,13 @@ class ConfigurationLoader
 
                     if (! new $class() instanceof ReviewInterface) {
                         throw new ConfigurationException(sprintf(
-                            'ReviewInterface class must implement ReviewInterface. But `%s` is not.',
+                            'ReviewInterface class must implement ReviewInterface. But `%s` does not.',
                             $class
                         ));
                     }
 
                     $container->tag($class, 'config.reviews');
                 }
-            } else {
-                $container->instance('config.' . $key, $value);
             }
         }
     }
@@ -118,8 +155,8 @@ class ConfigurationLoader
             $this->configuration['reviews'] = $input->getParameterOption(['-r', '--review']);
         }
 
-        if ($input->hasParameterOption(['-f', '--format'])) {
-            $this->configuration['format'] = $input->getParameterOption(['-f', '--format']);
+        if ($input->hasParameterOption(['-f', '--formatter'])) {
+            $this->configuration['formatter'] = $input->getParameterOption(['-f', '--formatter']);
         }
     }
 
@@ -132,7 +169,7 @@ class ConfigurationLoader
      */
     private static function validateConfiguration(array $configuration)
     {
-        $required = ['driver', 'reviews', 'format'];
+        $required = ['driver', 'reviews', 'formatter'];
 
         if (! $configuration) {
             throw new ConfigurationException(
@@ -143,7 +180,7 @@ class ConfigurationLoader
         foreach ($required as $field) {
             if (! in_array($field, array_keys($configuration))) {
                 throw new ConfigurationException(
-                    'Configuration requires values for `driver`, `reviews`, and `format`.'
+                    'Configuration requires values for `driver`, `reviews`, and `formatter`.'
                 );
             }
         }

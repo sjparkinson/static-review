@@ -5,23 +5,57 @@ Feature: Configuration File
     So that I can use the same tool in diffrent projects
 
     Scenario: I run the application with a valid configuration
-        Given the configuration file contains:
+        Given the class file "src/Driver/ExampleDriver.php" contains:
             """
-            driver: git
+            <?php
+            use MainThread\StaticReview\Driver\DriverInterface;
+            class ExampleDriver implements DriverInterface
+            {
+                public function supports($path)
+                {
+                    return true;
+                }
+
+                public function getFiles($path)
+                {
+                    return [];
+                }
+            }
+            """
+        And the class file "src/Output/Formatter/ExampleFormatter.php" contains:
+            """
+            <?php
+            use MainThread\StaticReview\Output\Formatter\FormatterInterface;
+            class ExampleFormatter implements FormatterInterface
+            {
+                public function getPrinter()
+                {
+                    return null;
+                }
+
+                public function getResultsCollector()
+                {
+                    return null;
+                }
+            }
+            """
+        And the configuration file contains:
+            """
+            driver: ExampleDriver
             reviews: null
-            format: progress
+            formatter: ExampleFormatter
             """
         When I run the application
-        Then the application should have loaded "config.driver" with "git"
-        And the application should have loaded "config.format" with "progress"
+        Then the application should have loaded "config.driver" with "ExampleDriver"
+        And the application should have loaded "config.formatter" with "ExampleFormatter"
         And the application should exit successfully
 
     Scenario Outline: I run the application using the diffrent configuration file names
         Given the file "<filename>" contains:
             """
-            driver: git
+            driver: ExampleDriver
             reviews: null
-            format: progress
+            formatter: ExampleFormatter
             """
         When I run the application
         Then the application should exit successfully
@@ -36,9 +70,9 @@ Feature: Configuration File
     Scenario: I specify a review that doesn't exist
         Given the configuration file contains:
             """
-            driver: git
+            driver: ExampleDriver
             reviews: ClassNotFound
-            format: progress
+            formatter: ExampleFormatter
             """
         When I run the application
         And the application should throw a "ConfigurationException" with:
@@ -68,9 +102,9 @@ Feature: Configuration File
     Scenario: I specifiy a configuration file
         Given the file "test.yml" contains:
             """
-            driver: git
+            driver: ExampleDriver
             reviews: null
-            format: progress
+            formatter: ExampleFormatter
             """
         When I call the application with "--config test.yml"
         Then the application should exit successfully
@@ -83,59 +117,59 @@ Feature: Configuration File
         When I run the application
         Then the application should throw a "ConfigurationException" with:
              """
-             Configuration requires values for `driver`, `reviews`, and `format`.
+             Configuration requires values for `driver`, `reviews`, and `formatter`.
              """
 
     Scenario: I run the application with a missing field
         Given the configuration file contains:
             """
-            driver: git
-            format: progress
+            driver: ExampleDriver
+            formatter: ExampleFormatter
             """
         When I run the application
         Then the application should throw a "ConfigurationException" with:
              """
-             Configuration requires values for `driver`, `reviews`, and `format`.
+             Configuration requires values for `driver`, `reviews`, and `formatter`.
              """
 
     Scenario: I run the application with all the configuration specified in the command line
-        When I call the application with "--driver file --format progress --review MainThread\\StaticReview\\Review\\Review"
+        When I call the application with "--driver ExampleDriver --formatter ExampleFormatter --review MainThread\\StaticReview\\Review\\Review"
         Then the application should exit successfully
 
-    Scenario: I run the application with driver and format specified as command line options
+    Scenario: I run the application with driver and formatter specified as command line options
         Given the configuration file contains:
             """
             reviews: null
             """
-        When I call the application with "--driver file --format progress"
+        When I call the application with "--driver ExampleDriver --formatter ExampleFormatter"
         Then the application should exit successfully
 
     Scenario: I run the application with driver specified as a command line option
         Given the configuration file contains:
             """
             reviews: null
-            format: progress
+            formatter: ExampleFormatter
             """
-        When I call the application with "--driver file"
+        When I call the application with "--driver ExampleDriver"
         Then the application should exit successfully
 
-    Scenario: I run the application with format specified as a command line option
+    Scenario: I run the application with formatter specified as a command line option
         Given the configuration file contains:
             """
-            driver: file
+            driver: ExampleDriver
             reviews: null
             """
-        When I call the application with "--format progress"
+        When I call the application with "--formatter ExampleFormatter"
         Then the application should exit successfully
 
     Scenario: I run the application and override configuration using the command line options
         Given the configuration file contains:
             """
-            driver: file
+            driver: null
             reviews: null
-            format: pretty
+            formatter: null
             """
-        When I call the application with "--format progress --driver git"
-        Then the application should have loaded "config.driver" with "git"
-        And the application should have loaded "config.format" with "progress"
+        When I call the application with "--formatter ExampleFormatter --driver ExampleDriver"
+        Then the application should have loaded "config.driver" with "ExampleDriver"
+        And the application should have loaded "config.formatter" with "ExampleFormatter"
         And the application should exit successfully

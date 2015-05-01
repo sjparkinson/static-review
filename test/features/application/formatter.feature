@@ -10,9 +10,9 @@ Feature: Output Formatters
     Scenario: I run the application with the progress formatter
         Given the configuration file contains:
             """
-            driver: file
+            driver: MainThread\StaticReview\Driver\LocalDriver
             reviews: null
-            format: progress
+            formatter: MainThred\StaticReview\Output\Formatter\ProgressFormatter
             """
         And the file "test.txt" contains:
             """
@@ -21,9 +21,6 @@ Feature: Output Formatters
         When I run the application
         Then I should see:
             """
-            -
-
-            0 reviews
-            1 file (1 skipped)
+            .
             """
         And the application should exit successfully

@@ -136,10 +136,12 @@ class ApplicationContext implements SnippetAcceptingContext
      */
     public function theApplicationShouldHaveLoaded($key, $expected)
     {
+        $this->assertApplicationHasRun();
+
         $value = $this->application->getContainer()->make($key);
 
         assertThat(notNullValue($value));
-        assertThat($value, is(identicalTo($expected)));
+        assertThat(get_class($value), is(identicalTo($expected)));
     }
 
     /**

@@ -13,21 +13,28 @@
 
 namespace MainThread\StaticReview\Driver;
 
+use MainThread\StaticReview\File\FileInterface;
+
 /**
- * Driver interface.
+ * GitDriver class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-interface DriverInterface
+class GitDriver implements DriverInterface
 {
     /**
      * Verify that the driver supports the project at the given path.
+     *
+     * Checks for a .git directory in the given path.
      *
      * @param string $path
      *
      * @return boolean
      */
-    public function supports($path);
+    public function supports($path)
+    {
+        return is_dir($path . '/.git/');
+    }
 
     /**
      * Returns an array of FileInterface objects.
@@ -36,5 +43,8 @@ interface DriverInterface
      *
      * @return array
      */
-    public function getFiles($path);
+    public function getFiles($path)
+    {
+        return [];
+    }
 }

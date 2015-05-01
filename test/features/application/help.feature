@@ -9,12 +9,12 @@ Feature: Help Option
         Then I should see:
             """
             Usage:
-             static-review [-c|--config="..."] [-d|--driver="..."] [-f|--format="..."] [-r|--review="..."]
+             static-review [-c|--config="..."] [-d|--driver="..."] [-f|--formatter="..."] [-r|--review="..."]
 
             Options:
              --config (-c)         Specify a configuration file to use
              --driver (-d)         Specify the driver to use (file is default)
-             --format (-f)         Specify the format of the output (progress is default)
+             --formatter (-f)      Specify the format of the output (progress is default)
              --review (-r)         Specify the reviews to use (multiple values allowed)
              --help (-h)           Display this help message
              --quiet (-q)          Do not output any message
