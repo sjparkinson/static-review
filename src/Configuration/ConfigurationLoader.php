@@ -15,7 +15,7 @@ namespace MainThread\StaticReview\Configuration;
 
 use Illuminate\Container\Container;
 use MainThread\StaticReview\Driver\DriverInterface;
-use MainThread\StaticReview\Output\Formatter\FormatterInterface;
+use MainThread\StaticReview\Formatter\FormatterInterface;
 use MainThread\StaticReview\Review\ReviewInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -67,7 +67,7 @@ class ConfigurationLoader
                     ));
                 }
 
-                if (! new $value() instanceof DriverInterface) {
+                if (! $container->make($value) instanceof DriverInterface) {
                     throw new ConfigurationException(sprintf(
                         'Driver class must implement %s. But `%s` does not.',
                         DriverInterface::class,
@@ -75,7 +75,7 @@ class ConfigurationLoader
                     ));
                 }
 
-                $container->bind('config.driver', $value);
+                $container->singleton('config.driver', $value);
             }
 
             if ($key === 'formatter') {
@@ -86,14 +86,14 @@ class ConfigurationLoader
                     ));
                 }
 
-                if (! new $value() instanceof FormatterInterface) {
+                if (! $container->make($value) instanceof FormatterInterface) {
                     throw new ConfigurationException(sprintf(
                         'Formatter class must implement FormatterInterface. But `%s` does not.',
                         $value
                     ));
                 }
 
-                $container->bind('config.formatter', $value);
+                $container->singleton('config.formatter', $value);
             }
 
             if ($key === 'reviews') {

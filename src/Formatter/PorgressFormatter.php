@@ -11,26 +11,25 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Review;
+namespace MainThread\StaticReview\Formatter;
 
-use MainThread\StaticReview\File\FileInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use MainThread\StaticReview\Result\ResultEvent;
 
 /**
- * A basic implmentation of a Review class.
+ * Formatter interface.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class Review implements ReviewInterface
+class ProgressFormatter implements FormatterInterface
 {
-    /**
-     * Checks if the review is supported by the file.
-     *
-     * @param FileInterface $file
-     *
-     * @return boolean
-     */
-    public function supports(FileInterface $file)
+    public function __construct(OutputInterface $output)
     {
-        return true;
+        $this->output = $output;
+    }
+
+    public function handleResult(ResultEvent $event)
+    {
+        $this->output->write('.');
     }
 }

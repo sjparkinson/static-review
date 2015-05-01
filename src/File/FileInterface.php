@@ -42,6 +42,11 @@ interface FileInterface
     public function getAbsolutePath();
 
     /**
+     * Gets the absolute path to use for reviewing.
+     */
+    public function getReviewPath();
+
+    /**
      * Gets the cache path of the file, used to handle partially staged files under version control.
      *
      * @return string

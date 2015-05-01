@@ -22,10 +22,10 @@ Feature: Configuration File
                 }
             }
             """
-        And the class file "src/Output/Formatter/ExampleFormatter.php" contains:
+        And the class file "src/Formatter/ExampleFormatter.php" contains:
             """
             <?php
-            use MainThread\StaticReview\Output\Formatter\FormatterInterface;
+            use MainThread\StaticReview\Formatter\FormatterInterface;
             class ExampleFormatter implements FormatterInterface
             {
                 public function getPrinter()
@@ -36,6 +36,20 @@ Feature: Configuration File
                 public function getResultsCollector()
                 {
                     return null;
+                }
+            }
+            """
+        And the class file "src/Review/ExampleReview.php" contains:
+            """
+            <?php
+            use MainThread\StaticReview\Review\ReviewInterface;
+            use MainThread\StaticReview\File\FileInterface;
+            class ExampleReview implements ReviewInterface
+            {
+                public function supports(FileInterface $file) { return true; }
+                public function review(FileInterface $file)
+                {
+                    return 1;
                 }
             }
             """
@@ -133,7 +147,7 @@ Feature: Configuration File
              """
 
     Scenario: I run the application with all the configuration specified in the command line
-        When I call the application with "--driver ExampleDriver --formatter ExampleFormatter --review MainThread\\StaticReview\\Review\\Review"
+        When I call the application with "--driver ExampleDriver --formatter ExampleFormatter --review ExampleReview"
         Then the application should exit successfully
 
     Scenario: I run the application with driver and formatter specified as command line options

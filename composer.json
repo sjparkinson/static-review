@@ -31,7 +31,8 @@
         "symfony/console": "~2.0",
         "symfony/process": "~2.0",
         "symfony/yaml": "~2.0",
-        "league/event": "~2.0"
+        "league/event": "~2.0",
+        "symfony/finder": "~2.6"
     },
 
     "require-dev": {

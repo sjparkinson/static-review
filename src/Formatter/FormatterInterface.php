@@ -11,7 +11,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Output\Formatter;
+namespace MainThread\StaticReview\Formatter;
 
 /**
  * Formatter interface.
@@ -20,15 +20,4 @@ namespace MainThread\StaticReview\Output\Formatter;
  */
 interface FormatterInterface
 {
-    /**
-     * Gets the printer.
-     */
-    public function getPrinter();
-
-    /**
-     * Gets the results collector.
-     *
-     * @return ResultsCollector
-     */
-    public function getResultsCollector();
 }

@@ -44,6 +44,8 @@ final class Application extends BaseApplication
         $this->container = new Container();
 
         parent::__construct('static-review', $version);
+
+        $this->container->singleton('event.emitter', 'League\Event\Emitter');
     }
 
     /**
@@ -62,8 +64,8 @@ final class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $this->container->bind('console.input', $input);
-        $this->container->bind('console.output', $output);
+        $this->container->instance([InputInterface::class, 'console.input'], $input);
+        $this->container->instance([OutputInterface::class, 'console.output'], $output);
 
         if (! $input->hasParameterOption(['--help', '-h', '--version', '-V'])) {
             (new ConfigurationLoader())->loadConfiguration($input, $this->container);

@@ -28,4 +28,11 @@ interface ReviewInterface
      * @param FileInterface $file
      */
     public function supports(FileInterface $file);
+
+    /**
+     * Reviews the given file.
+     *
+     * @param FileInterface $file
+     */
+    public function review(FileInterface $file);
 }

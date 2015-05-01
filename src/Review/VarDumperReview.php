@@ -11,40 +11,35 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Driver;
+namespace MainThread\StaticReview\Review;
 
 use MainThread\StaticReview\File\FileInterface;
+use MainThread\StaticReview\Result\Result;
 
 /**
- * GitDriver class.
+ * Review interface.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class GitDriver implements DriverInterface
+class VarDumperReview implements ReviewInterface
 {
     /**
-     * Verify that the driver supports the project at the given path.
-     *
-     * Checks for a .git directory in the given path.
-     *
-     * @param string $path
+     * @inheritdoc
      *
      * @return boolean
      */
-    public function supports($path)
+    public function supports(FileInterface $file)
     {
-        return is_dir($path . '/.git/');
+        return true;
     }
 
     /**
-     * Returns an array of FileInterface objects.
+     * @inheritdoc
      *
-     * @param string $path
-     *
-     * @return array
+     * @return Result
      */
-    public function getFiles($path)
+    public function review(FileInterface $file)
     {
-        return [];
+        return new Result($file, $this, 1);
     }
 }

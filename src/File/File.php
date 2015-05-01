@@ -13,6 +13,8 @@
 
 namespace MainThread\StaticReview\File;
 
+use Symfony\Component\Finder\SplFileInfo;
+
 /**
  * File class.
  *
@@ -21,11 +23,26 @@ namespace MainThread\StaticReview\File;
 class File implements FileInterface
 {
     /**
-     * Creates a new instance of the File class.
+     * @var SplFileInfo
      */
-    public function __construct()
-    {
+    protected $file;
 
+    /**
+     * @var string The cache directory.
+     */
+    protected $cache;
+
+    /**
+     * Creates a new instance of the File class.
+     *
+     * @param string $file
+     * @param string $base
+     * @param string $cache
+     */
+    public function __construct(SplFileInfo $file, $cache = null)
+    {
+        $this->file = $file;
+        $this->cache = $cache;
     }
 
     /**
@@ -33,7 +50,7 @@ class File implements FileInterface
      */
     public function getFileName()
     {
-
+        return basename($this->file);
     }
 
     /**
@@ -41,15 +58,29 @@ class File implements FileInterface
      */
     public function getRelativePath()
     {
-
+        return $this->file;
     }
 
     /**
      * @inheritdoc
      */
-    public function getFullPath()
+    public function getAbsolutePath()
     {
+        return $this->base . $this->file;
+    }
 
+    /**
+     * @inheritdoc
+     *
+     * @return string
+     */
+    public function getReviewPath()
+    {
+        if ($this->cache) {
+            return $this->getCachedPath();
+        }
+
+        return $this->getAbsolutePath();
     }
 
     /**
@@ -57,7 +88,11 @@ class File implements FileInterface
      */
     public function getCachedPath()
     {
+        if (! $this->cache) {
+            throw new \Exception('No cache path.');
+        }
 
+        return $this->cache . $this->file;
     }
 
     /**
@@ -65,7 +100,7 @@ class File implements FileInterface
      */
     public function getExtension()
     {
-
+        return pathinfo($this->getCachedPath(), PATHINFO_EXTENSION);
     }
 
     /**
@@ -73,6 +108,13 @@ class File implements FileInterface
      */
     public function getMimeType()
     {
+        // return mime type ala mimetype extension
+        $fileInfo = finfo_open(FILEINFO_MIME);
 
+        $mime = finfo_file($fileInfo, $this->getCachedPath());
+
+        finfo_close($fileInfo);
+
+        return $mime;
     }
 }

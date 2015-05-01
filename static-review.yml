@@ -1,6 +1,7 @@
 ---
-driver: MainThread\StaticReview\Driver\GitDriver
+driver: MainThread\StaticReview\Driver\LocalDriver
 
-formatter: null
+formatter: MainThread\StaticReview\Formatter\ProgressFormatter
 
-reviews: null
+reviews:
+    - MainThread\StaticReview\Review\VarDumperReview
