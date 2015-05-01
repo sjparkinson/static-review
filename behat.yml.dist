@@ -3,6 +3,9 @@ default:
     application:
       paths:
         - test/features/application/
+        - test/features/drivers/
+        - test/features/formatters/
+        - test/features/reviews/
       contexts:
         - MainThread\StaticReview\Test\Context\ApplicationContext
         - MainThread\StaticReview\Test\Context\FilesystemContext
