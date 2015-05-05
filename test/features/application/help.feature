@@ -16,13 +16,13 @@ Feature: Help Option
 
             Options:
              --config (-c)         Specify a configuration file to use
-             --adapter (-a)        Specify the adapter to use (file is default)
-             --formatter (-f)      Specify the format of the output (progress is default)
+             --adapter (-a)        Specify the adapter to use
+             --formatter (-f)      Specify the format of the output
              --review (-r)         Specify the reviews to use (multiple values allowed)
              --help (-h)           Display this help message
              --quiet (-q)          Do not output any message
-             --verbose (-v|vv|vvv) Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-             --version (-V)        Display this application version
+             --verbose (-v|vv|vvv) Increase the verbosity of the output
+             --version (-V)        Display the application version
              --ansi                Force ANSI output
              --no-ansi             Disable ANSI output
             """
