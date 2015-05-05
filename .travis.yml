@@ -19,4 +19,4 @@ before_script:
   - git config --global user.email travis@example.com
 
 script:
-  - composer run-script test --quiet
+  - composer test --quiet

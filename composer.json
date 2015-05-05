@@ -46,10 +46,10 @@
 
     "scripts": {
         "test": [
-            "composer run-script --quiet lint",
-            "composer run-script --quiet test:unit",
-            "composer run-script --quiet test:functional",
-            "composer run-script --quiet test:features"
+            "composer lint --quiet",
+            "composer test:unit --quiet",
+            "composer test:functional --quiet",
+            "composer test:features --quiet"
         ],
 
         "test:unit": [
