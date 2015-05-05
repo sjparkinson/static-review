@@ -7,19 +7,19 @@ Feature: Configuration File
     Scenario: I run the application with a valid configuration
         Given the configuration file contains:
             """
-            driver: MainThread\StaticReview\Driver\LocalDriver
+            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
         When I run the application
-        Then the application should have loaded "config.driver" with "MainThread\StaticReview\Driver\LocalDriver"
+        Then the application should have loaded "config.adapter" with "MainThread\StaticReview\Adapter\FilesystemAdapter"
         And the application should have loaded "config.formatter" with "MainThread\StaticReview\Formatter\ProgressFormatter"
         And the application should exit successfully
 
     Scenario Outline: I run the application using the diffrent configuration file names
         Given the file "<filename>" contains:
             """
-            driver: MainThread\StaticReview\Driver\LocalDriver
+            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
@@ -36,7 +36,7 @@ Feature: Configuration File
     Scenario: I specify a review that doesn't exist
         Given the configuration file contains:
             """
-            driver: MainThread\StaticReview\Driver\LocalDriver
+            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews: ClassNotFound
             formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
@@ -68,7 +68,7 @@ Feature: Configuration File
     Scenario: I specifiy a configuration file
         Given the file "test.yml" contains:
             """
-            driver: MainThread\StaticReview\Driver\LocalDriver
+            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
@@ -83,46 +83,46 @@ Feature: Configuration File
         When I run the application
         Then the application should throw a "ConfigurationException" with:
              """
-             Configuration requires values for `driver`, `reviews`, and `formatter`.
+             Configuration requires values for `adapter`, `reviews`, and `formatter`.
              """
 
     Scenario: I run the application with a missing field
         Given the configuration file contains:
             """
-            driver: MainThread\StaticReview\Driver\LocalDriver
+            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
         When I run the application
         Then the application should throw a "ConfigurationException" with:
              """
-             Configuration requires values for `driver`, `reviews`, and `formatter`.
+             Configuration requires values for `adapter`, `reviews`, and `formatter`.
              """
 
     Scenario: I run the application with all the configuration specified in the command line
-        When I call the application with "--driver MainThread\StaticReview\Driver\LocalDriver --formatter MainThread\StaticReview\Formatter\ProgressFormatter --review MainThread\StaticReview\Review\VarDumperReview"
+        When I call the application with "--adapter MainThread\StaticReview\Adapter\FilesystemAdapter --formatter MainThread\StaticReview\Formatter\ProgressFormatter --review MainThread\StaticReview\Review\VarDumperReview"
         Then the application should exit successfully
 
-    Scenario: I run the application with driver and formatter specified as command line options
+    Scenario: I run the application with adapter and formatter specified as command line options
         Given the configuration file contains:
             """
             reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             """
-        When I call the application with "--driver MainThread\StaticReview\Driver\LocalDriver --formatter MainThread\StaticReview\Formatter\ProgressFormatter"
+        When I call the application with "--adapter MainThread\StaticReview\Adapter\FilesystemAdapter --formatter MainThread\StaticReview\Formatter\ProgressFormatter"
         Then the application should exit successfully
 
-    Scenario: I run the application with driver specified as a command line option
+    Scenario: I run the application with adapter specified as a command line option
         Given the configuration file contains:
             """
             reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             formatter: MainThread\StaticReview\Formatter\ProgressFormatter
             """
-        When I call the application with "--driver MainThread\StaticReview\Driver\LocalDriver"
+        When I call the application with "--adapter MainThread\StaticReview\Adapter\FilesystemAdapter"
         Then the application should exit successfully
 
     Scenario: I run the application with formatter specified as a command line option
         Given the configuration file contains:
             """
-            driver: MainThread\StaticReview\Driver\LocalDriver
+            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             """
         When I call the application with "--formatter MainThread\StaticReview\Formatter\ProgressFormatter"
@@ -131,11 +131,11 @@ Feature: Configuration File
     Scenario: I run the application and override configuration using the command line options
         Given the configuration file contains:
             """
-            driver: null
+            adapter: null
             reviews: [ MainThread\StaticReview\Review\VarDumperReview ]
             formatter: null
             """
-        When I call the application with "--formatter MainThread\StaticReview\Formatter\ProgressFormatter --driver MainThread\StaticReview\Driver\LocalDriver"
-        Then the application should have loaded "config.driver" with "MainThread\StaticReview\Driver\LocalDriver"
+        When I call the application with "--formatter MainThread\StaticReview\Formatter\ProgressFormatter --adapter MainThread\StaticReview\Adapter\FilesystemAdapter"
+        Then the application should have loaded "config.adapter" with "MainThread\StaticReview\Adapter\FilesystemAdapter"
         And the application should have loaded "config.formatter" with "MainThread\StaticReview\Formatter\ProgressFormatter"
         And the application should exit successfully

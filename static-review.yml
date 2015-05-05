@@ -1,5 +1,5 @@
 ---
-driver: MainThread\StaticReview\Driver\LocalDriver
+adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
 
 formatter: MainThread\StaticReview\Formatter\ProgressFormatter
 

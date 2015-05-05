@@ -11,17 +11,17 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Driver;
+namespace MainThread\StaticReview\Adapter;
 
 /**
- * Driver interface.
+ * Adapter interface.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-interface DriverInterface
+interface AdapterInterface
 {
     /**
-     * Verify that the driver supports the project at the given path.
+     * Verify that the adapter supports the project at the given path.
      *
      * @param string $path
      *
@@ -36,5 +36,5 @@ interface DriverInterface
      *
      * @return array
      */
-    public function getFiles($path);
+    public function files($path);
 }

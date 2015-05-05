@@ -26,11 +26,6 @@ interface FileInterface
     public function getFileName();
 
     /**
-     * Gets the relative path of the file.
-     */
-    public function getRelativePath();
-
-    /**
      * Gets the absolute path to the file.
      */
     public function getAbsolutePath();
@@ -39,11 +34,6 @@ interface FileInterface
      * Gets the absolute path to use for reviewing.
      */
     public function getReviewPath();
-
-    /**
-     * Gets the cache path of the file, used to handle partially staged files under version control.
-     */
-    public function getCachedPath();
 
     /**
      * Gets the extension of the file.

@@ -58,7 +58,6 @@ class ApplicationContext implements SnippetAcceptingContext
         $this->tester = new ApplicationTester($this->application);
 
         $this->exception = null;
-        $this->catchExceptions = false;
     }
 
     /**

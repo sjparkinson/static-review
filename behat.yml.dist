@@ -3,7 +3,7 @@ default:
     application:
       paths:
         - test/features/application/
-        - test/features/drivers/
+        - test/features/adapters/
         - test/features/formatters/
         - test/features/reviews/
       contexts:

@@ -13,7 +13,7 @@
 
 namespace MainThread\StaticReview\File;
 
-use Symfony\Component\Finder\SplFileInfo;
+use SplFileInfo;
 
 /**
  * File class.
@@ -51,17 +51,7 @@ class File implements FileInterface
      */
     public function getFileName()
     {
-        return basename($this->file);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    public function getRelativePath()
-    {
-        return $this->file;
+        return $this->file->getFilename();
     }
 
     /**
@@ -71,7 +61,7 @@ class File implements FileInterface
      */
     public function getAbsolutePath()
     {
-        return $this->base . $this->file;
+        return $this->file->getPath();
     }
 
     /**
@@ -81,25 +71,7 @@ class File implements FileInterface
      */
     public function getReviewPath()
     {
-        if ($this->cache) {
-            return $this->getCachedPath();
-        }
-
-        return $this->getAbsolutePath();
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    public function getCachedPath()
-    {
-        if (! $this->cache) {
-            throw new \Exception('No cache path.');
-        }
-
-        return $this->cache . $this->file;
+        return $this->cache ?: $this->getAbsolutePath();
     }
 
     /**
@@ -109,7 +81,7 @@ class File implements FileInterface
      */
     public function getExtension()
     {
-        return pathinfo($this->getCachedPath(), PATHINFO_EXTENSION);
+        return $this->file->getExtension();
     }
 
     /**

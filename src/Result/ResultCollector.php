@@ -13,6 +13,8 @@
 
 namespace MainThread\StaticReview\Result;
 
+use MainThread\StaticReview\File\FileInterface;
+
 /**
  * ResultCollector class.
  *
@@ -21,31 +23,24 @@ namespace MainThread\StaticReview\Result;
 class ResultCollector
 {
     /**
-     * @var array An array of Result objects.
+     * @var array
      */
     protected $results;
 
     /**
-     * @var integer
+     * Key is the file path, value is an SplFileInfo
+     *
+     * @var array
      */
-    protected $fileCount;
-
-    /**
-     * @var integer
-     */
-    protected $reviewCount;
+    protected $files;
 
     /**
      * Creates a new instance of the ResultCollector class.
-     *
-     * @param integer $fileCount
-     * @param integer $reviewCount
      */
-    public function __construct($fileCount, $reviewCount)
+    public function __construct()
     {
         $this->results = [];
-        $this->fileCount = $fileCount;
-        $this->reviewCount = $reviewCount;
+        $this->files = [];
     }
 
     /**
@@ -65,9 +60,15 @@ class ResultCollector
      *
      * @return ResultCollector
      */
-    public function addResult(Result $result)
+    public function add(Result $result)
     {
         $this->results[] = $result;
+
+        $path = $result->getFile()->getAbsolutePath();
+
+        if (! in_array($path, array_keys($this->files))) {
+            $this->files[$path] = $result->getFile();
+        }
 
         return $this;
     }
@@ -77,9 +78,39 @@ class ResultCollector
      *
      * @return integer
      */
-    public function getTotalFiles()
+    public function getFileCount()
     {
-        return $this->fileCount;
+        return count($this->files);
+    }
+
+    /**
+     * Gets the number of files that passed all their reviews.
+     *
+     * @return integer
+     */
+    public function getPassedFileCount()
+    {
+        return $this->getFileCount() - $this->getFailedFileCount();
+    }
+
+    /**
+     * Gets the number of files that failed a review.
+     *
+     * @return integer
+     */
+    public function getFailedFileCount()
+    {
+        $files = [];
+
+        foreach ($this->results as $result) {
+            $path = $result->getFile()->getAbsolutePath();
+
+            if ($result->getStatus() === Result::STATUS_FAILED && ! in_array($path, $files)) {
+                $files[] = $path;
+            }
+        }
+
+        return count($files);
     }
 
     /**
@@ -87,28 +118,48 @@ class ResultCollector
      *
      * @return integer
      */
-    public function getTotalReviews()
+    public function getReviewCount()
     {
-        return $this->reviewCount;
+        return count($this->results);
     }
 
     /**
-     * Gets the number of passed results.
+     * Gets the number of passed reviews.
      *
      * @return integer
      */
-    public function getPassedCount()
+    public function getPassedReviewCount()
     {
-        return 0;
+        return $this->getReviewCountForStatus(Result::STATUS_PASSED);
     }
 
     /**
-     * Gets the number of failed results.
+     * Gets the number of failed reviews.
      *
      * @return integer
      */
-    public function getFailedCount()
+    public function getFailedReviewCount()
     {
-        return 0;
+        return $this->getReviewCountForStatus(Result::STATUS_FAILED);
+    }
+
+    /**
+     * Gets the number of reviews for the given status.
+     *
+     * @param integer $status
+     *
+     * @return integer
+     */
+    private function getReviewCountForStatus($status)
+    {
+        $reduce = function ($count, $result) use ($status) {
+            if ($result->getStatus() === $status) {
+                return $count + 1;
+            }
+
+            return $count;
+        };
+
+        return array_reduce($this->results, $reduce, 0);
     }
 }

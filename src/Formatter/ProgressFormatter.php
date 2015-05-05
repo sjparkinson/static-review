@@ -13,8 +13,9 @@
 
 namespace MainThread\StaticReview\Formatter;
 
+use MainThread\StaticReview\Result\Result;
+use MainThread\StaticReview\Result\ResultCollector;
 use Symfony\Component\Console\Output\OutputInterface;
-use MainThread\StaticReview\Result\ResultEvent;
 
 /**
  * Formatter interface.
@@ -34,12 +35,74 @@ class ProgressFormatter implements FormatterInterface
     }
 
     /**
-     * Handles a ResultEvent
+     * @inheritdoc
      *
-     * @param ResultEvent $event
+     * @param Result $result
      */
-    public function handleResult(ResultEvent $event)
+    public function formatResult(Result $result)
     {
         $this->output->write('.');
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param ResultCollector $resultCollector
+     */
+    public function formatResultCollector(ResultCollector $resultCollector)
+    {
+        $this->output->write("\n\n");
+
+        // How many files did we review?
+        $this->output->writeln($this->formatFileSummary($resultCollector));
+        $this->output->writeln($this->formatReviewSummary($resultCollector));
+    }
+
+    /**
+     * Formats the file summary line.
+     *
+     * @param ResultCollector $resultCollector
+     *
+     * @return string
+     */
+    private function formatFileSummary(ResultCollector $resultCollector)
+    {
+        $summary = $resultCollector->getFileCount() . ' files (';
+
+        if ($resultCollector->getPassedFileCount() > 0) {
+            $summary .= $resultCollector->getPassedFileCount() . ' passed';
+        }
+
+        if ($resultCollector->getFailedFileCount() > 0) {
+            $summary .= ', ' . $resultCollector->getFailedFileCount() . ' failed';
+        }
+
+        $summary .= ')';
+
+        return $summary;
+    }
+
+    /**
+     * Formats the review summary line.
+     *
+     * @param ResultCollector $resultCollector
+     *
+     * @return string
+     */
+    private function formatReviewSummary(ResultCollector $resultCollector)
+    {
+        $summary = $resultCollector->getReviewCount() . ' reviews (';
+
+        if ($resultCollector->getPassedReviewCount() > 0) {
+            $summary .= $resultCollector->getPassedReviewCount() . ' passed';
+        }
+
+        if ($resultCollector->getFailedReviewCount() > 0) {
+            $summary .= ', ' . $resultCollector->getFailedReviewCount() . ' failed';
+        }
+
+        $summary .= ')';
+
+        return $summary;
     }
 }

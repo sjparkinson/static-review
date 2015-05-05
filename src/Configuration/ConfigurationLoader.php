@@ -14,7 +14,7 @@
 namespace MainThread\StaticReview\Configuration;
 
 use Illuminate\Container\Container;
-use MainThread\StaticReview\Driver\DriverInterface;
+use MainThread\StaticReview\adapter\AdapterInterface;
 use MainThread\StaticReview\Formatter\FormatterInterface;
 use MainThread\StaticReview\Review\ReviewInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,23 +59,23 @@ class ConfigurationLoader
         self::validateConfiguration($this->configuration);
 
         foreach ($this->configuration as $key => $value) {
-            if ($key === 'driver') {
+            if ($key === 'adapter') {
                 if (! class_exists($value)) {
                     throw new ConfigurationException(sprintf(
-                        'Driver class `%s` does not exist.',
+                        'Adapter class `%s` does not exist.',
                         $value
                     ));
                 }
 
-                if (! $container->make($value) instanceof DriverInterface) {
+                if (! $container->make($value) instanceof AdapterInterface) {
                     throw new ConfigurationException(sprintf(
-                        'Driver class must implement %s. But `%s` does not.',
-                        DriverInterface::class,
+                        'Adapter class must implement %s. But `%s` does not.',
+                        adapterInterface::class,
                         $value
                     ));
                 }
 
-                $container->singleton('config.driver', $value);
+                $container->singleton('config.adapter', $value);
             }
 
             if ($key === 'formatter') {
@@ -147,8 +147,8 @@ class ConfigurationLoader
      */
     private function parseCommandLineOptions(InputInterface $input)
     {
-        if ($input->hasParameterOption(['-d', '--driver'])) {
-            $this->configuration['driver'] = $input->getParameterOption(['-d', '--driver']);
+        if ($input->hasParameterOption(['-a', '--adapter'])) {
+            $this->configuration['adapter'] = $input->getParameterOption(['-a', '--adapter']);
         }
 
         if ($input->hasParameterOption(['-r', '--review'])) {
@@ -169,7 +169,7 @@ class ConfigurationLoader
      */
     private static function validateConfiguration(array $configuration)
     {
-        $required = ['driver', 'reviews', 'formatter'];
+        $required = ['adapter', 'reviews', 'formatter'];
 
         if (! $configuration) {
             throw new ConfigurationException(
@@ -180,7 +180,7 @@ class ConfigurationLoader
         foreach ($required as $field) {
             if (! in_array($field, array_keys($configuration))) {
                 throw new ConfigurationException(
-                    'Configuration requires values for `driver`, `reviews`, and `formatter`.'
+                    'Configuration requires values for `adapter`, `reviews`, and `formatter`.'
                 );
             }
         }

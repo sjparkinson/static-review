@@ -11,7 +11,7 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Result;
+namespace MainThread\StaticReview\Event;
 
 use League\Event\AbstractEvent;
 

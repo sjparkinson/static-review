@@ -13,6 +13,9 @@
 
 namespace MainThread\StaticReview\Formatter;
 
+use MainThread\StaticReview\Result\Result;
+use MainThread\StaticReview\Result\ResultCollector;
+
 /**
  * Formatter interface.
  *
@@ -20,4 +23,17 @@ namespace MainThread\StaticReview\Formatter;
  */
 interface FormatterInterface
 {
+    /**
+     * Handles the formatting on a review event.
+     *
+     * @param Result $result
+     */
+    public function formatResult(Result $result);
+
+    /**
+     * Handles the formatting of the final statictics.
+     *
+     * @param ResultCollector $resultCollector
+     */
+    public function formatResultCollector(ResultCollector $resultCollector);
 }

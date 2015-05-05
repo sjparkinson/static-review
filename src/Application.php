@@ -46,6 +46,7 @@ final class Application extends BaseApplication
         parent::__construct('static-review', $version);
 
         $this->container->singleton('event.emitter', 'League\Event\Emitter');
+        $this->container->singleton('result.collector', 'MainThread\StaticReview\Result\ResultCollector');
     }
 
     /**

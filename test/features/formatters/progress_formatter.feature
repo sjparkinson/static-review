@@ -7,7 +7,7 @@ Feature: Progress Formatter
     Scenario: I run the application with the progress formatter
         Given the configuration file contains:
             """
-            driver: MainThread\StaticReview\Driver\LocalDriver
+            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews:
                 - MainThread\StaticReview\Review\VarDumperReview
             formatter: MainThread\StaticReview\Formatter\ProgressFormatter
@@ -16,9 +16,12 @@ Feature: Progress Formatter
             """
             Testing file.
             """
-        When I run the application
+        When I call the application with "test.txt"
         Then I should see:
             """
-            ..
+            .
+
+            1 files (1 passed)
+            1 reviews (1 passed)
             """
         And the application should exit successfully

@@ -13,16 +13,16 @@
 
 namespace MainThread\StaticReview\Command;
 
-use MainThread\StaticReview\Driver\DriverInterface;
-use MainThread\StaticReview\File\FileInterface;
-use Symfony\Component\Console\Command\Command;
 use Illuminate\Container\Container;
+use MainThread\StaticReview\Adapter\AdapterInterface;
+use MainThread\StaticReview\File\FileInterface;
+use MainThread\StaticReview\Result\ResultEvent;
+use MainThread\StaticReview\Review\ReviewInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use MainThread\StaticReview\Review\ReviewInterface;
-use MainThread\StaticReview\Result\ResultEvent;
 
 /**
  * The main command for the application.
@@ -37,10 +37,10 @@ class ReviewCommand extends Command
 
         $definition = $this->getDefinition();
 
-        $definition->addOption(new InputOption('--config', '-c', InputOption::VALUE_REQUIRED, 'Specify a configuration file to use'));
-        $definition->addOption(new InputOption('--driver', '-d', InputOption::VALUE_REQUIRED, 'Specify the driver to use (<comment>file</comment> is default)'));
+        $definition->addOption(new InputOption('--config',    '-c', InputOption::VALUE_REQUIRED, 'Specify a configuration file to use'));
+        $definition->addOption(new InputOption('--adapter',   '-a', InputOption::VALUE_REQUIRED, 'Specify the adapter to use (<comment>file</comment> is default)'));
         $definition->addOption(new InputOption('--formatter', '-f', InputOption::VALUE_REQUIRED, 'Specify the format of the output (<comment>progress</comment> is default)'));
-        $definition->addOption(new InputOption('--review', '-r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Specify the reviews to use'));
+        $definition->addOption(new InputOption('--review',    '-r', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Specify the reviews to use'));
 
         $this->addArgument('path', InputArgument::OPTIONAL, 'Spefify the folder to review', '.');
     }
@@ -49,25 +49,32 @@ class ReviewCommand extends Command
     {
         $container = $this->getContainer();
 
-        $driver = $container->make('config.driver');
-
-        $emitter = $container->make('event.emitter');
-
         $formatter = $container->make('config.formatter');
+        $resultCollector = $container->make('result.collector');
 
-        $emitter->addListener(ResultEvent::class, function ($event) use ($formatter) {
-            $formatter->handleResult($event);
-        });
+        $files = $container->make('config.adapter')->files($input->getArgument('path'));
 
-        $path = $input->getArgument('path');
-
-        foreach ($driver->getFiles($path) as $file) {
-            $reviews = $this->getReviewsForFile($file, $this->getContainer());
+        /**
+         * @todo Refactor into something better.
+         */
+        foreach ($files as $file) {
+            // Get the supported review for this file.
+            $reviews = $this->getReviewsForFile($file, $container);
 
             foreach ($reviews as $review) {
-                $emitter->emit(new ResultEvent($review->review($file)));
+                // Review the file.
+                $result = $review->review($file);
+
+                // Update the result collector.
+                $resultCollector->add($result);
+
+                // Lets print the result.
+                $formatter->formatResult($result);
             }
         }
+
+        // Print the final details.
+        $formatter->formatResultCollector($resultCollector);
     }
 
     private function getReviewsForFile(FileInterface $file, Container $container)

@@ -9,14 +9,14 @@ Feature: Help Option
         Then I should see:
             """
             Usage:
-             static-review [-c|--config="..."] [-d|--driver="..."] [-f|--formatter="..."] [-r|--review="..."] [path]
+             static-review [-c|--config="..."] [-a|--adapter="..."] [-f|--formatter="..."] [-r|--review="..."] [path]
 
             Arguments:
              path                  Spefify the folder to review (default: ".")
 
             Options:
              --config (-c)         Specify a configuration file to use
-             --driver (-d)         Specify the driver to use (file is default)
+             --adapter (-a)        Specify the adapter to use (file is default)
              --formatter (-f)      Specify the format of the output (progress is default)
              --review (-r)         Specify the reviews to use (multiple values allowed)
              --help (-h)           Display this help message

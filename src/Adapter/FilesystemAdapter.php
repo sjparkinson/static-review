@@ -11,17 +11,18 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Driver;
+namespace MainThread\StaticReview\Adapter;
 
-use Symfony\Component\Finder\Finder;
 use MainThread\StaticReview\File\File;
+use Symfony\Component\Finder\Finder;
+use SplFileInfo;
 
 /**
- * GitDriver class.
+ * FilesystemAdapter class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class LocalDriver implements DriverInterface
+class FilesystemAdapter implements AdapterInterface
 {
     /**
      * @var Finder
@@ -29,7 +30,7 @@ class LocalDriver implements DriverInterface
     protected $finder;
 
     /**
-     * Creates a new instance of the LocalDriver class.
+     * Creates a new instance of the Filesystemadapter class.
      *
      * @param Finder $finder
      */
@@ -49,7 +50,7 @@ class LocalDriver implements DriverInterface
      */
     public function supports($path)
     {
-        return is_dir($path);
+        return (is_dir($path) || file_exists($path));
     }
 
     /**
@@ -57,10 +58,15 @@ class LocalDriver implements DriverInterface
      *
      * @param string $path
      *
-     * @return Generator
+     * @return array
      */
-    public function getFiles($path)
+    public function files($path)
     {
+        if (file_exists($path)) {
+            yield new File(new SplFileInfo($path));
+            return;
+        }
+
         $files = $this->finder->files()->in($path);
 
         foreach ($files as $file) {
