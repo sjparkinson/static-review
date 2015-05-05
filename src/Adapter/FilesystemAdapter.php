@@ -64,6 +64,7 @@ class FilesystemAdapter implements AdapterInterface
     {
         if (is_file($path)) {
             yield new File(new SplFileInfo($path));
+
             return;
         }
 
