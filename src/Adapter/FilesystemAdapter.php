@@ -50,7 +50,7 @@ class FilesystemAdapter implements AdapterInterface
      */
     public function supports($path)
     {
-        return (is_dir($path) || file_exists($path));
+        return (is_dir($path) || is_file($path));
     }
 
     /**
@@ -62,7 +62,7 @@ class FilesystemAdapter implements AdapterInterface
      */
     public function files($path)
     {
-        if (file_exists($path)) {
+        if (is_file($path)) {
             yield new File(new SplFileInfo($path));
             return;
         }
