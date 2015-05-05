@@ -70,11 +70,11 @@ class ProgressFormatter implements FormatterInterface
         $summary = $resultCollector->getFileCount() . ' files (';
 
         if ($resultCollector->getPassedFileCount() > 0) {
-            $summary .= $resultCollector->getPassedFileCount() . ' passed';
+            $summary .= '<info>' . $resultCollector->getPassedFileCount() . ' passed</info>';
         }
 
         if ($resultCollector->getFailedFileCount() > 0) {
-            $summary .= ', ' . $resultCollector->getFailedFileCount() . ' failed';
+            $summary .= ', <error>' . $resultCollector->getFailedFileCount() . ' failed</error>';
         }
 
         $summary .= ')';
@@ -94,11 +94,11 @@ class ProgressFormatter implements FormatterInterface
         $summary = $resultCollector->getReviewCount() . ' reviews (';
 
         if ($resultCollector->getPassedReviewCount() > 0) {
-            $summary .= $resultCollector->getPassedReviewCount() . ' passed';
+            $summary .= '<info>' . $resultCollector->getPassedReviewCount() . ' passed</info>';
         }
 
         if ($resultCollector->getFailedReviewCount() > 0) {
-            $summary .= ', ' . $resultCollector->getFailedReviewCount() . ' failed';
+            $summary .= ', <error>' . $resultCollector->getFailedReviewCount() . ' failed</error>';
         }
 
         $summary .= ')';
