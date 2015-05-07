@@ -11,39 +11,34 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Review;
+namespace MainThread\StaticReview\Formatter;
 
-use MainThread\StaticReview\File\FileInterface;
 use MainThread\StaticReview\Result\Result;
+use MainThread\StaticReview\Result\ResultCollector;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Review interface.
+ * NullFormatter class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class VarDumperReview implements ReviewInterface
+class NullFormatter implements FormatterInterface
 {
     /**
      * @inheritdoc
      *
-     * @param FileInterface $file
-     *
-     * @return boolean
+     * @param Result $result
      */
-    public function supports(FileInterface $file)
+    public function formatResult(Result $result)
     {
-        return true;
     }
 
     /**
      * @inheritdoc
      *
-     * @param FileInterface $file
-     *
-     * @return Result
+     * @param ResultCollector $resultCollector
      */
-    public function review(FileInterface $file)
+    public function formatResultCollector(ResultCollector $resultCollector)
     {
-        return new Result(1, $file, $this);
     }
 }

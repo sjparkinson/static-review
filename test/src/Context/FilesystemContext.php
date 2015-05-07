@@ -34,7 +34,7 @@ class FilesystemContext implements SnippetAcceptingContext
     /**
      * @var Filesystem
      */
-    private $filesystem;
+    private $filenamesystem;
 
     /**
      * Creates a new instance of the FilesystemContext class.
@@ -67,14 +67,14 @@ class FilesystemContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Given the file :file contains:
+     * @Given the file :filename contains:
      *
-     * @param string       $file
+     * @param string       $filename
      * @param PyStringNode $contents
      */
-    public function theFileContains($file, PyStringNode $contents)
+    public function theFileContains($filename, PyStringNode $contents)
     {
-        $this->filesystem->dumpFile($file, (string) $contents);
+        $this->filesystem->dumpFile($filename, (string) $contents);
     }
 
     /**
@@ -88,14 +88,14 @@ class FilesystemContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then the :file should contain:
+     * @Then the :filename should contain:
      *
-     * @param string       $file
+     * @param string       $filename
      * @param PyStringNode $contents
      */
-    public function theFileShouldContain($file, PyStringNode $contents)
+    public function theFileShouldContain($filename, PyStringNode $contents)
     {
-        assertThat(file_exists($file), is(identicalTo(true)));
-        assertThat(file_get_contents($file), is(identicalTo((string) $contents)));
+        assertThat(file_exists($filename), is(identicalTo(true)));
+        assertThat(file_get_contents($filename), is(identicalTo((string) $contents)));
     }
 }

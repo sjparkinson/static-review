@@ -27,6 +27,7 @@
 
     "require": {
         "php": "~5.5",
+        "hoa/mime": "~2.0",
         "illuminate/container": "~5.0",
         "symfony/console": "~2.0",
         "symfony/finder": "~2.6",

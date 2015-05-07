@@ -61,7 +61,7 @@ class File implements FileInterface
      */
     public function getAbsolutePath()
     {
-        return $this->file->getPath();
+        return $this->file->getRealPath();
     }
 
     /**
@@ -94,7 +94,7 @@ class File implements FileInterface
         // return mime type ala mimetype extension
         $fileInfo = finfo_open(FILEINFO_MIME);
 
-        $mime = finfo_file($fileInfo, $this->getCachedPath());
+        $mime = finfo_file($fileInfo, $this->getReviewPath());
 
         finfo_close($fileInfo);
 

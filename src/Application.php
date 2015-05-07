@@ -15,7 +15,6 @@ namespace MainThread\StaticReview;
 
 use Illuminate\Container\Container;
 use MainThread\StaticReview\Command\ReviewCommand;
-use MainThread\StaticReview\Configuration\ConfigurationException;
 use MainThread\StaticReview\Configuration\ConfigurationLoader;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -41,11 +40,10 @@ final class Application extends BaseApplication
      */
     public function __construct($version)
     {
-        $this->container = new Container();
-
         parent::__construct('static-review', $version);
 
-        $this->container->singleton('event.emitter', 'League\Event\Emitter');
+        $this->container = new Container();
+
         $this->container->singleton('result.collector', 'MainThread\StaticReview\Result\ResultCollector');
     }
 

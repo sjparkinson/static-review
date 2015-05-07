@@ -1,8 +1,8 @@
-Feature: Progress Formatter
+Feature: No Commit Review
 
     As a user
-    I would like to specify the format of the applications output
-    So that I can use the most useful output format
+    I would like to be notified when I have the string "nocommit" in my code
+    So that I don't commit it
 
     Scenario: I run the application with the progress formatter
         Given the configuration file contains:
@@ -10,18 +10,12 @@ Feature: Progress Formatter
             adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews:
                 - MainThread\StaticReview\Review\NoCommitReview
-            formatter: MainThread\StaticReview\Formatter\ProgressFormatter
+            formatter: MainThread\StaticReview\Formatter\NullFormatter
             """
         And the file "test.txt" contains:
             """
-            Testing file.
+            I don't want to commit this. #nocommit
             """
         When I call the application with "test.txt"
-        Then I should see:
-            """
-            .
-
-            1 files (1 passed)
-            1 reviews (1 passed)
-            """
-        And the application should exit successfully
+        Then the "MainThread\StaticReview\Review\NoCommitReview" review should fail for "test.txt"
+        And the application should not exit successfully

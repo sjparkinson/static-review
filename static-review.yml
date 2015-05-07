@@ -4,4 +4,4 @@ adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
 formatter: MainThread\StaticReview\Formatter\ProgressFormatter
 
 reviews:
-    - MainThread\StaticReview\Review\VarDumperReview
+    - MainThread\StaticReview\Review\NoCommitReview

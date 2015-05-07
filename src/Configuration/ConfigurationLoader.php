@@ -105,7 +105,7 @@ class ConfigurationLoader
                         ));
                     }
 
-                    if (! new $class() instanceof ReviewInterface) {
+                    if (! $container->make($class) instanceof ReviewInterface) {
                         throw new ConfigurationException(sprintf(
                             'ReviewInterface class must implement ReviewInterface. But `%s` does not.',
                             $class

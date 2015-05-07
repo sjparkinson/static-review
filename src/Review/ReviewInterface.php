@@ -26,6 +26,8 @@ interface ReviewInterface
      * Checks if the review is supported by the file.
      *
      * @param FileInterface $file
+     *
+     * @return boolean
      */
     public function supports(FileInterface $file);
 
@@ -33,6 +35,8 @@ interface ReviewInterface
      * Reviews the given file.
      *
      * @param FileInterface $file
+     *
+     * @return Result
      */
     public function review(FileInterface $file);
 }

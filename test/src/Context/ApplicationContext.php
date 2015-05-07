@@ -20,7 +20,12 @@ use Behat\Gherkin\Node\TableNode;
 use Exception;
 use LogicException;
 use MainThread\StaticReview\Application;
+use MainThread\StaticReview\File\File;
+use MainThread\StaticReview\File\FileInterface;
+use MainThread\StaticReview\Result\Result;
+use MainThread\StaticReview\Review\ReviewInterface;
 use MainThread\StaticReview\Test\Application\ApplicationTester;
+use SplFileInfo;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\StringInput;
 
@@ -91,6 +96,54 @@ class ApplicationContext implements SnippetAcceptingContext
     }
 
     /**
+     * @Then the :review review should fail for :file
+     *
+     * @param ReviewInterface $review
+     * @param FileInterface   $file
+     */
+    public function theReviewShouldFailForFile(ReviewInterface $review, FileInterface $file)
+    {
+        $this->theResultStatusShouldBe($review, $file, Result::STATUS_FAILED);
+    }
+
+    /**
+     * @Then the :review review should pass for :file
+     *
+     * @param ReviewInterface $review
+     * @param FileInterface   $file
+     */
+    public function theReviewShouldPassForFile(ReviewInterface $review, FileInterface $file)
+    {
+        $this->theResultStatusShouldBe($review, $file, Result::STATUS_PASSED);
+    }
+
+    /**
+     * Finds a Result for the given review and file and checks its status.
+     *
+     * @param ReviewInterface $review
+     * @param FileInterface   $file
+     * @param integer         $status
+     */
+    private function theResultStatusShouldBe(ReviewInterface $review, FileInterface $file, $status)
+    {
+        $this->assertApplicationHasRun();
+
+        $results = $this->application->getContainer()->make('result.collector')->getResults();
+
+        foreach ($results as $result) {
+            $isSameFile = ($result->getFile()->getFileName() === $file->getFileName());
+            $isSameReview = (get_class($result->getReview()) === get_class($review));
+
+            if ($isSameFile && $isSameReview) {
+                $found = $result;
+                break;
+            }
+        }
+
+        assertThat($found->getStatus(), is(identicalTo($status)));
+    }
+
+    /**
      * @Then the application should exit successfully
      * @Then the application should exit with a :statusCode status code
      *
@@ -101,6 +154,16 @@ class ApplicationContext implements SnippetAcceptingContext
         $this->assertApplicationHasRun();
 
         assertThat($this->tester->getStatusCode(), is(identicalTo($statusCode)));
+    }
+
+    /**
+     * @Then the application should not exit successfully
+     */
+    public function theApplicationShouldNotExitSuccessfully()
+    {
+        $this->assertApplicationHasRun();
+
+        assertThat($this->tester->getStatusCode(), is(not(0)));
     }
 
     /**
@@ -144,6 +207,30 @@ class ApplicationContext implements SnippetAcceptingContext
 
         assertThat(notNullValue($value));
         assertThat(get_class($value), is(identicalTo($expected)));
+    }
+
+    /**
+     * @Transform :review
+     *
+     * @param string $review
+     *
+     * @return ReviewInterface
+     */
+    public function castReviewClassNameToReview($review)
+    {
+        return $this->application->getContainer()->make($review);
+    }
+
+    /**
+     * @Transform :file
+     *
+     * @param string $file
+     *
+     * @return FileInterface
+     */
+    public function castFilenameToFile($file)
+    {
+        return new File(new SplFileInfo($file));
     }
 
     /**

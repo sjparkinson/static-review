@@ -1,4 +1,4 @@
-Static-Review
+static-review
 =============
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
@@ -13,18 +13,27 @@ An extendible framework for version control hooks.
 
 ## Installation
 
-For a [composer][composer] managed project simply run the following ...
+Using [composer][composer] you can install the tool [globally](https://getcomposer.org/doc/03-cli.md#global) with the following ...
 
 ```bash
-$ composer require sjparkinson/static-review
+$ composer global require sjparkinson/static-review
 ```
 
 [composer]: https://getcomposer.org/
 
 ## Usage
 
+From the command line:
+
 ```bash
-$ vendor/bin/static-review
+$ static-review [--config="..."] [path]
+```
+
+Or in `.git/hooks/pre-commit`:
+
+```sh
+#!/bin/bash
+static-review --config ../../static-review.yml ../../src/
 ```
 
 ## Tests
@@ -36,7 +45,7 @@ $ composer install
 $ composer test
 ```
 
-## Licence
+## License
 
 The content of this library is released under the [MIT License][license] by [Samuel Parkinson][twitter].
 

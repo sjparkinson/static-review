@@ -17,7 +17,7 @@ use MainThread\StaticReview\File\FileInterface;
 use MainThread\StaticReview\Review\ReviewInterface;
 
 /**
- * ResultCollector class.
+ * Result class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
