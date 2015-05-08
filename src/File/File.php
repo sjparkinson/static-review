@@ -32,6 +32,8 @@ class File implements FileInterface
      */
     protected $cache;
 
+    protected $contents;
+
     /**
      * Creates a new instance of the File class.
      *
@@ -42,6 +44,8 @@ class File implements FileInterface
     {
         $this->file = $file;
         $this->cache = $cache;
+
+        $this->contents = file_get_contents($file->getRealPath()); #nocommit
     }
 
     /**

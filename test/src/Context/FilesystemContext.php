@@ -88,7 +88,7 @@ class FilesystemContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then the :filename should contain:
+     * @Then the :filename file should contain:
      *
      * @param string       $filename
      * @param PyStringNode $contents

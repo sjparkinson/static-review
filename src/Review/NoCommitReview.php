@@ -14,6 +14,7 @@
 namespace MainThread\StaticReview\Review;
 
 use MainThread\StaticReview\File\FileInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * NoCommitReview that looks for the string "nocommit".
@@ -45,22 +46,15 @@ class NoCommitReview extends AbstractReview
      */
     public function review(FileInterface $file)
     {
-        $this->processBuilder->setArguments([
-            'grep',
-            '--quiet',
-            '--ignore-case',
-            '--fixed-strings',
-            '"nocommit"',
-            $file->getReviewPath()
-        ]);
+        $this->processBuilder->setArguments(['grep', '--ignore-case', '--fixed-strings', 'nocommit']);
+        $this->processBuilder->add($file->getReviewPath());
+        $this->processBuilder->disableOutput();
 
         $process = $this->processBuilder->getProcess();
         $process->run();
 
         if ($process->isSuccessful()) {
-            $this->resultBuilder->setFailed()
-                                ->setFile($file)
-                                ->setMessage('A "nocommit" string was found.');
+            $this->resultBuilder->setFailed()->setFile($file)->setMessage('A "nocommit" string was found.');
 
             return $this->resultBuilder->getResult();
         }
