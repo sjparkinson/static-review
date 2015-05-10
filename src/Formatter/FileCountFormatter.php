@@ -73,18 +73,6 @@ class ProgressFormatter implements FormatterInterface
         // How many files did we review?
         $this->output->writeln($this->formatFileSummary($resultCollector));
         $this->output->writeln($this->formatReviewSummary($resultCollector));
-
-        $failed = array_filter($resultCollector->getResults(), function ($result) {
-            if ($result->getStatus() === 2) {
-                return true;
-            }
-
-            return false;
-        });
-
-        foreach ($failed as $result) {
-            $this->output->writeln((string) $result);
-        }
     }
 
     /**

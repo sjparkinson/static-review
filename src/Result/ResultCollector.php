@@ -64,7 +64,7 @@ class ResultCollector
     {
         $this->results[] = $result;
 
-        $path = $result->getFile()->getAbsolutePath();
+        $path = $result->getFile()->getRealPath();
 
         if (! in_array($path, array_keys($this->files))) {
             $this->files[$path] = $result->getFile();
@@ -103,7 +103,7 @@ class ResultCollector
         $files = [];
 
         foreach ($this->results as $result) {
-            $path = $result->getFile()->getAbsolutePath();
+            $path = $result->getFile()->getRealPath();
 
             if ($result->getStatus() === Result::STATUS_FAILED && ! in_array($path, $files)) {
                 $files[] = $path;

@@ -82,4 +82,17 @@ class Result
     {
         return $this->message;
     }
+
+    /**
+     * Overrides the toString method.
+     */
+    public function __toString()
+    {
+        return sprintf(
+            "%s: %s in %s",
+            $this->getReview()->getName(),
+            $this->getMessage(),
+            $this->getFile()->getRelativePathname()
+        );
+    }
 }

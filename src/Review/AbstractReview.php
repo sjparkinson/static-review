@@ -47,4 +47,16 @@ abstract class AbstractReview implements ReviewInterface
 
         $this->resultBuilder->setReview($this);
     }
+
+    /**
+     * @inheritdoc
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        $classPath = explode('\\', __CLASS__);
+
+        return end($classPath);
+    }
 }

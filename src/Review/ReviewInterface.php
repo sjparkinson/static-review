@@ -23,6 +23,13 @@ use MainThread\StaticReview\File\FileInterface;
 interface ReviewInterface
 {
     /**
+     * Gets a name for the review.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Checks if the review is supported by the file.
      *
      * @param FileInterface $file

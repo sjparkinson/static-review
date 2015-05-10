@@ -21,27 +21,16 @@ namespace MainThread\StaticReview\File;
 interface FileInterface
 {
     /**
-     * Gets the filename including its extension.
-     */
-    public function getFileName();
-
-    /**
-     * Gets the absolute path to the file.
-     */
-    public function getAbsolutePath();
-
-    /**
      * Gets the absolute path to use for reviewing.
+     *
+     * @return string
      */
     public function getReviewPath();
 
     /**
-     * Gets the extension of the file.
-     */
-    public function getExtension();
-
-    /**
      * Gets the mime type of the file.
+     *
+     * @return string
      */
     public function getMimeType();
 }

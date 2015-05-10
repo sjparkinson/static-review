@@ -13,59 +13,33 @@
 
 namespace MainThread\StaticReview\File;
 
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * File class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class File implements FileInterface
+class File extends SplFileInfo implements FileInterface
 {
-    /**
-     * @var SplFileInfo
-     */
-    protected $file;
-
     /**
      * @var string
      */
     protected $cache;
 
-    protected $contents;
-
     /**
      * Creates a new instance of the File class.
      *
-     * @param SplFileInfo $file
-     * @param string      $cache
+     * @param string $file
+     * @param string $relativePath
+     * @param string $file
+     * @param string $relativePathname
      */
-    public function __construct(SplFileInfo $file, $cache = null)
+    public function __construct($file, $relativePath, $relativePathname, $cache = null)
     {
-        $this->file = $file;
+        parent::__construct($file, $relativePath, $relativePathname);
+
         $this->cache = $cache;
-
-        $this->contents = file_get_contents($file->getRealPath()); #nocommit
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    public function getFileName()
-    {
-        return $this->file->getFilename();
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return $this->file->getRealPath();
     }
 
     /**
@@ -75,17 +49,7 @@ class File implements FileInterface
      */
     public function getReviewPath()
     {
-        return $this->cache ?: $this->getAbsolutePath();
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    public function getExtension()
-    {
-        return $this->file->getExtension();
+        return $this->cache ?: $this->getRealPath();
     }
 
     /**

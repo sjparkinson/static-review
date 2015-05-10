@@ -15,7 +15,7 @@ namespace MainThread\StaticReview\Adapter;
 
 use MainThread\StaticReview\File\File;
 use Symfony\Component\Finder\Finder;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * FilesystemAdapter class.
@@ -58,12 +58,12 @@ class FilesystemAdapter implements AdapterInterface
      *
      * @param string $path
      *
-     * @return array
+     * @return Generator
      */
     public function files($path)
     {
         if (is_file($path)) {
-            yield new File(new SplFileInfo($path));
+            yield new File($path, null, null);
 
             return;
         }
@@ -71,7 +71,7 @@ class FilesystemAdapter implements AdapterInterface
         $files = $this->finder->files()->in($path);
 
         foreach ($files as $file) {
-            yield new File($file);
+            yield new File($file->getPathname(), $file->getRelativePath(), $file->getRelativePathname());
         }
     }
 }
