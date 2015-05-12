@@ -9,13 +9,27 @@ abstract class AbstractReview implements ReviewInterface
 {
     const ERROR_MSG_TYPE = 'error';
 
+    /**
+     * Check is file is reviewable
+     *
+     * @param FileInterface $fileName
+     *
+     * @return bool
+     */
     public function canReview(FileInterface $fileName)
     {
-        if ($this->isBlacklistFile($fileName)) {
+        if ($this->isBlacklistFile($fileName) || !is_file($fileName->getFullPath())) {
             return false;
         }
     }
 
+    /**
+     * check blackList MDM files
+     *
+     * @param FileInterface $fileName
+     *
+     * @return bool
+     */
     public function isBlacklistFile(FileInterface $fileName)
     {
         if (preg_match('/\.js\.php$/', $fileName->getFileName())) {

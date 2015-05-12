@@ -8,19 +8,12 @@ use MDM\Review\AbstractReview;
 
 class GitConflictReview extends AbstractReview
 {
+
     /**
-     * Determins if a given file should be reviewed.
-     *
-     * @param  FileInterface $file
-     * @return bool
+     * Git conflict review
+     * @param ReporterInterface $reporter
+     * @param FileInterface     $file
      */
-    public function canReview(FileInterface $file)
-    {
-        parent::canReview($file);
-
-        return true;
-    }
-
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
         $stopWordsPhp = array(">>>>>>", "<<<<<<", "======");

@@ -14,14 +14,12 @@ class PhpMDReview extends AbstractReview
      * Determins if a given file should be reviewed.
      *
      * @param  FileInterface $file
+     *
      * @return bool
      */
     public function canReview(FileInterface $file)
     {
-        parent::canReview($file);
-        $extension = $file->getExtension();
-
-        return ($extension === 'php');
+        return (parent::canReview($file) && $file->getExtension() === 'php');
     }
     /**
      * Checks PHP files using the builtin PHP linter, `php -l`.

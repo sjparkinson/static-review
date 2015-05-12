@@ -12,19 +12,6 @@ class ComposerReview extends AbstractReview
     private $composerLockDetected = false;
 
     /**
-     * Determins if a given file should be reviewed.
-     *
-     * @param  FileInterface $file
-     * @return bool
-     */
-    public function canReview(FileInterface $file)
-    {
-        parent::canReview($file);
-
-        return true;
-    }
-
-    /**
      * Checks Composer json and lock files
      */
     public function review(ReporterInterface $reporter, FileInterface $file)

@@ -17,10 +17,7 @@ class YmlLintReview extends AbstractReview
      */
     public function canReview(FileInterface $file)
     {
-        parent::canReview($file);
-        $extension = $file->getExtension();
-
-        return ($extension === 'yml');
+        return (parent::canReview($file) && $file->getExtension() === 'yml');
     }
 
     public function review(ReporterInterface $reporter, FileInterface $file)
