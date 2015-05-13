@@ -18,6 +18,7 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Exception;
+use League\Container\Container;
 use LogicException;
 use MainThread\StaticReview\Application;
 use MainThread\StaticReview\File\File;
@@ -56,7 +57,7 @@ class ApplicationContext implements SnippetAcceptingContext
      */
     public function setupApplication()
     {
-        $this->application = new Application('development');
+        $this->application = new Application(new Container(), 'development');
         $this->application->setAutoExit(false);
         $this->application->setCatchExceptions(false);
 
@@ -128,7 +129,7 @@ class ApplicationContext implements SnippetAcceptingContext
     {
         $this->assertApplicationHasRun();
 
-        $results = $this->application->getContainer()->make('result.collector')->getResults();
+        $results = $this->application->getContainer()->get('MainThread\StaticReview\Review\ReviewResultCollector')->getResults();
 
         foreach ($results as $result) {
             $isSameFile = ($result->getFile()->getFileName() === $file->getFileName());
@@ -203,7 +204,7 @@ class ApplicationContext implements SnippetAcceptingContext
     {
         $this->assertApplicationHasRun();
 
-        $value = $this->application->getContainer()->make($key);
+        $value = $this->application->getContainer()->get($key);
 
         assertThat(notNullValue($value));
         assertThat(get_class($value), is(identicalTo($expected)));
@@ -218,7 +219,7 @@ class ApplicationContext implements SnippetAcceptingContext
      */
     public function castReviewClassNameToReview($review)
     {
-        return $this->application->getContainer()->make($review);
+        return $this->application->getContainer()->get($review);
     }
 
     /**

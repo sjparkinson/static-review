@@ -11,24 +11,23 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Result;
+namespace MainThread\StaticReview\Review;
 
 use MainThread\StaticReview\File\FileInterface;
-use MainThread\StaticReview\Review\ReviewInterface;
 
 /**
- * Result class.
+ * ReviewResult class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class Result
+class ReviewResult
 {
     const STATUS_PASSED = 1;
 
     const STATUS_FAILED = 2;
 
     /**
-     * Creates a new instance of the Result class.
+     * Creates a new instance of the ReviewResult class.
      *
      * @param integer         $status
      * @param FileInterface   $file

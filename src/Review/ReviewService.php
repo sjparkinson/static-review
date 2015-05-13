@@ -11,15 +11,13 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Configuration;
-
-use RuntimeException;
+namespace MainThread\StaticReview\Review;
 
 /**
- * The exception to throw when incountering any issues handling the application configuration.
+ * ReviewService class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ConfigurationException extends RuntimeException
+class ReviewService
 {
 }

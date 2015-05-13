@@ -14,7 +14,6 @@
 namespace MainThread\StaticReview\Review;
 
 use MainThread\StaticReview\File\FileInterface;
-use MainThread\StaticReview\Result\ResultBuilder;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
@@ -30,22 +29,13 @@ abstract class AbstractReview implements ReviewInterface
     protected $processBuilder;
 
     /**
-     * @var ResultBuilder
-     */
-    protected $resultBuilder;
-
-    /**
      * Creates a new instance of a ReviewInterface class.
      *
      * @param ProcessBuilder $processBuilder
-     * @param ResultBuilder  $resultBuilder
      */
-    public function __construct(ProcessBuilder $processBuilder, ResultBuilder $resultBuilder)
+    public function __construct(ProcessBuilder $processBuilder)
     {
         $this->processBuilder = $processBuilder;
-        $this->resultBuilder = $resultBuilder;
-
-        $this->resultBuilder->setReview($this);
     }
 
     /**

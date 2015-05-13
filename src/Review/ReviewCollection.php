@@ -16,34 +16,23 @@ namespace MainThread\StaticReview\Review;
 use MainThread\StaticReview\File\FileInterface;
 
 /**
- * Review interface.
+ * ReviewCollection class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-interface ReviewInterface
+class ReviewCollection extends \ArrayObject
 {
     /**
-     * Gets a name for the review.
-     *
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * Checks if the review is supported by the file.
+     * Gets all supported reviews contained in this collection.
      *
      * @param FileInterface $file
      *
-     * @return boolean
+     * @return array
      */
-    public function supports(FileInterface $file);
-
-    /**
-     * Reviews the given file.
-     *
-     * @param FileInterface $file
-     *
-     * @return ReviewResult
-     */
-    public function review(FileInterface $file);
+    public function getSupportedReviews(FileInterface $file)
+    {
+        return array_filter($this, function (ReviewInterface $review) use ($file) {
+            return $review->supports($file);
+        });
+    }
 }

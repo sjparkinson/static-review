@@ -21,28 +21,32 @@
 
     "autoload-dev": {
         "psr-4": {
-            "MainThread\\StaticReview\\Test\\": "test/src/"
+            "MainThread\\StaticReview\\Test\\": "tests/src/"
         }
     },
 
+    "bin": [
+        "bin/static-review"
+    ],
+
     "require": {
         "php": "~5.5",
-        "hoa/mime": "~2.0",
-        "illuminate/container": "~5.0",
-        "symfony/console": "~2.0",
-        "symfony/finder": "~2.6",
-        "symfony/process": "~2.0",
-        "symfony/yaml": "~2.0"
+        "league/container": "^1.0",
+        "symfony/config": "^2.0",
+        "symfony/console": "^2.0",
+        "symfony/finder": "^2.0",
+        "symfony/process": "^2.0",
+        "symfony/yaml": "^2.0"
     },
 
     "require-dev": {
-        "behat/behat": "~3.0",
-        "hamcrest/hamcrest-php": "~1.0",
+        "behat/behat": "^3.0",
+        "hamcrest/hamcrest-php": "^1.0",
         "leaphub/phpcs-symfony2-standard": "dev-master",
-        "phpunit/phpunit": "~4.0",
-        "squizlabs/php_codesniffer": "~2.0",
-        "symfony/filesystem": "~2.0",
-        "symfony/var-dumper": "~2.0"
+        "phpunit/phpunit": "^4.0",
+        "squizlabs/php_codesniffer": "^2.0",
+        "symfony/filesystem": "^2.0",
+        "symfony/var-dumper": "^2.0"
     },
 
     "scripts": {
@@ -50,7 +54,8 @@
             "composer lint --quiet",
             "composer test:unit --quiet",
             "composer test:functional --quiet",
-            "composer test:features --quiet"
+            "composer test:features --quiet",
+            "composer test:static-review --quiet"
         ],
 
         "test:unit": [
@@ -70,14 +75,19 @@
             "vendor/bin/behat --colors --format pretty"
         ],
 
+        "test:static-review": [
+            "echo '+++ Running \\033[33mstatic-review\\033[0m\n'",
+            "bin/static-review"
+        ],
+
         "lint": [
             "echo '+++ Linting source code\n'",
-            "vendor/bin/phpcs -p --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ test/"
+            "vendor/bin/phpcs -p --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ tests/"
         ],
 
         "lint:auto-fix": [
             "echo '+++ Running \\033[33mphpcbf\\033[0m with the Symfony 2 standard\n'",
-            "vendor/bin/phpcbf --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ test/"
+            "vendor/bin/phpcbf --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ tests/"
         ]
     }
 }

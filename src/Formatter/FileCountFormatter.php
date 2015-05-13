@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ProgressFormatter implements FormatterInterface
+class FileCountFormatter implements FormatterInterface
 {
     /**
      * @var OutputInterface

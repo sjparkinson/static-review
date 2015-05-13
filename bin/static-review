@@ -12,18 +12,22 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
+use MainThread\StaticReview\Application;
+use League\Container\Container;
+
 $included = include file_exists(__DIR__ . '/../vendor/autoload.php')
     ? __DIR__ . '/../vendor/autoload.php'
     : __DIR__ . '/../../../autoload.php';
 
 if (! $included) {
-    echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
-       . 'curl -sS https://getcomposer.org/installer | php' . PHP_EOL
-       . 'php composer.phar install' . PHP_EOL;
+    fwrite(STDERR,
+        'You must set up the project dependencies, run the following commands:' . PHP_EOL .
+        'curl -sS https://getcomposer.org/installer | php' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
+    );
 
     exit(1);
 }
 
-unset($included);
-
-(new MainThread\StaticReview\Application('5.0.0-dev'))->run();
+$app = new Application(new Container(), '5.0-dev');
+$app->run();

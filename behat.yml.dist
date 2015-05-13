@@ -2,10 +2,10 @@ default:
   suites:
     application:
       paths:
-        - test/features/application/
-        - test/features/adapters/
-        - test/features/formatters/
-        - test/features/reviews/
+        - tests/features/application/
+        - tests/features/adapters/
+        - tests/features/formatters/
+        - tests/features/reviews/
       contexts:
         - MainThread\StaticReview\Test\Context\ApplicationContext
         - MainThread\StaticReview\Test\Context\FilesystemContext

@@ -11,16 +11,16 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Result;
+namespace MainThread\StaticReview\Review;
 
 use MainThread\StaticReview\File\FileInterface;
 
 /**
- * ResultCollector class.
+ * ReviewResultCollector class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ResultCollector
+class ReviewResultCollector
 {
     /**
      * @var array
@@ -35,7 +35,7 @@ class ResultCollector
     protected $files;
 
     /**
-     * Creates a new instance of the ResultCollector class.
+     * Creates a new instance of the ReviewResultCollector class.
      */
     public function __construct()
     {

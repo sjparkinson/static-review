@@ -46,19 +46,19 @@ class NoCommitReview extends AbstractReview
      */
     public function review(FileInterface $file)
     {
-        $this->processBuilder->setArguments(['grep', '--ignore-case', '--fixed-strings', 'nocommit']);
-        $this->processBuilder->add($file->getReviewPath());
-        $this->processBuilder->disableOutput();
-
-        $process = $this->processBuilder->getProcess();
-        $process->run();
-
-        if ($process->isSuccessful()) {
-            $this->resultBuilder->setFailed()->setFile($file)->setMessage('A "nocommit" string was found.');
-
-            return $this->resultBuilder->getResult();
-        }
-
-        return $this->resultBuilder->setPassed()->setFile($file)->getResult();
+        // $this->processBuilder->setArguments(['grep', '--ignore-case', '--fixed-strings', 'nocommit']);
+        // $this->processBuilder->add($file->getReviewPath());
+        // $this->processBuilder->disableOutput();
+        //
+        // $process = $this->processBuilder->getProcess();
+        // $process->run();
+        //
+        // if ($process->isSuccessful()) {
+        //     $this->resultBuilder->setFailed()->setFile($file)->setMessage('A "nocommit" string was found.');
+        //
+        //     return $this->resultBuilder->getResult();
+        // }
+        //
+        // return $this->resultBuilder->setPassed()->setFile($file)->getResult();
     }
 }

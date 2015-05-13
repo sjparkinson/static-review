@@ -13,9 +13,14 @@
 
 namespace MainThread\StaticReview;
 
-use Illuminate\Container\Container;
+use League\Container\ContainerInterface;
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
 use MainThread\StaticReview\Command\ReviewCommand;
-use MainThread\StaticReview\Configuration\ConfigurationLoader;
+use MainThread\StaticReview\Configuration\ConsoleConfigurationLoader;
+use MainThread\StaticReview\Configuration\FileConfigurationLoader;
+use MainThread\StaticReview\Review\ReviewCollection;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,36 +28,24 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Application class for MainThread\StaticReview, extending Symfony\Component\Console\Application
- * with configuration autoloading and the Illuminate\Container\Container container.
+ * Application class for MainThread\StaticReview.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
 final class Application extends BaseApplication
 {
-    /**
-     * @var Container
-     */
-    private $container;
+    use ContainerAwareTrait;
 
     /**
      * @param string $version
      */
-    public function __construct($version)
+    public function __construct(ContainerInterface $container, $version)
     {
+        $this->container = $container;
+
+        $container->singleton(ReviewCollection::class, new ReviewCollection());
+
         parent::__construct('static-review', $version);
-
-        $this->container = new Container();
-
-        $this->container->singleton('result.collector', 'MainThread\StaticReview\Result\ResultCollector');
-    }
-
-    /**
-     * @return Container
-     */
-    public function getContainer()
-    {
-        return $this->container;
     }
 
     /**
@@ -63,12 +56,7 @@ final class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $this->container->instance([InputInterface::class, 'console.input'], $input);
-        $this->container->instance([OutputInterface::class, 'console.output'], $output);
-
-        if (! $input->hasParameterOption(['--help', '-h', '--version', '-V'])) {
-            (new ConfigurationLoader())->loadConfiguration($input, $this->container);
-        }
+        $this->loadConfiguration($this->container, $input);
 
         return parent::doRun($input, $output);
     }
@@ -96,7 +84,7 @@ final class Application extends BaseApplication
         // which is used when using the --help option.
         $defaultCommands = parent::getDefaultCommands();
 
-        $defaultCommands[] = new ReviewCommand();
+        $defaultCommands[] = $this->container->get(ReviewCommand::class);
 
         return $defaultCommands;
     }
@@ -131,5 +119,22 @@ final class Application extends BaseApplication
             new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
             new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
         ]);
+    }
+
+    /**
+     * Loads the configuration into the contain from the configuration file and from the command line options.
+     *
+     * @param ContainerInterface $container
+     * @param InputInterface     $input
+     */
+    private function loadConfiguration(ContainerInterface $container, InputInterface $input)
+    {
+        $fileLocator = new FileLocator([getcwd(), $input->getParameterOption(['--config', '-c'])]);
+
+        $loader = new FileConfigurationLoader($container, $fileLocator);
+        $loader->load(['static-review.yml', 'static-review.yml.dist', '.static-review.yml', '.static-review.yml.dist']);
+
+        $loader = new ConsoleConfigurationLoader($container);
+        $loader->load($input);
     }
 }
