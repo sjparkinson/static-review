@@ -11,34 +11,24 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Formatter;
+namespace MainThread\StaticReview\Printer\Progress;
 
-use MainThread\StaticReview\Result\Result;
-use MainThread\StaticReview\Result\ResultCollector;
+use MainThread\StaticReview\Result\ResultInterface;
+use MainThread\StaticReview\Printer\ResultPrinterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * NullFormatter class.
+ * ResultPrinter class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class NullFormatter implements FormatterInterface
+class ResultPrinter implements ResultPrinterInterface
 {
     /**
-     * @inheritdoc
-     *
-     * @param Result $result
+     * {@inheritdoc}
      */
-    public function formatResult(Result $result)
+    public function printResult(OutputInterface $output, ResultInterface $result)
     {
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param ResultCollector $resultCollector
-     */
-    public function formatResultCollector(ResultCollector $resultCollector)
-    {
+        $output->write('.');
     }
 }

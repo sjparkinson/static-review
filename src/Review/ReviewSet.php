@@ -16,11 +16,11 @@ namespace MainThread\StaticReview\Review;
 use MainThread\StaticReview\File\FileInterface;
 
 /**
- * ReviewCollection class.
+ * ReviewSet class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ReviewCollection extends \ArrayObject
+class ReviewSet extends \ArrayObject
 {
     /**
      * Gets all supported reviews contained in this collection.
@@ -29,7 +29,7 @@ class ReviewCollection extends \ArrayObject
      *
      * @return array
      */
-    public function getSupportedReviews(FileInterface $file)
+    public function getSupported(FileInterface $file)
     {
         return array_filter($this, function (ReviewInterface $review) use ($file) {
             return $review->supports($file);

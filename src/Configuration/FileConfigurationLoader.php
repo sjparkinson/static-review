@@ -16,7 +16,7 @@ namespace MainThread\StaticReview\Configuration;
 use League\Container\ContainerInterface;
 use MainThread\StaticReview\Adapter\AdapterInterface;
 use MainThread\StaticReview\FormatterInterface\FormatterInterface;
-use MainThread\StaticReview\Review\ReviewCollection;
+use MainThread\StaticReview\Review\ReviewSet;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Yaml\Yaml;
@@ -42,10 +42,9 @@ class FileConfigurationLoader extends FileLoader
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
-     * @param array  $resource
-     * @param string $type
+     * @param array $resource
      */
     public function load($resource, $type = null)
     {
@@ -67,19 +66,21 @@ class FileConfigurationLoader extends FileLoader
 
         $configuration = Yaml::parse(file_get_contents($path));
 
-        $this->container->add(AdapterInterface::class, $configuration['adapter']);
-        $this->container->add(FormatterInterface::class, $configuration['formatter']);
+        if (array_key_exists('adapter', $configuration)) {
+            $this->container->add(AdapterInterface::class, $configuration['adapter']);
+        }
 
-        foreach ($configuration['reviews'] as $review) {
-            $this->container->get(ReviewCollection::class)->append($this->container->get($review));
+        if (array_key_exists('reviews', $configuration)) {
+            foreach ($configuration['reviews'] as $review) {
+                $this->container->get(ReviewSet::class)->append($this->container->get($review));
+            }
         }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
-     * @param array  $resource
-     * @param string $type
+     * @param array $resource
      */
     public function supports($resource, $type = null)
     {

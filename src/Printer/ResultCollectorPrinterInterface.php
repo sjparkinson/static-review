@@ -11,29 +11,23 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Formatter;
+namespace MainThread\StaticReview\Printer;
 
-use MainThread\StaticReview\Result\Result;
 use MainThread\StaticReview\Result\ResultCollector;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Formatter interface.
+ * ResultCollectorPrinter interface.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-interface FormatterInterface
+interface ResultCollectorPrinterInterface
 {
     /**
-     * Handles the formatting on a review event.
+     * Prints the result collectors statistics.
      *
-     * @param Result $result
-     */
-    public function formatResult(Result $result);
-
-    /**
-     * Handles the formatting of the final statictics.
-     *
+     * @param OutputInterface $output
      * @param ResultCollector $resultCollector
      */
-    public function formatResultCollector(ResultCollector $resultCollector);
+    public function printResultCollector(OutputInterface $output, ResultCollector $resultCollector);
 }

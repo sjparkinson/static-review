@@ -11,55 +11,58 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Review;
-
-use MainThread\StaticReview\File\FileInterface;
+namespace MainThread\StaticReview\Result;
 
 /**
- * ReviewResult class.
+ * Result class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ReviewResult
+class Result
 {
     const STATUS_PASSED = 1;
 
     const STATUS_FAILED = 2;
 
+    protected $status;
+    protected $pathname;
+    protected $reviewName;
+    protected $message;
+
     /**
-     * Creates a new instance of the ReviewResult class.
+     * Creates a new instance of the Result class.
      *
-     * @param integer         $status
-     * @param FileInterface   $file
-     * @param ReviewInterface $review
-     * @param string          $message
+     * @param integer $status
+     * @param string  $pathname
+     * @param string  $reviewName
+     * @param string  $message
      */
-    public function __construct($status, FileInterface $file, ReviewInterface $review, $message = null)
+    public function __construct($status, $pathname, $reviewName, $message = null)
     {
         $this->status = $status;
-        $this->file = $file;
-        $this->review = $review;
+        $this->pathname = $pathname;
+        $this->reviewName = $reviewName;
         $this->message = $message;
     }
 
     /**
-     * Gets the results FileInterface.
+     * Gets the path to the reviewed file.
      *
-     * @return FileInterface
+     * @return string
      */
-    public function getFile()
+    public function getPathname()
     {
-        return $this->file;
+        return $this->pathname;
     }
 
     /**
-     * Gets the results ReviewInterface.
+     * Gets the name of the review.
      *
-     * @return ReviewInterface
+     * @return string
      */
-    public function getReview()
+    public function getReviewName()
     {
-        return $this->review;
+        return $this->reviewName;
     }
 
     /**
@@ -89,9 +92,9 @@ class ReviewResult
     {
         return sprintf(
             "%s: %s in %s",
-            $this->getReview()->getName(),
+            $this->getReviewName(),
             $this->getMessage(),
-            $this->getFile()->getRelativePathname()
+            $this->getPathname()
         );
     }
 }

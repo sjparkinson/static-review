@@ -30,6 +30,7 @@ class ApplicationTester
     private $input;
     private $output;
     private $statusCode;
+    private $exception;
 
     /**
      * Constructor.
@@ -39,6 +40,8 @@ class ApplicationTester
     public function __construct(Application $application)
     {
         $this->application = $application;
+        $this->application->setAutoExit(false);
+        $this->application->setCatchExceptions(false);
     }
 
     /**
@@ -57,7 +60,7 @@ class ApplicationTester
      */
     public function run($input, $options = [])
     {
-        $this->input = new StringInput($input);
+        $this->input = new StringInput('--no-ansi ' . $input);
 
         if (isset($options['interactive'])) {
             $this->input->setInteractive($options['interactive']);
@@ -73,7 +76,11 @@ class ApplicationTester
             $this->output->setVerbosity($options['verbosity']);
         }
 
-        $this->statusCode = $this->application->run($this->input, $this->output);
+        try {
+            $this->statusCode = $this->application->run($this->input, $this->output);
+        } catch (\Exception $e) {
+            $this->exception = $e;
+        }
 
         return $this->statusCode;
     }
@@ -126,5 +133,15 @@ class ApplicationTester
     public function getStatusCode()
     {
         return $this->statusCode;
+    }
+
+    /**
+     * Gets the caught exception.
+     *
+     * @return Exception
+     */
+    public function getException()
+    {
+        return $this->exception;
     }
 }

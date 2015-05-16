@@ -11,16 +11,14 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Review;
-
-use MainThread\StaticReview\File\FileInterface;
+namespace MainThread\StaticReview\Result;
 
 /**
- * ReviewResultCollector class.
+ * ResultCollector class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ReviewResultCollector
+class ResultCollector
 {
     /**
      * @var array

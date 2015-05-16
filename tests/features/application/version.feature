@@ -8,11 +8,11 @@ Feature: Application Version Information
         When I call the application with "<option>"
         Then I should see:
             """
-            static-review version development
+            static-review version behat
             """
         And the application should exit successfully
 
         Examples:
             | option    |
-            | -V        |
             | --version |
+            | -V        |

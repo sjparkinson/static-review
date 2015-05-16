@@ -40,13 +40,9 @@ class FilesystemAdapter implements AdapterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * Checks that the given path is a directory.
-     *
-     * @param string $path
-     *
-     * @return boolean
      */
     public function supports($path)
     {
@@ -54,24 +50,22 @@ class FilesystemAdapter implements AdapterInterface
     }
 
     /**
-     * @inheritdoc
-     *
-     * @param string $path
-     *
-     * @return Generator
+     * {@inheritdoc}
      */
     public function files($path)
     {
         if (is_file($path)) {
-            yield new File($path, null, null);
-
-            return;
+            return [new File($path, null, null)];
         }
 
-        $files = $this->finder->files()->in($path);
+        $finder = $this->finder->files()->in($path);
 
-        foreach ($files as $file) {
-            yield new File($file->getPathname(), $file->getRelativePath(), $file->getRelativePathname());
+        $files = [];
+
+        foreach ($finder as $file) {
+            $files[] = new File($file->getPathname(), $file->getRelativePath(), $file->getRelativePathname());
         }
+
+        return $files;
     }
 }

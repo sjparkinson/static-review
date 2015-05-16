@@ -24,11 +24,7 @@ use Symfony\Component\Process\Process;
 class NoCommitReview extends AbstractReview
 {
     /**
-     * @inheritdoc
-     *
-     * @param FileInterface $file
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function supports(FileInterface $file)
     {
@@ -36,13 +32,9 @@ class NoCommitReview extends AbstractReview
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * Uses `grep` to look for the string "nocommit" in the given file.
-     *
-     * @param FileInterface $file
-     *
-     * @return Result
      */
     public function review(FileInterface $file)
     {

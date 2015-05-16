@@ -14,7 +14,8 @@
 namespace MainThread\StaticReview\Configuration;
 
 use League\Container\ContainerInterface;
-use Symfony\Component\Config\Loader\FileLoader;
+use MainThread\StaticReview\Review\ReviewSet;
+use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -24,7 +25,7 @@ use Symfony\Component\Console\Input\InputInterface;
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ConsoleConfigurationLoader extends FileLoader
+class ConsoleConfigurationLoader extends Loader
 {
     /**
      * Creates a new instance of the ConsoleConfigurationLoader class.
@@ -37,10 +38,9 @@ class ConsoleConfigurationLoader extends FileLoader
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @param InputInterface $resource
-     * @param string         $type
      */
     public function load($resource, $type = null)
     {
@@ -48,21 +48,21 @@ class ConsoleConfigurationLoader extends FileLoader
             throw new \BadFunctionCallException('$resource must implement Symfony\Component\Console\Input\InputInterface');
         }
 
-        $this->container->add(AdapterInterface::class, $resource->getParameterOption('--adapter'));
-        $this->container->add(FormatterInterface::class, $resource->getParameterOption('--formatter'));
+        if ($resource->hasParameterOption('--adapter')) {
+            $this->container->add(AdapterInterface::class, $resource->getParameterOption('--adapter'));
+        }
 
         if ($resource->hasParameterOption('--reviews')) {
             foreach ($resource->getParameterOption('--reviews') as $review) {
-                $this->container->get(ReviewCollection::class)->append($this->container->get($review));
+                $this->container->get(ReviewSet::class)->append($this->container->get($review));
             }
         }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @param InputInterface $resource
-     * @param string         $type
      */
     public function supports($resource, $type = null)
     {

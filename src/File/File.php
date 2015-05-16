@@ -43,9 +43,7 @@ class File extends SplFileInfo implements FileInterface
     }
 
     /**
-     * @inheritdoc
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getReviewPath()
     {
@@ -53,13 +51,10 @@ class File extends SplFileInfo implements FileInterface
     }
 
     /**
-     * @inheritdoc
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getMimeType()
     {
-        // return mime type ala mimetype extension
         $fileInfo = finfo_open(FILEINFO_MIME);
 
         $mime = finfo_file($fileInfo, $this->getReviewPath());

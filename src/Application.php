@@ -13,13 +13,17 @@
 
 namespace MainThread\StaticReview;
 
-use League\Container\ContainerInterface;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use League\Container\ContainerInterface;
+use MainThread\StaticReview\Adapter\FileAdapter;
 use MainThread\StaticReview\Command\ReviewCommand;
 use MainThread\StaticReview\Configuration\ConsoleConfigurationLoader;
+use MainThread\StaticReview\Configuration\DefaultConfigurationLoader;
 use MainThread\StaticReview\Configuration\FileConfigurationLoader;
-use MainThread\StaticReview\Review\ReviewCollection;
+use MainThread\StaticReview\Formatter\ProgressFormatter;
+use MainThread\StaticReview\Review\NoCommitReview;
+use MainThread\StaticReview\Review\ReviewSet;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -32,7 +36,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-final class Application extends BaseApplication
+final class Application extends BaseApplication implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
@@ -43,7 +47,7 @@ final class Application extends BaseApplication
     {
         $this->container = $container;
 
-        $container->singleton(ReviewCollection::class, new ReviewCollection());
+        $container->singleton(ReviewSet::class, new ReviewSet());
 
         parent::__construct('static-review', $version);
     }
@@ -56,7 +60,14 @@ final class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $this->getContainer()->add(InputInterface::class, $input);
+        $this->getContainer()->add(OutputInterface::class, $output);
+
         $this->loadConfiguration($this->container, $input);
+
+        // Adding the default command here so it's resolved dependencies can
+        // include InputInterface and OutputInterface.
+        $this->add($this->getContainer()->get(ReviewCommand::class));
 
         return parent::doRun($input, $output);
     }
@@ -82,11 +93,7 @@ final class Application extends BaseApplication
     {
         // Keep the core default commands to have the HelpCommand
         // which is used when using the --help option.
-        $defaultCommands = parent::getDefaultCommands();
-
-        $defaultCommands[] = $this->container->get(ReviewCommand::class);
-
-        return $defaultCommands;
+        return parent::getDefaultCommands();
     }
 
     /**
@@ -118,6 +125,7 @@ final class Application extends BaseApplication
             new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Display the application version'),
             new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
             new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
+            new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, 'Do not ask any interactive question'),
         ]);
     }
 
@@ -129,11 +137,19 @@ final class Application extends BaseApplication
      */
     private function loadConfiguration(ContainerInterface $container, InputInterface $input)
     {
-        $fileLocator = new FileLocator([getcwd(), $input->getParameterOption(['--config', '-c'])]);
+        // Load some default configuration.
+        $loader = new DefaultConfigurationLoader($container);
+        $loader->load([
+            'adapter'   => FileAdapter::class,
+            'review'    => NoCommitReview::class,
+        ]);
 
+        // Load configuration from the configuration file first.
+        $fileLocator = new FileLocator([getcwd(), $input->getParameterOption(['--config', '-c'])]);
         $loader = new FileConfigurationLoader($container, $fileLocator);
         $loader->load(['static-review.yml', 'static-review.yml.dist', '.static-review.yml', '.static-review.yml.dist']);
 
+        // Next load any configuration from the command line.
         $loader = new ConsoleConfigurationLoader($container);
         $loader->load($input);
     }

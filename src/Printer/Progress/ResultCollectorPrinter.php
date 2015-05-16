@@ -11,68 +11,29 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Formatter;
+namespace MainThread\StaticReview\Printer\Progress;
 
-use MainThread\StaticReview\Result\Result;
+use MainThread\StaticReview\Printer\ResultCollectorPrinterInterface;
 use MainThread\StaticReview\Result\ResultCollector;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Formatter interface.
+ * ResultCollectorPrinter class.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ProgressFormatter implements FormatterInterface
+class ResultCollectorPrinter implements ResultCollectorPrinterInterface
 {
     /**
-     * @var OutputInterface
+     * {@inheritdoc}
      */
-    private $output;
-
-    /**
-     * @var integer
-     */
-    private $resultCount;
-
-    /**
-     * Creates a new instance of the ProgressFormatter class.
-     *
-     * @param OutputInterface $output
-     */
-    public function __construct(OutputInterface $output)
+    public function printResultCollector(OutputInterface $output, ResultCollector $resultCollector)
     {
-        $this->output = $output;
-        $this->resultCount = 0;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param Result $result
-     */
-    public function formatResult(Result $result)
-    {
-        $this->resultCount += 1;
-
-        $this->output->write('.');
-
-        if ($this->resultCount % 80 === 0) {
-            $this->output->write("\n");
-        }
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param ResultCollector $resultCollector
-     */
-    public function formatResultCollector(ResultCollector $resultCollector)
-    {
-        $this->output->write("\n\n");
+        $output->write("\n\n");
 
         // How many files did we review?
-        $this->output->writeln($this->formatFileSummary($resultCollector));
-        $this->output->writeln($this->formatReviewSummary($resultCollector));
+        $output->writeln($this->formatFileSummary($resultCollector));
+        $output->writeln($this->formatReviewSummary($resultCollector));
 
         $failed = array_filter($resultCollector->getResults(), function ($result) {
             if ($result->getStatus() === 2) {
@@ -83,7 +44,7 @@ class ProgressFormatter implements FormatterInterface
         });
 
         foreach ($failed as $result) {
-            $this->output->writeln((string) $result);
+            $output->writeln((string) $result);
         }
     }
 

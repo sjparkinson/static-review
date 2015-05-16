@@ -36,7 +36,8 @@
         "symfony/console": "^2.0",
         "symfony/finder": "^2.0",
         "symfony/process": "^2.0",
-        "symfony/yaml": "^2.0"
+        "symfony/yaml": "^2.0",
+        "respect/validation": "^0.9.1"
     },
 
     "require-dev": {

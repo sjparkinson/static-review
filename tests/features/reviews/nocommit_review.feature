@@ -17,5 +17,8 @@ Feature: No Commit Review
             I don't want to commit this. #nocommit
             """
         When I call the application with "test.txt"
-        Then the "MainThread\StaticReview\Review\NoCommitReview" review should fail for "test.txt"
+        Then I should see:
+            """
+            @todo
+            """
         And the application should not exit successfully
