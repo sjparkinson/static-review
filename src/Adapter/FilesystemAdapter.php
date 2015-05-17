@@ -30,7 +30,7 @@ class FilesystemAdapter implements AdapterInterface
     protected $finder;
 
     /**
-     * Creates a new instance of the Filesystemadapter class.
+     * Creates a new instance of the FilesystemAdapter class.
      *
      * @param Finder $finder
      */

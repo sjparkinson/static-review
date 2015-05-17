@@ -15,10 +15,11 @@ namespace MainThread\StaticReview\Configuration;
 
 use League\Container\ContainerInterface;
 use MainThread\StaticReview\Adapter\AdapterInterface;
-use MainThread\StaticReview\Printer\ResultPrinterInterface;
-use MainThread\StaticReview\Printer\ResultCollectorPrinterInterface;
-use MainThread\StaticReview\Printer\Progress\ResultPrinter;
+use MainThread\StaticReview\Command\ReviewCommand;
 use MainThread\StaticReview\Printer\Progress\ResultCollectorPrinter;
+use MainThread\StaticReview\Printer\Progress\ResultPrinter;
+use MainThread\StaticReview\Printer\ResultCollectorPrinterInterface;
+use MainThread\StaticReview\Printer\ResultPrinterInterface;
 use MainThread\StaticReview\Review\ReviewSet;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,10 +54,17 @@ class DefaultConfigurationLoader extends Loader
             throw new \BadFunctionCallException('$resource must be a valid array.');
         }
 
-        $this->container->add(AdapterInterface::class, $resource['adapter']);
+        $this->container->add(AdapterInterface::class, function () use ($resource) {
+            return $this->container->get($resource['adapter']);
+        });
 
-        $this->container->add(ResultPrinterInterface::class, ResultPrinter::class);
-        $this->container->add(ResultCollectorPrinterInterface::class, ResultCollectorPrinter::class);
+        $this->container->add(ResultPrinterInterface::class, function () {
+            return $this->container->get(ResultPrinter::class);
+        });
+
+        $this->container->add(ResultCollectorPrinterInterface::class, function () {
+            return $this->container->get(ResultCollectorPrinter::class);
+        });
 
         $this->container->get(ReviewSet::class)->append($this->container->get($resource['review']));
     }

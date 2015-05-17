@@ -44,6 +44,8 @@ abstract class AbstractReview implements ReviewInterface
     {
         $this->processBuilder = $processBuilder;
         $this->resultBuilder = $resultBuilder;
+
+        $this->resultBuilder->setReview($this);
     }
 
     /**

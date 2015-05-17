@@ -13,9 +13,12 @@
 
 namespace MainThread\StaticReview\Review;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
+use MainThread\StaticReview\Adapter\AdapterInterface;
 use MainThread\StaticReview\Printer\Printer;
+use MainThread\StaticReview\Result\ResultCollector;
+use MainThread\StaticReview\Review\ReviewSet;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * ReviewService class.
@@ -34,11 +37,20 @@ class ReviewService
      */
     protected $output;
 
-    public function __construct(InputInterface $input, OutputInterface $output, Printer $printer)
-    {
+    public function __construct(
+        InputInterface $input,
+        OutputInterface $output,
+        AdapterInterface $adapter,
+        Printer $printer,
+        ReviewSet $reviews,
+        ResultCollector $resultCollector
+    ) {
         $this->input = $input;
         $this->output = $output;
+        $this->adapter = $adapter;
         $this->printer = $printer;
+        $this->reviews = $reviews;
+        $this->resultCollector = $resultCollector;
     }
 
     /**
@@ -48,12 +60,20 @@ class ReviewService
      */
     public function review($path)
     {
-        $this->output->writeln('Hello World!');
-
-        // Build file, review collection.
-
         // Do the run, reviewing each file and all it's reviews.
+        $files = $this->adapter->files($path);
+
+        foreach ($files as $file) {
+            $reviews = $this->reviews->getSupported($file);
+
+            foreach ($reviews as $review) {
+                $result = $review->review($file);
+                $this->resultCollector->add($result);
+                $this->printer->printResult($this->output, $result);
+            }
+        }
 
         // Output the summary.
+        $this->printer->printResultCollector($this->output, $this->resultCollector);
     }
 }

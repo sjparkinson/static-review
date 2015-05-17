@@ -3,7 +3,6 @@
 * Sort out File + FileInterface
 * Add GitAdapter
 * Add missing methods to FileInterface
-* Phar building
 
 ## Later
 

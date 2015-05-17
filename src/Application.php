@@ -16,7 +16,7 @@ namespace MainThread\StaticReview;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use League\Container\ContainerInterface;
-use MainThread\StaticReview\Adapter\FileAdapter;
+use MainThread\StaticReview\Adapter\FilesystemAdapter;
 use MainThread\StaticReview\Command\ReviewCommand;
 use MainThread\StaticReview\Configuration\ConsoleConfigurationLoader;
 use MainThread\StaticReview\Configuration\DefaultConfigurationLoader;
@@ -65,7 +65,7 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
 
         $this->loadConfiguration($this->container, $input);
 
-        // Adding the default command here so it's resolved dependencies can
+        // Add the default command here so it's resolved dependencies can
         // include InputInterface and OutputInterface.
         $this->add($this->getContainer()->get(ReviewCommand::class));
 
@@ -140,8 +140,8 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
         // Load some default configuration.
         $loader = new DefaultConfigurationLoader($container);
         $loader->load([
-            'adapter'   => FileAdapter::class,
-            'review'    => NoCommitReview::class,
+            'adapter' => FilesystemAdapter::class,
+            'review'  => NoCommitReview::class,
         ]);
 
         // Load configuration from the configuration file first.

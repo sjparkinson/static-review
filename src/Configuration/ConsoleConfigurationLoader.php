@@ -49,7 +49,9 @@ class ConsoleConfigurationLoader extends Loader
         }
 
         if ($resource->hasParameterOption('--adapter')) {
-            $this->container->add(AdapterInterface::class, $resource->getParameterOption('--adapter'));
+            $this->container->add(AdapterInterface::class, function () use ($resource) {
+                return $this->container->get($resource->getParameterOption('--adapter'));
+            });
         }
 
         if ($resource->hasParameterOption('--reviews')) {

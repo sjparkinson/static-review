@@ -71,6 +71,30 @@ class ResultBuilder
     }
 
     /**
+     * Sets the results status to passed.
+     *
+     * @return ResultBuilder
+     */
+    public function setPassed()
+    {
+        $this->status = Result::STATUS_PASSED;
+
+        return $this;
+    }
+
+    /**
+     * Sets the results status to failed.
+     *
+     * @return ResultBuilder
+     */
+    public function setFailed()
+    {
+        $this->status = Result::STATUS_FAILED;
+
+        return $this;
+    }
+
+    /**
      * Sets the results message.
      *
      * @param string $message

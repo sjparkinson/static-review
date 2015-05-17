@@ -67,7 +67,9 @@ class FileConfigurationLoader extends FileLoader
         $configuration = Yaml::parse(file_get_contents($path));
 
         if (array_key_exists('adapter', $configuration)) {
-            $this->container->add(AdapterInterface::class, $configuration['adapter']);
+            $this->container->add(AdapterInterface::class, function () use ($configuration) {
+                return $this->container->get($configuration['adapter']);
+            });
         }
 
         if (array_key_exists('reviews', $configuration)) {

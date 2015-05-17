@@ -31,7 +31,7 @@ class ReviewSet extends \ArrayObject
      */
     public function getSupported(FileInterface $file)
     {
-        return array_filter($this, function (ReviewInterface $review) use ($file) {
+        return array_filter((array) $this, function (ReviewInterface $review) use ($file) {
             return $review->supports($file);
         });
     }
