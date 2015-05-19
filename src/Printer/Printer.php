@@ -30,7 +30,8 @@ class Printer implements FilePrinterInterface, ResultCollectorPrinterInterface
     public function __construct(
         FilePrinterInterface $filePrinter,
         ResultCollectorPrinterInterface $resultCollectorPrinter
-    ) {
+    ) 
+    {
         $this->filePrinter = $filePrinter;
         $this->resultCollectorPrinter = $resultCollectorPrinter;
     }

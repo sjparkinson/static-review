@@ -91,7 +91,7 @@ class Result
     public function __toString()
     {
         return sprintf(
-            "%s: %s in %s",
+            '%s: %s in %s',
             $this->getReviewName(),
             $this->getMessage(),
             $this->getPathname()

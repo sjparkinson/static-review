@@ -19,9 +19,7 @@ Feature: Progress Formatter
         When I call the application with "test.txt"
         Then I should see:
             """
-            .
-
-            1 files (1 passed)
-            1 reviews (1 passed)
+            Reviewing file 1 of 1.
+            1 reviews (1 passed, 0 failed)
             """
         And the application should exit successfully

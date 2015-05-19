@@ -100,6 +100,7 @@ class ApplicationTester
 
         if ($normalize) {
             $display = str_replace(PHP_EOL, "\n", $display);
+            $display = str_replace("\r", "\n", $display);
         }
 
         return $display;

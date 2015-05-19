@@ -66,13 +66,7 @@ class ReviewCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Show something while we load the files.
-        $output->write('<fg=cyan>Finding files...</fg=cyan>');
-
         $files = $this->adapter->files($input->getArgument('path'));
-
-        // Clear the output line.
-        $output->write("\r              ");
 
         $this->reviewService->review($files);
     }

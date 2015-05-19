@@ -10,7 +10,6 @@ Feature: No Commit Review
             adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
             reviews:
                 - MainThread\StaticReview\Review\NoCommitReview
-            formatter: MainThread\StaticReview\Formatter\NullFormatter
             """
         And the file "test.txt" contains:
             """
@@ -19,6 +18,8 @@ Feature: No Commit Review
         When I call the application with "test.txt"
         Then I should see:
             """
-            @todo
+            Reviewing file 1 of 1.
+            AbstractReview: A "nocommit" string was found in test.txt
+            1 reviews (0 passed, 1 failed)
             """
         And the application should not exit successfully

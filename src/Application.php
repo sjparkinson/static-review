@@ -148,7 +148,6 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
         $loader = new DefaultConfigurationLoader($container);
         $loader->load([
             'adapter' => FilesystemAdapter::class,
-            'review'  => NoCommitReview::class,
         ]);
 
         // Load configuration from the configuration file first.

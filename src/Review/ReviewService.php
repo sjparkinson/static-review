@@ -43,7 +43,8 @@ class ReviewService
         Printer $printer,
         ReviewSet $reviews,
         ResultCollector $resultCollector
-    ) {
+    )
+    {
         $this->input = $input;
         $this->output = $output;
         $this->printer = $printer;
@@ -66,8 +67,7 @@ class ReviewService
             $this->printer->printFile($this->output, $file, $totalFiles);
 
             foreach ($reviews as $review) {
-                $result = $review->review($file);
-                $this->resultCollector->add($result);
+                $this->resultCollector->add($review->review($file));
             }
         }
 

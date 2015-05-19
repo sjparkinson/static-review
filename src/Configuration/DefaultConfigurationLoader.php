@@ -63,8 +63,6 @@ class DefaultConfigurationLoader extends Loader
         $this->container->add(ResultCollectorPrinterInterface::class, function () {
             return $this->container->get(ResultCollectorPrinter::class);
         });
-
-        $this->container->get(ReviewSet::class)->append($this->container->get($resource['review']));
     }
 
     /**
@@ -78,10 +76,8 @@ class DefaultConfigurationLoader extends Loader
             return false;
         }
 
-        foreach (['adapter', 'review'] as $key) {
-            if (! array_key_exists($key, $resource)) {
-                return false;
-            }
+        if (! array_key_exists('adapter', $resource)) {
+            return false;
         }
 
         return true;
