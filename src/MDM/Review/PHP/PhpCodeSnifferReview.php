@@ -14,6 +14,7 @@ class PhpCodeSnifferReview extends AbstractReview
      * Gets the value of an option.
      *
      * @param  string $option
+     *
      * @return string
      */
     public function getOption($option)
@@ -48,6 +49,7 @@ class PhpCodeSnifferReview extends AbstractReview
      *
      * @param  string               $option
      * @param  string               $value
+     *
      * @return PhpCodeSnifferReview
      */
     public function setOption($option, $value)
@@ -65,11 +67,12 @@ class PhpCodeSnifferReview extends AbstractReview
      * Determins if a given file should be reviewed.
      *
      * @param  FileInterface $file
+     *
      * @return bool
      */
     public function canReview(FileInterface $file)
     {
-        return ($file->getExtension() === 'php');
+        return (parent::canReview($file) && $file->getExtension() === 'php');
     }
 
     /**
