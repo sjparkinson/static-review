@@ -13,7 +13,7 @@
 
 namespace MainThread\StaticReview\Printer;
 
-use MainThread\StaticReview\Result\ResultInterface;
+use MainThread\StaticReview\Result\Result;
 use MainThread\StaticReview\Review\ReviewInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,5 +30,5 @@ interface ResultPrinterInterface
      * @param OutputInterface $output
      * @param ResultInterface $result
      */
-    public function printResult(OutputInterface $output, ResultInterface $result);
+    public function printResult(OutputInterface $output, Result $result);
 }

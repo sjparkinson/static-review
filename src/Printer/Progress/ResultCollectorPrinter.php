@@ -29,78 +29,45 @@ class ResultCollectorPrinter implements ResultCollectorPrinterInterface
      */
     public function printResultCollector(OutputInterface $output, ResultCollector $resultCollector)
     {
-        $output->write("\n\n");
+        $output->writeln('');
 
-        // How many files did we review?
-        $output->writeln($this->formatFileSummary($resultCollector));
-        $output->writeln($this->formatReviewSummary($resultCollector));
+        if ($resultCollector->getFailedCount() > 0) {
+            $this->printFailedResults($output, $resultCollector);
+        }
 
-        $failed = array_filter($resultCollector->getResults(), function ($result) {
-            if ($result->getStatus() === 2) {
-                return true;
-            }
+        $this->printStatistics($output, $resultCollector);
+    }
 
-            return false;
-        });
-
-        foreach ($failed as $result) {
+    private function printFailedResults(OutputInterface $output, ResultCollector $resultCollector)
+    {
+        foreach ($resultCollector->getFailedResults() as $result) {
             $output->writeln((string) $result);
         }
     }
 
     /**
-     * Formats the file summary line.
+     * Prints the review summary.
      *
+     * @param OutputInterface $output
      * @param ResultCollector $resultCollector
-     *
-     * @return string
      */
-    private function formatFileSummary(ResultCollector $resultCollector)
+    private function printStatistics(OutputInterface $output, ResultCollector $resultCollector)
     {
-        $summary = number_format($resultCollector->getFileCount()) . ' files (';
+        $totalCount = $resultCollector->getPassedCount() + $resultCollector->getFailedCount();
 
-        if ($resultCollector->getPassedFileCount() > 0) {
-            $summary .= '<info>' . number_format($resultCollector->getPassedFileCount()) . ' passed</info>';
+        $detailedStats = [];
+
+        $stats = [
+            'passed' => $resultCollector->getPassedCount(),
+            'failed' => $resultCollector->getFailedCount(),
+        ];
+
+        foreach ($stats as $result => $count) {
+            $detailedStats[] = sprintf('<%2$s>%s %s</%2$s>', number_format($count), $result);
         }
 
-        if ($resultCollector->getFailedFileCount() > 0) {
-            if ($resultCollector->getPassedFileCount() > 0) {
-                $summary .= ', ';
-            }
-
-            $summary .= '<comment>' . number_format($resultCollector->getFailedFileCount()) . ' failed</comment>';
+        if (count($detailedStats)) {
+            $output->writeln(sprintf('%s reviews (%s)', number_format($totalCount), implode(', ', $detailedStats)));
         }
-
-        $summary .= ')';
-
-        return $summary;
-    }
-
-    /**
-     * Formats the review summary line.
-     *
-     * @param ResultCollector $resultCollector
-     *
-     * @return string
-     */
-    private function formatReviewSummary(ResultCollector $resultCollector)
-    {
-        $summary = number_format($resultCollector->getReviewCount()) . ' reviews (';
-
-        if ($resultCollector->getPassedReviewCount() > 0) {
-            $summary .= '<info>' . number_format($resultCollector->getPassedReviewCount()) . ' passed</info>';
-        }
-
-        if ($resultCollector->getFailedReviewCount() > 0) {
-            if ($resultCollector->getPassedReviewCount() > 0) {
-                $summary .= ', ';
-            }
-
-            $summary .= '<comment>' . number_format($resultCollector->getFailedReviewCount()) . ' failed</comment>';
-        }
-
-        $summary .= ')';
-
-        return $summary;
     }
 }

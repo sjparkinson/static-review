@@ -15,14 +15,12 @@ namespace MainThread\StaticReview\Configuration;
 
 use League\Container\ContainerInterface;
 use MainThread\StaticReview\Adapter\AdapterInterface;
-use MainThread\StaticReview\Command\ReviewCommand;
+use MainThread\StaticReview\Printer\FilePrinterInterface;
+use MainThread\StaticReview\Printer\Progress\FilePrinter;
 use MainThread\StaticReview\Printer\Progress\ResultCollectorPrinter;
-use MainThread\StaticReview\Printer\Progress\ResultPrinter;
 use MainThread\StaticReview\Printer\ResultCollectorPrinterInterface;
-use MainThread\StaticReview\Printer\ResultPrinterInterface;
 use MainThread\StaticReview\Review\ReviewSet;
 use Symfony\Component\Config\Loader\Loader;
-use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Default configuration loader.
@@ -58,8 +56,8 @@ class DefaultConfigurationLoader extends Loader
             return $this->container->get($resource['adapter']);
         });
 
-        $this->container->add(ResultPrinterInterface::class, function () {
-            return $this->container->get(ResultPrinter::class);
+        $this->container->add(FilePrinterInterface::class, function () {
+            return $this->container->get(FilePrinter::class);
         });
 
         $this->container->add(ResultCollectorPrinterInterface::class, function () {

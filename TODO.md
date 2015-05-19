@@ -3,6 +3,7 @@
 * Sort out File + FileInterface
 * Add GitAdapter
 * Add missing methods to FileInterface
+* Add including of projects autoloader
 
 ## Later
 

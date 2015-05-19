@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use MainThread\StaticReview\Adapter\AdapterInterface;
 
 /**
  * The main command for the application.
@@ -32,10 +33,11 @@ class ReviewCommand extends Command
      *
      * @param ContainerInterface $container
      */
-    public function __construct(ReviewService $reviewService)
+    public function __construct(AdapterInterface $adapter, ReviewService $reviewService)
     {
         parent::__construct();
 
+        $this->adapter = $adapter;
         $this->reviewService = $reviewService;
     }
 
@@ -64,6 +66,14 @@ class ReviewCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->reviewService->review($input->getArgument('path'));
+        // Show something while we load the files.
+        $output->write('<fg=cyan>Finding files...</fg=cyan>');
+
+        $files = $this->adapter->files($input->getArgument('path'));
+
+        // Clear the output line.
+        $output->write("\r              ");
+
+        $this->reviewService->review($files);
     }
 }

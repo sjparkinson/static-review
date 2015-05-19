@@ -15,7 +15,6 @@ namespace MainThread\StaticReview\Adapter;
 
 use MainThread\StaticReview\File\File;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * FilesystemAdapter class.

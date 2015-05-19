@@ -40,14 +40,12 @@ class ReviewService
     public function __construct(
         InputInterface $input,
         OutputInterface $output,
-        AdapterInterface $adapter,
         Printer $printer,
         ReviewSet $reviews,
         ResultCollector $resultCollector
     ) {
         $this->input = $input;
         $this->output = $output;
-        $this->adapter = $adapter;
         $this->printer = $printer;
         $this->reviews = $reviews;
         $this->resultCollector = $resultCollector;
@@ -56,20 +54,20 @@ class ReviewService
     /**
      * Runs a review.
      *
-     * @param string $path
+     * @param array $files
      */
-    public function review($path)
+    public function review(array $files)
     {
-        // Do the run, reviewing each file and all it's reviews.
-        $files = $this->adapter->files($path);
+        $totalFiles = count($files);
 
         foreach ($files as $file) {
             $reviews = $this->reviews->getSupported($file);
 
+            $this->printer->printFile($this->output, $file, $totalFiles);
+
             foreach ($reviews as $review) {
                 $result = $review->review($file);
                 $this->resultCollector->add($result);
-                $this->printer->printResult($this->output, $result);
             }
         }
 

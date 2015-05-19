@@ -11,24 +11,25 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-namespace MainThread\StaticReview\Printer\Progress;
+namespace MainThread\StaticReview\Printer;
 
-use MainThread\StaticReview\Result\ResultInterface;
-use MainThread\StaticReview\Printer\ResultPrinterInterface;
+use MainThread\StaticReview\File\FileInterface;
+use MainThread\StaticReview\Review\ReviewInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * ResultPrinter class.
+ * FilePrinter interface.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ResultPrinter implements ResultPrinterInterface
+interface FilePrinterInterface
 {
     /**
-     * {@inheritdoc}
+     * Handles the printing of a new file being reviewed.
+     *
+     * @param OutputInterface $output
+     * @param FileInterface   $file
+     * @param integer         $totalFileCount
      */
-    public function printResult(OutputInterface $output, ResultInterface $result)
-    {
-        $output->write('.');
-    }
+    public function printFile(OutputInterface $output, FileInterface $file, $totalFileCount);
 }

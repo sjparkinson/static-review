@@ -21,11 +21,11 @@ use MainThread\StaticReview\Command\ReviewCommand;
 use MainThread\StaticReview\Configuration\ConsoleConfigurationLoader;
 use MainThread\StaticReview\Configuration\DefaultConfigurationLoader;
 use MainThread\StaticReview\Configuration\FileConfigurationLoader;
-use MainThread\StaticReview\Formatter\ProgressFormatter;
 use MainThread\StaticReview\Review\NoCommitReview;
 use MainThread\StaticReview\Review\ReviewSet;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -64,6 +64,13 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
         $this->getContainer()->add(OutputInterface::class, $output);
 
         $this->loadConfiguration($this->container, $input);
+
+        // Add result status styles.
+        $passedStyle = new OutputFormatterStyle('green');
+        $output->getFormatter()->setStyle('passed', $passedStyle);
+
+        $failedStyle = new OutputFormatterStyle('red');
+        $output->getFormatter()->setStyle('failed', $failedStyle);
 
         // Add the default command here so it's resolved dependencies can
         // include InputInterface and OutputInterface.

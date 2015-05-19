@@ -13,7 +13,7 @@
 
 namespace MainThread\StaticReview\Printer;
 
-use MainThread\StaticReview\Result\ResultInterface;
+use MainThread\StaticReview\File\FileInterface;
 use MainThread\StaticReview\Result\ResultCollector;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -22,25 +22,25 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class Printer implements ResultPrinterInterface, ResultCollectorPrinterInterface
+class Printer implements FilePrinterInterface, ResultCollectorPrinterInterface
 {
-    protected $resultPrinter;
+    protected $filePrinter;
     protected $resultCollectorPrinter;
 
     public function __construct(
-        ResultPrinterInterface $resultPrinter,
+        FilePrinterInterface $filePrinter,
         ResultCollectorPrinterInterface $resultCollectorPrinter
     ) {
-        $this->resultPrinter = $resultPrinter;
+        $this->filePrinter = $filePrinter;
         $this->resultCollectorPrinter = $resultCollectorPrinter;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function printResult(OutputInterface $output, ResultInterface $result)
+    public function printFile(OutputInterface $output, FileInterface $file, $totalFileCount)
     {
-        $this->resultPrinter->printResult($output, $result);
+        $this->filePrinter->printFile($output, $file, $totalFileCount);
     }
 
     /**

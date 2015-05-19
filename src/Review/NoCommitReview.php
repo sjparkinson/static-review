@@ -46,9 +46,9 @@ class NoCommitReview extends AbstractReview
         $process->run();
 
         if ($process->isSuccessful()) {
-            $this->resultBuilder->setFailed()->setFile($file)->setMessage('A "nocommit" string was found.');
+            $this->resultBuilder->setFailed()->setFile($file)->setMessage('A "nocommit" string was found');
 
-            return $this->resultBuilder->getResult();
+            return $this->resultBuilder->build();
         }
 
         return $this->resultBuilder->setPassed()->setFile($file)->build();
