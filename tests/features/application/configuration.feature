@@ -7,8 +7,8 @@ Feature: Configuration File
     Scenario: I run the application with a valid configuration
         Given the configuration file contains:
             """
-            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
-            reviews: [ MainThread\StaticReview\Review\NoCommitReview ]
+            adapter: filesystem
+            reviews: [ StaticReview\StaticReview\Test\Review\PassReview ]
             """
         When I run the application
         Then the application should exit successfully
@@ -16,8 +16,8 @@ Feature: Configuration File
     Scenario Outline: I run the application using the diffrent configuration file names
         Given the file "<filename>" contains:
             """
-            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
-            reviews: [ MainThread\StaticReview\Review\NoCommitReview ]
+            adapter: filesystem
+            reviews: [ StaticReview\StaticReview\Test\Review\PassReview ]
             """
         When I run the application
         Then the application should exit successfully
@@ -31,7 +31,7 @@ Feature: Configuration File
 
     Scenario Outline: I specify a configuration that doesn't exist
         When I call the application with "<option> test.yml"
-        Then the application should throw a "ConfigurationException" with:
+        Then the application should throw a "RuntimeException" with:
             """
             No configuration file found, and no command line options specified.
             """
@@ -44,29 +44,30 @@ Feature: Configuration File
     Scenario: I specifiy a configuration file
         Given the file "test.yml" contains:
             """
-            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
-            reviews: [ MainThread\StaticReview\Review\NoCommitReview ]
+            adapter: filesystem
+            reviews: [ StaticReview\StaticReview\Test\Review\PassReview ]
             """
         When I call the application with "--config test.yml"
         Then the application should exit successfully
 
     Scenario: I run the application with all the configuration specified in the command line
-        When I call the application with "--adapter MainThread\StaticReview\Adapter\FilesystemAdapter --review MainThread\StaticReview\Review\NoCommitReview"
+        When I call the application with "--adapter filesystem --review StaticReview\StaticReview\Test\Review\PassReview"
         Then the application should exit successfully
 
     Scenario: I run the application with adapter specified as a command line option
         Given the configuration file contains:
             """
-            reviews: [ MainThread\StaticReview\Review\NoCommitReview ]
+            reviews: [ StaticReview\StaticReview\Test\Review\PassReview ]
             """
-        When I call the application with "--adapter MainThread\StaticReview\Adapter\FilesystemAdapter"
+        When I call the application with "--adapter filesystem"
         Then the application should exit successfully
 
     Scenario: I run the application and override configuration using the command line options
         Given the configuration file contains:
             """
             adapter: null
-            reviews: [ MainThread\StaticReview\Review\NoCommitReview ]
+            reviews: [ StaticReview\StaticReview\Test\Review\PassReview ]
             """
-        When I call the application with "--adapter MainThread\StaticReview\Adapter\FilesystemAdapter"
+        When I call the application with "--adapter filesystem"
+        Then what did I see?
         Then the application should exit successfully

@@ -1,28 +1,28 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview;
+namespace StaticReview\StaticReview;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use League\Container\ContainerInterface;
-use MainThread\StaticReview\Adapter\FilesystemAdapter;
-use MainThread\StaticReview\Command\ReviewCommand;
-use MainThread\StaticReview\Configuration\ConsoleConfigurationLoader;
-use MainThread\StaticReview\Configuration\DefaultConfigurationLoader;
-use MainThread\StaticReview\Configuration\FileConfigurationLoader;
-use MainThread\StaticReview\Review\NoCommitReview;
-use MainThread\StaticReview\Review\ReviewSet;
+use StaticReview\StaticReview\Adapter\FilesystemAdapter;
+use StaticReview\StaticReview\Command\ReviewCommand;
+use StaticReview\StaticReview\Configuration\ConsoleConfigurationLoader;
+use StaticReview\StaticReview\Configuration\DefaultConfigurationLoader;
+use StaticReview\StaticReview\Configuration\FileConfigurationLoader;
+use StaticReview\StaticReview\Review\NoCommitReview;
+use StaticReview\StaticReview\Review\ReviewSet;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -32,7 +32,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Application class for MainThread\StaticReview.
+ * Application class for StaticReview\StaticReview.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
@@ -40,12 +40,23 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
 {
     use ContainerAwareTrait;
 
+    protected $providers = [
+        'StaticReview\StaticReview\Adapter\AdapterServiceProvider',
+    ];
+
     /**
-     * @param string $version
+     * Creates a new instance of the Application class.
+     *
+     * @param ContainerInterface $container
+     * @param string             $version
      */
     public function __construct(ContainerInterface $container, $version)
     {
         $this->container = $container;
+
+        foreach ($this->providers as $provider) {
+            $this->container->addServiceProvider($provider);
+        }
 
         $container->singleton(ReviewSet::class, new ReviewSet());
 
@@ -151,7 +162,11 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
         ]);
 
         // Load configuration from the configuration file first.
-        $fileLocator = new FileLocator([getcwd(), $input->getParameterOption(['--config', '-c'])]);
+        if ($input->hasParameterOption(['--config', '-c']) && ! file_exists($input->getParameterOption(['--config', '-c']))) {
+            throw new \RuntimeException('No configuration file found, and no command line options specified.');
+        }
+
+        $fileLocator = new FileLocator(array_filter([$input->getParameterOption(['--config', '-c']), getcwd()]));
         $loader = new FileConfigurationLoader($container, $fileLocator);
         $loader->load(['static-review.yml', 'static-review.yml.dist', '.static-review.yml', '.static-review.yml.dist']);
 

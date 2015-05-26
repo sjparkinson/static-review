@@ -15,13 +15,13 @@
 
     "autoload": {
         "psr-4": {
-            "MainThread\\StaticReview\\": "src/"
+            "StaticReview\\StaticReview\\": "src/"
         }
     },
 
     "autoload-dev": {
         "psr-4": {
-            "MainThread\\StaticReview\\Test\\": "tests/src/"
+            "StaticReview\\StaticReview\\Test\\": "tests/src/"
         }
     },
 
@@ -85,7 +85,7 @@
             "vendor/bin/phpcs -p --colors --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ tests/"
         ],
 
-        "lint:auto-fix": [
+        "lint:fix": [
             "echo '+++ Running \\033[33mphpcbf\\033[0m with the Symfony 2 standard\n'",
             "vendor/bin/phpcbf --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ tests/"
         ]

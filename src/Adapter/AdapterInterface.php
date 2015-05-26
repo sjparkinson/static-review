@@ -1,17 +1,17 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Adapter;
+namespace StaticReview\StaticReview\Adapter;
 
 /**
  * Adapter interface.
@@ -20,6 +20,13 @@ namespace MainThread\StaticReview\Adapter;
  */
 interface AdapterInterface
 {
+    /**
+     * Gets the name of the adapter.
+     *
+     * @return string
+     */
+    public function getName();
+
     /**
      * Verify that the adapter supports the project at the given path.
      *

@@ -1,20 +1,20 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Printer;
+namespace StaticReview\StaticReview\Printer;
 
-use MainThread\StaticReview\File\FileInterface;
-use MainThread\StaticReview\Result\ResultCollector;
+use StaticReview\StaticReview\File\FileInterface;
+use StaticReview\StaticReview\Result\ResultCollector;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -24,13 +24,26 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Printer implements FilePrinterInterface, ResultCollectorPrinterInterface
 {
+    /**
+     * @var FilePrinterInterface
+     */
     protected $filePrinter;
+
+    /**
+     * @var ResultCollectorPrinterInterface
+     */
     protected $resultCollectorPrinter;
 
+    /**
+     * Creates a new instance of the Printer class.
+     *
+     * @param FilePrinterInterface            $filePrinter
+     * @param ResultCollectorPrinterInterface $resultCollectorPrinter
+     */
     public function __construct(
         FilePrinterInterface $filePrinter,
         ResultCollectorPrinterInterface $resultCollectorPrinter
-    ) 
+    )
     {
         $this->filePrinter = $filePrinter;
         $this->resultCollectorPrinter = $resultCollectorPrinter;

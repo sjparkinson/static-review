@@ -1,17 +1,17 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Result;
+namespace StaticReview\StaticReview\Result;
 
 /**
  * ResultCollector class.
@@ -25,6 +25,9 @@ class ResultCollector
      */
     protected $resultCounts;
 
+    /**
+     * @var array
+     */
     protected $failedResults;
 
     /**
@@ -40,6 +43,11 @@ class ResultCollector
         $this->failedResults = [];
     }
 
+    /**
+     * Adds a new result to the collector.
+     *
+     * @param Result $result
+     */
     public function add(Result $result)
     {
         $this->resultCounts[$result->getStatus()] += 1;
@@ -49,16 +57,31 @@ class ResultCollector
         }
     }
 
+    /**
+     * Gets the number of passed results.
+     *
+     * @return integer
+     */
     public function getPassedCount()
     {
         return $this->resultCounts[Result::STATUS_PASSED];
     }
 
+    /**
+     * Gets the number of failed results.
+     *
+     * @return integer
+     */
     public function getFailedCount()
     {
         return $this->resultCounts[Result::STATUS_FAILED];
     }
 
+    /**
+     * Gets all the failed results.
+     *
+     * @return array
+     */
     public function getFailedResults()
     {
         return $this->failedResults;

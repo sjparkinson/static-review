@@ -7,5 +7,5 @@ default:
         - tests/features/formatters/
         - tests/features/reviews/
       contexts:
-        - MainThread\StaticReview\Test\Context\ApplicationContext
-        - MainThread\StaticReview\Test\Context\FilesystemContext
+        - StaticReview\StaticReview\Test\Context\ApplicationContext
+        - StaticReview\StaticReview\Test\Context\FilesystemContext

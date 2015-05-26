@@ -1,22 +1,22 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Review;
+namespace StaticReview\StaticReview\Review;
 
-use MainThread\StaticReview\Adapter\AdapterInterface;
-use MainThread\StaticReview\Printer\Printer;
-use MainThread\StaticReview\Result\ResultCollector;
-use MainThread\StaticReview\Review\ReviewSet;
+use StaticReview\StaticReview\Adapter\AdapterInterface;
+use StaticReview\StaticReview\Printer\Printer;
+use StaticReview\StaticReview\Result\ResultCollector;
+use StaticReview\StaticReview\Review\ReviewSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -37,6 +37,15 @@ class ReviewService
      */
     protected $output;
 
+    /**
+     * Creates a new instance of the ReviewService class.
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param Printer         $printer
+     * @param ReviewSet       $reviews
+     * @param ResultCollector $resultCollector
+     */
     public function __construct(
         InputInterface $input,
         OutputInterface $output,
@@ -56,6 +65,8 @@ class ReviewService
      * Runs a review.
      *
      * @param array $files
+     *
+     * @return ResultCollector
      */
     public function review(array $files)
     {
@@ -73,5 +84,7 @@ class ReviewService
 
         // Output the summary.
         $this->printer->printResultCollector($this->output, $this->resultCollector);
+
+        return $this->resultCollector;
     }
 }

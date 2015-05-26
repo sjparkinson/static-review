@@ -1,7 +1,5 @@
 ---
-adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
-
-formatter: MainThread\StaticReview\Formatter\ProgressFormatter
+adapter: git
 
 reviews:
-    - MainThread\StaticReview\Review\NoCommitReview
+    - StaticReview\StaticReview\Review\NoCommitReview

@@ -1,17 +1,17 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Test\Context;
+namespace StaticReview\StaticReview\Test\Context;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
@@ -19,8 +19,8 @@ use Behat\Gherkin\Node\PyStringNode;
 use Exception;
 use League\Container\Container;
 use LogicException;
-use MainThread\StaticReview\Application;
-use MainThread\StaticReview\Test\Application\ApplicationTester;
+use StaticReview\StaticReview\Application;
+use StaticReview\StaticReview\Test\Application\ApplicationTester;
 
 /**
  * The behat Context class to make use of the Symfony ApplicationTester.
@@ -110,7 +110,7 @@ class ApplicationContext implements SnippetAcceptingContext
         assertThat(get_class($this->tester->getException()), endsWith($exception));
 
         if ($message) {
-            assertThat($this->tester->getException(), is(identicalTo($message)));
+            assertThat($this->tester->getException()->getMessage(), is(identicalTo($message)));
         }
     }
 
@@ -123,6 +123,16 @@ class ApplicationContext implements SnippetAcceptingContext
     public function theApplicationShouldThrowWith($exception, PyStringNode $message)
     {
         $this->theApplicationShouldThrow($exception, (string) $message);
+    }
+
+    /**
+     * @Then what did I see?
+     */
+    public function whatDidISee()
+    {
+        $this->assertApplicationHasRun();
+
+        dump(trim($this->tester->getDisplay()));
     }
 
     /**

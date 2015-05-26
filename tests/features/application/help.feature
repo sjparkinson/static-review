@@ -9,10 +9,10 @@ Feature: Help Option
         Then I should see:
             """
             Usage:
-             static-review [-c|--config="..."] [--adapter="..."] [--review="..."] [path]
+             static-review [-c|--config="..."] [--adapter="..."] [--review="..."] [path1] ... [pathN]
 
             Arguments:
-             path                  Spefify the folder to review (default: ".")
+             path                  Spefify the folder to review (default: ["."])
 
             Options:
              --config (-c)         Specify a configuration file to use

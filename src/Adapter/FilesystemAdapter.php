@@ -1,19 +1,19 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Adapter;
+namespace StaticReview\StaticReview\Adapter;
 
-use MainThread\StaticReview\File\File;
+use StaticReview\StaticReview\File\File;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -40,6 +40,14 @@ class FilesystemAdapter implements AdapterInterface
 
     /**
      * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'filesystem';
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * Checks that the given path is a directory.
      */
@@ -62,7 +70,13 @@ class FilesystemAdapter implements AdapterInterface
         $files = [];
 
         foreach ($finder as $file) {
-            $files[] = new File($file->getPathname(), $file->getRelativePath(), $file->getRelativePathname());
+            $relativePathname = str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $file->getPathname());
+
+            $files[] = new File(
+                $file->getPathname(),
+                dirname($relativePathname),
+                $relativePathname
+            );
         }
 
         return $files;

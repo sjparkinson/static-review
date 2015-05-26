@@ -1,20 +1,20 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Review;
+namespace StaticReview\StaticReview\Review;
 
-use MainThread\StaticReview\File\FileInterface;
-use MainThread\StaticReview\Result\ResultBuilder;
+use StaticReview\StaticReview\File\FileInterface;
+use StaticReview\StaticReview\Result\ResultBuilder;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**

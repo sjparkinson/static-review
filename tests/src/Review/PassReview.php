@@ -11,28 +11,31 @@
  * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace StaticReview\StaticReview\Review;
+namespace StaticReview\StaticReview\Test\Review;
 
 use StaticReview\StaticReview\File\FileInterface;
+use StaticReview\StaticReview\Review\AbstractReview;
 
 /**
- * ReviewSet class.
+ * PassReview that will always pass.
  *
  * @author Samuel Parkinson <sam.james.parkinson@gmail.com>
  */
-class ReviewSet extends \ArrayObject
+class PassReview extends AbstractReview
 {
     /**
-     * Gets all supported reviews contained in this collection.
-     *
-     * @param FileInterface $file
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function getSupported(FileInterface $file)
+    public function supports(FileInterface $file)
     {
-        return array_filter((array) $this, function (ReviewInterface $review) use ($file) {
-            return $review->supports($file);
-        });
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function review(FileInterface $file)
+    {
+        return $this->resultBuilder->setPassed()->setFile($file)->build();
     }
 }

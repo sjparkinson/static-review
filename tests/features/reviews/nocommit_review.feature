@@ -7,9 +7,9 @@ Feature: No Commit Review
     Scenario: I run the application with the progress formatter
         Given the configuration file contains:
             """
-            adapter: MainThread\StaticReview\Adapter\FilesystemAdapter
+            adapter: filesystem
             reviews:
-                - MainThread\StaticReview\Review\NoCommitReview
+                - StaticReview\StaticReview\Review\NoCommitReview
             """
         And the file "test.txt" contains:
             """

@@ -1,20 +1,22 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Configuration;
+namespace StaticReview\StaticReview\Configuration;
 
 use League\Container\ContainerInterface;
-use MainThread\StaticReview\Review\ReviewSet;
+use StaticReview\StaticReview\Adapter\AdapterInterface;
+use StaticReview\StaticReview\Adapter\GitAdapter;
+use StaticReview\StaticReview\Review\ReviewSet;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -50,7 +52,7 @@ class ConsoleConfigurationLoader extends Loader
 
         if ($resource->hasParameterOption('--adapter')) {
             $this->container->add(AdapterInterface::class, function () use ($resource) {
-                return $this->container->get($resource->getParameterOption('--adapter'));
+                return $this->container->get('adapter.' . $resource->getParameterOption('--adapter'));
             });
         }
 

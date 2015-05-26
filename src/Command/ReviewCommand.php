@@ -1,25 +1,25 @@
 <?php
 
-/*
- * This file is part of MainThread\StaticReview.
+/**
+ * This file is part of sjparkinson\static-review.
  *
  * Copyright (c) 2014-2015 Samuel Parkinson <sam.james.parkinson@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @license http://github.com/sjparkinson/static-review/blob/master/LICENSE MIT
  */
 
-namespace MainThread\StaticReview\Command;
+namespace StaticReview\StaticReview\Command;
 
-use MainThread\StaticReview\Review\ReviewService;
+use StaticReview\StaticReview\Review\ReviewService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use MainThread\StaticReview\Adapter\AdapterInterface;
+use StaticReview\StaticReview\Adapter\AdapterInterface;
 
 /**
  * The main command for the application.
@@ -31,7 +31,8 @@ class ReviewCommand extends Command
     /**
      * Creates a new instance of the ReviewCommand class.
      *
-     * @param ContainerInterface $container
+     * @param AdapterInterface $adapter
+     * @param ReviewService    $reviewService
      */
     public function __construct(AdapterInterface $adapter, ReviewService $reviewService)
     {
@@ -55,19 +56,28 @@ class ReviewCommand extends Command
         $this->addOption('review', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Specify the reviews to use');
 
         // Arguments
-        $this->addArgument('path', InputArgument::OPTIONAL, 'Spefify the folder to review', '.');
+        $this->addArgument('path', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Spefify the folder to review', ['.']);
     }
 
     /**
-     * Executes the command.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $files = $this->adapter->files($input->getArgument('path'));
+        $files = array_reduce($input->getArgument('path'), function ($files, $path) {
+            if (! $this->adapter->supports($path)) {
+                throw new \RuntimeException(sprintf(
+                    'The "%s" path is not supported by the %s adapter.',
+                    $path,
+                    $this->adapter->getName()
+                ));
+            }
 
-        $this->reviewService->review($files);
+            return array_merge($files, $this->adapter->files($path));
+        }, []);
+
+        $resultCollector = $this->reviewService->review($files);
+
+        return $resultCollector->getFailedCount() === 0 ? 0 : 1;
     }
 }
