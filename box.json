@@ -12,7 +12,8 @@
     ],
 
     "files": [
-        "LICENSE"
+        "LICENSE",
+        "vendor/herrera-io/phar-update/res/schema.json"
     ],
 
     "finder": [
