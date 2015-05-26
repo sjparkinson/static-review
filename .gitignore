@@ -4,4 +4,3 @@
 .vagrant/
 vendor/
 build/
-static-review.phar
