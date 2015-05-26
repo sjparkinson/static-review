@@ -1,5 +1,7 @@
 # Project Files & Folders #
 ###########################
+
 .vagrant/
 vendor/
 build/
+static-review.phar

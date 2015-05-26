@@ -22,6 +22,7 @@ Feature: Help Option
              --quiet (-q)          Do not output any message
              --verbose (-v|vv|vvv) Increase the verbosity of the output
              --version (-V)        Display the application version
+             --update              Update the application to the latest version
              --ansi                Force ANSI output
              --no-ansi             Disable ANSI output
              --no-interaction (-n) Do not ask any interactive question

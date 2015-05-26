@@ -1,5 +1,4 @@
 ---
-adapter: git
+adapter: filesystem
 
-reviews:
-    - StaticReview\StaticReview\Review\NoCommitReview
+reviews: []

@@ -18,6 +18,7 @@ use League\Container\ContainerAwareTrait;
 use League\Container\ContainerInterface;
 use StaticReview\StaticReview\Adapter\FilesystemAdapter;
 use StaticReview\StaticReview\Command\ReviewCommand;
+use StaticReview\StaticReview\Command\UpdateCommand;
 use StaticReview\StaticReview\Configuration\ConsoleConfigurationLoader;
 use StaticReview\StaticReview\Configuration\DefaultConfigurationLoader;
 use StaticReview\StaticReview\Configuration\FileConfigurationLoader;
@@ -83,9 +84,10 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
         $failedStyle = new OutputFormatterStyle('red');
         $output->getFormatter()->setStyle('failed', $failedStyle);
 
-        // Add the default command here so it's resolved dependencies can
+        // Add the commands here so it's resolved dependencies can
         // include InputInterface and OutputInterface.
         $this->add($this->getContainer()->get(ReviewCommand::class));
+        $this->add($this->getContainer()->get(UpdateCommand::class));
 
         return parent::doRun($input, $output);
     }
@@ -99,6 +101,10 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
      */
     protected function getCommandName(InputInterface $input)
     {
+        if ($input->hasParameterOption('--update')) {
+            return 'update';
+        }
+
         return $this->getName();
     }
 
@@ -141,6 +147,7 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
             new InputOption('--quiet', '-q', InputOption::VALUE_NONE, 'Do not output any message'),
             new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, 'Increase the verbosity of the output'),
             new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Display the application version'),
+            new InputOption('--update', '', InputOption::VALUE_NONE, 'Update the application to the latest version'),
             new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
             new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
             new InputOption('--no-interaction', '-n', InputOption::VALUE_NONE, 'Do not ask any interactive question'),

@@ -1,0 +1,27 @@
+{
+    "main": "bin/static-review",
+
+    "output": "static-review.phar",
+
+    "chmod": "0755",
+
+    "git-version": "version",
+
+    "directories": [
+        "src/"
+    ],
+
+    "files": [
+        "LICENSE"
+    ],
+
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": ["Tests"],
+            "in": "vendor"
+        }
+    ],
+
+    "stub": true
+}
