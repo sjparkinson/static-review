@@ -26,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UpdateCommand extends Command
 {
-    const MANIFEST_FILE = 'https://raw.githubusercontent.com/sjparkinson/static-review/5.0/resources/manifest.json';
+    const MANIFEST_FILE = 'https://raw.githubusercontent.com/sjparkinson/static-review/5.0/manifest.json';
 
     /**
      * {@inheritdoc}
