@@ -8,5 +8,6 @@ build/
 # Project Files #
 #################
 
-phpunit.xml
 behat.yml
+composer.lock
+phpunit.xml

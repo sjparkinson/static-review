@@ -90,6 +90,12 @@
         "lint:fix": [
             "echo '+++ Running \\033[33mphpcbf\\033[0m with the Symfony 2 standard\n'",
             "vendor/bin/phpcbf --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ src/ tests/"
+        ],
+
+        "package": [
+            "echo '+++ Packaging \\033[33mstatic-review.phar\\033[0m\n'",
+            "box build -v",
+            "openssl sha1 static-review.phar"
         ]
     }
 }

@@ -1,8 +1,8 @@
 [
     {
         "name": "static-review.phar",
-        "sha1": "d5b107a0e97e82a0d822ab5ec5810817178d69ec",
+        "sha1": "301b8f090b3b052126e9a3eef6d4c959ffc5580d",
         "url": "https://raw.githubusercontent.com/sjparkinson/static-review/5.0/static-review.phar",
-        "version": "4.1.1-61-g0f07b2f"
+        "version": "4.1.1-63-g8ffa778"
     }
 ]
