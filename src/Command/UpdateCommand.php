@@ -26,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UpdateCommand extends Command
 {
-    const MANIFEST_FILE = 'https://raw.githubusercontent.com/sjparkinson/static-review/5.0/manifest.json';
+    const MANIFEST_FILE = 'https://raw.githubusercontent.com/sjparkinson/static-review/5.0/resources/manifest.json';
 
     /**
      * {@inheritdoc}
@@ -42,7 +42,24 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $manager = new Manager(Manifest::loadFile(self::MANIFEST_FILE));
-        $manager->update($this->getApplication()->getVersion(), true);
+        $output->writeln('Looking for updates...');
+
+        try {
+            $manager = new Manager(Manifest::loadFile(self::MANIFEST_FILE));
+        } catch (FileException $e) {
+            $output->writeln('<error>Unable to search for updates.</error>');
+
+            return 1;
+        }
+
+        if ($manager->update($this->getApplication()->getVersion(), true)) {
+            $output->writeln('<info>Updated to latest version.</info>');
+
+            return 0;
+        }
+
+        $output->writeln('<comment>Already up-to-date.</comment>');
+
+        return 0;
     }
 }

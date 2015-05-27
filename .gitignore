@@ -1,6 +1,12 @@
-# Project Files & Folders #
-###########################
+# Project Folders #
+###################
 
 .vagrant/
 vendor/
 build/
+
+# Project Files #
+#################
+
+phpunit.xml
+behat.yml

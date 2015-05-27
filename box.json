@@ -20,7 +20,7 @@
         {
             "name": "*.php",
             "exclude": ["Tests"],
-            "in": "vendor"
+            "in": "vendor/"
         }
     ],
 

@@ -73,12 +73,13 @@
 
         "test:features": [
             "echo '+++ Running \\033[33mfeature\\033[0m testsuite\n'",
-            "vendor/bin/behat --colors --format pretty"
+            "vendor/bin/behat --colors --format pretty",
+            "echo"
         ],
 
         "test:static-review": [
             "echo '+++ Running \\033[33mstatic-review\\033[0m\n'",
-            "bin/static-review src/ tests/"
+            "bin/static-review --ansi src/ tests/"
         ],
 
         "lint": [
