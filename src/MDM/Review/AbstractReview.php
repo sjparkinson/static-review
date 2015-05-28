@@ -16,7 +16,7 @@ abstract class AbstractReview implements ReviewInterface
      *
      * @return bool
      */
-    public function canReview(FileInterface $fileName)
+    public function canReview(FileInterface $fileName = null)
     {
         if ($this->isBlacklistFile($fileName) || !is_file($fileName->getFullPath())) {
             return false;

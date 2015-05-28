@@ -70,7 +70,7 @@ class PhpCodeSnifferReview extends AbstractReview
      *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         return (parent::canReview($file) && $file->getExtension() === 'php');
     }
@@ -78,7 +78,7 @@ class PhpCodeSnifferReview extends AbstractReview
     /**
      * Checks PHP files using PHP_CodeSniffer.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $cmd = '~/.composer/vendor/bin/phpcs --report=json ';
 

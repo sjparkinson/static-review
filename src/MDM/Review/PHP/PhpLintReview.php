@@ -15,14 +15,14 @@ class PhpLintReview extends AbstractReview
      *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         return (parent::canReview($file) && $file->getExtension() === 'php');
     }
     /**
      * Checks PHP files using the builtin PHP linter, `php -l`.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $cmd = sprintf('php --syntax-check %s', $file->getFullPath());
         $process = $this->getProcess($cmd);

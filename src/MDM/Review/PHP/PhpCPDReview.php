@@ -18,7 +18,7 @@ class PhpCPDReview extends AbstractReview
      *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         return (parent::canReview($file) && $file->getExtension() === 'php');
     }
@@ -26,7 +26,7 @@ class PhpCPDReview extends AbstractReview
     /**
      * Checks PHP files using the builtin PHP linter, `php -l`.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $cmd = sprintf('phpcpd --min-lines %s --min-tokens %s %s', self::PHP_CPD_MIN_LINES, self::PHP_CPD_MIN_TOKENS, $file->getFullPath());
         $process = $this->getProcess($cmd);

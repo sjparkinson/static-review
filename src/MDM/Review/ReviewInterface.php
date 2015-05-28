@@ -16,6 +16,6 @@ use MDM\Reporter\ReporterInterface;
 
 interface ReviewInterface
 {
-    public function canReview(FileInterface $file);
-    public function review(ReporterInterface $reporter, FileInterface $file);
+    public function canReview(FileInterface $file = null);
+    public function review(ReporterInterface $reporter, FileInterface $file = null);
 }

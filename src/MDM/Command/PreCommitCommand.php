@@ -2,6 +2,8 @@
 
 namespace MDM\Command;
 
+use MDM\PostCmd;
+use MDM\Review\Cmd\PhpUnitReview;
 use MDM\Review\PHP\PhpLintReview;
 use MDM\Review\PHP\PhpCsFixerReview;
 use MDM\Review\PHP\ComposerReview;
@@ -18,6 +20,7 @@ use MDM\StaticReview;
 use MDM\VersionControl\GitVersionControl;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use League\CLImate\CLImate;
 use MDM\Reporter\Reporter;
@@ -33,7 +36,9 @@ class PreCommitCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('check')->setDescription('Scan and check all files added to commit');
+          ->setName('check')->setDescription('Scan and check all files added to commit')
+          ->addOption('phpunit', null, InputOption::VALUE_OPTIONAL, 'Phpunit feature state')
+          ->addOption('phpunit-conf', null, InputOption::VALUE_OPTIONAL, 'Phpunit conf path');
     }
 
     /**
@@ -66,6 +71,12 @@ class PreCommitCommand extends Command
 
         // Review the staged files.
         $review->review($stagedFiles);
+
+        $postCmd = new PostCmd($reporter);
+        if ($input->getOption('phpunit')) {
+            $postCmd->addReview(new PhpUnitReview($input->getOption('phpunit-conf')));
+        }
+        $postCmd->review();
 
         // Check if any matching issues were found.
         if ($reporter->hasIssues()) {

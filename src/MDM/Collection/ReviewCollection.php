@@ -1,6 +1,7 @@
 <?php
 namespace MDM\Collection;
 
+use MDM\Review\CmdReviewInterface;
 use MDM\Review\ReviewInterface;
 
 class ReviewCollection extends Collection
@@ -8,16 +9,18 @@ class ReviewCollection extends Collection
     /**
      * Validates that $object is an instance of ReviewInterface.
      *
-     * @param  ReviewInterface          $object
+     * @param  ReviewInterface|CmdReviewInterface          $object
+     *
      * @return bool
+     *
      * @throws InvalidArgumentException
      */
     public function validate($object)
     {
-        if ($object instanceof ReviewInterface) {
+        if ($object instanceof ReviewInterface || $object instanceof CmdReviewInterface) {
             return true;
         }
-        throw new \InvalidArgumentException($object . ' was not an instance of ReviewInterface.');
+        throw new \InvalidArgumentException($object . ' was not an instance of ReviewInterface OR CmdReviewInterface.');
     }
 
     /**
@@ -40,6 +43,7 @@ class ReviewCollection extends Collection
      * file.
      *
      * @param  FileInterface $file
+     *
      * @return bool
      */
     public function forFile($file)

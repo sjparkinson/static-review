@@ -15,7 +15,7 @@ class PhpStopWordsReview extends AbstractReview
      *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         return (parent::canReview($file) && $file->getExtension() === 'php');
     }
@@ -23,7 +23,7 @@ class PhpStopWordsReview extends AbstractReview
     /**
      * Checks PHP StopWords.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $stopWordsPhp = array("var_dump()" => "var_dump\(", "die()" => "die\(");
 

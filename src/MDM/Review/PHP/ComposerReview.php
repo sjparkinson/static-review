@@ -14,7 +14,7 @@ class ComposerReview extends AbstractReview
     /**
      * Checks Composer json and lock files
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         if ($file->getFileName() == 'composer.json') {
             $this->composerJsonDetected = true;

@@ -12,19 +12,21 @@ class JsStopWordsReview extends AbstractReview
      * Determins if a given file should be reviewed.
      *
      * @param  FileInterface $file
+     *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         return (parent::canReview($file) && $file->getExtension() === 'js');
     }
 
     /**
      * Reviewing method
+     *
      * @param ReporterInterface $reporter
      * @param FileInterface     $file
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         // JavaScript debug code that would break IE.
         $stopWordsJs = array("console.debug()" => "console.debug", "console.log()" => "console.log", "alert()" => "alert\(");

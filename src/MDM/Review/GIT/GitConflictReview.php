@@ -11,10 +11,11 @@ class GitConflictReview extends AbstractReview
 
     /**
      * Git conflict review
+     *
      * @param ReporterInterface $reporter
      * @param FileInterface     $file
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $stopWordsPhp = array(">>>>>>", "<<<<<<", "======");
 

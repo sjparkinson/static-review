@@ -13,14 +13,15 @@ class YmlLintReview extends AbstractReview
      * Determins if a given file should be reviewed.
      *
      * @param  FileInterface $file
+     *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         return (parent::canReview($file) && $file->getExtension() === 'yml');
     }
 
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         // delete PHP code in yaml files to avoid ParseException
         $ymlData = preg_replace("|(<\?php.*\?>)|i", "", file_get_contents($file->getFullPath()));

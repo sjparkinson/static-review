@@ -21,6 +21,7 @@ class Reporter implements ReporterInterface
      *
      * @param  $output
      * @param  $total
+     *
      * @return Reporter
      */
     public function __construct($output, $total)
@@ -74,6 +75,7 @@ class Reporter implements ReporterInterface
      * @param  string          $message
      * @param  ReviewInterface $review
      * @param  FileInterface   $file
+     *
      * @return Reporter
      */
     public function report($level, $message, ReviewInterface $review, FileInterface $file = null)
@@ -90,9 +92,10 @@ class Reporter implements ReporterInterface
      * @param  string          $message
      * @param  ReviewInterface $review
      * @param  FileInterface   $file
+     *
      * @return Reporter
      */
-    public function info($message, ReviewInterface $review, FileInterface $file)
+    public function info($message, ReviewInterface $review, FileInterface $file = null)
     {
         $this->report(Issue::LEVEL_INFO, $message, $review, $file);
 
@@ -105,9 +108,10 @@ class Reporter implements ReporterInterface
      * @param  string          $message
      * @param  ReviewInterface $review
      * @param  FileInterface   $file
+     *
      * @return Reporter
      */
-    public function warning($message, ReviewInterface $review, FileInterface $file)
+    public function warning($message, ReviewInterface $review, FileInterface $file = null)
     {
         $this->report(Issue::LEVEL_WARNING, $message, $review, $file);
 
@@ -120,6 +124,7 @@ class Reporter implements ReporterInterface
      * @param  string          $message
      * @param  ReviewInterface $review
      * @param  FileInterface   $file
+     *
      * @return Reporter
      */
     public function error($message, ReviewInterface $review, FileInterface $file = null)
@@ -142,6 +147,7 @@ class Reporter implements ReporterInterface
     /**
      * @param $a
      * @param $b
+     *
      * @return int
      */
     private static function cmpIssues($a, $b)
@@ -176,6 +182,7 @@ class Reporter implements ReporterInterface
 
     /**
      * @param $filterLevel
+     *
      * @return IssueCollection
      */
     public function filterIssues($filterLevel)

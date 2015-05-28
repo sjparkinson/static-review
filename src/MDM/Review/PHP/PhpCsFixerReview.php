@@ -14,6 +14,7 @@ class PhpCsFixerReview extends AbstractReview
 
     /**
      * Constructor
+     *
      * @param $autoAddGit
      */
     public function __construct($autoAddGit)
@@ -28,7 +29,7 @@ class PhpCsFixerReview extends AbstractReview
      *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         return (parent::canReview($file) && $file->getExtension() === 'php');
     }
@@ -36,7 +37,7 @@ class PhpCsFixerReview extends AbstractReview
     /**
      * Checks PHP files using php-cs-fixer.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $cmd = sprintf('php-cs-fixer fix  -v %s --fixers=%s', $file->getFullPath(), self::PHP_CS_FIXER_FILTERS);
         $process = $this->getProcess($cmd);

@@ -12,9 +12,10 @@ class NoCommitTagReview extends AbstractReview
      * Determins if a given file should be reviewed.
      *
      * @param  FileInterface $file
+     *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(FileInterface $file = null)
     {
         // check to see if the mime-type starts with 'text'
         return (parent::canReview($file) && substr($file->getMimeType(), 0, 4) === 'text');
@@ -22,10 +23,11 @@ class NoCommitTagReview extends AbstractReview
 
     /**
      * Checks if the file contains `NOCOMMIT`.
+     *
      * @param ReporterInterface $reporter
      * @param FileInterface     $file
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $cmd = sprintf('grep --fixed-strings --ignore-case --quiet "NOCOMMIT" %s', $file->getFullPath());
 
