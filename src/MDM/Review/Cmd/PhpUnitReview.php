@@ -9,16 +9,19 @@ use MDM\Review\AbstractReview;
 class PhpUnitReview extends AbstractReview
 {
 
-    protected $phpUnitConfig;
+    protected $phpUnitConfigPath;
+    protected $projectBase;
 
     /**
      * Constructor
      *
-     * @param $phpUnitConfig
+     * @param $phpUnitConfigPath
+     * @param $projectBase
      */
-    public function __construct($phpUnitConfig)
+    public function __construct($phpUnitConfigPath, $projectBase)
     {
-        $this->phpUnitConfig = $phpUnitConfig;
+        $this->phpUnitConfigPath = $phpUnitConfigPath;
+        $this->projectBase = $projectBase;
     }
 
     /**
@@ -28,16 +31,15 @@ class PhpUnitReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
-        $cmd = sprintf('phpunit%s', $this->phpUnitConfig ? ' -c '.$this->phpUnitConfig : '');
-        $process = $this->getProcess($cmd);
+        $cmd = sprintf('phpunit --stop-on-failure%s', $this->phpUnitConfigPath ? ' -c ' . $this->phpUnitConfigPath : '');
+        $process = $this->getProcess($cmd, $this->projectBase, null, null, 360);
         $process->run();
-        // Create the array of outputs and remove empty values.
-        $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-        if ($process->getExitCode() == 2) {
-            $reporter->warning('PhpUnit need configuration file path', $this, null);
+        if (preg_match("|Usage: phpunit|i", $process->getOutput())) {
+            $reporter->error('You must specify Phpunit config path [--phpunit-conf PATH].', $this, null);
+        } elseif ($this->phpUnitConfigPath && !is_dir($this->projectBase . '/' . $this->phpUnitConfigPath)) {
+            $reporter->error('Phpunit config path is not correct.', $this, null);
         } elseif (!$process->isSuccessful()) {
-            $output = array_slice($output, count($output) - 1, 1);
-            $reporter->error($output[0], $this, null);
+            $reporter->error('Fix the Unit Tests !!!', $this, null);
         }
     }
 }

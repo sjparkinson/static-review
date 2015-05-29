@@ -48,6 +48,7 @@ class PreCommitCommand extends Command
     {
         $git = new GitVersionControl();
         $stagedFiles = $git->getStagedFiles();
+        $projectBase = $git->getProjectBase();
         $reporter = new Reporter($output, count($stagedFiles));
         $climate = new CLImate();
 
@@ -74,7 +75,7 @@ class PreCommitCommand extends Command
 
         $postCmd = new PostCmd($reporter);
         if ($input->getOption('phpunit')) {
-            $postCmd->addReview(new PhpUnitReview($input->getOption('phpunit-conf')));
+            $postCmd->addReview(new PhpUnitReview($input->getOption('phpunit-conf'), $projectBase));
         }
         $postCmd->review();
 

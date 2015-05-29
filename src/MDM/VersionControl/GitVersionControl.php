@@ -39,7 +39,7 @@ class GitVersionControl implements VersionControlInterface
      *
      * @return string
      */
-    private function getProjectBase()
+    public function getProjectBase()
     {
         $process = new Process('git rev-parse --show-toplevel');
         $process->run();
@@ -65,6 +65,7 @@ class GitVersionControl implements VersionControlInterface
      * Saves a copy of the cached version of the given file to a temp directory.
      *
      * @param  FileInterface $file
+     *
      * @return FileInterface
      */
     private function saveFileToCache(FileInterface $file)
