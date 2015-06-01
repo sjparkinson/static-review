@@ -54,7 +54,7 @@ class HookListCommand extends Command
         $output->write('Analyse en cours ... ');
         $finder = new Finder();
         $finder = $finder->directories()->ignoreUnreadableDirs()->ignoreDotFiles(false)->ignoreVCS(false)->in($this->workspacePath);
-        $finder = $finder->notpath('/vendor/')->notpath('/logs/')->notpath('/log/')->notpath('/cache/')->path('/.git\/config/');
+        $finder = $finder->notpath('/\/vendor\//')->notpath('/\/log[s]?\//')->notpath('/\/cache\//')->path('/.git\/config/');
 
         $projects = array();
         $files = $finder->files();
