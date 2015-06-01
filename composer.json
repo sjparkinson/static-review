@@ -7,7 +7,9 @@
         "symfony/yaml": "~2.5",
         "symfony/process": "~2.5",
         "herrera-io/phar-update": "~1.0",
-        "league/climate": "2.0"
+        "league/climate": "2.0",
+        "symfony/filesystem": "~2.7",
+        "symfony/finder": "~2.7"
     },
     "autoload": {
         "psr-0": {
