@@ -25,7 +25,10 @@ class PhpStopWordsReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
-        $stopWordsPhp = array("var_dump()" => "var_dump\(", "die()" => "die\(");
+        $stopWordsPhp = array(
+          "var_dump()" => "[^a-zA-Z]var_dump\(",
+          "die()"      => "[^a-zA-Z]die\("
+        );
 
         // Check StopWords
         foreach ($stopWordsPhp as $key => $word) {

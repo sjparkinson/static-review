@@ -29,7 +29,11 @@ class JsStopWordsReview extends AbstractReview
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         // JavaScript debug code that would break IE.
-        $stopWordsJs = array("console.debug()" => "console.debug", "console.log()" => "console.log", "alert()" => "alert\(");
+        $stopWordsJs = array(
+          "console.debug()" => "console.debug",
+          "console.log()"   => "console.log",
+          "alert()"         => "[^a-zA-Z]alert\("
+        );
 
         // Check StopWords
         foreach ($stopWordsJs as $key => $word) {
