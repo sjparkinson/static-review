@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install Script Pre-commit MDM
+# Install Pre-commit
 
 if ! type composer > /dev/null; then
 echo "Composer Global install..."
@@ -26,13 +26,12 @@ composer global require 'squizlabs/php_codesniffer=2.*'
 COMPOSERPATH=${HOME}/.composer/vendor/bin
 
 if [ -d "$COMPOSERPATH" ] && [[ :$PATH: != *:"$COMPOSERPATH":* ]] ; then
-   if grep -Fxq "export PATH=\$PATH:${COMPOSERPATH}" $HOME/.bashrc ; then
-        echo "export PATH=\$PATH:${COMPOSERPATH}" >> $HOME/.bashrc
-        echo "Mettez à jour votre PATH en executant la commande suivante: "
+        echo "Add export composer bin PATH on your .bashrc"
+        echo "PATH=\$PATH:${COMPOSERPATH}"
+        echo "And source it:"
         echo "source $HOME/.bashrc"
-        echo " Relancez le script d'installation ensuite..."
+        echo "Re-execute ./install_precommit.sh"
         exit 0
-    fi
 fi
 
 composer install
@@ -40,6 +39,7 @@ composer install
 box build
 
 echo "Putting the precommit phar globally..."
+echo "Moving precommit.phar to /usr/local/bin/precommit..."
 sudo bash <<EOF
 	mv precommit.phar /usr/local/bin/precommit
 EOF
