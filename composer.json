@@ -94,8 +94,8 @@
 
         "package": [
             "echo '+++ Packaging \\033[33mstatic-review.phar\\033[0m\n'",
-            "box build -v",
-            "openssl sha1 static-review.phar"
+            "composer update --no-dev --optimize-autoloader --ansi",
+            "box build -v"
         ]
     }
 }

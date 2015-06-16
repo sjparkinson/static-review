@@ -40,7 +40,7 @@ Or in `.git/hooks/pre-commit`:
 
 ```sh
 #!/bin/bash
-static-review --config ../../static-review.yml ../../src/
+static-review src/ tests/
 ```
 
 ## Tests

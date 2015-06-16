@@ -1,11 +1,9 @@
 {
     "main": "bin/static-review",
 
-    "output": "static-review.phar",
+    "output": "bin/static-review.phar",
 
     "chmod": "0755",
-
-    "git-version": "version",
 
     "directories": [
         "src/"

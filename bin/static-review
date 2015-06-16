@@ -29,5 +29,5 @@ if (! $included) {
     exit(1);
 }
 
-$app = new Application(new Container(), '@version@');
+$app = new Application(new Container(), '5.0-dev');
 $app->run();
