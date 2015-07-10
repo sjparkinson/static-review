@@ -87,7 +87,6 @@ final class Application extends BaseApplication implements ContainerAwareInterfa
         // Add the commands here so it's resolved dependencies can
         // include InputInterface and OutputInterface.
         $this->add($this->getContainer()->get(ReviewCommand::class));
-        $this->add($this->getContainer()->get(UpdateCommand::class));
 
         return parent::doRun($input, $output);
     }

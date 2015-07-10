@@ -21,13 +21,6 @@ $ composer global require sjparkinson/static-review
 
 [composer]: https://getcomposer.org/
 
-Or you can install the application as a phar:
-
-```bash
-$ curl -sS https://raw.githubusercontent.com/sjparkinson/static-review/5.0/static-review.phar > static-review.phar
-$ chmod a+x static-review.phar && mv static-review.phar /usr/local/bin/static-review
-```
-
 ## Usage
 
 From the command line:

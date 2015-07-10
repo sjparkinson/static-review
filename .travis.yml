@@ -8,11 +8,6 @@ php:
 - 7.0
 - hhvm
 
-cache:
-  directories:
-    - $HOME/.composer/cache
-    - vendor/
-
 install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
 
