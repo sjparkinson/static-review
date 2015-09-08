@@ -12,4 +12,4 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
-include('static-review.php');
+include(__DIR__.'/static-review.php');
