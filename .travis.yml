@@ -9,6 +9,9 @@ php:
   - hhvm
 
 matrix:
+  include:
+    - php: 5.5
+      env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
   allow_failures:
     - php: 7.0
   fast_finish: true
@@ -18,7 +21,7 @@ before_script:
   - git config --global user.email travis@example.com
 
 install:
-  - travis_retry composer install --no-interaction
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --optimize-autoloader --prefer-source
 
 script:
   - composer test
