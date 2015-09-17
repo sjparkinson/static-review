@@ -5,7 +5,8 @@
 
     "license": "MIT",
 
-    "authors": [
+    "authors":
+    [
         {
             "name": "Samuel Parkinson",
             "email": "sam.james.parkinson@gmail.com",
@@ -36,26 +37,33 @@
     ],
 
     "require": {
-        "php": ">=5.4.0",
-        "symfony/process": "~2.0",
-        "symfony/console": "~2.0",
-        "league/climate": "~2.0"
+        "php": ">=5.5",
+        "league/climate": "^2.0",
+        "symfony/console": "^2.0",
+        "symfony/process": "^2.0"
     },
 
     "require-dev": {
-        "mockery/mockery": "~0.9",
-        "phpunit/phpunit": "~4.0",
-        "sensiolabs/security-checker": "~2.0",
-        "squizlabs/php_codesniffer": "~1.0"
+        "mockery/mockery": "^0.9",
+        "phpunit/phpunit": "^4.0",
+        "sensiolabs/security-checker": "^3.0",
+        "squizlabs/php_codesniffer": "^2.0"
     },
 
     "suggest": {
-        "sensiolabs/security-checker": "Required for ComposerSecurityReview.",
-        "squizlabs/php_codesniffer":   "Required for PhpCodeSnifferReview."
+        "sensiolabs/security-checker": "required by ComposerSecurityReview.",
+        "squizlabs/php_codesniffer": "required by PhpCodeSnifferReview."
+    },
+
+    "scripts": {
+        "test": [
+            "vendor/bin/phpcs  --standard=PSR2 src/ bin/ hooks/ tests/",
+            "vendor/bin/phpunit --testsuite unit",
+            "vendor/bin/phpunit --testsuite functional"
+        ]
     },
 
     "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist"
+        "optimize-autoloader": true
     }
 }

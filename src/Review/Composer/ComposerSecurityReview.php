@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 namespace StaticReview\Review\Composer;
@@ -52,7 +52,6 @@ class ComposerSecurityReview extends AbstractReview
         $process->run();
 
         if (! $process->isSuccessful()) {
-
             $message = 'The composer project dependencies contain known vulnerabilities';
             $reporter->error($message, $this, $file);
 

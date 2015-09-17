@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 namespace StaticReview;
@@ -111,7 +111,6 @@ class StaticReview
     public function review(FileCollection $files)
     {
         foreach ($files as $key => $file) {
-
             $this->getReporter()->progress($key + 1, count($files));
 
             foreach ($this->getReviews()->forFile($file) as $review) {

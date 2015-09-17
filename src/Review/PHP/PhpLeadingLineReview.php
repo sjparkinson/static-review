@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 namespace StaticReview\Review\PHP;
@@ -45,7 +45,6 @@ class PhpLeadingLineReview extends AbstractReview
         $process->run();
 
         if (! in_array(trim($process->getOutput()), ['<?php', '#!/usr/bin/env php'])) {
-
             $message = 'File must begin with `<?php` or `#!/usr/bin/env php`';
             $reporter->error($message, $this, $file);
 

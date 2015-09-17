@@ -3,7 +3,7 @@ Static-Review
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
 [![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
-[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat)][php]
+[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat)][php]
 
 An extendable framework for version control hooks.
 
@@ -110,8 +110,7 @@ $ vagrant ssh
 ...
 $ cd /srv
 $ composer update
-$ vendor/bin/phpunit
-$ vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/
+$ composer run-script test
 ```
 
 [vagrant]: https://www.vagrantup.com
@@ -119,7 +118,7 @@ $ vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/
 
 ## Licence
 
-The content of this library is released under the [MIT License][licence] by [Samuel Parkinson][twitter].
+The content of this library is released under the [MIT License][license] by [Samuel Parkinson][twitter].
 
-[licence]: https://github.com/sjparkinson/static-review/blob/master/LICENCE.md
+[license]: https://github.com/sjparkinson/static-review/blob/master/LICENSE
 [twitter]: https://twitter.com/samparkinson_

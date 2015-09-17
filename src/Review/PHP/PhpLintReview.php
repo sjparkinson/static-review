@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 namespace StaticReview\Review\PHP;
@@ -48,7 +48,6 @@ class PhpLintReview extends AbstractReview
         $needle = 'Parse error: syntax error, ';
 
         if (! $process->isSuccessful()) {
-
             foreach (array_slice($output, 0, count($output) - 1) as $error) {
                 $raw = ucfirst(substr($error, strlen($needle)));
                 $message = str_replace(' in ' . $file->getFullPath(), '', $raw);

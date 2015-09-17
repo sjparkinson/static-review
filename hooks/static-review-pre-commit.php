@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 $included = include file_exists(__DIR__ . '/../vendor/autoload.php')
@@ -59,7 +59,6 @@ $review->review($git->getStagedFiles());
 
 // Check if any matching issues were found.
 if ($reporter->hasIssues()) {
-
     $climate->out('')->out('');
 
     foreach ($reporter->getIssues() as $issue) {
@@ -71,7 +70,6 @@ if ($reporter->hasIssues()) {
     exit(1);
 
 } else {
-
     $climate->out('')->green('✔ Looking good.')->white('Have you tested everything?');
 
     exit(0);

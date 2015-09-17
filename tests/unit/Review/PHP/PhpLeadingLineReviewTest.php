@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 namespace StaticReview\Test\Unit\Review\PHP;
@@ -60,7 +60,7 @@ class PhpLeadingLineReviewTest extends TestCase
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
         $reporter->shouldReceive('error')->once();
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 
     public function testReviewWithDefaultBeginning()
@@ -75,7 +75,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 
     public function testReviewWithScriptBeginning()
@@ -90,6 +90,6 @@ class PhpLeadingLineReviewTest extends TestCase
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 }

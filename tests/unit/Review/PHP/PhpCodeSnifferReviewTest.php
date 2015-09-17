@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 namespace StaticReview\Test\Unit\Review\PHP;
@@ -114,7 +114,7 @@ class PhpCodeSnifferReviewTest extends TestCase
 
         $this->review->setOption('standard', 'PSR2');
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 
     public function testReviewWithViolations()
@@ -134,6 +134,6 @@ class PhpCodeSnifferReviewTest extends TestCase
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
         $reporter->shouldReceive('warning')->once()->with('Message on line 2', $this->review, $this->file);
 
-        $this->review->review($reporter, $this->file);
+        $this->assertNull($this->review->review($reporter, $this->file));
     }
 }
