@@ -49,7 +49,6 @@ class LineEndingsReview extends AbstractReview
         $process->run();
 
         if ($process->isSuccessful()) {
-
             $message = 'File contains CRLF line endings';
             $reporter->error($message, $this, $file);
 

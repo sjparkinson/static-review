@@ -53,7 +53,6 @@ $review->review($git->getStagedFiles());
 
 // Check if any matching issues were found.
 if ($reporter->hasIssues()) {
-
     $climate->out('')->out('');
 
     foreach ($reporter->getIssues() as $issue) {
@@ -65,7 +64,6 @@ if ($reporter->hasIssues()) {
     exit(1);
 
 } else {
-
     $climate->out('')->green('✔ Looking good.')->white('Have you tested everything?');
 
     exit(0);
