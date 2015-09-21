@@ -16,7 +16,7 @@ namespace StaticReview\Review\PHP;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
-use Symfony\Component\Process\Process;
+use StaticReview\Review\ReviewableInterface;
 
 class PhpLeadingLineReview extends AbstractReview
 {
@@ -26,7 +26,7 @@ class PhpLeadingLineReview extends AbstractReview
      * @param  FileInterface $file
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReviewFile(FileInterface $file)
     {
         return ($file->getExtension() === 'php');
     }
@@ -37,7 +37,7 @@ class PhpLeadingLineReview extends AbstractReview
      *
      * @link http://stackoverflow.com/a/2440685
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file)
     {
         $cmd = sprintf('read -r LINE < %s && echo $LINE', $file->getFullPath());
 

@@ -13,7 +13,9 @@
 
 namespace StaticReview\File;
 
-interface FileInterface
+use StaticReview\Review\ReviewableInterface;
+
+interface FileInterface extends ReviewableInterface
 {
     public function getFileName();
 

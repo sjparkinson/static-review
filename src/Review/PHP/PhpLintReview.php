@@ -16,6 +16,7 @@ namespace StaticReview\Review\PHP;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class PhpLintReview extends AbstractReview
 {
@@ -25,7 +26,7 @@ class PhpLintReview extends AbstractReview
      * @param  FileInterface $file
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReviewFile(FileInterface $file)
     {
         $extension = $file->getExtension();
 
@@ -35,7 +36,7 @@ class PhpLintReview extends AbstractReview
     /**
      * Checks PHP files using the builtin PHP linter, `php -l`.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file)
     {
         $cmd = sprintf('php --syntax-check %s', $file->getFullPath());
 

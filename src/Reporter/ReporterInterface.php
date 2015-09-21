@@ -13,18 +13,18 @@
 
 namespace StaticReview\Reporter;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Review\ReviewInterface;
+use StaticReview\Review\ReviewableInterface;
 
 interface ReporterInterface
 {
-    public function report($level, $message, ReviewInterface $review, FileInterface $file);
+    public function report($level, $message, ReviewInterface $review, ReviewableInterface $subject);
 
-    public function info($message, ReviewInterface $review, FileInterface $file);
+    public function info($message, ReviewInterface $review, ReviewableInterface $subject);
 
-    public function warning($message, ReviewInterface $review, FileInterface $file);
+    public function warning($message, ReviewInterface $review, ReviewableInterface $subject);
 
-    public function error($message, ReviewInterface $review, FileInterface $file);
+    public function error($message, ReviewInterface $review, ReviewableInterface $subject);
 
     public function hasIssues();
 

@@ -55,7 +55,7 @@ class ReviewCollection extends Collection
      * file.
      *
      * @param  FileInterface $file
-     * @return bool
+     * @return ReviewCollection
      */
     public function forFile(FileInterface $file)
     {
