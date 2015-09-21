@@ -15,10 +15,10 @@ namespace StaticReview\Review\PHP;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractReview;
+use StaticReview\Review\AbstractFileReview;
 use StaticReview\Review\ReviewableInterface;
 
-class PhpCodeSnifferReview extends AbstractReview
+class PhpCodeSnifferReview extends AbstractFileReview
 {
     protected $options = [];
 

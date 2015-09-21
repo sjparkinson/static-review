@@ -15,10 +15,10 @@ namespace StaticReview\Review\Composer;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractReview;
+use StaticReview\Review\AbstractFileReview;
 use StaticReview\Review\ReviewableInterface;
 
-class ComposerSecurityReview extends AbstractReview
+class ComposerSecurityReview extends AbstractFileReview
 {
     /**
      * Check the composer.lock file for security issues.

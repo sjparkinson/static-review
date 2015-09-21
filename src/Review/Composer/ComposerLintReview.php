@@ -15,10 +15,10 @@ namespace StaticReview\Review\Composer;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractReview;
+use StaticReview\Review\AbstractFileReview;
 use StaticReview\Review\ReviewableInterface;
 
-class ComposerLintReview extends AbstractReview
+class ComposerLintReview extends AbstractFileReview
 {
     /**
      * Lint only the composer.json file.
