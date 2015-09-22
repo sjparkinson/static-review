@@ -15,10 +15,10 @@ namespace StaticReview\Review\General;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractReview;
+use StaticReview\Review\AbstractFileReview;
 use StaticReview\Review\ReviewableInterface;
 
-class NoCommitTagReview extends AbstractReview
+class NoCommitTagReview extends AbstractFileReview
 {
     /**
      * Review any text based file.

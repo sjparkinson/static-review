@@ -14,6 +14,7 @@
 namespace StaticReview\VersionControl;
 
 use StaticReview\Collection\FileCollection;
+use StaticReview\Commit\CommitMessage;
 use StaticReview\File\File;
 use StaticReview\File\FileInterface;
 use Symfony\Component\Process\Process;
@@ -49,6 +50,26 @@ class GitVersionControl implements VersionControlInterface
         }
 
         return $files;
+    }
+
+    /**
+     * Get a commit message by file or log.
+     *
+     * If no file name is provided, the last commit message will be used.
+     *
+     * @param  string $file
+     * @return CommitMessage
+     */
+    public function getCommitMessage($file = null)
+    {
+        if ($file) {
+            $hash = null;
+            $message = file_get_contents($file);
+        } else {
+            list($hash, $message) = explode(PHP_EOL, $this->getLastCommitMessage(), 2);
+        }
+
+        return new CommitMessage($message, $hash);
     }
 
     /**
@@ -102,5 +123,21 @@ class GitVersionControl implements VersionControlInterface
         $file->setCachedPath($cachedPath);
 
         return $file;
+    }
+
+    /**
+     * Get the last commit message subject and body.
+     *
+     * @return string
+     */
+    private function getLastCommitMessage()
+    {
+        // hash
+        // subject
+        // body
+        $process = new Process('git log -1 --format="%h%n%s%n%b"');
+        $process->run();
+
+        return trim($process->getOutput());
     }
 }

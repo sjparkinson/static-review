@@ -15,10 +15,10 @@ namespace StaticReview\Review\PHP;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractReview;
+use StaticReview\Review\AbstractFileReview;
 use StaticReview\Review\ReviewableInterface;
 
-class PhpLintReview extends AbstractReview
+class PhpLintReview extends AbstractFileReview
 {
     /**
      * Determins if a given file should be reviewed.

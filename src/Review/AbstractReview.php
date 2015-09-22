@@ -14,11 +14,14 @@
 namespace StaticReview\Review;
 
 use StaticReview\File\FileInterface;
+use StaticReview\Commit\CommitMessageInterface;
 use Symfony\Component\Process\Process;
 
 abstract class AbstractReview implements ReviewInterface
 {
     abstract protected function canReviewFile(FileInterface $file);
+
+    abstract protected function canReviewMessage(CommitMessageInterface $message);
 
     /**
      * Determine if the subject can be reviewed.
@@ -28,7 +31,13 @@ abstract class AbstractReview implements ReviewInterface
      */
     public function canReview(ReviewableInterface $subject)
     {
-        return $this->canReviewFile($subject);
+        if ($subject instanceof FileInterface) {
+            return $this->canReviewFile($subject);
+        }
+        if ($subject instanceof CommitMessageInterface) {
+            return $this->canReviewMessage($subject);
+        }
+        return false;
     }
 
     /**

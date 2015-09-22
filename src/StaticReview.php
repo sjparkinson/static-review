@@ -15,6 +15,7 @@ namespace StaticReview;
 
 use StaticReview\Collection\FileCollection;
 use StaticReview\Collection\ReviewCollection;
+use StaticReview\Commit\CommitMessageInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\ReviewInterface;
 
@@ -116,7 +117,20 @@ class StaticReview
             foreach ($this->getReviews()->forFile($file) as $review) {
                 $review->review($this->getReporter(), $file);
             }
+        }
 
+        return $this;
+    }
+
+    /**
+     * Runs through each review on the commit, collecting any errors.
+     *
+     * @return StaticReview
+     */
+    public function message(CommitMessageInterface $message)
+    {
+        foreach ($this->getReviews()->forMessage($message) as $review) {
+            $review->review($this->getReporter(), $message);
         }
 
         return $this;

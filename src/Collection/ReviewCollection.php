@@ -13,6 +13,7 @@
 
 namespace StaticReview\Collection;
 
+use StaticReview\Commit\CommitMessageInterface;
 use StaticReview\File\FileInterface;
 use StaticReview\Review\ReviewInterface;
 
@@ -61,6 +62,26 @@ class ReviewCollection extends Collection
     {
         $filter = function ($review) use ($file) {
             if ($review->canReview($file)) {
+                return true;
+            }
+
+            return false;
+        };
+
+        return $this->select($filter);
+    }
+
+    /**
+     * Returns a filtered ReviewCollection that should be run against the given
+     * message.
+     *
+     * @param  CommitMessage $message
+     * @return ReviewCollection
+     */
+    public function forMessage(CommitMessageInterface $message)
+    {
+        $filter = function ($review) use ($message) {
+            if ($review->canReview($message)) {
                 return true;
             }
 

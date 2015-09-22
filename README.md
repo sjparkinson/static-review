@@ -38,9 +38,12 @@ $ bin/static-review.php hook:install hooks/example-pre-commit.php ~/.../.git/hoo
 
 [composer]: https://getcomposer.org/
 
-## Example Hook
+## Example Hooks
 
-Below is a basic hook that you can extend upon.
+Static Review can be used for both files and commit message review. Below are
+basic hooks for each.
+
+### For Files
 
 ```php
 #!/usr/bin/env php
@@ -50,6 +53,7 @@ include __DIR__ . '/../../../autoload.php';
 
 // Reference the required classes.
 use StaticReview\StaticReview;
+use StaticReview\Review\General\LineEndingsReview;
 [...]
 
 $reporter = new Reporter();
@@ -61,17 +65,47 @@ $review->addReview(new LineEndingsReview());
 $git = new GitVersionControl();
 
 // Review the staged files.
-$review->review($git->getStagedFiles());
+$review->files($git->getStagedFiles());
 
 // Check if any issues were found.
 // Exit with a non-zero status to block the commit.
 ($reporter->hasIssues()) ? exit(1) : exit(0);
 ```
 
-## Example Review
+### For Commit Messages
 
 ```php
-class NoCommitTagReview extends AbstractReview
+#!/usr/bin/env php
+<?php
+
+include __DIR__ . '/../../../autoload.php';
+
+// Reference the required classes.
+use StaticReview\StaticReview;
+use StaticReview\Review\Message\BodyLineLengthReview;
+[...]
+
+$reporter = new Reporter();
+$review   = new StaticReview($reporter);
+
+// Add any reviews to the StaticReview instance, supports a fluent interface.
+$review->addReview(new BodyLineLengthReview());
+
+$git = new GitVersionControl();
+
+// Review the current commit message.
+// The hook is passed the file holding the commit message as the first argument.
+$review->message($git->getCommitMessage($argv[1]));
+
+// Check if any issues were found.
+// Exit with a non-zero status to block the commit.
+($reporter->hasIssues()) ? exit(1) : exit(0);
+```
+
+## Example Review For Files
+
+```php
+class NoCommitTagReview extends AbstractFileReview
 {
     // Review any text based file.
     public function canReviewFile(FileInterface $file)
@@ -93,6 +127,24 @@ class NoCommitTagReview extends AbstractReview
         if ($process->isSuccessful()) {
             $message = 'A NOCOMMIT tag was found';
             $reporter->error($message, $this, $file);
+        }
+    }
+}
+```
+
+## Example Review For Messages
+
+```php
+class WorkInProgressReview extends AbstractMessageReview
+{
+    // Check if the commit message contains "wip"
+    public function review(ReporterInterface $reporter, ReviewableInterface $commit)
+    {
+        $fulltext = $commit->getSubject() . PHP_EOL . $commit->getBody();
+
+        if (preg_match('/\bwip\b/i', $fulltext)) {
+            $message = 'Do not commit WIP to shared branches';
+            $reporter->error($message, $this, $commit);
         }
     }
 }

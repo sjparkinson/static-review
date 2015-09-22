@@ -15,10 +15,10 @@ namespace StaticReview\Review\General;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractReview;
+use StaticReview\Review\AbstractFileReview;
 use StaticReview\Review\ReviewableInterface;
 
-class LineEndingsReview extends AbstractReview
+class LineEndingsReview extends AbstractFileReview
 {
     /**
      * Review any text based file.
