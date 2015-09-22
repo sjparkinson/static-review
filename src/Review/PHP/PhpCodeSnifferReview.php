@@ -16,6 +16,7 @@ namespace StaticReview\Review\PHP;
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class PhpCodeSnifferReview extends AbstractReview
 {
@@ -78,7 +79,7 @@ class PhpCodeSnifferReview extends AbstractReview
      * @param  FileInterface $file
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReviewFile(FileInterface $file)
     {
         return ($file->getExtension() === 'php');
     }
@@ -86,7 +87,7 @@ class PhpCodeSnifferReview extends AbstractReview
     /**
      * Checks PHP files using PHP_CodeSniffer.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file)
     {
         $cmd = 'vendor/bin/phpcs --report=json ';
 

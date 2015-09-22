@@ -74,7 +74,7 @@ $review->review($git->getStagedFiles());
 class NoCommitTagReview extends AbstractReview
 {
     // Review any text based file.
-    public function canReview(FileInterface $file)
+    public function canReviewFile(FileInterface $file)
     {
         $mime = $file->getMimeType();
 
@@ -83,7 +83,7 @@ class NoCommitTagReview extends AbstractReview
     }
 
     // Checks if the file contains `NOCOMMIT`.
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file)
     {
         $cmd = sprintf('grep --fixed-strings --ignore-case --quiet "NOCOMMIT" %s', $file->getFullPath());
 

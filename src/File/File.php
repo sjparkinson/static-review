@@ -175,4 +175,14 @@ class File implements FileInterface
 
         return $mime;
     }
+
+    /**
+     * Get the relative path name as the reviewable name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getRelativePath();
+    }
 }

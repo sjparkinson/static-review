@@ -66,7 +66,7 @@ class IssueTest extends TestCase
 
     /**
      * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage must implement interface StaticReview\File\FileInterface
+     * @expectedExceptionMessage must implement interface StaticReview\Review\ReviewableInterface
      */
     public function testConstructWithInvalidFile()
     {
@@ -110,9 +110,9 @@ class IssueTest extends TestCase
         $this->assertSame('NoCommitTagReview', $issue->getReviewName());
     }
 
-    public function testGetFile()
+    public function testGetSubject()
     {
-        $this->assertSame($this->issueFile, $this->issue->getFile());
+        $this->assertSame($this->issueFile, $this->issue->getSubject());
     }
 
     public function testGetLevelName()
@@ -205,11 +205,13 @@ class IssueTest extends TestCase
 
     public function testToString()
     {
-        $file = $this->issue->getFile();
+        $file = $this->issue->getSubject();
 
         $file->shouldReceive('getRelativePath')
-             ->twice()
              ->andReturn('/Test');
+
+        $file->shouldReceive('getName')
+             ->andReturn($file->getRelativePath());
 
         $issueString = (string) $this->issue;
 
@@ -219,6 +221,6 @@ class IssueTest extends TestCase
         $this->assertContains($this->issue->getReviewName(), $issueStringTokens);
         $this->assertContains($this->issue->getLevelName(), $issueStringTokens);
         $this->assertContains($this->issue->getMessage(), $issueStringTokens);
-        $this->assertContains($this->issue->getFile()->getRelativePath(), $issueStringTokens);
+        $this->assertContains($this->issue->getSubject()->getRelativePath(), $issueStringTokens);
     }
 }

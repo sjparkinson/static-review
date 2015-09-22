@@ -108,7 +108,7 @@ class StaticReview
      *
      * @return StaticReview
      */
-    public function review(FileCollection $files)
+    public function files(FileCollection $files)
     {
         foreach ($files as $key => $file) {
             $this->getReporter()->progress($key + 1, count($files));

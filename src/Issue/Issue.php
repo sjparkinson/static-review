@@ -13,7 +13,7 @@
 
 namespace StaticReview\Issue;
 
-use StaticReview\File\FileInterface;
+use StaticReview\Review\ReviewableInterface;
 use StaticReview\Review\ReviewInterface;
 
 class Issue implements IssueInterface
@@ -32,26 +32,26 @@ class Issue implements IssueInterface
 
     private $review;
 
-    private $file;
+    private $subject;
 
     /**
      * Initializes a new instance of the Issue class.
      *
-     * @param int             $level
-     * @param string          $message
-     * @param ReviewInterface $review
-     * @param FileInterface   $file
+     * @param int                 $level
+     * @param string              $message
+     * @param ReviewInterface     $review
+     * @param ReviewableInterface $subject
      */
     public function __construct(
         $level,
         $message,
         ReviewInterface $review,
-        FileInterface $file
+        ReviewableInterface $subject
     ) {
         $this->level   = $level;
         $this->message = $message;
         $this->review  = $review;
-        $this->file    = $file;
+        $this->subject = $subject;
     }
 
     /**
@@ -81,11 +81,11 @@ class Issue implements IssueInterface
     }
 
     /**
-     * Gets the Issues FileInterface instance.
+     * Gets the Issues Reviewable instance.
      */
-    public function getFile()
+    public function getSubject()
     {
-        return $this->file;
+        return $this->subject;
     }
 
     /**
@@ -152,7 +152,7 @@ class Issue implements IssueInterface
             $this->getReviewName(),
             $this->getLevelName(),
             $this->getMessage(),
-            $this->getFile()->getRelativePath()
+            $this->getSubject()->getName()
         );
     }
 }

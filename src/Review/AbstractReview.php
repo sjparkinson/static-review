@@ -13,10 +13,24 @@
 
 namespace StaticReview\Review;
 
+use StaticReview\File\FileInterface;
 use Symfony\Component\Process\Process;
 
 abstract class AbstractReview implements ReviewInterface
 {
+    abstract protected function canReviewFile(FileInterface $file);
+
+    /**
+     * Determine if the subject can be reviewed.
+     *
+     * @param  ReviewableInterface $subject
+     * @return boolean
+     */
+    public function canReview(ReviewableInterface $subject)
+    {
+        return $this->canReviewFile($subject);
+    }
+
     /**
      * @param string      $commandline
      * @param null|string $cwd

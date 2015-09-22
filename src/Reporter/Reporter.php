@@ -14,9 +14,9 @@
 namespace StaticReview\Reporter;
 
 use StaticReview\Collection\IssueCollection;
-use StaticReview\File\FileInterface;
 use StaticReview\Issue\Issue;
 use StaticReview\Review\ReviewInterface;
+use StaticReview\Review\ReviewableInterface;
 
 class Reporter implements ReporterInterface
 {
@@ -35,21 +35,21 @@ class Reporter implements ReporterInterface
 
     public function progress($current, $total)
     {
-        echo sprintf("Reviewing file %d of %d.\r", $current, $total);
+        echo sprintf("Reviewing %d of %d.\r", $current, $total);
     }
 
     /**
      * Reports an Issue raised by a Review.
      *
-     * @param  int             $level
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
+     * @param  int                 $level
+     * @param  string              $message
+     * @param  ReviewInterface     $review
+     * @param  ReviewableInterface $subject
      * @return Reporter
      */
-    public function report($level, $message, ReviewInterface $review, FileInterface $file)
+    public function report($level, $message, ReviewInterface $review, ReviewableInterface $subject)
     {
-        $issue = new Issue($level, $message, $review, $file);
+        $issue = new Issue($level, $message, $review, $subject);
 
         $this->issues->append($issue);
 
@@ -59,14 +59,14 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Info Issue raised by a Review.
      *
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
+     * @param  string              $message
+     * @param  ReviewInterface     $review
+     * @param  ReviewableInterface $subject
      * @return Reporter
      */
-    public function info($message, ReviewInterface $review, FileInterface $file)
+    public function info($message, ReviewInterface $review, ReviewableInterface $subject)
     {
-        $this->report(Issue::LEVEL_INFO, $message, $review, $file);
+        $this->report(Issue::LEVEL_INFO, $message, $review, $subject);
 
         return $this;
     }
@@ -74,14 +74,14 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Warning Issue raised by a Review.
      *
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
+     * @param  string              $message
+     * @param  ReviewInterface     $review
+     * @param  ReviewableInterface $subject
      * @return Reporter
      */
-    public function warning($message, ReviewInterface $review, FileInterface $file)
+    public function warning($message, ReviewInterface $review, ReviewableInterface $subject)
     {
-        $this->report(Issue::LEVEL_WARNING, $message, $review, $file);
+        $this->report(Issue::LEVEL_WARNING, $message, $review, $subject);
 
         return $this;
     }
@@ -89,14 +89,14 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Error Issue raised by a Review.
      *
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
+     * @param  string              $message
+     * @param  ReviewInterface     $review
+     * @param  ReviewableInterface $subject
      * @return Reporter
      */
-    public function error($message, ReviewInterface $review, FileInterface $file)
+    public function error($message, ReviewInterface $review, ReviewableInterface $subject)
     {
-        $this->report(Issue::LEVEL_ERROR, $message, $review, $file);
+        $this->report(Issue::LEVEL_ERROR, $message, $review, $subject);
 
         return $this;
     }

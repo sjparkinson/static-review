@@ -94,6 +94,6 @@ class StaticReviewTest extends TestCase
 
         $this->staticReview->addReviews($reviews);
 
-        $this->assertSame($this->staticReview, $this->staticReview->review($files));
+        $this->assertSame($this->staticReview, $this->staticReview->files($files));
     }
 }

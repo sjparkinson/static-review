@@ -21,5 +21,5 @@ interface IssueInterface
 
     public function getMessage();
 
-    public function getFile();
+    public function getSubject();
 }
