@@ -49,7 +49,7 @@ $review->addReview(new LineEndingsReview())
        ->addReview(new ComposerLintReview());
 
 // Review the staged files.
-$review->review($git->getStagedFiles());
+$review->files($git->getStagedFiles());
 
 // Check if any matching issues were found.
 if ($reporter->hasIssues()) {
