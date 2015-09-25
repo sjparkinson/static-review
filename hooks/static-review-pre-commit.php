@@ -55,7 +55,7 @@ $codeSniffer->setOption('standard', 'PSR2');
 $review->addReview($codeSniffer);
 
 // Review the staged files.
-$review->review($git->getStagedFiles());
+$review->hooks($git->getStagedFiles());
 
 // Check if any matching issues were found.
 if ($reporter->hasIssues()) {
