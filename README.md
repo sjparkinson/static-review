@@ -38,6 +38,25 @@ $ bin/static-review.php hook:install hooks/example-pre-commit.php ~/.../.git/hoo
 
 [composer]: https://getcomposer.org/
 
+### Global Installation and Usage
+
+The hooks can also be used for any project if you install `static-review` globally:
+
+```bash
+$ composer g require sjparkinson/static-review
+```
+
+Then, just install the hooks as you would normally but reference the global
+installation path:
+
+```bash
+$ static-review.php hook:install ~/.composer/vendor/sjparkinson/static-review/hooks/static-review-commit-msg.php .git/hooks/commit-msg
+```
+
+This assumes you have set up [global composer paths][global-composer].
+
+[global-composer]: https://getcomposer.org/doc/03-cli.md#global
+
 ## Example Hooks
 
 Static Review can be used for both files and commit message review. Below are
