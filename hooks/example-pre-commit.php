@@ -39,7 +39,7 @@ $review->addReview(new LineEndingsReview());
 $git = new GitVersionControl();
 
 // Review the staged files.
-$review->review($git->getStagedFiles());
+$review->files($git->getStagedFiles());
 
 echo PHP_EOL;
 
