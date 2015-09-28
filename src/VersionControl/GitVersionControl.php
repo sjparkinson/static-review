@@ -42,7 +42,7 @@ class GitVersionControl implements VersionControlInterface
         foreach ($this->getFiles() as $file) {
             list($status, $relativePath) = explode("\t", $file);
 
-            $fullPath = $base . DIRECTORY_SEPARATOR . $relativePath;
+            $fullPath = trim($base . DIRECTORY_SEPARATOR . $relativePath);
 
             $file = new File($status, $fullPath, $base);
             $this->saveFileToCache($file);
@@ -96,7 +96,7 @@ class GitVersionControl implements VersionControlInterface
         $process->run();
 
         if ($process->isSuccessful()) {
-            return array_filter(explode(PHP_EOL, $process->getOutput()));
+            return array_filter(explode("\n", $process->getOutput()));
         }
 
         return [];
