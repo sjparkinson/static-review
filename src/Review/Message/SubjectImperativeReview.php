@@ -96,7 +96,7 @@ class SubjectImperativeReview extends AbstractMessageReview
 
     public function review(ReporterInterface $reporter, ReviewableInterface $commit)
     {
-        $regex = '/^(?:' . implode('|', $this->incorrect) . ')/i';
+        $regex = '/^(?:' . implode('|', $this->incorrect) . ')\b/i';
         if (preg_match($regex, $commit->getSubject())) {
             $message = 'Subject line must use imperative present tense';
             $reporter->error($message, $this, $commit);
