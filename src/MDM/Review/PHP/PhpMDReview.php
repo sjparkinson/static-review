@@ -8,7 +8,7 @@ use MDM\Review\AbstractReview;
 
 class PhpMDReview extends AbstractReview
 {
-    const PHP_MD_RULESET = 'codesize,unusedcode,controversial';
+    const PHP_MD_RULESET = 'codesize,unusedcode,controversial,naming,design';
 
     /**
      * Determins if a given file should be reviewed.

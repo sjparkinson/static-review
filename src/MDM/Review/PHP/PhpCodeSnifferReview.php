@@ -47,8 +47,8 @@ class PhpCodeSnifferReview extends AbstractReview
     /**
      * Adds an option to be included when running PHP_CodeSniffer. Overwrites the values of options with the same name.
      *
-     * @param  string               $option
-     * @param  string               $value
+     * @param  string $option
+     * @param  string $value
      *
      * @return PhpCodeSnifferReview
      */
@@ -91,7 +91,7 @@ class PhpCodeSnifferReview extends AbstractReview
         $process = $this->getProcess($cmd);
         $process->run();
 
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             // Create the array of outputs and remove empty values.
             $output = json_decode($process->getOutput(), true);
 
