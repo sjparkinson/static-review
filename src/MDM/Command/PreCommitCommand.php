@@ -4,6 +4,7 @@ namespace MDM\Command;
 
 use MDM\PostCmd;
 use MDM\Review\Cmd\PhpUnitReview;
+use MDM\Review\JSON\JsonLintReview;
 use MDM\Review\PHP\PhpLintReview;
 use MDM\Review\PHP\PhpCsFixerReview;
 use MDM\Review\PHP\ComposerReview;
@@ -61,6 +62,7 @@ class PreCommitCommand extends Command
           ->addReview(new PhpCsFixerReview(self::AUTO_ADD_GIT))
           ->addReview(new PhpMDReview())
           ->addReview(new YmlLintReview())
+          ->addReview(new JsonLintReview())
           ->addReview(new XmlLintReview())
           ->addReview(new GitConflictReview())
           ->addReview(new NoCommitTagReview());

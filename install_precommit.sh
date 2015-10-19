@@ -17,6 +17,13 @@ sudo bash <<EOF
 EOF
 fi
 
+if ! type jsonlint > /dev/null; then
+echo "JsonLint install..."
+sudo bash <<EOF
+	apt-get install jsonlint
+EOF
+fi
+
 composer global require 'sebastian/phpcpd=*'
 composer global require 'fabpot/php-cs-fixer @stable'
 composer global require 'phpmd/phpmd=@stable'
