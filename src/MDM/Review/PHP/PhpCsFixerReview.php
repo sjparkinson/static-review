@@ -8,7 +8,7 @@ use MDM\Review\AbstractReview;
 
 class PhpCsFixerReview extends AbstractReview
 {
-    const PHP_CS_FIXER_FILTERS = 'linefeed,extra_empty_lines,encoding,short_tag,braces,elseif,eof_ending,function_call_space,function_declaration,indentation,line_after_namespace,lowercase_constants,lowercase_keywords,operators_spaces,method_argument_space,multiple_use,parenthesis,php_closing_tag,trailing_spaces,visibility,extra_empty_lines,object_operator,phpdoc_scalar,phpdoc_indent,phpdoc_separation,remove_lines_between_uses,return,spaces_cast,standardize_not_equal,ternary_spaces,unused_use,whitespacy_lines,align_double_arrow';
+    const PHP_CS_FIXER_FILTERS = 'linefeed,extra_empty_lines,encoding,short_tag,braces,elseif,eof_ending,function_call_space,function_declaration,indentation,line_after_namespace,lowercase_constants,lowercase_keywords,operators_spaces,method_argument_space,multiple_use,parenthesis,php_closing_tag,trailing_spaces,visibility,extra_empty_lines,object_operator,phpdoc_scalar,phpdoc_indent,phpdoc_separation,phpdoc_no_package,phpdoc_no_empty_return,phpdoc_no_access,phpdoc_types,remove_lines_between_uses,return,spaces_cast,standardize_not_equal,ternary_spaces,unused_use,whitespacy_lines,align_double_arrow,new_with_braces,self_accessor,single_quote,spaces_before_semicolon';
 
     protected $autoAddGit;
 

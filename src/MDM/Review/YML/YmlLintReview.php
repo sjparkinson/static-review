@@ -2,6 +2,7 @@
 
 namespace MDM\Review\YML;
 
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use MDM\File\FileInterface;
 use MDM\Reporter\ReporterInterface;
@@ -24,11 +25,11 @@ class YmlLintReview extends AbstractReview
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         // delete PHP code in yaml files to avoid ParseException
-        $ymlData = preg_replace("|(<\?php.*\?>)|i", "", file_get_contents($file->getFullPath()));
+        $ymlData = preg_replace("|(<\?php.*\?>)|i", '', file_get_contents($file->getFullPath()));
         try {
             Yaml::parse($ymlData);
         } catch (ParseException $e) {
-            $reporter->error("Unable to parse the YAML file", $this, $file);
+            $reporter->error('Unable to parse the YAML file', $this, $file);
         }
     }
 }

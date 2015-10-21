@@ -87,6 +87,7 @@ if [ -d src/MDM/Rules ]; then
     if [ ! -d $HOME/.precommitRules ]; then
         mkdir $HOME/.precommitRules
     fi
+    echo "copying precommit linter rules"
     rsync -avh src/MDM/Rules/ $HOME/.precommitRules/
 fi
 
