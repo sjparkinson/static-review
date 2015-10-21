@@ -1,15 +1,15 @@
 <?php
 
-namespace MDM\Review\PHP;
+namespace MDM\Review\SCSS;
 
 use MDM\File\FileInterface;
 use MDM\Reporter\ReporterInterface;
 use MDM\Review\AbstractReview;
 
-class PhpMDReview extends AbstractReview
+class ScssLintReview extends AbstractReview
 {
-    const PHP_MD_RULESET = 'codesize,unusedcode,controversial,naming,design';
-    const PHP_MD_RULE_DIR = '~/.precommitRules/phpmd.xml';
+    // Check rules on http://eslint.org/demo/
+    const SCSS_SCSSLINT_RULE_DIR = '~/.precommitRules/.scss-lint.yml';
 
     /**
      * Determins if a given file should be reviewed.
@@ -20,23 +20,23 @@ class PhpMDReview extends AbstractReview
      */
     public function canReview(FileInterface $file = null)
     {
-        return (parent::canReview($file) && $file->getExtension() === 'php');
+        return (parent::canReview($file) && $file->getExtension() === 'scss');
     }
+
     /**
-     * Checks PHP files using the builtin PHP linter, `php -l`.
+     * Checks SCSS files using the builtin eslint, `eslint`.
      */
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         // PHP Mess Detector
-        $cmd = sprintf('phpmd %s text %s', $file->getFullPath(), self::PHP_MD_RULE_DIR);
+        $cmd = sprintf('scss-lint -c %s %s', self::SCSS_SCSSLINT_RULE_DIR, $file->getFullPath());
         $process = $this->getProcess($cmd);
         $process->run();
         // Create the array of outputs and remove empty values.
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             foreach ($output as $error) {
-                $error = preg_replace("/:[0-9]*/", "", $error);
-                $error = str_replace("\t", ' ', $error);
+                $error = preg_replace("/:([0-9]+)/", "Line $1:", $error);
                 $message = trim(str_replace($file->getFullPath(), '', $error));
                 $reporter->warning($message, $this, $file);
             }

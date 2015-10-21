@@ -2,6 +2,10 @@
 
 # Install Pre-commit
 
+# =============================
+# INSTALL composer
+# =============================
+
 if ! type composer > /dev/null; then
 echo "Composer Global install..."
 sudo bash <<EOF
@@ -10,6 +14,10 @@ sudo bash <<EOF
 EOF
 fi
 
+# =============================
+# INSTALL xmllint
+# =============================
+
 if ! type xmllint > /dev/null; then
 echo "LibXml install..."
 sudo bash <<EOF
@@ -17,12 +25,74 @@ sudo bash <<EOF
 EOF
 fi
 
+# =============================
+# INSTALL jsonlint
+# =============================
+
 if ! type jsonlint > /dev/null; then
 echo "JsonLint install..."
 sudo bash <<EOF
 	apt-get install jsonlint
 EOF
 fi
+
+# =============================
+# INSTALL nodejs & npm & Eslint
+# =============================
+
+if ! type nodejs > /dev/null; then
+echo "nodejs install..."
+sudo bash <<EOF
+	apt-get install nodejs
+EOF
+fi
+
+if ! type npm > /dev/null; then
+echo "npm install..."
+sudo bash <<EOF
+	curl https://www.npmjs.com/install.sh | sh
+EOF
+fi
+
+if ! type eslint > /dev/null; then
+echo "Eslint install..."
+sudo bash <<EOF
+	npm install -g eslint
+EOF
+fi
+
+# =============================
+# INSTALL scss_lint
+# =============================
+
+if ! type gem > /dev/null; then
+echo "rubygems install..."
+sudo bash <<EOF
+	apt-get install rubygems
+EOF
+fi
+
+if ! type scss-lint > /dev/null; then
+echo "scss-lint install..."
+sudo bash <<EOF
+	gem install scss_lint
+EOF
+fi
+
+# =============================
+# Copying rules
+# =============================
+
+if [ -d src/MDM/Rules ]; then
+    if [ ! -d $HOME/.precommitRules ]; then
+        mkdir $HOME/.precommitRules
+    fi
+    rsync -avh src/MDM/Rules/ $HOME/.precommitRules/
+fi
+
+# =============================
+# Composer dependencies
+# =============================
 
 composer global require 'sebastian/phpcpd=*'
 composer global require 'fabpot/php-cs-fixer @stable'
@@ -42,6 +112,10 @@ if [ -d "$COMPOSERPATH" ] && [[ :$PATH: != *:"$COMPOSERPATH":* ]] ; then
 fi
 
 composer install
+
+# =============================
+# Build pre-commit
+# =============================
 
 box build
 
