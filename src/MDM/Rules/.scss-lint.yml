@@ -70,6 +70,7 @@ linters:
     width: 2
 
   LeadingZero:
+    enabled: false
     severity: error
     style: exclude_zero
 
@@ -78,6 +79,7 @@ linters:
     force_nesting: false
 
   NameFormat:
+    enabled: false
     severity: error
     allow_leading_underscore: false
     convention: hyphenated_lowercase
@@ -122,6 +124,7 @@ linters:
     allow_element_with_id: false
 
   SelectorDepth:
+    enabled: false
     severity: warn
     max_depth: 3
 
@@ -131,6 +134,7 @@ linters:
     convention: hyphenated_lowercase
 
   Shorthand:
+    enabled: false
     severity: error
 
   SingleLinePerProperty:
@@ -138,6 +142,7 @@ linters:
     allow_single_line_rule_sets: true
 
   SingleLinePerSelector:
+    enabled: false
     severity: error
 
   SpaceAfterComma:
@@ -160,6 +165,7 @@ linters:
     spaces: 0
 
   StringQuotes:
+    enabled: false
     severity: error
     style: single_quotes
 

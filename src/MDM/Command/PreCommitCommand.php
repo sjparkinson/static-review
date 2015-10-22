@@ -13,6 +13,7 @@ use MDM\Review\PHP\PhpStopWordsReview;
 use MDM\Review\PHP\PhpCPDReview;
 use MDM\Review\PHP\PhpMDReview;
 use MDM\Review\PHP\PhpCodeSnifferReview;
+use MDM\Review\SCSS\SassConvertFixerReview;
 use MDM\Review\SCSS\ScssLintReview;
 use MDM\Review\YML\YmlLintReview;
 use MDM\Review\XML\XmlLintReview;
@@ -62,6 +63,7 @@ class PreCommitCommand extends Command
           ->addReview(new PhpCPDReview())
           ->addReview(new JsStopWordsReview())
           ->addReview(new EsLintReview(self::AUTO_ADD_GIT))
+          ->addReview(new SassConvertFixerReview(self::AUTO_ADD_GIT))
           ->addReview(new ScssLintReview())
           ->addReview(new PhpCsFixerReview(self::AUTO_ADD_GIT))
           ->addReview(new PhpMDReview())

@@ -50,7 +50,7 @@ fi
 if ! type npm > /dev/null; then
 echo "npm install..."
 sudo bash <<EOF
-	curl https://www.npmjs.com/install.sh | sh
+	apt-get install npm
 EOF
 fi
 
@@ -72,6 +72,13 @@ sudo bash <<EOF
 EOF
 fi
 
+if ! type sass-convert > /dev/null; then
+echo "sass install..."
+sudo bash <<EOF
+	gem install sass
+EOF
+fi
+
 if ! type scss-lint > /dev/null; then
 echo "scss-lint install..."
 sudo bash <<EOF
@@ -87,8 +94,8 @@ if [ -d src/MDM/Rules ]; then
     if [ ! -d $HOME/.precommitRules ]; then
         mkdir $HOME/.precommitRules
     fi
-    echo "copying precommit linter rules"
-    rsync -avh src/MDM/Rules/ $HOME/.precommitRules/
+    echo "updating precommit linter rules..."
+    rsync -avh src/MDM/Rules/ $HOME/.precommitRules/ > /dev/null
 fi
 
 # =============================
