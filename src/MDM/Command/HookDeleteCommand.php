@@ -11,7 +11,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class HookDeleteCommand extends Command
 {
-
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this->setName('delete');
@@ -19,6 +21,9 @@ class HookDeleteCommand extends Command
         $this->setDescription('Delete MDM precommit in a git repo');
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $git = new GitVersionControl();
@@ -27,8 +32,8 @@ class HookDeleteCommand extends Command
 
         $helper = $this->getHelperSet()->get('question');
         $question = new ConfirmationQuestion(
-            'Etes vous certain de vouloir supprimer le Pre-commit de ce projet ? [y/N]: ',
-            false
+          'Etes vous certain de vouloir supprimer le Pre-commit de ce projet ? [y/N]: ',
+          false
         );
 
         if (!$helper->ask($input, $output, $question)) {
@@ -41,7 +46,7 @@ class HookDeleteCommand extends Command
             exit(1);
         }
 
-        $target = $hookDir.'/pre-commit';
+        $target = $hookDir . '/pre-commit';
         $fs = new Filesystem();
         if (is_file($target)) {
             $fs->remove($target);

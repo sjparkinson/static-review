@@ -14,6 +14,9 @@ class HookInstallCommand extends Command
 {
     const PHPUNIT_DEFAULT_CONF_FILENAME = 'phpunit.xml.dist';
 
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this->setName('install');
@@ -21,6 +24,9 @@ class HookInstallCommand extends Command
         $this->setDescription('Install MDM precommit in a git repo');
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $git = new GitVersionControl();
@@ -28,8 +34,8 @@ class HookInstallCommand extends Command
 
         $helper = $this->getHelperSet()->get('question');
         $question = new ConfirmationQuestion(
-            'Activer PhpUnit ? [Y/n]: ',
-            'y'
+          'Activer PhpUnit ? [Y/n]: ',
+          'y'
         );
         $phpunit = $helper->ask($input, $output, $question);
 
@@ -51,7 +57,7 @@ class HookInstallCommand extends Command
         $precommitCommand = sprintf('precommit check%s', $phpunit ? ' --phpunit true' : '');
         if ($phpunitPath != '') {
             $phpunitPath .= (substr($phpunitPath, -1) != '/') ? '/' : '';
-            $phpunitConfFile = $source.'/'.$phpunitPath.self::PHPUNIT_DEFAULT_CONF_FILENAME;
+            $phpunitConfFile = $source . '/' . $phpunitPath . self::PHPUNIT_DEFAULT_CONF_FILENAME;
             if (!is_file($phpunitConfFile)) {
                 $message = sprintf('<error>No phpunit conf file found "%s"</error>', $phpunitConfFile);
                 $output->writeln($message);
@@ -59,9 +65,9 @@ class HookInstallCommand extends Command
             }
         }
 
-        $precommitCommand .= ($phpunitPath != '') ? ' --phpunit-conf '.$phpunitPath : '';
+        $precommitCommand .= ($phpunitPath != '') ? ' --phpunit-conf ' . $phpunitPath : '';
 
-        $target = $hookDir.'/pre-commit';
+        $target = $hookDir . '/pre-commit';
         $fs = new Filesystem();
         if (!is_file($target)) {
             $fileContent = sprintf("#!/bin/sh\n%s", $precommitCommand);

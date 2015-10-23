@@ -24,9 +24,11 @@ use Symfony\Component\Console\Helper\Table;
 
 class HookListCommand extends Command
 {
-
     protected $workspacePath;
 
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this->setName('listRepo');
@@ -34,6 +36,9 @@ class HookListCommand extends Command
         $this->addArgument('path', InputArgument::OPTIONAL, 'workspace directory path ?');
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->workspacePath = $input->getArgument('path');
@@ -43,7 +48,7 @@ class HookListCommand extends Command
             $this->workspacePath = $helper->ask($input, $output, $question);
         }
 
-        $this->workspacePath .= (substr($this->workspacePath, -1) != '/') ?  '/' : '';
+        $this->workspacePath .= (substr($this->workspacePath, -1) != '/') ? '/' : '';
 
         if (!is_dir($this->workspacePath)) {
             $error = sprintf('<error>The workspace directory does not exist (%s)</error>', $this->workspacePath);
@@ -66,9 +71,9 @@ class HookListCommand extends Command
                 $precommitStatus = $this->getPrecommitStatus($file);
                 $projectInfoPath = explode('/', str_replace('/.git', '', $file->getPathInfo()->getPathname()));
                 $projects[] = array(
-                    'name'          => end($projectInfoPath),
-                    'path'          => str_replace('/.git', '', $this->workspacePath.$file->getRelativePath()),
-                    'mdm_precommit' => $precommitStatus
+                  'name'          => end($projectInfoPath),
+                  'path'          => str_replace('/.git', '', $this->workspacePath . $file->getRelativePath()),
+                  'mdm_precommit' => $precommitStatus
                 );
                 $progress->advance();
             }
@@ -77,18 +82,20 @@ class HookListCommand extends Command
         }
 
         if (count($projects) > 0) {
-            uasort($projects, function ($a, $b) {
-                if ($a['mdm_precommit'] == $b['mdm_precommit']) {
-                    return 0;
-                }
+            uasort(
+              $projects,
+              function ($a, $b) {
+                  if ($a['mdm_precommit'] == $b['mdm_precommit']) {
+                      return 0;
+                  }
 
-                return ($a['mdm_precommit'] > $b['mdm_precommit']) ? -1 : 1;
-            });
+                  return ($a['mdm_precommit'] > $b['mdm_precommit']) ? -1 : 1;
+              }
+            );
             $table = new Table($output);
             $table
-                ->setHeaders(array('NAME', 'PROJECT PATH', 'PRECOMMIT ?'))
-                ->setRows($projects)
-            ;
+              ->setHeaders(array('NAME', 'PROJECT PATH', 'PRECOMMIT ?'))
+              ->setRows($projects);
             $table->render($output);
         } else {
             $message = sprintf('<comment>No GIT repositories found</comment>');
@@ -98,10 +105,17 @@ class HookListCommand extends Command
         exit(0);
     }
 
+    /**
+     * Get precommit status
+     *
+     * @param $file
+     *
+     * @return string
+     */
     protected function getPrecommitStatus($file)
     {
         $finder = new Finder();
-        $finder = $finder->files()->ignoreDotFiles(false)->ignoreVCS(false)->in($this->workspacePath.$file->getRelativePath());
+        $finder = $finder->files()->ignoreDotFiles(false)->ignoreVCS(false)->in($this->workspacePath . $file->getRelativePath());
         $preCommitFiles = $finder->files()->path('/hooks/')->name('/pre-commit$/');
 
         $preCommitFile = $preCommitFiles->contains('precommit check --phpunit true');
