@@ -1,5 +1,7 @@
 # static-review [![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
 
+[![Join the chat at https://gitter.im/sjparkinson/static-review](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sjparkinson/static-review?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat)][php]
 
