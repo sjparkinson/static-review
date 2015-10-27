@@ -3,6 +3,8 @@
 [![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat)][php]
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sjparkinson/static-review)
+
 An extendable framework for version control hooks.
 
 ![StaticReview Success Demo](http://i.imgur.com/8G3uORp.gif)
