@@ -58,6 +58,34 @@ abstract class AbstractReview implements ReviewInterface
         $timeout = 60,
         array $options = []
     ) {
+        if (null === $cwd) {
+            $cwd = $this->getRootDirectory();
+        }
         return new Process($commandline, $cwd, $env, $input, $timeout, $options);
+    }
+
+    /**
+     * Get the root directory for a process command.
+     *
+     * @return string
+     */
+    private function getRootDirectory()
+    {
+        static $root;
+
+        if (!$root) {
+            $working = getcwd();
+            $myself  = __DIR__;
+
+            if (0 === strpos($myself, $working)) {
+                // Local installation, the working directory is the root
+                $root = $working;
+            } else {
+                // Global installation, back up above the vendor/ directory
+                $root = realpath($myself . '/../../../../../');
+            }
+        }
+
+        return $root;
     }
 }
