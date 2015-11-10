@@ -38,7 +38,14 @@ class CommitMessage implements CommitMessageInterface
      */
     public function __construct($message, $hash = null)
     {
+        // Strip out the diff that is included in the commit message when
+        // using `git commit -v` as we should not check it as text.
+        list($message) = preg_split('/# \-+ >8 \-+/', $message, 2);
+
+        // Remove all comment lines from the message
         $message = preg_replace('/^#.*/m', '', $message);
+
+        // Split the message by newlines
         $message = preg_split('/(\r?\n)+/', trim($message));
 
         $this->subject = array_shift($message);
