@@ -62,7 +62,7 @@ class CheckRequirementsCommand extends Command
         if (!ini_get('phar.readonly')) {
             $padding->result('OK');
         } else {
-            $padding->result('not OK');
+            $padding->result('not OK (set "phar.readonly = Off" on your php.ini)');
         }
 
         if (!$hasError) {

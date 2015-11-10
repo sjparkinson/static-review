@@ -48,9 +48,11 @@ class EsLintReview extends AbstractReview
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
         if (!$process->isSuccessful()) {
             foreach (array_slice($output, 0, -2) as $error) {
-                $error = preg_replace("/:([0-9]+):[0-9]+:/", "Line $1:", $error);
+                preg_match('/(.*):([0-9]+):[0-9]+:(.*)/i', $error, $matches);
+                $line = isset($matches[2]) ? $matches[2] : null;
+                $error = $matches[1] . $matches[3];
                 $message = trim(str_replace($file->getFullPath(), '', $error));
-                $reporter->warning($message, $this, $file);
+                $reporter->warning($message, $this, $file, $line);
 
                 if ($this->autoAddGit) {
                     $cmd = sprintf('git add %s', $file->getFullPath());

@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
 class GitVersionControl implements VersionControlInterface
 {
     const CACHE_DIR = '/mdm.precommit-review/cached/';
+
     /**
      * Gets a list of the files currently staged under git.
      *
@@ -34,6 +35,7 @@ class GitVersionControl implements VersionControlInterface
 
         return $files;
     }
+
     /**
      * Gets the projects base directory.
      *
@@ -46,6 +48,7 @@ class GitVersionControl implements VersionControlInterface
 
         return trim($process->getOutput());
     }
+
     /**
      * Gets the list of files from the index.
      *
@@ -61,6 +64,7 @@ class GitVersionControl implements VersionControlInterface
 
         return [];
     }
+
     /**
      * Saves a copy of the cached version of the given file to a temp directory.
      *
@@ -71,7 +75,7 @@ class GitVersionControl implements VersionControlInterface
     private function saveFileToCache(FileInterface $file)
     {
         $cachedPath = sys_get_temp_dir() . self::CACHE_DIR . $file->getRelativePath();
-        if (! is_dir(dirname($cachedPath))) {
+        if (!is_dir(dirname($cachedPath))) {
             mkdir(dirname($cachedPath), 0700, true);
         }
         $cmd = sprintf('git show :%s > %s', $file->getRelativePath(), $cachedPath);

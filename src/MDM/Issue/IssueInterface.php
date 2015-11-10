@@ -8,4 +8,5 @@ interface IssueInterface
     public function getLevelName();
     public function getMessage();
     public function getFile();
+    public function getLine();
 }

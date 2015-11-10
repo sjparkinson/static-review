@@ -29,7 +29,9 @@ class YmlLintReview extends AbstractReview
         try {
             Yaml::parse($ymlData);
         } catch (ParseException $e) {
-            $reporter->error('Unable to parse the YAML file', $this, $file);
+            preg_match('/at line ([0-9]+)/i', $e->getMessage(), $matches);
+            $line = isset($matches[1]) ? $matches[1] : null;
+            $reporter->error('Unable to parse the YAML file', $this, $file, $line);
         }
     }
 }

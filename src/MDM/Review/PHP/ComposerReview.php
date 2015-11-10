@@ -24,9 +24,9 @@ class ComposerReview extends AbstractReview
             $this->composerLockDetected = true;
         }
 
-        // Check if we are ont the Last File
-        if (($reporter->getCurrent() == $reporter->getTotal()) && $this->composerJsonDetected && !$this->composerLockDetected) {
-            $reporter->error("You must commit composer.lock with composer.json", $this);
+        // Check if we are on the Last File
+        if ((($reporter->getCurrent() + 1) == $reporter->getTotal()) && $this->composerJsonDetected && !$this->composerLockDetected) {
+            $reporter->warning('You must commit composer.lock with composer.json', $this);
         }
     }
 }

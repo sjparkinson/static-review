@@ -18,6 +18,7 @@ class Issue implements IssueInterface
     private $level;
     private $message;
     private $review;
+    private $line;
     private $file;
 
     /**
@@ -27,21 +28,20 @@ class Issue implements IssueInterface
      * @param string          $message
      * @param ReviewInterface $review
      * @param FileInterface   $file
+     * @param int   $line
      */
     public function __construct(
       $level,
       $message,
       ReviewInterface $review,
-      FileInterface $file = null
+      FileInterface $file = null,
+      $line = null
     ) {
         $this->level = $level;
         $this->message = $message;
         $this->review = $review;
-        if (!is_null($file)) {
-            $this->file = $file;
-        } else {
-            $this->file = '';
-        }
+        $this->file = $file ?: '';
+        $this->line = $line;
     }
 
     /**
@@ -76,6 +76,22 @@ class Issue implements IssueInterface
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLine()
+    {
+        return $this->line;
+    }
+
+    /**
+     * @param mixed $line
+     */
+    public function setLine($line)
+    {
+        $this->line = $line;
     }
 
     /**
@@ -133,17 +149,11 @@ class Issue implements IssueInterface
     {
         $filename = $this->getFile() != '' ? $this->getFile()->getRelativePath() : '';
 
-        if ($filename != '') {
-            return sprintf(
-              "   • %s in %s",
-              $this->getMessage(),
-              $filename
-            );
-        } else {
-            return sprintf(
-              "   • %s",
-              $this->getMessage()
-            );
-        }
+        return sprintf(
+          '   • %s%s%s',
+          $this->getMessage(),
+          ($filename != '') ? sprintf(' in %s', $filename) : '',
+          $this->getLine() ? sprintf(' on line %d', $this->getLine()) : ''
+        );
     }
 }

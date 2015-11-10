@@ -82,27 +82,38 @@ class HookListCommand extends Command
         }
 
         if (count($projects) > 0) {
-            uasort(
-              $projects,
-              function ($a, $b) {
-                  if ($a['mdm_precommit'] == $b['mdm_precommit']) {
-                      return 0;
-                  }
-
-                  return ($a['mdm_precommit'] > $b['mdm_precommit']) ? -1 : 1;
-              }
-            );
-            $table = new Table($output);
-            $table
-              ->setHeaders(array('NAME', 'PROJECT PATH', 'PRECOMMIT ?'))
-              ->setRows($projects);
-            $table->render($output);
+            $this->displayProjects($projects, $output);
         } else {
             $message = sprintf('<comment>No GIT repositories found</comment>');
             $output->writeln($message);
         }
 
         exit(0);
+    }
+
+    /**
+     * Display Projects
+     *
+     * @param $projects
+     * @param $output
+     */
+    protected function displayProjects($projects, $output)
+    {
+        uasort(
+          $projects,
+          function ($a, $b) {
+              if ($a['mdm_precommit'] == $b['mdm_precommit']) {
+                  return 0;
+              }
+
+              return ($a['mdm_precommit'] > $b['mdm_precommit']) ? -1 : 1;
+          }
+        );
+        $table = new Table($output);
+        $table
+          ->setHeaders(array('NAME', 'PROJECT PATH', 'PRECOMMIT ?'))
+          ->setRows($projects);
+        $table->render($output);
     }
 
     /**
