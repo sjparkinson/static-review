@@ -39,7 +39,7 @@ class SassConvertFixerReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
-        $cmd = sprintf(' sass-convert --indent %d --from scss --to scss --in-place %s', self::NB_INDENT_SPACE, $file->getFullPath());
+        $cmd = sprintf('sass-convert --indent %d --from scss --to scss --in-place %s', self::NB_INDENT_SPACE, $file->getFullPath());
         $process = $this->getProcess($cmd);
         $process->run();
         if ($process->isSuccessful()) {

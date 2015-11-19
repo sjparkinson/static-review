@@ -63,7 +63,7 @@ class PreCommitCommand extends Command
           ->addReview(new PhpCPDReview())
           ->addReview(new JsStopWordsReview())
           ->addReview(new EsLintReview(self::AUTO_ADD_GIT))
-          ->addReview(new SassConvertFixerReview(self::AUTO_ADD_GIT))
+          //->addReview(new SassConvertFixerReview(self::AUTO_ADD_GIT))
           ->addReview(new ScssLintReview())
           ->addReview(new PhpCsFixerReview(self::AUTO_ADD_GIT))
           ->addReview(new PhpMDReview())
