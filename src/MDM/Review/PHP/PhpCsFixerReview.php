@@ -8,12 +8,13 @@ use MDM\Review\AbstractReview;
 
 class PhpCsFixerReview extends AbstractReview
 {
-    const PHP_CS_FIXER_FILTERS = 'linefeed,extra_empty_lines,encoding,short_tag,braces,elseif,eof_ending,function_call_space,function_declaration,indentation,line_after_namespace,lowercase_constants,lowercase_keywords,operators_spaces,method_argument_space,multiple_use,parenthesis,php_closing_tag,trailing_spaces,visibility,extra_empty_lines,object_operator,phpdoc_scalar,phpdoc_indent,phpdoc_separation,phpdoc_no_package,phpdoc_no_empty_return,phpdoc_no_access,phpdoc_types,remove_lines_between_uses,return,spaces_cast,standardize_not_equal,ternary_spaces,unused_use,whitespacy_lines,align_double_arrow,new_with_braces,self_accessor,single_quote,spaces_before_semicolon,array_element_no_space_before_comma,array_element_white_space_after_comma,duplicate_semicolon,function_typehint_space,multiline_array_trailing_comma,namespace_no_leading_whitespace,no_blank_lines_after_class_opening,no_empty_lines_after_phpdocs';
+    const PHP_CS_FIXER_LEVEL = 'symfony';
+    const PHP_CS_FIXER_FILTERS = 'align_double_arrow,phpdoc_order';
 
     protected $autoAddGit;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param $autoAddGit
      */
@@ -39,7 +40,7 @@ class PhpCsFixerReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
-        $cmd = sprintf('php-cs-fixer fix  -v %s --fixers=%s', $file->getFullPath(), self::PHP_CS_FIXER_FILTERS);
+        $cmd = sprintf('php-cs-fixer fix -v %s --level=%s --fixers=%s', $file->getFullPath(), self::PHP_CS_FIXER_LEVEL, self::PHP_CS_FIXER_FILTERS);
         $process = $this->getProcess($cmd);
         $process->run();
         // Create the array of outputs and remove empty values.
@@ -47,7 +48,7 @@ class PhpCsFixerReview extends AbstractReview
         if (!$process->isSuccessful()) {
             foreach (array_slice($output, 2, -1) as $error) {
                 $raw = ucfirst($error);
-                $message = trim(str_replace('   1) ' . $file->getFullPath(), '', $raw));
+                $message = trim(str_replace('   1) '.$file->getFullPath(), '', $raw));
                 $reporter->info($message, $this, $file);
 
                 if ($this->autoAddGit) {

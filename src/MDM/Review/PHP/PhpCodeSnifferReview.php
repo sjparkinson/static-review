@@ -13,7 +13,7 @@ class PhpCodeSnifferReview extends AbstractReview
     /**
      * Gets the value of an option.
      *
-     * @param  string $option
+     * @param string $option
      *
      * @return string
      */
@@ -32,10 +32,10 @@ class PhpCodeSnifferReview extends AbstractReview
         $builder = '';
 
         foreach ($this->options as $option => $value) {
-            $builder .= '--' . $option;
+            $builder .= '--'.$option;
 
             if ($value) {
-                $builder .= '=' . $value;
+                $builder .= '='.$value;
             }
 
             $builder .= ' ';
@@ -47,8 +47,8 @@ class PhpCodeSnifferReview extends AbstractReview
     /**
      * Adds an option to be included when running PHP_CodeSniffer. Overwrites the values of options with the same name.
      *
-     * @param  string $option
-     * @param  string $value
+     * @param string $option
+     * @param string $value
      *
      * @return PhpCodeSnifferReview
      */
@@ -66,7 +66,7 @@ class PhpCodeSnifferReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
      *
      * @return bool
      */
@@ -104,7 +104,7 @@ class PhpCodeSnifferReview extends AbstractReview
             foreach (array_reduce($output['files'], $filter, []) as $error) {
                 $message = $error['message'];
                 if ($error['message'] == 'Missing function doc comment') {
-                    $reporter->warning($message, $this, $file, $error['line']);
+                    $reporter->error($message, $this, $file, $error['line']);
                 }
             }
         }
