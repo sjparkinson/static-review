@@ -50,7 +50,12 @@ class EsLintReview extends AbstractReview
                 $line = isset($matches[2]) ? $matches[2] : null;
                 $error = $matches[1].$matches[3];
                 $message = trim(str_replace($file->getFullPath(), '', $error));
-                $reporter->warning($message, $this, $file, $line);
+
+                if (preg_match('/parsing error/i', $message)) {
+                    $reporter->error($message, $this, $file, $line);
+                } else {
+                    $reporter->warning($message, $this, $file, $line);
+                }
 
                 if ($this->autoAddGit) {
                     $cmd = sprintf('git add %s', $file->getFullPath());
