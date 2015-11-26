@@ -30,6 +30,12 @@ class EsLintReview extends AbstractReview
      */
     public function canReview(FileInterface $file = null)
     {
+        $process = $this->getProcess('eslint --version');
+        $process->run();
+        if (!$process->isSuccessful()) {
+            return false;
+        }
+
         return (parent::canReview($file) && $file->getExtension() === 'js');
     }
 
