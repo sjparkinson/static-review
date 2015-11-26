@@ -14,9 +14,7 @@ class EsLintReview extends AbstractReview
     protected $autoAddGit;
 
     /**
-     * Constructor
-     *
-     * @param $autoAddGit
+     * Constructor.
      */
     public function __construct($autoAddGit)
     {
@@ -26,7 +24,7 @@ class EsLintReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
      *
      * @return bool
      */
@@ -47,10 +45,10 @@ class EsLintReview extends AbstractReview
         // Create the array of outputs and remove empty values.
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
         if (!$process->isSuccessful()) {
-            foreach (array_slice($output, 0, -2) as $error) {
+            foreach (array_slice($output, 0, -1) as $error) {
                 preg_match('/(.*):([0-9]+):[0-9]+:(.*)/i', $error, $matches);
                 $line = isset($matches[2]) ? $matches[2] : null;
-                $error = $matches[1] . $matches[3];
+                $error = $matches[1].$matches[3];
                 $message = trim(str_replace($file->getFullPath(), '', $error));
                 $reporter->warning($message, $this, $file, $line);
 
