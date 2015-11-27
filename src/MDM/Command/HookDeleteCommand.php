@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class HookDeleteCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -22,13 +22,13 @@ class HookDeleteCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $git = new GitVersionControl();
         $projectBase = $git->getProjectBase();
-        $hookDir = $projectBase . '/.git/hooks';
+        $hookDir = $projectBase.'/.git/hooks';
 
         $helper = $this->getHelperSet()->get('question');
         $question = new ConfirmationQuestion(
@@ -46,7 +46,7 @@ class HookDeleteCommand extends Command
             exit(1);
         }
 
-        $target = $hookDir . '/pre-commit';
+        $target = $hookDir.'/pre-commit';
         $fs = new Filesystem();
         if (is_file($target)) {
             $fs->remove($target);

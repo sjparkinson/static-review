@@ -12,7 +12,7 @@ class ComposerReview extends AbstractReview
     private $composerLockDetected = false;
 
     /**
-     * Checks Composer json and lock files
+     * Checks Composer json and lock files.
      */
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {

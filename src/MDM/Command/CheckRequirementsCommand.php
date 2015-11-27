@@ -11,7 +11,7 @@ use Symfony\Component\Process\Process;
 class CheckRequirementsCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -21,7 +21,7 @@ class CheckRequirementsCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -75,7 +75,7 @@ class CheckRequirementsCommand extends Command
     }
 
     /**
-     * Check Command return
+     * Check Command return.
      *
      * @param $label
      * @param $command

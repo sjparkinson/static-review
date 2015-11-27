@@ -14,7 +14,7 @@ class PhpMDReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
      *
      * @return bool
      */
@@ -33,9 +33,9 @@ class PhpMDReview extends AbstractReview
         $process->run();
         // Create the array of outputs and remove empty values.
         $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             foreach ($output as $error) {
-                $error = preg_replace("/:[0-9]*/", "", $error);
+                $error = preg_replace('/:[0-9]*/', '', $error);
                 $error = str_replace("\t", ' ', $error);
                 $message = trim(str_replace($file->getFullPath(), '', $error));
                 $reporter->warning($message, $this, $file);

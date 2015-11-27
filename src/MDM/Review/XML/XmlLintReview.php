@@ -11,7 +11,7 @@ class XmlLintReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
      *
      * @return bool
      */
@@ -30,7 +30,7 @@ class XmlLintReview extends AbstractReview
         if (!$process->isSuccessful()) {
             foreach ($output as $error) {
                 $raw = ucfirst(substr($error, strlen($needle)));
-                $message = str_replace(' in ' . $file->getFullPath(), '', $raw);
+                $message = str_replace(' in '.$file->getFullPath(), '', $raw);
                 $reporter->error($message, $this, $file);
             }
         }

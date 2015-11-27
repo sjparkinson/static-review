@@ -8,7 +8,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 use MDM\Collection\FileCollection;
 use MDM\Collection\ReviewCollection;
 
-class MDMTest extends TestCase
+class StaticReviewTest extends TestCase
 {
     protected $review;
 
@@ -19,7 +19,7 @@ class MDMTest extends TestCase
     public function setUp()
     {
         $this->reporter = Mockery::mock('MDM\Reporter\ReporterInterface');
-        $this->review   = Mockery::mock('MDM\Review\ReviewInterface');
+        $this->review = Mockery::mock('MDM\Review\ReviewInterface');
 
         $this->staticReview = new StaticReview($this->reporter);
     }

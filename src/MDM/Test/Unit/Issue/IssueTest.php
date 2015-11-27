@@ -158,7 +158,7 @@ class IssueTest extends TestCase
             Issue::LEVEL_ALL,
             $this->issueMessage,
             $this->issueReview,
-            $this->issueFile
+            $this->issueFile,
           ]
         );
 

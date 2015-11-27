@@ -9,16 +9,18 @@ class IssueCollection extends Collection
     /**
      * Validates that $object is an instance of IssueInterface.
      *
-     * @param  IssueInterface           $object
-     * @return bool
+     * @param IssueInterface $object
+     *
      * @throws InvalidArgumentException
+     *
+     * @return bool
      */
     public function validate($object)
     {
         if ($object instanceof IssueInterface) {
             return true;
         }
-        throw new \InvalidArgumentException($object . ' was not an instance of IssueInterface.');
+        throw new \InvalidArgumentException($object.' was not an instance of IssueInterface.');
     }
     /**
      * Filters the collection with the given closure, returning a new collection.
@@ -27,17 +29,18 @@ class IssueCollection extends Collection
      */
     public function select(callable $filter)
     {
-        if (! $this->collection) {
-            return new IssueCollection();
+        if (!$this->collection) {
+            return new self();
         }
         $filtered = array_filter($this->collection, $filter);
 
-        return new IssueCollection($filtered);
+        return new self($filtered);
     }
     /**
      * Returns a new IssueCollection filtered by the given level option.
      *
-     * @param  int             $level
+     * @param int $level
+     *
      * @return IssueCollection
      */
     public function forLevel($option)

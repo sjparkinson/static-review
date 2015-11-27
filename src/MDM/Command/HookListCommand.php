@@ -27,7 +27,7 @@ class HookListCommand extends Command
     protected $workspacePath;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -37,7 +37,7 @@ class HookListCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -72,8 +72,8 @@ class HookListCommand extends Command
                 $projectInfoPath = explode('/', str_replace('/.git', '', $file->getPathInfo()->getPathname()));
                 $projects[] = array(
                   'name'          => end($projectInfoPath),
-                  'path'          => str_replace('/.git', '', $this->workspacePath . $file->getRelativePath()),
-                  'mdm_precommit' => $precommitStatus
+                  'path'          => str_replace('/.git', '', $this->workspacePath.$file->getRelativePath()),
+                  'mdm_precommit' => $precommitStatus,
                 );
                 $progress->advance();
             }
@@ -92,7 +92,7 @@ class HookListCommand extends Command
     }
 
     /**
-     * Display Projects
+     * Display Projects.
      *
      * @param $projects
      * @param $output
@@ -117,7 +117,7 @@ class HookListCommand extends Command
     }
 
     /**
-     * Get precommit status
+     * Get precommit status.
      *
      * @param $file
      *
@@ -126,7 +126,7 @@ class HookListCommand extends Command
     protected function getPrecommitStatus($file)
     {
         $finder = new Finder();
-        $finder = $finder->files()->ignoreDotFiles(false)->ignoreVCS(false)->in($this->workspacePath . $file->getRelativePath());
+        $finder = $finder->files()->ignoreDotFiles(false)->ignoreVCS(false)->in($this->workspacePath.$file->getRelativePath());
         $preCommitFiles = $finder->files()->path('/hooks/')->name('/pre-commit$/');
 
         $preCommitFile = $preCommitFiles->contains('precommit check --phpunit true');

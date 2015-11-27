@@ -9,6 +9,7 @@
  *
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
+
 namespace MDM\Review;
 
 use MDM\File\FileInterface;

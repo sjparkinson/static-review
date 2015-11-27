@@ -17,8 +17,8 @@ class FileTest extends TestCase
 
     public function setUp()
     {
-        $this->fileStatus  = 'M';
-        $this->filePath    = __FILE__;
+        $this->fileStatus = 'M';
+        $this->filePath = __FILE__;
         $this->projectPath = __DIR__;
 
         $this->file = new File($this->fileStatus, $this->filePath, $this->projectPath);
@@ -35,7 +35,7 @@ class FileTest extends TestCase
 
     public function testGetRelativePath()
     {
-        $expected = str_replace($this->projectPath . DIRECTORY_SEPARATOR, '', $this->filePath);
+        $expected = str_replace($this->projectPath.DIRECTORY_SEPARATOR, '', $this->filePath);
 
         $this->assertSame($expected, $this->file->getRelativePath());
     }
@@ -90,7 +90,7 @@ class FileTest extends TestCase
 
     public function testGetFormattedStatus()
     {
-        $statuses = [ 'A', 'C', 'M', 'R' ];
+        $statuses = ['A', 'C', 'M', 'R'];
 
         foreach ($statuses as $status) {
             $file = new File($status, $this->filePath, $this->projectPath);

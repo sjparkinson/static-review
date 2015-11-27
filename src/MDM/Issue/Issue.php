@@ -28,7 +28,7 @@ class Issue implements IssueInterface
      * @param string          $message
      * @param ReviewInterface $review
      * @param FileInterface   $file
-     * @param int   $line
+     * @param int             $line
      */
     public function __construct(
       $level,
@@ -107,7 +107,7 @@ class Issue implements IssueInterface
             case self::LEVEL_ERROR:
                 return 'Error';
             default:
-                throw new \UnexpectedValueException('Level was set to ' . $this->getLevel());
+                throw new \UnexpectedValueException('Level was set to '.$this->getLevel());
         }
     }
 
@@ -126,7 +126,7 @@ class Issue implements IssueInterface
             case self::LEVEL_ERROR:
                 return 'red';
             default:
-                throw new \UnexpectedValueException('Could not get a colour. Level was set to ' . $this->getLevel());
+                throw new \UnexpectedValueException('Could not get a colour. Level was set to '.$this->getLevel());
         }
     }
 

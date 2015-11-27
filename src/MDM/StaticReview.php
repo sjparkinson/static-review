@@ -33,7 +33,8 @@ class StaticReview
     /**
      * Sets the ReporterInterface instance.
      *
-     * @param  ReporterInterface $reporter
+     * @param ReporterInterface $reporter
+     *
      * @return StaticReview
      */
     public function setReporter(ReporterInterface $reporter)

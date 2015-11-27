@@ -10,7 +10,7 @@ abstract class AbstractReview implements ReviewInterface
     const ERROR_MSG_TYPE = 'error';
 
     /**
-     * Check is file is reviewable
+     * Check is file is reviewable.
      *
      * @param FileInterface $fileName
      *
@@ -26,7 +26,7 @@ abstract class AbstractReview implements ReviewInterface
     }
 
     /**
-     * check blackList MDM files
+     * check blackList MDM files.
      *
      * @param FileInterface $fileName
      *
@@ -40,7 +40,7 @@ abstract class AbstractReview implements ReviewInterface
 
         $blacklistFiles = array(
           '_inline_end_js.mobile.php',
-          '_inline_end_js.php'
+          '_inline_end_js.php',
         );
 
         return in_array($fileName->getFileName(), $blacklistFiles);

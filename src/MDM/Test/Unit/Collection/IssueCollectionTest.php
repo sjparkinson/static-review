@@ -1,6 +1,5 @@
 <?php
 
-
 namespace MDM\Test\Unit\Collection;
 
 use Mockery;

@@ -32,7 +32,7 @@ class PostCmd
     /**
      * Sets the ReporterInterface instance.
      *
-     * @param  ReporterInterface $reporter
+     * @param ReporterInterface $reporter
      *
      * @return StaticReview
      */

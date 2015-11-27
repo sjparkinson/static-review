@@ -43,7 +43,7 @@ class Reporter implements ReporterInterface
     }
 
     /**
-     * Advance ProgressBar
+     * Advance ProgressBar.
      */
     public function progress()
     {
@@ -72,11 +72,11 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Issue raised by a Review.
      *
-     * @param  int             $level
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
-     * @param  int             $line
+     * @param int             $level
+     * @param string          $message
+     * @param ReviewInterface $review
+     * @param FileInterface   $file
+     * @param int             $line
      *
      * @return Reporter
      */
@@ -91,10 +91,10 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Info Issue raised by a Review.
      *
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
-     * @param  int             $line
+     * @param string          $message
+     * @param ReviewInterface $review
+     * @param FileInterface   $file
+     * @param int             $line
      *
      * @return Reporter
      */
@@ -108,10 +108,10 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Warning Issue raised by a Review.
      *
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
-     * @param  int             $line
+     * @param string          $message
+     * @param ReviewInterface $review
+     * @param FileInterface   $file
+     * @param int             $line
      *
      * @return Reporter
      */
@@ -125,10 +125,10 @@ class Reporter implements ReporterInterface
     /**
      * Reports an Error Issue raised by a Review.
      *
-     * @param  string          $message
-     * @param  ReviewInterface $review
-     * @param  FileInterface   $file
-     * @param  int             $line
+     * @param string          $message
+     * @param ReviewInterface $review
+     * @param FileInterface   $file
+     * @param int             $line
      *
      * @return Reporter
      */
@@ -157,7 +157,7 @@ class Reporter implements ReporterInterface
      */
     private static function cmpIssues($a, $b)
     {
-        if ($a->getReviewName() . $a->getLine() == $b->getReviewName() . $b->getLine()) {
+        if ($a->getReviewName().$a->getLine() == $b->getReviewName().$b->getLine()) {
             return 0;
         }
 
@@ -241,7 +241,7 @@ class Reporter implements ReporterInterface
         foreach ($issues as $issue) {
             $colorMethod = $issue->getColour();
             if ($lastReviewName == '' || $lastReviewName != $issue->getReviewName()) {
-                $climate->br()->$colorMethod()->out($issue->getReviewName() . ' :');
+                $climate->br()->$colorMethod()->out($issue->getReviewName().' :');
                 $lastReviewName = $issue->getReviewName();
             }
             $climate->$colorMethod($issue);

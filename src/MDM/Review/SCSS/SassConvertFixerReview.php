@@ -13,7 +13,7 @@ class SassConvertFixerReview extends AbstractReview
     const NB_INDENT_SPACE = 2;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param $autoAddGit
      */

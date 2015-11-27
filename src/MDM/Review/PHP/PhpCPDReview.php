@@ -14,7 +14,7 @@ class PhpCPDReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
      *
      * @return bool
      */
@@ -33,7 +33,7 @@ class PhpCPDReview extends AbstractReview
         $process->run();
         // Create the array of outputs and remove empty values.
         $output = $process->getOutput();
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             // get dupplicate code ratio
             preg_match("|([0-9]{1,2}\.[0-9]{1,2}%)|i", $output, $resultcpd);
             if (isset($resultcpd[1]) && $resultcpd[1] != '0.00%') {

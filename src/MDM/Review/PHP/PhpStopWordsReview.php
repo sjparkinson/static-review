@@ -11,7 +11,7 @@ class PhpStopWordsReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
      *
      * @return bool
      */
@@ -26,14 +26,14 @@ class PhpStopWordsReview extends AbstractReview
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
         $stopWordsPhp = array(
-          "var_dump()" => "[^a-zA-Z]var_dump\(",
-          "die()"      => "[^a-zA-Z]die\("
+          'var_dump()' => "[^a-zA-Z]var_dump\(",
+          'die()'      => "[^a-zA-Z]die\(",
         );
 
         // Check StopWords
         foreach ($stopWordsPhp as $key => $word) {
-            if (preg_match("|" . $word . "|i", file_get_contents($file->getFullPath()))) {
-                $reporter->error(sprintf("expr \"%s\" detected", $key), $this, $file);
+            if (preg_match('|'.$word.'|i', file_get_contents($file->getFullPath()))) {
+                $reporter->error(sprintf('expr "%s" detected', $key), $this, $file);
             }
         }
     }

@@ -4,10 +4,10 @@ namespace MDM\File;
 
 class File implements FileInterface
 {
-    const STATUS_ADDED    = 'A';
-    const STATUS_COPIED   = 'C';
+    const STATUS_ADDED = 'A';
+    const STATUS_COPIED = 'C';
     const STATUS_MODIFIED = 'M';
-    const STATUS_RENAMED  = 'R';
+    const STATUS_RENAMED = 'R';
     /**
      * The full path to the file.
      */
@@ -36,8 +36,8 @@ class File implements FileInterface
         $filePath,
         $projectPath
     ) {
-        $this->fileStatus  = $fileStatus;
-        $this->filePath    = $filePath;
+        $this->fileStatus = $fileStatus;
+        $this->filePath = $filePath;
         $this->projectPath = $projectPath;
     }
     /**
@@ -56,7 +56,7 @@ class File implements FileInterface
      */
     public function getRelativePath()
     {
-        return str_replace($this->projectPath . DIRECTORY_SEPARATOR, '', $this->filePath);
+        return str_replace($this->projectPath.DIRECTORY_SEPARATOR, '', $this->filePath);
     }
     /**
      * Returns the full path to the file.
@@ -82,7 +82,8 @@ class File implements FileInterface
     /**
      * Sets the path to the cached copy of the file.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return File
      */
     public function setCachedPath($path)
@@ -112,9 +113,9 @@ class File implements FileInterface
     /**
      * Returns the git status of the file as a word.
      *
+     * @throws UnexpectedValueException
      * @return string
      *
-     * @throws UnexpectedValueException
      */
     public function getFormattedStatus()
     {
@@ -134,7 +135,8 @@ class File implements FileInterface
     /**
      * Get the mime type for the file.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
+     *
      * @return string
      */
     public function getMimeType()

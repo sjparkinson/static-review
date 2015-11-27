@@ -19,7 +19,7 @@ class PhpCsFixerCommand extends Command
     const AUTO_ADD_GIT = false;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -29,7 +29,7 @@ class PhpCsFixerCommand extends Command
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

@@ -1,10 +1,9 @@
 <?php
 
-
 namespace MDM\Collection;
 
-use \Countable;
-use \Iterator;
+use Countable;
+use Iterator;
 
 abstract class Collection implements Iterator, Countable
 {
@@ -24,13 +23,15 @@ abstract class Collection implements Iterator, Countable
      * Method should throw an InvalidArgumentException if $item is not the
      * expected type.
      *
-     * @return bool
      * @throws InvalidArgumentException
+     *
+     * @return bool
      */
     abstract public function validate($item);
 
     /**
-     * @param  callable   $filter
+     * @param callable $filter
+     *
      * @return Collection
      */
     abstract public function select(callable $filter);
