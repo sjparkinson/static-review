@@ -31,6 +31,10 @@ class SassConvertFixerReview extends AbstractReview
      */
     public function canReview(FileInterface $file = null)
     {
+        if (!$this->checkCommand('sass-convert')) {
+            return false;
+        }
+
         return (parent::canReview($file) && $file->getExtension() === 'scss');
     }
 

@@ -100,6 +100,6 @@ In order to check file manually in PhpStorm:
 * PHP Mess Detector
 * PHP CPD
 * PHPCS
-* ESLint (http://eslint.org/)
+* ESLint (http://eslint.org/) - Install (see https://github.com/nodejs/node-v0.x-archive/wiki/Installing-Node.js-via-package-manager)
 * sass
 * scss-lint (https://github.com/brigade/scss-lint)

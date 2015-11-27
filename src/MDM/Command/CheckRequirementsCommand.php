@@ -35,20 +35,20 @@ class CheckRequirementsCommand extends Command
         $hasError = false;
 
         $commands = [
-          'Composer'     => 'composer --version',
-          'xmllint'      => 'xmllint --version',
-          'jsonlint'     => 'jsonlint --help',
-          'nodejs'       => 'nodejs --version',
-          'npm'          => 'npm --version',
-          'eslint'       => 'eslint --version',
-          'gem'          => 'gem --version',
-          'sass-convert' => 'sass-convert --version',
-          'scss-lint'    => 'scss-lint --version',
-          'phpcpd'       => 'phpcpd --version',
-          'php-cs-fixer' => 'php-cs-fixer --version',
-          'phpmd'        => 'phpmd --version',
-          'phpcs'        => 'phpcs --version',
-          'box'          => 'box --version',
+          'Composer'     => 'composer',
+          'xmllint'      => 'xmllint',
+          'jsonlint'     => 'jsonlint',
+          'nodejs'       => 'nodejs',
+          'npm'          => 'npm',
+          'eslint'       => 'eslint',
+          'gem'          => 'gem',
+          'sass-convert' => 'sass-convert',
+          'scss-lint'    => 'scss-lint',
+          'phpcpd'       => 'phpcpd',
+          'php-cs-fixer' => 'php-cs-fixer',
+          'phpmd'        => 'phpmd',
+          'phpcs'        => 'phpcs',
+          'box'          => 'box',
         ];
 
         foreach ($commands as $label => $command) {
@@ -86,7 +86,7 @@ class CheckRequirementsCommand extends Command
     protected function checkCommand($label, $command, $padding)
     {
         $padding->label($label);
-        $process = new Process($command);
+        $process = new Process(sprintf('which %s', $command));
         $process->run();
         if (!$process->isSuccessful()) {
             $padding->result('not installed');

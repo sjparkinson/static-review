@@ -60,32 +60,44 @@ class PreCommitCommand extends Command
         $review->addReview(new PhpLintReview())
           ->addReview(new PhpStopWordsReview())
           ->addReview(new ComposerReview())
-          ->addReview(new PhpCPDReview())
           ->addReview(new JsStopWordsReview())
           ->addReview(new EsLintReview(self::AUTO_ADD_GIT))
-          //->addReview(new SassConvertFixerReview(self::AUTO_ADD_GIT))
-          ->addReview(new ScssLintReview())
-          ->addReview(new PhpCsFixerReview(self::AUTO_ADD_GIT))
-          ->addReview(new PhpMDReview())
           ->addReview(new YmlLintReview())
           ->addReview(new JsonLintReview())
           ->addReview(new XmlLintReview())
           ->addReview(new GitConflictReview())
-          ->addReview(new NoCommitTagReview());
+          ->addReview(new NoCommitTagReview())
+          ->addReview(new ScssLintReview());
 
-        $codeSniffer = new PhpCodeSnifferReview();
-        $codeSniffer->setOption('standard', 'Pear');
-        $codeSniffer->setOption('sniffs', 'PEAR.Commenting.FunctionComment');
-        $review->addReview($codeSniffer);
+        // --------------------------------------------------------
+        // Front Dev profile
+        // --------------------------------------------------------
+        //$review->addReview(new SassConvertFixerReview(self::AUTO_ADD_GIT));
 
-        // Review the staged files.
+        // --------------------------------------------------------
+        // Dev PHP profile
+        // --------------------------------------------------------
+        $phpCodeSniffer = new PhpCodeSnifferReview();
+        $phpCodeSniffer->setOption('standard', 'Pear');
+        $phpCodeSniffer->setOption('sniffs', 'PEAR.Commenting.FunctionComment');
+
+        $review->addReview(new PhpCPDReview())
+          ->addReview(new PhpCsFixerReview(self::AUTO_ADD_GIT))
+          ->addReview(new PhpMDReview())
+          ->addReview($phpCodeSniffer);
+        // --------------------------------------------------------
+
         $review->review($stagedFiles);
 
+        // --------------------------------------------------------
+        // Dev PHP profile
+        // --------------------------------------------------------
         $postCmd = new PostCmd($reporter);
         if ($input->getOption('phpunit')) {
             $postCmd->addReview(new PhpUnitReview($input->getOption('phpunit-conf'), $projectBase));
         }
         $postCmd->review();
+        // --------------------------------------------------------
 
         // Check if any matching issues were found.
         if ($reporter->hasIssues()) {

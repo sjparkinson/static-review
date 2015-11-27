@@ -66,4 +66,22 @@ abstract class AbstractReview implements ReviewInterface
     ) {
         return new Process($commandline, $cwd, $env, $input, $timeout, $options);
     }
+
+    /**
+     * Check Command return.
+     *
+     * @param $command
+     *
+     * @return bool
+     */
+    protected function checkCommand($command)
+    {
+        $process = new Process(sprintf('which %s', $command));
+        $process->run();
+        if (!$process->isSuccessful()) {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -40,26 +40,7 @@ fi
 # INSTALL nodejs & npm & Eslint
 # =============================
 
-# if ! type nodejs > /dev/null; then
-# echo "nodejs install..."
-# sudo bash <<EOF
-# 	apt-get install nodejs
-# EOF
-# fi
-
-# if ! type npm > /dev/null; then
-# echo "npm install..."
-# sudo bash <<EOF
-# 	apt-get install npm
-# EOF
-# fi
-
-# if ! type eslint > /dev/null; then
-# echo "Eslint install..."
-# sudo bash <<EOF
-# 	npm install -g eslint
-# EOF
-# fi
+# see https://github.com/nodejs/node-v0.x-archive/wiki/Installing-Node.js-via-package-manager
 
 # =============================
 # INSTALL scss_lint

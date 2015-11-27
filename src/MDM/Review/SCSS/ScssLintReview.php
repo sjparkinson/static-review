@@ -20,6 +20,10 @@ class ScssLintReview extends AbstractReview
      */
     public function canReview(FileInterface $file = null)
     {
+        if (!$this->checkCommand('scss-lint')) {
+            return false;
+        }
+
         return (parent::canReview($file) && $file->getExtension() === 'scss');
     }
 
