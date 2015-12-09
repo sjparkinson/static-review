@@ -41,7 +41,7 @@ class GitVersionControl implements VersionControlInterface
         foreach ($this->getFiles() as $file) {
             list($status, $relativePath) = explode("\t", $file);
 
-            $fullPath = $base . DIRECTORY_SEPARATOR . $relativePath;
+            $fullPath = $base.DIRECTORY_SEPARATOR.$relativePath;
 
             $file = new File($status, $fullPath, $base);
             $this->saveFileToCache($file);
@@ -56,7 +56,7 @@ class GitVersionControl implements VersionControlInterface
      *
      * @return string
      */
-    private function getProjectBase()
+    public function getProjectBase()
     {
         $process = new Process('git rev-parse --show-toplevel');
         $process->run();
@@ -84,14 +84,15 @@ class GitVersionControl implements VersionControlInterface
     /**
      * Saves a copy of the cached version of the given file to a temp directory.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
+     *
      * @return FileInterface
      */
     private function saveFileToCache(FileInterface $file)
     {
-        $cachedPath = sys_get_temp_dir() . self::CACHE_DIR . $file->getRelativePath();
+        $cachedPath = sys_get_temp_dir().self::CACHE_DIR.$file->getRelativePath();
 
-        if (! is_dir(dirname($cachedPath))) {
+        if (!is_dir(dirname($cachedPath))) {
             mkdir(dirname($cachedPath), 0700, true);
         }
 

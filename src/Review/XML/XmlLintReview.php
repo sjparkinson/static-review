@@ -1,12 +1,12 @@
 <?php
 
-namespace StaticReview\Review\PHP;
+namespace StaticReview\Review\XML;
 
 use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
 
-class PhpLintReview extends AbstractReview
+class XmlLintReview extends AbstractReview
 {
     /**
      * Determins if a given file should be reviewed.
@@ -17,19 +17,16 @@ class PhpLintReview extends AbstractReview
      */
     public function canReview(FileInterface $file = null)
     {
-        return parent::canReview($file) && $file->getExtension() === 'php';
+        return parent::canReview($file) && $file->getExtension() === 'xml';
     }
-    /**
-     * Checks PHP files using the builtin PHP linter, `php -l`.
-     */
+
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
-        $cmd = sprintf('php --syntax-check %s', $file->getFullPath());
+        $cmd = sprintf('xmllint --noout %s', $file->getFullPath());
         $process = $this->getProcess($cmd);
         $process->run();
-        // Create the array of outputs and remove empty values.
         $output = array_filter(explode(PHP_EOL, $process->getErrorOutput()));
-        $needle = 'PHP Parse error:  syntax error, ';
+        $needle = 'XML Parse error:  syntax error, ';
         if (!$process->isSuccessful()) {
             foreach ($output as $error) {
                 $raw = ucfirst(substr($error, strlen($needle)));

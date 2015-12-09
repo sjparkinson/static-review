@@ -6,8 +6,11 @@ use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
 
-class PhpLintReview extends AbstractReview
+class PhpMDReview extends AbstractReview
 {
+    const PHP_MD_RULESET = 'codesize,unusedcode,controversial,naming,design';
+    const PHP_MD_RULE_DIR = '~/.precommitRules/phpmd.xml';
+
     /**
      * Determins if a given file should be reviewed.
      *
@@ -24,17 +27,18 @@ class PhpLintReview extends AbstractReview
      */
     public function review(ReporterInterface $reporter, FileInterface $file = null)
     {
-        $cmd = sprintf('php --syntax-check %s', $file->getFullPath());
+        // PHP Mess Detector
+        $cmd = sprintf('phpmd %s text %s', $file->getFullPath(), self::PHP_MD_RULE_DIR);
         $process = $this->getProcess($cmd);
         $process->run();
         // Create the array of outputs and remove empty values.
-        $output = array_filter(explode(PHP_EOL, $process->getErrorOutput()));
-        $needle = 'PHP Parse error:  syntax error, ';
+        $output = array_filter(explode(PHP_EOL, $process->getOutput()));
         if (!$process->isSuccessful()) {
             foreach ($output as $error) {
-                $raw = ucfirst(substr($error, strlen($needle)));
-                $message = str_replace(' in '.$file->getFullPath(), '', $raw);
-                $reporter->error($message, $this, $file);
+                $error = preg_replace('/:[0-9]*/', '', $error);
+                $error = str_replace("\t", ' ', $error);
+                $message = trim(str_replace($file->getFullPath(), '', $error));
+                $reporter->warning($message, $this, $file);
             }
         }
     }
