@@ -1,7 +1,9 @@
-MDM Pre-Commit
+Pre-Commit
 =====================
 
 Precommit Tools to lint/review/clean all your files (php/js/scss/xml/json/scss)
+
+Based on https://github.com/sjparkinson/static-review
 
 ## Table of Contents
 

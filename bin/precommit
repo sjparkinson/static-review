@@ -3,7 +3,7 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use MDM\Command;
+use StaticReview\Command;
 use Symfony\Component\Console\Application;
 
 $application = new Application('Precommit', '@package_version@');

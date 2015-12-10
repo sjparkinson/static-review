@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install Pre-commit
+# Install Pre-commit script for linux (debian/ubuntu)
 
 # =============================
 # INSTALL composer
@@ -71,12 +71,12 @@ fi
 # Copying rules
 # =============================
 
-if [ -d src/MDM/Rules ]; then
+if [ -d src/Rules ]; then
     if [ ! -d $HOME/.precommitRules ]; then
         mkdir $HOME/.precommitRules
     fi
     echo "updating precommit linter rules..."
-    rsync -avh src/MDM/Rules/ $HOME/.precommitRules/ > /dev/null
+    rsync -avh src/Rules/ $HOME/.precommitRules/ > /dev/null
 fi
 
 # =============================
