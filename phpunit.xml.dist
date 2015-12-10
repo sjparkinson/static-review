@@ -5,7 +5,7 @@
     <testsuites>
 
         <testsuite name="unit">
-            <directory>src/MDM/Test/Unit/</directory>
+            <directory>src/Test/Unit/</directory>
         </testsuite>
 
     </testsuites>

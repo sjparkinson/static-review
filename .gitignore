@@ -2,3 +2,22 @@
 precommit.phar
 box.json
 /.idea
+=======
+# Project Files & Folders #
+###########################
+phpunit.xml
+*.sublime-*
+.vagrant/
+vendor/
+build/
+.idea/
+
+# OS Generated Files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
