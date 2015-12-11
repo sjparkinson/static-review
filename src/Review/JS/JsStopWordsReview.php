@@ -2,20 +2,20 @@
 
 namespace StaticReview\Review\JS;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class JsStopWordsReview extends AbstractReview
 {
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file
+     * @param ReviewableInterface $file
      *
      * @return bool
      */
-    public function canReview(FileInterface $file = null)
+    public function canReview(ReviewableInterface $file = null)
     {
         return parent::canReview($file) && $file->getExtension() === 'js';
     }
@@ -23,10 +23,10 @@ class JsStopWordsReview extends AbstractReview
     /**
      * Reviewing method.
      *
-     * @param ReporterInterface $reporter
-     * @param FileInterface     $file
+     * @param ReporterInterface   $reporter
+     * @param ReviewableInterface $file
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         // JavaScript debug code that would break IE.
         $stopWordsJs = array(

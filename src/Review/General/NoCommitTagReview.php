@@ -13,9 +13,9 @@
 
 namespace StaticReview\Review\General;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class NoCommitTagReview extends AbstractReview
 {
@@ -24,11 +24,11 @@ class NoCommitTagReview extends AbstractReview
      *
      * @link http://stackoverflow.com/a/632786
      *
-     * @param FileInterface $file
+     * @param ReviewableInterface $file
      *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(ReviewableInterface $file)
     {
         $mime = $file->getMimeType();
 
@@ -41,7 +41,7 @@ class NoCommitTagReview extends AbstractReview
      *
      * @link http://stackoverflow.com/a/4749368
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file)
     {
         $cmd = sprintf('grep --fixed-strings --ignore-case --quiet "NOCOMMIT" %s', $file->getFullPath());
 

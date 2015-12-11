@@ -32,7 +32,7 @@ class Reporter implements ReporterInterface
 
         if ($total > 1) {
             $climate->br();
-            ProgressBar::setFormatDefinition('minimal', '<fg=cyan>Reviewing file %current% of %max%.</>');
+            ProgressBar::setFormatDefinition('minimal', ' <fg=cyan>Reviewing file %current% of %max%.</>');
             $this->progress = new ProgressBar($output, $total);
             $this->progress->setFormat('minimal');
             $this->progress->start();
@@ -150,12 +150,12 @@ class Reporter implements ReporterInterface
     }
 
     /**
-     * @param $a
-     * @param $b
+     * @param Issue $a
+     * @param Issue $b
      *
      * @return int
      */
-    protected static function cmpIssues($a, $b)
+    protected static function cmpIssues(Issue $a, Issue $b)
     {
         if ($a->getReviewName().$a->getLine() == $b->getReviewName().$b->getLine()) {
             return 0;
@@ -225,23 +225,24 @@ class Reporter implements ReporterInterface
      */
     public function displayReport($climate)
     {
-        $lastReviewName = '';
-        $this->displayIssues($this->getIssues(true, Issue::LEVEL_INFO), $lastReviewName, $climate);
-        $this->displayIssues($this->getIssues(true, Issue::LEVEL_WARNING), $lastReviewName, $climate);
-        $this->displayIssues($this->getIssues(true, Issue::LEVEL_ERROR), $lastReviewName, $climate);
+        $climate->br();
+        $this->displayIssues($this->getIssues(true, Issue::LEVEL_INFO), $climate);
+        $this->displayIssues($this->getIssues(true, Issue::LEVEL_WARNING), $climate);
+        $this->displayIssues($this->getIssues(true, Issue::LEVEL_ERROR), $climate);
     }
 
     /**
      * @param $issues
-     * @param $lastReviewName
      * @param $climate
      */
-    public function displayIssues($issues, &$lastReviewName, $climate)
+    public function displayIssues($issues, $climate)
     {
+        $lastReviewName = '';
+
         foreach ($issues as $issue) {
             $colorMethod = $issue->getColour();
             if ($lastReviewName == '' || $lastReviewName != $issue->getReviewName()) {
-                $climate->br()->$colorMethod()->out($issue->getReviewName().' :');
+                $climate->br()->$colorMethod()->out(' '.$issue->getReviewName().' :');
                 $lastReviewName = $issue->getReviewName();
             }
             $climate->$colorMethod($issue);

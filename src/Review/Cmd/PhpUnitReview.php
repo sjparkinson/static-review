@@ -2,9 +2,9 @@
 
 namespace StaticReview\Review\Cmd;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class PhpUnitReview extends AbstractReview
 {
@@ -28,7 +28,7 @@ class PhpUnitReview extends AbstractReview
      *
      * @param ReporterInterface $reporter
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $cmd = sprintf('phpunit --stop-on-failure%s', $this->phpUnitConfigPath ? ' -c '.$this->phpUnitConfigPath : '');
         $process = $this->getProcess($cmd, $this->projectBase, null, null, 360);

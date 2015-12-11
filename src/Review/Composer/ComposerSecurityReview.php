@@ -13,20 +13,20 @@
 
 namespace StaticReview\Review\Composer;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class ComposerSecurityReview extends AbstractReview
 {
     /**
      * Check the composer.lock file for security issues.
      *
-     * @param FileInterface $file
+     * @param ReviewableInterface $file
      *
      * @return bool
      */
-    public function canReview(FileInterface $file)
+    public function canReview(ReviewableInterface $file)
     {
         if ($file->getFileName() === 'composer.lock') {
             return true;
@@ -39,10 +39,10 @@ class ComposerSecurityReview extends AbstractReview
      * Check the composer.lock file doesn't contain dependencies
      * with known security vulnerabilities.
      *
-     * @param ReporterInterface $reporter
-     * @param FileInterface     $file
+     * @param ReporterInterface   $reporter
+     * @param ReviewableInterface $file
      */
-    public function review(ReporterInterface $reporter, FileInterface $file)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file)
     {
         $executable = 'vendor/bin/security-checker';
 

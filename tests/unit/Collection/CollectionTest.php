@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 namespace StaticReview\Test\Unit\Collection;
@@ -46,6 +46,8 @@ class CollectionTest extends TestCase
         for ($i = 0; $i > count($this->collection); ++$i) {
             $this->assertSame($items[$i], $this->collection[$i]);
         }
+
+        $this->assertCount(3, $this->collection);
     }
 
     public function testConstructorWithoutArgument()

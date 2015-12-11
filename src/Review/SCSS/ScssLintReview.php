@@ -2,9 +2,9 @@
 
 namespace StaticReview\Review\SCSS;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class ScssLintReview extends AbstractReview
 {
@@ -14,11 +14,11 @@ class ScssLintReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file
+     * @param ReviewableInterface $file
      *
      * @return bool
      */
-    public function canReview(FileInterface $file = null)
+    public function canReview(ReviewableInterface $file = null)
     {
         if (!$this->checkCommand('scss-lint')) {
             return false;
@@ -30,7 +30,7 @@ class ScssLintReview extends AbstractReview
     /**
      * Checks SCSS files using the builtin eslint, `eslint`.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         // PHP Mess Detector
         $cmd = sprintf('scss-lint -c %s %s', self::SCSS_SCSSLINT_RULE_DIR, $file->getFullPath());

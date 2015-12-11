@@ -2,20 +2,20 @@
 
 namespace StaticReview\Review\GIT;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class NoCommitTagReview extends AbstractReview
 {
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file
+     * @param ReviewableInterface $file
      *
      * @return bool
      */
-    public function canReview(FileInterface $file = null)
+    public function canReview(ReviewableInterface $file = null)
     {
         // check to see if the mime-type starts with 'text'
         return parent::canReview($file) && substr($file->getMimeType(), 0, 4) === 'text';
@@ -24,10 +24,10 @@ class NoCommitTagReview extends AbstractReview
     /**
      * Checks if the file contains `NOCOMMIT`.
      *
-     * @param ReporterInterface $reporter
-     * @param FileInterface     $file
+     * @param ReporterInterface   $reporter
+     * @param ReviewableInterface $file
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $cmd = sprintf('grep --fixed-strings --ignore-case --quiet "NOCOMMIT" %s', $file->getFullPath());
 

@@ -2,9 +2,9 @@
 
 namespace StaticReview\Review\PHP;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class PhpCsFixerReview extends AbstractReview
 {
@@ -26,11 +26,11 @@ class PhpCsFixerReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file File to
+     * @param ReviewableInterface $file File to
      *
      * @return bool
      */
-    public function canReview(FileInterface $file = null)
+    public function canReview(ReviewableInterface $file = null)
     {
         return parent::canReview($file) && $file->getExtension() === 'php';
     }
@@ -38,7 +38,7 @@ class PhpCsFixerReview extends AbstractReview
     /**
      * Checks PHP files using php-cs-fixer.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $cmd = sprintf('php-cs-fixer fix -v %s --level=%s --fixers=%s', $file->getFullPath(), self::PHP_CS_FIXER_LEVEL, self::PHP_CS_FIXER_FILTERS);
         $process = $this->getProcess($cmd);

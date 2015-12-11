@@ -150,7 +150,7 @@ class Issue implements IssueInterface
         $filename = $this->getSubject()->getName();
 
         return sprintf(
-            '   • %s%s%s',
+            '    • %s%s%s',
             $this->getMessage(),
             ($filename != '') ? sprintf(' in %s', $filename) : '',
             $this->getLine() ? sprintf(' on line %d', $this->getLine()) : ''

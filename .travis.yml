@@ -1,15 +1,27 @@
 language: php
 
+sudo: false
+
 php:
-  - 5.4
   - 5.5
   - 5.6
+  - 7.0
   - hhvm
-  - hhvm-nightly
+
+matrix:
+  include:
+    - php: 5.5
+      env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
+  allow_failures:
+    - php: 7.0
+  fast_finish: true
+
+before_script:
+  - git config --global user.name travis-ci
+  - git config --global user.email travis@example.com
 
 install:
-  - travis_retry composer install --no-interaction --optimize-autoloader --prefer-source
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --optimize-autoloader --prefer-source
 
 script:
-  - vendor/bin/phpunit --exclude-group exclude-from-travis
-  - vendor/bin/phpcs --standard=PSR2 src/ bin/ hooks/ tests/
+  - composer test

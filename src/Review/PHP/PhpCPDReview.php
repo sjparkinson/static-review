@@ -2,9 +2,9 @@
 
 namespace StaticReview\Review\PHP;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class PhpCPDReview extends AbstractReview
 {
@@ -14,11 +14,11 @@ class PhpCPDReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file
+     * @param ReviewableInterface $file
      *
      * @return bool
      */
-    public function canReview(FileInterface $file = null)
+    public function canReview(ReviewableInterface $file = null)
     {
         return parent::canReview($file) && $file->getExtension() === 'php';
     }
@@ -26,7 +26,7 @@ class PhpCPDReview extends AbstractReview
     /**
      * Checks PHP files using the builtin PHP linter, `php -l`.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $cmd = sprintf('phpcpd --min-lines %s --min-tokens %s %s', self::PHP_CPD_MIN_LINES, self::PHP_CPD_MIN_TOKENS, $file->getFullPath());
         $process = $this->getProcess($cmd);

@@ -2,19 +2,19 @@
 
 namespace StaticReview\Review\GIT;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class GitConflictReview extends AbstractReview
 {
     /**
      * Git conflict review.
      *
-     * @param ReporterInterface $reporter
-     * @param FileInterface     $file
+     * @param ReporterInterface   $reporter
+     * @param ReviewableInterface $file
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $stopWordsPhp = array('>>>>>>', '<<<<<<', '======');
 

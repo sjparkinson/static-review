@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 $included = include file_exists(__DIR__.'/../vendor/autoload.php')
@@ -39,7 +39,7 @@ $review->addReview(new LineEndingsReview());
 $git = new GitVersionControl();
 
 // Review the staged files.
-$review->review($git->getStagedFiles());
+$review->files($git->getStagedFiles());
 
 echo PHP_EOL;
 

@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
 $included = include file_exists(__DIR__.'/../vendor/autoload.php')
@@ -54,7 +54,7 @@ $codeSniffer->setOption('standard', 'PSR2');
 $review->addReview($codeSniffer);
 
 // Review the staged files.
-$review->review($git->getStagedFiles());
+$review->files($git->getStagedFiles());
 
 // Check if any matching issues were found.
 if ($reporter->hasIssues()) {

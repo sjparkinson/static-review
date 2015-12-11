@@ -2,6 +2,7 @@
 
 namespace StaticReview\Review;
 
+use StaticReview\Commit\CommitMessageInterface;
 use StaticReview\File\FileInterface;
 use Symfony\Component\Process\Process;
 
@@ -16,7 +17,7 @@ abstract class AbstractReview implements ReviewInterface
      *
      * @return bool
      */
-    public function canReview(FileInterface $fileName = null)
+    protected function canReviewFile(FileInterface $fileName = null)
     {
         if ($this->isBlacklistFile($fileName) || !is_file($fileName->getFullPath())) {
             return false;
@@ -26,24 +27,54 @@ abstract class AbstractReview implements ReviewInterface
     }
 
     /**
-     * check blackList files.
-     *
-     * @param FileInterface $fileName
+     * @param CommitMessageInterface $message
      *
      * @return bool
      */
-    public function isBlacklistFile(FileInterface $fileName)
+    protected function canReviewMessage(CommitMessageInterface $message)
     {
-        if (preg_match('/\.js\.php$/', $fileName->getFileName())) {
+        // TODO implement
+        return true;
+    }
+
+    /**
+     * Determine if the subject can be reviewed.
+     *
+     * @param ReviewableInterface $subject
+     *
+     * @return bool
+     */
+    public function canReview(ReviewableInterface $subject)
+    {
+        if ($subject instanceof FileInterface) {
+            return $this->canReviewFile($subject);
+        }
+        if ($subject instanceof CommitMessageInterface) {
+            return $this->canReviewMessage($subject);
+        }
+
+        return false;
+    }
+
+    /**
+     * check blackList files.
+     *
+     * @param ReviewableInterface $fileName
+     *
+     * @return bool
+     */
+    public function isBlacklistFile(ReviewableInterface $fileName)
+    {
+        if (preg_match('/\.js\.php$/', $fileName->getName())) {
             return true;
         }
 
         $blacklistFiles = array(
-            '_inline_end_js.mobile.php',
-            '_inline_end_js.php',
+          '_inline_end_js.mobile.php',
+          '_inline_end_js.php',
         );
 
-        return in_array($fileName->getFileName(), $blacklistFiles);
+        return in_array($fileName->getName(), $blacklistFiles);
     }
 
     /**
@@ -57,12 +88,12 @@ abstract class AbstractReview implements ReviewInterface
      * @return Process
      */
     public function getProcess(
-        $commandline,
-        $cwd = null,
-        array $env = null,
-        $input = null,
-        $timeout = 60,
-        array $options = []
+      $commandline,
+      $cwd = null,
+      array $env = null,
+      $input = null,
+      $timeout = 60,
+      array $options = []
     ) {
         return new Process($commandline, $cwd, $env, $input, $timeout, $options);
     }

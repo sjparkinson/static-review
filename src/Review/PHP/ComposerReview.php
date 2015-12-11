@@ -2,9 +2,9 @@
 
 namespace StaticReview\Review\PHP;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class ComposerReview extends AbstractReview
 {
@@ -14,7 +14,7 @@ class ComposerReview extends AbstractReview
     /**
      * Checks Composer json and lock files.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         if ($file->getFileName() == 'composer.json') {
             $this->composerJsonDetected = true;

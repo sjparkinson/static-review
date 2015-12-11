@@ -2,9 +2,9 @@
 
 namespace StaticReview\Review\SCSS;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class SassConvertFixerReview extends AbstractReview
 {
@@ -25,11 +25,11 @@ class SassConvertFixerReview extends AbstractReview
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file File to
+     * @param ReviewableInterface $file File to
      *
      * @return bool
      */
-    public function canReview(FileInterface $file = null)
+    public function canReview(ReviewableInterface $file = null)
     {
         if (!$this->checkCommand('sass-convert')) {
             return false;
@@ -41,7 +41,7 @@ class SassConvertFixerReview extends AbstractReview
     /**
      * Clean/Beautify Sass files using sass-convert.
      */
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $cmd = sprintf('sass-convert --indent %d --from scss --to scss --in-place %s', self::NB_INDENT_SPACE, $file->getFullPath());
         $process = $this->getProcess($cmd);

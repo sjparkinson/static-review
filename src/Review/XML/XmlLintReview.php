@@ -2,25 +2,25 @@
 
 namespace StaticReview\Review\XML;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\AbstractReview;
+use StaticReview\Review\ReviewableInterface;
 
 class XmlLintReview extends AbstractReview
 {
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param FileInterface $file
+     * @param ReviewableInterface $file
      *
      * @return bool
      */
-    public function canReview(FileInterface $file = null)
+    public function canReview(ReviewableInterface $file = null)
     {
         return parent::canReview($file) && $file->getExtension() === 'xml';
     }
 
-    public function review(ReporterInterface $reporter, FileInterface $file = null)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $cmd = sprintf('xmllint --noout %s', $file->getFullPath());
         $process = $this->getProcess($cmd);
