@@ -1,60 +1,41 @@
 <?php
 
-/*
- * This file is part of StaticReview
- *
- * Copyright (c) 2014 Samuel Parkinson <@samparkinson_>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
- */
-
 namespace StaticReview\Review\PHP;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractFileReview;
+use StaticReview\Review\AbstractReview;
 use StaticReview\Review\ReviewableInterface;
 
-class PhpLintReview extends AbstractFileReview
+class PhpLintReview extends AbstractReview
 {
     /**
      * Determins if a given file should be reviewed.
      *
-     * @param  FileInterface $file
+     * @param ReviewableInterface $file
+     *
      * @return bool
      */
-    public function canReviewFile(FileInterface $file)
+    public function canReview(ReviewableInterface $file = null)
     {
-        $extension = $file->getExtension();
-
-        return ($extension === 'php' || $extension === 'phtml');
+        return parent::canReview($file) && $file->getExtension() === 'php';
     }
-
     /**
      * Checks PHP files using the builtin PHP linter, `php -l`.
      */
-    public function review(ReporterInterface $reporter, ReviewableInterface $file)
+    public function review(ReporterInterface $reporter, ReviewableInterface $file = null)
     {
         $cmd = sprintf('php --syntax-check %s', $file->getFullPath());
-
         $process = $this->getProcess($cmd);
         $process->run();
-
         // Create the array of outputs and remove empty values.
-        $output = array_filter(explode(PHP_EOL, $process->getOutput()));
-
-        $needle = 'Parse error: syntax error, ';
-
-        if (! $process->isSuccessful()) {
-            foreach (array_slice($output, 0, count($output) - 1) as $error) {
+        $output = array_filter(explode(PHP_EOL, $process->getErrorOutput()));
+        $needle = 'PHP Parse error:  syntax error, ';
+        if (!$process->isSuccessful()) {
+            foreach ($output as $error) {
                 $raw = ucfirst(substr($error, strlen($needle)));
-                $message = str_replace(' in ' . $file->getFullPath(), '', $raw);
+                $message = str_replace(' in '.$file->getFullPath(), '', $raw);
                 $reporter->error($message, $this, $file);
             }
-
         }
     }
 }

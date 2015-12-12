@@ -38,7 +38,7 @@ class HookRunCommand extends Command
         $path = $this->getTargetPath($hookArg);
 
         if (file_exists($path)) {
-            $cmd = 'php ' . $path;
+            $cmd = 'php '.$path;
 
             $process = new Process($cmd);
 
@@ -50,6 +50,7 @@ class HookRunCommand extends Command
 
     /**
      * @param $hookArgument string
+     *
      * @return string
      */
     protected function getTargetPath($hookArgument)
@@ -58,10 +59,10 @@ class HookRunCommand extends Command
             $target = realpath($hookArgument);
         } else {
             $path = '%s/%s.php';
-            $target = sprintf($path, realpath(__DIR__ . '/../../hooks/'), $hookArgument);
+            $target = sprintf($path, realpath(__DIR__.'/../../hooks/'), $hookArgument);
         }
 
-        if (! file_exists($target)) {
+        if (!file_exists($target)) {
             $error = sprintf('<error>The hook %s does not exist!</error>', $target);
             $output->writeln($error);
             exit(1);

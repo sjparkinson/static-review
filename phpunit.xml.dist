@@ -1,15 +1,11 @@
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<phpunit bootstrap="./vendor/autoload.php" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd">
 
     <!-- Test suites -->
     <testsuites>
 
         <testsuite name="unit">
-            <directory>tests/unit/</directory>
-        </testsuite>
-
-        <testsuite name="functional">
-            <directory>tests/functional/</directory>
+            <directory>src/Test/Unit/</directory>
         </testsuite>
 
     </testsuites>
@@ -23,15 +19,5 @@
 
     </filter>
 
-    <!-- Coverage reporting -->
-    <logging>
-
-        <log type="coverage-text"
-             target="php://stdout" />
-
-        <log type="coverage-html"
-             target="build/coverage/" />
-
-    </logging>
 
 </phpunit>

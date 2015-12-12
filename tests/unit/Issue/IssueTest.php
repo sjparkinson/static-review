@@ -26,14 +26,14 @@ class IssueTest extends TestCase
     protected $issueMessage;
     protected $issueFile;
 
-    protected $levels = [ Issue::LEVEL_INFO, Issue::LEVEL_WARNING, Issue::LEVEL_ERROR ];
+    protected $levels = [Issue::LEVEL_INFO, Issue::LEVEL_WARNING, Issue::LEVEL_ERROR];
 
     public function setUp()
     {
-        $this->issueLevel   = Issue::LEVEL_INFO;
+        $this->issueLevel = Issue::LEVEL_INFO;
         $this->issueMessage = 'Test';
-        $this->issueReview  = Mockery::mock('StaticReview\Review\ReviewInterface');
-        $this->issueFile    = Mockery::mock('StaticReview\File\FileInterface');
+        $this->issueReview = Mockery::mock('StaticReview\Review\ReviewInterface');
+        $this->issueFile = Mockery::mock('StaticReview\File\FileInterface');
 
         $this->issue = new Issue(
             $this->issueLevel,
@@ -169,7 +169,7 @@ class IssueTest extends TestCase
                 Issue::LEVEL_ALL,
                 $this->issueMessage,
                 $this->issueReview,
-                $this->issueFile
+                $this->issueFile,
             ]
         );
 

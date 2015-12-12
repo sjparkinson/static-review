@@ -24,7 +24,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
     public function setUp()
     {
-        $this->file   = Mockery::mock('StaticReview\File\FileInterface');
+        $this->file = Mockery::mock('StaticReview\File\FileInterface');
         $this->review = Mockery::mock('StaticReview\Review\PHP\PhpLeadingLineReview[getProcess]');
     }
 
@@ -53,7 +53,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
-        $process->shouldReceive('getOutput')->once()->andReturn(PHP_EOL . PHP_EOL);
+        $process->shouldReceive('getOutput')->once()->andReturn(PHP_EOL.PHP_EOL);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 
@@ -69,7 +69,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
-        $process->shouldReceive('getOutput')->once()->andReturn('<?php' . PHP_EOL);
+        $process->shouldReceive('getOutput')->once()->andReturn('<?php'.PHP_EOL);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 
@@ -84,7 +84,7 @@ class PhpLeadingLineReviewTest extends TestCase
 
         $process = Mockery::mock('Symfony\Component\Process\Process')->makePartial();
         $process->shouldReceive('run')->once();
-        $process->shouldReceive('getOutput')->once()->andReturn('#!/usr/bin/env php' . PHP_EOL);
+        $process->shouldReceive('getOutput')->once()->andReturn('#!/usr/bin/env php'.PHP_EOL);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 

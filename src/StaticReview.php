@@ -8,14 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
 namespace StaticReview;
 
 use StaticReview\Collection\FileCollection;
 use StaticReview\Collection\ReviewCollection;
-use StaticReview\Commit\CommitMessageInterface;
 use StaticReview\Reporter\ReporterInterface;
 use StaticReview\Review\ReviewInterface;
 
@@ -56,7 +55,8 @@ class StaticReview
     /**
      * Sets the ReporterInterface instance.
      *
-     * @param  ReporterInterface $reporter
+     * @param ReporterInterface $reporter
+     *
      * @return StaticReview
      */
     public function setReporter(ReporterInterface $reporter)
@@ -79,7 +79,8 @@ class StaticReview
     /**
      * Adds a Review to be run.
      *
-     * @param  ReviewInterface $check
+     * @param ReviewInterface $check
+     *
      * @return StaticReview
      */
     public function addReview(ReviewInterface $review)
@@ -92,7 +93,8 @@ class StaticReview
     /**
      * Appends a ReviewCollection to the current list of reviews.
      *
-     * @param  ReviewCollection $checks
+     * @param ReviewCollection $checks
+     *
      * @return StaticReview
      */
     public function addReviews(ReviewCollection $reviews)
@@ -109,7 +111,7 @@ class StaticReview
      *
      * @return StaticReview
      */
-    public function files(FileCollection $files)
+    public function review(FileCollection $files)
     {
         foreach ($files as $key => $file) {
             $this->getReporter()->progress($key + 1, count($files));
@@ -117,20 +119,6 @@ class StaticReview
             foreach ($this->getReviews()->forFile($file) as $review) {
                 $review->review($this->getReporter(), $file);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Runs through each review on the commit, collecting any errors.
-     *
-     * @return StaticReview
-     */
-    public function message(CommitMessageInterface $message)
-    {
-        foreach ($this->getReviews()->forMessage($message) as $review) {
-            $review->review($this->getReporter(), $message);
         }
 
         return $this;

@@ -14,7 +14,6 @@
 namespace StaticReview\Test\Functional\VersionControl;
 
 use PHPUnit_Framework_TestCase as TestCase;
-
 use StaticReview\VersionControl\GitVersionControl;
 use Symfony\Component\Process\Process;
 
@@ -26,13 +25,13 @@ class GitVersionControlTest extends TestCase
 
     public function setUp()
     {
-        $this->directory  = sys_get_temp_dir() . '/sjparkinson.static-review/function-tests/';
+        $this->directory = sys_get_temp_dir().'/sjparkinson.static-review/function-tests/';
 
-        if (! is_dir($this->directory)) {
+        if (!is_dir($this->directory)) {
             mkdir($this->directory, 0755, true);
         } else {
             // Clean up any created files.
-            $cmd = 'rm -rf ' . $this->directory . DIRECTORY_SEPARATOR . '*';
+            $cmd = 'rm -rf '.$this->directory.DIRECTORY_SEPARATOR.'*';
             $process = new Process($cmd);
             $process->run();
         }
@@ -46,7 +45,7 @@ class GitVersionControlTest extends TestCase
     public function tearDown()
     {
         // Clean up any created files.
-        $process = new Process('rm -rf ' . $this->directory);
+        $process = new Process('rm -rf '.$this->directory);
         $process->run();
     }
 
@@ -61,7 +60,7 @@ class GitVersionControlTest extends TestCase
 
     public function testGetStagedFilesWithGitRepo()
     {
-        $cmd  = 'touch ' . $this->testFileName;
+        $cmd = 'touch '.$this->testFileName;
         $cmd .= ' && git init';
 
         $process = new Process($cmd);
@@ -76,9 +75,9 @@ class GitVersionControlTest extends TestCase
 
     public function testGetStagedFilesWithNewFile()
     {
-        $cmd  = 'touch ' . $this->testFileName;
+        $cmd = 'touch '.$this->testFileName;
         $cmd .= ' && git init';
-        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && git add '.$this->testFileName;
 
         $process = new Process($cmd);
         $process->run();
@@ -97,12 +96,12 @@ class GitVersionControlTest extends TestCase
 
     public function testGetStagedFilesWithModifiedFile()
     {
-        $cmd  = 'touch ' . $this->testFileName;
+        $cmd = 'touch '.$this->testFileName;
         $cmd .= ' && git init';
-        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && git add '.$this->testFileName;
         $cmd .= ' && git commit -m \'test\'';
-        $cmd .= ' && echo \'test\' > ' . $this->testFileName;
-        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && echo \'test\' > '.$this->testFileName;
+        $cmd .= ' && git add '.$this->testFileName;
 
         $process = new Process($cmd);
         $process->run();
@@ -121,13 +120,13 @@ class GitVersionControlTest extends TestCase
 
     public function testGetStagedFilesWithPartiallyStagedFile()
     {
-        $cmd  = 'touch ' . $this->testFileName;
+        $cmd = 'touch '.$this->testFileName;
         $cmd .= ' && git init';
-        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && git add '.$this->testFileName;
         $cmd .= ' && git commit -m \'test\'';
-        $cmd .= ' && echo \'test\' > ' . $this->testFileName;
-        $cmd .= ' && git add ' . $this->testFileName;
-        $cmd .= ' && echo \'not staged\' >> ' . $this->testFileName;
+        $cmd .= ' && echo \'test\' > '.$this->testFileName;
+        $cmd .= ' && git add '.$this->testFileName;
+        $cmd .= ' && echo \'not staged\' >> '.$this->testFileName;
 
         $process = new Process($cmd);
         $process->run();
@@ -143,7 +142,7 @@ class GitVersionControlTest extends TestCase
         $this->assertSame(basename($this->testFileName), $file->getFileName());
         $this->assertSame('M', $file->getStatus());
 
-        $process = new Process('cat ' . $file->getFullPath());
+        $process = new Process('cat '.$file->getFullPath());
         $process->run();
 
         $this->assertSame('test', trim($process->getOutput()));

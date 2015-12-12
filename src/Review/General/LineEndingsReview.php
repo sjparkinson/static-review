@@ -8,32 +8,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
 namespace StaticReview\Review\General;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractFileReview;
+use StaticReview\Review\AbstractReview;
 use StaticReview\Review\ReviewableInterface;
 
-class LineEndingsReview extends AbstractFileReview
+class LineEndingsReview extends AbstractReview
 {
     /**
      * Review any text based file.
      *
      * @link http://stackoverflow.com/a/632786
      *
-     * @param  FileInterface $file
+     * @param ReviewableInterface $file
+     *
      * @return bool
      */
-    public function canReviewFile(FileInterface $file)
+    public function canReview(ReviewableInterface $file)
     {
         $mime = $file->getMimeType();
 
         // check to see if the mime-type starts with 'text'
-        return (substr($mime, 0, 4) === 'text');
+        return substr($mime, 0, 4) === 'text';
     }
 
     /**
@@ -51,7 +51,6 @@ class LineEndingsReview extends AbstractFileReview
         if ($process->isSuccessful()) {
             $message = 'File contains CRLF line endings';
             $reporter->error($message, $this, $file);
-
         }
     }
 }

@@ -24,7 +24,7 @@ class PhpCodeSnifferReviewTest extends TestCase
 
     public function setUp()
     {
-        $this->file   = Mockery::mock('StaticReview\File\FileInterface');
+        $this->file = Mockery::mock('StaticReview\File\FileInterface');
         $this->review = Mockery::mock('StaticReview\Review\PHP\PhpCodeSnifferReview[getProcess]');
     }
 
@@ -107,7 +107,7 @@ class PhpCodeSnifferReviewTest extends TestCase
 
         $this->review->shouldReceive('getProcess')
                      ->once()
-                     ->with('vendor/bin/phpcs --report=json --standard=PSR2 ' . __FILE__)
+                     ->with('vendor/bin/phpcs --report=json --standard=PSR2 '.__FILE__)
                      ->andReturn($process);
 
         $reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
@@ -125,7 +125,7 @@ class PhpCodeSnifferReviewTest extends TestCase
         $process->shouldReceive('run')->once();
         $process->shouldReceive('isSuccessful')->once()->andReturn(false);
 
-        $testOutput  = '{"files":{"test.php":{"errors":1,"warnings":0,"messages":[{"message":"Message","line":2}]}}}';
+        $testOutput = '{"files":{"test.php":{"errors":1,"warnings":0,"messages":[{"message":"Message","line":2}]}}}';
 
         $process->shouldReceive('getOutput')->once()->andReturn($testOutput);
 

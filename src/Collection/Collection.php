@@ -1,20 +1,9 @@
 <?php
 
-/*
- * This file is part of StaticReview
- *
- * Copyright (c) 2014 Samuel Parkinson <@samparkinson_>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
- */
-
 namespace StaticReview\Collection;
 
-use \Countable;
-use \Iterator;
+use Countable;
+use Iterator;
 
 abstract class Collection implements Iterator, Countable
 {
@@ -34,13 +23,15 @@ abstract class Collection implements Iterator, Countable
      * Method should throw an InvalidArgumentException if $item is not the
      * expected type.
      *
-     * @return bool
      * @throws InvalidArgumentException
+     *
+     * @return bool
      */
     abstract public function validate($item);
 
     /**
-     * @param  callable   $filter
+     * @param callable $filter
+     *
      * @return Collection
      */
     abstract public function select(callable $filter);
@@ -55,6 +46,11 @@ abstract class Collection implements Iterator, Countable
         }
 
         return $this;
+    }
+
+    public function toArray()
+    {
+        return $this->collection;
     }
 
     /**

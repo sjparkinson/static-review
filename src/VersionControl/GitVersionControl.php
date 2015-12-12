@@ -8,13 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
 namespace StaticReview\VersionControl;
 
 use StaticReview\Collection\FileCollection;
-use StaticReview\Commit\CommitMessage;
 use StaticReview\File\File;
 use StaticReview\File\FileInterface;
 use Symfony\Component\Process\Process;
@@ -42,7 +41,7 @@ class GitVersionControl implements VersionControlInterface
         foreach ($this->getFiles() as $file) {
             list($status, $relativePath) = explode("\t", $file);
 
-            $fullPath = rtrim($base . DIRECTORY_SEPARATOR . $relativePath);
+            $fullPath = $base.DIRECTORY_SEPARATOR.$relativePath;
 
             $file = new File($status, $fullPath, $base);
             $this->saveFileToCache($file);
@@ -53,31 +52,11 @@ class GitVersionControl implements VersionControlInterface
     }
 
     /**
-     * Get a commit message by file or log.
-     *
-     * If no file name is provided, the last commit message will be used.
-     *
-     * @param  string $file
-     * @return CommitMessage
-     */
-    public function getCommitMessage($file = null)
-    {
-        if ($file) {
-            $hash = null;
-            $message = file_get_contents($file);
-        } else {
-            list($hash, $message) = explode(PHP_EOL, $this->getLastCommitMessage(), 2);
-        }
-
-        return new CommitMessage($message, $hash);
-    }
-
-    /**
      * Gets the projects base directory.
      *
      * @return string
      */
-    private function getProjectBase()
+    public function getProjectBase()
     {
         $process = new Process('git rev-parse --show-toplevel');
         $process->run();
@@ -96,7 +75,7 @@ class GitVersionControl implements VersionControlInterface
         $process->run();
 
         if ($process->isSuccessful()) {
-            return array_filter(explode("\n", $process->getOutput()));
+            return array_filter(explode(PHP_EOL, $process->getOutput()));
         }
 
         return [];
@@ -105,14 +84,15 @@ class GitVersionControl implements VersionControlInterface
     /**
      * Saves a copy of the cached version of the given file to a temp directory.
      *
-     * @param  FileInterface $file
+     * @param FileInterface $file
+     *
      * @return FileInterface
      */
     private function saveFileToCache(FileInterface $file)
     {
-        $cachedPath = sys_get_temp_dir() . self::CACHE_DIR . $file->getRelativePath();
+        $cachedPath = sys_get_temp_dir().self::CACHE_DIR.$file->getRelativePath();
 
-        if (! is_dir(dirname($cachedPath))) {
+        if (!is_dir(dirname($cachedPath))) {
             mkdir(dirname($cachedPath), 0700, true);
         }
 
@@ -123,21 +103,5 @@ class GitVersionControl implements VersionControlInterface
         $file->setCachedPath($cachedPath);
 
         return $file;
-    }
-
-    /**
-     * Get the last commit message subject and body.
-     *
-     * @return string
-     */
-    private function getLastCommitMessage()
-    {
-        // hash
-        // subject
-        // body
-        $process = new Process('git log -1 --format="%h%n%s%n%b"');
-        $process->run();
-
-        return trim($process->getOutput());
     }
 }

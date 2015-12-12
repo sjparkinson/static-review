@@ -8,35 +8,35 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
 namespace StaticReview\Review\Composer;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractFileReview;
+use StaticReview\Review\AbstractReview;
 use StaticReview\Review\ReviewableInterface;
 
-class ComposerLintReview extends AbstractFileReview
+class ComposerLintReview extends AbstractReview
 {
     /**
      * Lint only the composer.json file.
      *
-     * @param  FileInterface $file
+     * @param ReviewableInterface $file
+     *
      * @return bool
      */
-    public function canReviewFile(FileInterface $file)
+    public function canReview(ReviewableInterface $file)
     {
         // only if the filename is "composer.json"
-        return ($file->getFileName() === 'composer.json');
+        return $file->getFileName() === 'composer.json';
     }
 
     /**
      * Check the composer.json file is valid.
      *
-     * @param ReporterInterface $reporter
-     * @param FileInterface     $file
+     * @param ReporterInterface   $reporter
+     * @param ReviewableInterface $file
      */
     public function review(ReporterInterface $reporter, ReviewableInterface $file)
     {
@@ -45,10 +45,9 @@ class ComposerLintReview extends AbstractFileReview
         $process = $this->getProcess($cmd);
         $process->run();
 
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             $message = 'The composer configuration is not valid';
             $reporter->error($message, $this, $file);
-
         }
     }
 }

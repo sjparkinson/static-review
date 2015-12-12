@@ -30,7 +30,7 @@ class StaticReviewTest extends TestCase
     public function setUp()
     {
         $this->reporter = Mockery::mock('StaticReview\Reporter\ReporterInterface');
-        $this->review   = Mockery::mock('StaticReview\Review\ReviewInterface');
+        $this->review = Mockery::mock('StaticReview\Review\ReviewInterface');
 
         $this->staticReview = new StaticReview($this->reporter);
     }

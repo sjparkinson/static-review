@@ -1,0 +1,200 @@
+#see https://github.com/brigade/scss-lint/blob/master/lib/scss_lint/linter/README.md
+
+linters:
+  BangFormat:
+    severity: error
+    space_before_bang: true
+    space_after_bang: false
+
+  BorderZero:
+    severity: error
+    convention: zero
+
+  ColorKeyword:
+    severity: error
+
+  ColorVariable:
+    enabled: false
+
+  Comment:
+    severity: error
+
+  DebugStatement:
+    severity: error
+
+  DeclarationOrder:
+    severity: warn
+
+  DuplicateProperty:
+    severity: warn
+
+  ElsePlacement:
+    enabled: false
+
+  EmptyLineBetweenBlocks:
+    enabled: false
+
+  EmptyRule:
+    severity: error
+
+  FinalNewline:
+    severity: error
+    present: true
+
+  HexLength:
+    enabled: false
+
+  HexNotation:
+    severity: error
+    style: lowercase
+
+  HexValidation:
+    severity: error
+
+  IdSelector:
+    enabled: false
+    severity: warn
+
+  ImportantRule:
+    severity: warn
+
+  ImportPath:
+    severity: error
+    leading_underscore: false
+    filename_extension: false
+
+  Indentation:
+    severity: error
+    allow_non_nested_indentation: false
+    character: space
+    width: 2
+
+  LeadingZero:
+    enabled: false
+    severity: error
+    style: exclude_zero
+
+  MergeableSelector:
+    severity: warn
+    force_nesting: false
+
+  NameFormat:
+    enabled: false
+    severity: error
+    allow_leading_underscore: false
+    convention: hyphenated_lowercase
+
+  NestingDepth:
+    enabled: false
+    severity: warn
+    max_depth: 3
+
+  PlaceholderInExtend:
+    severity: warn
+
+  PropertyCount:
+    enabled: false
+
+  PropertyUnits:
+    enabled: true
+    global: [
+      'ch', 'em', 'ex', 'rem',                 # Font-relative lengths
+      'cm', 'in', 'mm', 'pc', 'pt', 'px', 'q', # Absolute lengths
+      'vh', 'vw', 'vmin', 'vmax',              # Viewport-percentage lengths
+      'deg', 'grad', 'rad', 'turn',            # Angle
+      'ms', 's',                               # Duration
+      'Hz', 'kHz',                             # Frequency
+      'dpi', 'dpcm', 'dppx',                   # Resolution
+      '%',                                     # Other
+    ]
+    properties: {}
+
+  PropertySortOrder:
+    enabled: false
+
+  PropertySpelling:
+    severity: error
+    extra_properties: []
+
+  QualifyingElement:
+    enabled: false
+    severity: warn
+    allow_element_with_attribute: false
+    allow_element_with_class: false
+    allow_element_with_id: false
+
+  SelectorDepth:
+    enabled: false
+    severity: warn
+    max_depth: 3
+
+  SelectorFormat:
+    enabled: false
+    severity: warn
+    convention: hyphenated_lowercase
+
+  Shorthand:
+    enabled: false
+    severity: error
+
+  SingleLinePerProperty:
+    severity: error
+    allow_single_line_rule_sets: true
+
+  SingleLinePerSelector:
+    enabled: false
+    severity: error
+
+  SpaceAfterComma:
+    severity: error
+
+  SpaceAfterPropertyColon:
+    severity: error
+    style: one_space
+
+  SpaceAfterPropertyName:
+    severity: error
+
+  SpaceBeforeBrace:
+    severity: warn
+    style: space
+    allow_single_line_padding: false
+
+  SpaceBetweenParens:
+    severity: error
+    spaces: 0
+
+  StringQuotes:
+    enabled: false
+    severity: error
+    style: single_quotes
+
+  TrailingSemicolon:
+    severity: error
+
+  TrailingZero:
+    severity: error
+
+  UnnecessaryMantissa:
+    severity: error
+
+  UnnecessaryParentReference:
+    severity: error
+
+  UrlFormat:
+    enabled: false
+
+  UrlQuotes:
+    severity: error
+
+  VariableForProperty:
+    enabled: false
+
+  VendorPrefix:
+    enabled: false
+
+  ZeroUnit:
+    severity: error
+
+  Compass::*:
+    enabled: false

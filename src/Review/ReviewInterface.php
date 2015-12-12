@@ -18,6 +18,5 @@ use StaticReview\Reporter\ReporterInterface;
 interface ReviewInterface
 {
     public function canReview(ReviewableInterface $subject);
-
     public function review(ReporterInterface $reporter, ReviewableInterface $subject);
 }

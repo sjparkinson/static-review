@@ -1,91 +1,82 @@
 <?php
 
-/*
- * This file is part of StaticReview
- *
- * Copyright (c) 2014 Samuel Parkinson <@samparkinson_>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
- */
-
 namespace StaticReview\Command;
 
+use StaticReview\VersionControl\GitVersionControl;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 
 class HookInstallCommand extends Command
 {
-    const ARG_SOURCE = 'source';
-    const ARG_TARGET = 'target';
+    const PHPUNIT_DEFAULT_CONF_FILENAME = 'phpunit.xml.dist';
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
-        $this->setName('hook:install');
+        $this->setName('install');
 
-        $this->setDescription('Symlink a hook to the given target.');
-
-        $this->addArgument(
-            self::ARG_SOURCE,
-            InputArgument::REQUIRED,
-            'The hook to link, either a path to a file or the filename of a hook in the hooks folder.'
-        );
-
-        $this->addArgument(
-            self::ARG_TARGET,
-            InputArgument::REQUIRED,
-            'The target location, including the filename (e.g. .git/hooks/pre-commit).'
-        );
-
-        $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Overrite any existing files at the symlink target.');
+        $this->setDescription('Install precommit in a git repo');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $source = realpath($input->getArgument(self::ARG_SOURCE));
-        $target = $input->getArgument(self::ARG_TARGET);
-        $force  = $input->getOption('force');
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Pre-commit install');
 
-        if ($output->isVeryVerbose()) {
-            $message = sprintf('<info>Using %s as the hook.</info>', $source);
-            $output->writeln($message);
+        $git = new GitVersionControl();
+        $projectBase = $git->getProjectBase();
 
-            $message = sprintf('<info>Using %s for the install path.</info>', $target);
-            $output->writeln($message);
+        $helper = $this->getHelperSet()->get('question');
+
+        $phpunit = $io->confirm('Enable PhpUnit ?', true);
+
+        $phpunitPath = '';
+        if ($phpunit) {
+            $question = new Question('Specify Phpunit config path [example: app] ? (leave blank if not needed): ', '');
+            $phpunitPath = $helper->ask($input, $output, $question);
         }
 
-        if (! file_exists($source)) {
-            $error = sprintf('<error>The hook %s does not exist!</error>', $source);
-            $output->writeln($error);
+        $source = realpath($projectBase);
+        $hookDir = $source.'/.git/hooks';
+
+        if (!is_dir($hookDir)) {
+            $io->error(sprintf('The git hook directory does not exist (%s)', $hookDir));
             exit(1);
         }
 
-        if (! is_dir(dirname($target))) {
-            $message = sprintf('<error>The directory at %s does not exist.</error>', $target);
-            $output->writeln($message);
-            exit(1);
+        $precommitCommand = sprintf('precommit check%s', $phpunit ? ' --phpunit true' : '');
+        if ($phpunitPath != '') {
+            $phpunitPath .= (substr($phpunitPath, -1) != '/') ? '/' : '';
+            $phpunitConfFile = $source.'/'.$phpunitPath.self::PHPUNIT_DEFAULT_CONF_FILENAME;
+            if (!is_file($phpunitConfFile)) {
+                $io->error(sprintf('No phpunit conf file found "%s"', $phpunitConfFile));
+                exit(1);
+            }
         }
 
-        if (file_exists($target) && $force) {
-            unlink($target);
+        $output->writeln('');
+        $precommitCommand .= ($phpunitPath != '') ? ' --phpunit-conf '.$phpunitPath : '';
 
-            $message = sprintf('<comment>Removed existing file at %s.</comment>', $target);
-            $output->writeln($message);
-        }
-
-        if (! file_exists($target) || $force) {
-            symlink($source, $target);
+        $target = $hookDir.'/pre-commit';
+        $fs = new Filesystem();
+        if (!is_file($target)) {
+            $fileContent = sprintf("#!/bin/sh\n%s", $precommitCommand);
+            $fs->dumpFile($target, $fileContent);
             chmod($target, 0755);
-            $output->writeln('Symlink created.');
+            $io->success('pre-commit file correctly updated');
         } else {
-            $message = sprintf('<error>A file at %s already exists.</error>', $target);
-            $output->writeln($message);
-            exit(1);
+            $io->note(sprintf('A pre-commit file is already exist. Please add "%s" at the end !', $precommitCommand));
         }
+
+        exit(0);
     }
 }

@@ -1,195 +1,107 @@
-# static-review [![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
+Pre-Commit
+=====================
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
-[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat)][php]
+Precommit Tools to lint/review/clean all your files (php/js/scss/xml/json/scss)
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sjparkinson/static-review)
+Based on https://github.com/sjparkinson/static-review
 
-An extendable framework for version control hooks.
+## Table of Contents
 
-![StaticReview Success Demo](http://i.imgur.com/8G3uORp.gif)
+1. [What is it?](#what-is-it)
+1. [Requirements](#requirements)
+1. [How to Install](#how-to-install)
+1. [How to Update](#how-to-update)
+1. [Usage](#usage)
+1. [PHPStorm Integration](#phpstorm-integration)
+1. [Used Libraries](#used-libraries)
 
-[travis]:    https://travis-ci.org/sjparkinson/static-review
-[packagist]: https://packagist.org/packages/sjparkinson/static-review
-[php]:       https://php.net/
+## What is it<a name="what-is-it"></a>
 
-## Usage
+This Code Reviewing tool can check:
 
-For a [composer][composer] managed project you can simply run the following ...
+> * GIT merge conflict markers
+> * GIT NOCOMMIT markers
+> * Forgot debugging (JS,PHP) statements
+> * PHP Syntax Error
+> * XML Syntax Error
+> * YML Syntax Error
+> * JSON Syntax Error
+> * JS Syntax Error & auto-fix it
+> * Composer Sync .json and .lock files
 
-```bash
-$ composer require sjparkinson/static-review
+It optimizes PHP Syntax with specific [php-cs-fixer rules](doc/fixer/php_cs_fixer_rules.md) (See PhpCsFixerReview.php) :
+
+> * Automatically Fix coding standards issues (PHP CS Fixer)
+
+It optimizes SCSS Syntax :
+
+> * Automatically Fix coding standards issues (Sass-convert)
+
+It reports about bad JS statements with specific [eslint rules](doc/fixer/js_eslint_rules.md) (See Rules/.eslintrc)
+
+It reports about bad SCSS statements specific [scss-lint rules](doc/fixer/scss_lint_rules.md) (See Rules/.scsslint.yml)
+
+It reports about bad PHP statements :
+
+> * Mess Detection (Unused code, complexity...) with [phpmd rules](doc/fixer/php_md_rules.md) (See Rules/phpmd.xml)
+> * Copy/Paste detection
+> * Code sniffing to notify missing PHPDOC function
+
+## Requirements<a name="requirements"></a>
+
+Execute check-requirements command:
+```./bin/precommit checkRequirements```
+
+Change PHP Cli Configuration if necessary with: 
+```
+phar.readonly = Off
 ```
 
-Hooks can then be installed like so ...
+## How to Install<a name="how-to-install"></a>
 
-```bash
-$ vendor/bin/static-review.php hook:install vendor/sjparkinson/static-review/hooks/example-pre-commit.php .git/hooks/pre-commit
-```
+To install precommit tool and generate phar package:
+Launch install script ```./install_precommit.sh```
+> This script will install all required libraries, create a phar file with sources files, and move it to /usr/local/bin
 
-Otherwise, if you don't use composer ...
+In your project path, just execute install command ```precommit install```
 
-```bash
-$ git clone https://github.com/sjparkinson/static-review.git
-$ cd static-review/
-$ composer install --no-dev --optimize-autoloader
-$ bin/static-review.php hook:install hooks/example-pre-commit.php ~/.../.git/hooks/pre-commit
-```
+To know which project is configured with pre-commit, you can simply execute ```precommit listRepo [WORKSPACE_PATH] ```
 
-[composer]: https://getcomposer.org/
+## How to Update<a name="how-to-update"></a>
 
-### Global Installation and Usage
+Get latest libraries version with a "composer global update"
 
-The hooks can also be used for any project if you install `static-review` globally:
+Just update your GIT fork and re-launch install script.
 
-```bash
-$ composer g require sjparkinson/static-review
-```
+## Usage<a name="usage"></a>
 
-Then, just install the hooks as you would normally but reference the global
-installation path:
+After the installation, you can execute "precommit" command to:
+> * **checkRequirements** : Execute check requirements
+> * **check** : Execute pre-commit
+> * **checkFile [file]** : Execute pre-commit checks on single file
+> * **php-cs-fixer [file]** : Execute php-cs-fixer rule on single file
+> * **install** : Install pre-commit hook on your current project
+> * **listRepo [workspace_path]** : Analyse all git projects to get pre-commit informations
 
-```bash
-$ static-review.php hook:install ~/.composer/vendor/sjparkinson/static-review/hooks/static-review-commit-msg.php .git/hooks/commit-msg
-```
 
-This assumes you have set up [global composer paths][global-composer].
+## PHPStorm Integration<a name="phpstorm-integration"></a>
 
-[global-composer]: https://getcomposer.org/doc/03-cli.md#global
+In order to check file manually in PhpStorm:
 
-## Example Hooks
+* Go to Settings / External Tools
+* Add new one and fill info like this:
+  * Program: "precommit"
+  * Parameters: "checkFile $FilePath$"
+  * Working Directory: "$ProjectFileDir$"
 
-Static Review can be used for both files and commit message review. Below are
-basic hooks for each.
 
-### For Files
+## Used Libraries<a name="used-libraries"></a>
 
-```php
-#!/usr/bin/env php
-<?php
-
-include __DIR__ . '/../../../autoload.php';
-
-// Reference the required classes.
-use StaticReview\StaticReview;
-use StaticReview\Review\General\LineEndingsReview;
-[...]
-
-$reporter = new Reporter();
-$review   = new StaticReview($reporter);
-
-// Add any reviews to the StaticReview instance, supports a fluent interface.
-$review->addReview(new LineEndingsReview());
-
-$git = new GitVersionControl();
-
-// Review the staged files.
-$review->files($git->getStagedFiles());
-
-// Check if any issues were found.
-// Exit with a non-zero status to block the commit.
-($reporter->hasIssues()) ? exit(1) : exit(0);
-```
-
-### For Commit Messages
-
-```php
-#!/usr/bin/env php
-<?php
-
-include __DIR__ . '/../../../autoload.php';
-
-// Reference the required classes.
-use StaticReview\StaticReview;
-use StaticReview\Review\Message\BodyLineLengthReview;
-[...]
-
-$reporter = new Reporter();
-$review   = new StaticReview($reporter);
-
-// Add any reviews to the StaticReview instance, supports a fluent interface.
-$review->addReview(new BodyLineLengthReview());
-
-$git = new GitVersionControl();
-
-// Review the current commit message.
-// The hook is passed the file holding the commit message as the first argument.
-$review->message($git->getCommitMessage($argv[1]));
-
-// Check if any issues were found.
-// Exit with a non-zero status to block the commit.
-($reporter->hasIssues()) ? exit(1) : exit(0);
-```
-
-## Example Review For Files
-
-```php
-class NoCommitTagReview extends AbstractFileReview
-{
-    // Review any text based file.
-    public function canReviewFile(FileInterface $file)
-    {
-        $mime = $file->getMimeType();
-
-        // check to see if the mime-type starts with 'text'
-        return (substr($mime, 0, 4) === 'text');
-    }
-
-    // Checks if the file contains `NOCOMMIT`.
-    public function review(ReporterInterface $reporter, ReviewableInterface $file)
-    {
-        $cmd = sprintf('grep --fixed-strings --ignore-case --quiet "NOCOMMIT" %s', $file->getFullPath());
-
-        $process = $this->getProcess($cmd);
-        $process->run();
-
-        if ($process->isSuccessful()) {
-            $message = 'A NOCOMMIT tag was found';
-            $reporter->error($message, $this, $file);
-        }
-    }
-}
-```
-
-## Example Review For Messages
-
-```php
-class WorkInProgressReview extends AbstractMessageReview
-{
-    // Check if the commit message contains "wip"
-    public function review(ReporterInterface $reporter, ReviewableInterface $commit)
-    {
-        $fulltext = $commit->getSubject() . PHP_EOL . $commit->getBody();
-
-        if (preg_match('/\bwip\b/i', $fulltext)) {
-            $message = 'Do not commit WIP to shared branches';
-            $reporter->error($message, $this, $commit);
-        }
-    }
-}
-```
-
-## Unit Tests
-
-See [vagrantup.com][vagrant] and [phpunit.de][phpunit].
-
-```bash
-$ git clone https://github.com/sjparkinson/static-review.git
-$ cd static-review/
-$ vagrant up
-$ vagrant ssh
-...
-$ cd /srv
-$ composer update
-$ composer test
-```
-
-[vagrant]: https://www.vagrantup.com
-[phpunit]: http://phpunit.de
-
-## Licence
-
-The content of this library is released under the [MIT License][license] by [Samuel Parkinson][twitter].
-
-[license]: https://github.com/sjparkinson/static-review/blob/master/LICENSE
-[twitter]: https://twitter.com/samparkinson_
+* libxml2-utils
+* PHP Cs Fixer Install (https://github.com/FriendsOfPHP/PHP-CS-Fixer)
+* PHP Mess Detector
+* PHP CPD
+* PHPCS
+* ESLint (http://eslint.org/) - Install (see https://github.com/nodejs/node-v0.x-archive/wiki/Installing-Node.js-via-package-manager)
+* sass
+* scss-lint (https://github.com/brigade/scss-lint)

@@ -1,16 +1,5 @@
 <?php
 
-/*
- * This file is part of StaticReview
- *
- * Copyright (c) 2014 Samuel Parkinson <@samparkinson_>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
- */
-
 namespace StaticReview\Issue;
 
 use StaticReview\Review\ReviewableInterface;
@@ -21,17 +10,15 @@ class Issue implements IssueInterface
     /**
      * Issue level flags.
      */
-    const LEVEL_INFO    = 1;
+    const LEVEL_INFO = 1;
     const LEVEL_WARNING = 2;
-    const LEVEL_ERROR   = 4;
-    const LEVEL_ALL     = 7;
+    const LEVEL_ERROR = 4;
+    const LEVEL_ALL = 7;
 
     private $level;
-
     private $message;
-
     private $review;
-
+    private $line;
     private $subject;
 
     /**
@@ -41,17 +28,20 @@ class Issue implements IssueInterface
      * @param string              $message
      * @param ReviewInterface     $review
      * @param ReviewableInterface $subject
+     * @param int                 $line
      */
     public function __construct(
         $level,
         $message,
         ReviewInterface $review,
-        ReviewableInterface $subject
+        ReviewableInterface $subject,
+        $line = null
     ) {
-        $this->level   = $level;
+        $this->level = $level;
         $this->message = $message;
-        $this->review  = $review;
+        $this->review = $review;
         $this->subject = $subject;
+        $this->line = $line;
     }
 
     /**
@@ -89,6 +79,22 @@ class Issue implements IssueInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getLine()
+    {
+        return $this->line;
+    }
+
+    /**
+     * @param mixed $line
+     */
+    public function setLine($line)
+    {
+        $this->line = $line;
+    }
+
+    /**
      * Gets the Issues level as a string.
      */
     public function getLevelName()
@@ -96,15 +102,12 @@ class Issue implements IssueInterface
         switch ($this->getLevel()) {
             case self::LEVEL_INFO:
                 return 'Info';
-
             case self::LEVEL_WARNING:
                 return 'Warning';
-
             case self::LEVEL_ERROR:
                 return 'Error';
-
             default:
-                throw new \UnexpectedValueException('Level was set to ' . $this->getLevel());
+                throw new \UnexpectedValueException('Level was set to '.$this->getLevel());
         }
     }
 
@@ -118,15 +121,12 @@ class Issue implements IssueInterface
         switch ($this->level) {
             case self::LEVEL_INFO:
                 return 'cyan';
-
             case self::LEVEL_WARNING:
-                return 'brown';
-
+                return 'yellow';
             case self::LEVEL_ERROR:
                 return 'red';
-
             default:
-                throw new \UnexpectedValueException('Could not get a colour. Level was set to ' . $this->getLevel());
+                throw new \UnexpectedValueException('Could not get a colour. Level was set to '.$this->getLevel());
         }
     }
 
@@ -139,7 +139,7 @@ class Issue implements IssueInterface
     {
         $result = ($this->getLevel() & $option);
 
-        return ($result === $this->getLevel());
+        return $result === $this->getLevel();
     }
 
     /**
@@ -147,12 +147,13 @@ class Issue implements IssueInterface
      */
     public function __toString()
     {
+        $filename = $this->getSubject()->getName();
+
         return sprintf(
-            "%s %s: %s in %s",
-            $this->getReviewName(),
-            $this->getLevelName(),
+            '    • %s%s%s',
             $this->getMessage(),
-            $this->getSubject()->getName()
+            ($filename != '') ? sprintf(' in %s', $filename) : '',
+            $this->getLine() ? sprintf(' on line %d', $this->getLine()) : ''
         );
     }
 }

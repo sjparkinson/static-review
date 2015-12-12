@@ -24,7 +24,7 @@ class PhpLintReviewTest extends TestCase
 
     public function setUp()
     {
-        $this->file   = Mockery::mock('StaticReview\File\FileInterface');
+        $this->file = Mockery::mock('StaticReview\File\FileInterface');
         $this->review = Mockery::mock('StaticReview\Review\PHP\PhpLintReview[getProcess]');
     }
 
@@ -63,7 +63,7 @@ class PhpLintReviewTest extends TestCase
         $process->shouldReceive('isSuccessful')->once()->andReturn(false);
         $process->shouldReceive('getOutput')
                 ->once()
-                ->andReturn('Parse error: syntax error, test in ' . __FILE__ . PHP_EOL . 'test' . PHP_EOL);
+                ->andReturn('Parse error: syntax error, test in '.__FILE__.PHP_EOL.'test'.PHP_EOL);
 
         $this->review->shouldReceive('getProcess')->once()->andReturn($process);
 

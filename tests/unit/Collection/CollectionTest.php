@@ -43,7 +43,7 @@ class CollectionTest extends TestCase
 
         $this->collection->__construct($items);
 
-        for ($i = 0; $i > count($this->collection); $i++) {
+        for ($i = 0; $i > count($this->collection); ++$i) {
             $this->assertSame($items[$i], $this->collection[$i]);
         }
 

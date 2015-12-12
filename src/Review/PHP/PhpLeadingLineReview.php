@@ -8,27 +8,27 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
+ * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE.md
  */
 
 namespace StaticReview\Review\PHP;
 
-use StaticReview\File\FileInterface;
 use StaticReview\Reporter\ReporterInterface;
-use StaticReview\Review\AbstractFileReview;
+use StaticReview\Review\AbstractReview;
 use StaticReview\Review\ReviewableInterface;
 
-class PhpLeadingLineReview extends AbstractFileReview
+class PhpLeadingLineReview extends AbstractReview
 {
     /**
      * Determins if the given file should be revewed.
      *
-     * @param  FileInterface $file
+     * @param ReviewableInterface $file
+     *
      * @return bool
      */
-    public function canReviewFile(FileInterface $file)
+    public function canReview(ReviewableInterface $file)
     {
-        return ($file->getExtension() === 'php');
+        return $file->getExtension() === 'php';
     }
 
     /**
@@ -44,10 +44,9 @@ class PhpLeadingLineReview extends AbstractFileReview
         $process = $this->getProcess($cmd);
         $process->run();
 
-        if (! in_array(trim($process->getOutput()), ['<?php', '#!/usr/bin/env php'])) {
+        if (!in_array(trim($process->getOutput()), ['<?php', '#!/usr/bin/env php'])) {
             $message = 'File must begin with `<?php` or `#!/usr/bin/env php`';
             $reporter->error($message, $this, $file);
-
         }
     }
 }

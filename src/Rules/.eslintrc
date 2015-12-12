@@ -1,0 +1,26 @@
+{
+  "env": {
+    "browser": true,
+    "jquery": true,
+  },
+  "globals": {
+    //"angular": true,
+  },
+  "rules": {
+    "camelcase": 2,
+    "curly": 2,
+    "no-unused-vars": 2,
+    "no-unreachable": 2,
+    "no-invalid-regexp": 2,
+    "no-extra-semi": 2,
+    "no-extra-boolean-cast": 2,
+    "no-cond-assign": 2,
+    "no-constant-condition": 2,
+    "no-duplicate-case": 2,
+    "no-empty": 2,
+    "no-redeclare": 2,
+    "brace-style": [2, "1tbs"],
+    //"quotes": [2, "single"],
+    "semi": [2, "always"],
+  }
+}

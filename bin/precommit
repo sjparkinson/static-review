@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+
+use StaticReview\Command;
+use Symfony\Component\Console\Application;
+
+$application = new Application('Precommit', '@package_version@');
+$application->add(new Command\CheckFileCommand());
+$application->add(new Command\PhpCsFixerCommand());
+$application->add(new Command\HookDeleteCommand());
+$application->add(new Command\HookInstallCommand());
+$application->add(new Command\CheckRequirementsCommand());
+$application->add(new Command\HookListCommand());
+$application->add(new Command\PreCommitCommand());
+$application->run();

@@ -29,7 +29,7 @@ class ReporterTest extends TestCase
     public function setUp()
     {
         $this->review = Mockery::mock('StaticReview\Review\ReviewInterface');
-        $this->file   = Mockery::mock('StaticReview\File\FileInterface');
+        $this->file = Mockery::mock('StaticReview\File\FileInterface');
 
         $this->reporter = new Reporter();
     }

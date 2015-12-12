@@ -1,11 +1,16 @@
+/vendor
+precommit.phar
+box.json
+/.idea
+=======
 # Project Files & Folders #
 ###########################
-composer.lock
 phpunit.xml
 *.sublime-*
 .vagrant/
 vendor/
 build/
+.idea/
 
 # OS Generated Files #
 ######################
