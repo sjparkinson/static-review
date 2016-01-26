@@ -50,34 +50,6 @@ class IssueTest extends TestCase
         Mockery::close();
     }
 
-    /**
-     * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage must implement interface StaticReview\Review\ReviewInterface
-     */
-    public function testConstructWithInvalidReview()
-    {
-        $issue = new Issue(
-            $this->issueLevel,
-            $this->issueMessage,
-            null,
-            $this->issueFile
-        );
-    }
-
-    /**
-     * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage must implement interface StaticReview\Review\ReviewableInterface
-     */
-    public function testConstructWithInvalidFile()
-    {
-        $issue = new Issue(
-            $this->issueLevel,
-            $this->issueMessage,
-            $this->issueReview,
-            null
-        );
-    }
-
     public function testGetLevel()
     {
         $this->assertSame($this->issueLevel, $this->issue->getLevel());
