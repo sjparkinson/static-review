@@ -51,7 +51,6 @@ class NoCommitTagReview extends AbstractFileReview
         if ($process->isSuccessful()) {
             $message = 'A NOCOMMIT tag was found';
             $reporter->error($message, $this, $file);
-
         }
     }
 }
