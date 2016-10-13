@@ -54,7 +54,6 @@ class PhpLintReview extends AbstractFileReview
                 $message = str_replace(' in ' . $file->getFullPath(), '', $raw);
                 $reporter->error($message, $this, $file);
             }
-
         }
     }
 }
