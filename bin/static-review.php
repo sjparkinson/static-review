@@ -12,8 +12,8 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-$included = include file_exists(__DIR__ . '/../vendor/autoload.php')
-    ? __DIR__ . '/../vendor/autoload.php'
+$included = include file_exists(__DIR__ . '/../autoload.php')
+    ? __DIR__ . '/../autoload.php'
     : __DIR__ . '/../../../autoload.php';
 
 if (! $included) {
