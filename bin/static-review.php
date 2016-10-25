@@ -12,9 +12,17 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-$included = include file_exists(__DIR__ . '/../autoload.php')
-    ? __DIR__ . '/../autoload.php'
-    : __DIR__ . '/../../../autoload.php';
+$currentDir = dirname(__DIR__);
+$included = false;
+while ($currentDir !== '/') {
+    if (file_exists($currentDir . '/composer.json')) {
+        $vendorDir = trim(shell_exec('composer config vendor-dir'));
+        include $currentDir . '/' . $vendorDir . '/' . 'autoload.php';
+        $included = true;
+        break;
+    }
+    $currentDir = dirname($currentDir);
+}
 
 if (! $included) {
     echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
