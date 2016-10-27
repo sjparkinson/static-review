@@ -34,8 +34,6 @@ if (! $included) {
     exit(1);
 }
 
-require STATIC_REVIEW_COMPOSER_INSTALL;
-
 use StaticReview\Command\HookInstallCommand;
 use StaticReview\Command\HookListCommand;
 use StaticReview\Command\HookRunCommand;
