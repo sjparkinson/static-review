@@ -12,14 +12,21 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-foreach (array(__DIR__ . '/../../../autoload.php', __DIR__ . '/../../vendor/autoload.php', __DIR__ . '/../vendor/autoload.php') as $file) {
+$included = false;
+foreach (
+    [
+        __DIR__ . '/../../../autoload.php',
+        __DIR__ . '/../../vendor/autoload.php',
+        __DIR__ . '/../vendor/autoload.php'
+    ] as $file
+) {
     if (file_exists($file)) {
-        define('STATIC_REVIEW_COMPOSER_INSTALL', $file);
+        $included = include $file;
         break;
     }
 }
 
-if (!defined('STATIC_REVIEW_COMPOSER_INSTALL')) {
+if (! $included) {
     echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
          . 'curl -sS https://getcomposer.org/installer | php' . PHP_EOL
          . 'php composer.phar install' . PHP_EOL;
