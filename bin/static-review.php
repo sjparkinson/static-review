@@ -12,9 +12,17 @@
  * @see http://github.com/sjparkinson/static-review/blob/master/LICENSE
  */
 
-$included = include file_exists(__DIR__ . '/../vendor/autoload.php')
-    ? __DIR__ . '/../vendor/autoload.php'
-    : __DIR__ . '/../../../autoload.php';
+$included = false;
+foreach ([
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../../vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php'
+] as $file) {
+    if (file_exists($file)) {
+        $included = include $file;
+        break;
+    }
+}
 
 if (! $included) {
     echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
