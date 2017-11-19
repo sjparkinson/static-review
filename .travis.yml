@@ -17,16 +17,13 @@ matrix:
           env: DEPENDENCIES="minimum"
 
           # Test the latest stable release
-        - php: 5.5
-        - php: 5.6
-        - php: 7.0
         - php: 7.1
         - php: hhvm
 
           # Test LTS versions
-        - php: 7.1
+        - php: 5.6
           env: DEPENDENCIES="symfony/lts:v2"
-        - php: 7.1
+        - php: 7.0
           env: DEPENDENCIES="symfony/lts:v3"
 
           # Latest beta release
