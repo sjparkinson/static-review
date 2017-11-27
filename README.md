@@ -1,6 +1,6 @@
 # static-review
 
-__This package is abbandoned :rotating_light:.__
+__This package is abandoned :rotating_light:.__
 
 See [GrumPHP](https://github.com/phpro/grumphp) for a maintained alternative.
 
