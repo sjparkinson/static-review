@@ -1,9 +1,10 @@
-# static-review [![Build Status](http://img.shields.io/travis/sjparkinson/static-review/master.svg?style=flat)][travis]
+# static-review
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/sjparkinson/static-review.svg?style=flat)][packagist]
-[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat)][php]
+__This package is abandoned :rotating_light:.__
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sjparkinson/static-review)
+See [GrumPHP](https://github.com/phpro/grumphp) for a maintained alternative.
+
+---
 
 An extendable framework for version control hooks.
 
