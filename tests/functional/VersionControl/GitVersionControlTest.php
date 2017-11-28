@@ -148,4 +148,63 @@ class GitVersionControlTest extends TestCase
 
         $this->assertSame('test', trim($process->getOutput()));
     }
+
+    public function testGetStagedFilesWithMovedUnrenamedFile()
+    {
+        $testFolderName = 'test_folder';
+
+        $cmd  = 'touch ' . $this->testFileName;
+        $cmd .= ' && echo \'test\' > ' . $this->testFileName;
+        $cmd .= ' && git init';
+        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && git commit -m \'test\'';
+        $cmd .= ' && mkdir ' . $testFolderName;
+        $cmd .= ' && mv ' .  $this->testFileName . ' ' . $testFolderName;
+        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && git add ' . $testFolderName;
+
+        $process = new Process($cmd);
+        $process->run();
+
+        $git = new GitVersionControl();
+        $collection = $git->getStagedFiles();
+
+        $this->assertInstanceOf('StaticReview\Collection\FileCollection', $collection);
+        $this->assertCount(1, $collection);
+
+        $file = $collection->current();
+
+        $this->assertSame(basename($this->testFileName), $file->getFileName());
+        $this->assertStringStartsWith('R', $file->getStatus());
+    }
+
+    public function testGetStagedFilesWithMovedRenamedFile()
+    {
+        $testFolderName = 'test_folder';
+        $newTestFileName = 'test_new.txt';
+
+        $cmd  = 'touch ' . $this->testFileName;
+        $cmd .= ' && echo \'test\' > ' . $this->testFileName;
+        $cmd .= ' && git init';
+        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && git commit -m \'test\'';
+        $cmd .= ' && mkdir ' . $testFolderName;
+        $cmd .= ' && mv ' .  $this->testFileName . ' ' . $testFolderName . DIRECTORY_SEPARATOR . $newTestFileName;
+        $cmd .= ' && git add ' . $this->testFileName;
+        $cmd .= ' && git add ' . $testFolderName;
+
+        $process = new Process($cmd);
+        $process->run();
+
+        $git = new GitVersionControl();
+        $collection = $git->getStagedFiles();
+
+        $this->assertInstanceOf('StaticReview\Collection\FileCollection', $collection);
+        $this->assertCount(1, $collection);
+
+        $file = $collection->current();
+
+        $this->assertSame(basename($newTestFileName), $file->getFileName());
+        $this->assertStringStartsWith('R', $file->getStatus());
+    }
 }

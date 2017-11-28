@@ -40,7 +40,9 @@ class GitVersionControl implements VersionControlInterface
         $files = new FileCollection();
 
         foreach ($this->getFiles() as $file) {
-            list($status, $relativePath) = explode("\t", $file);
+            $fileData = explode("\t", $file);
+            $status = reset($fileData);
+            $relativePath = end($fileData);
 
             $fullPath = rtrim($base . DIRECTORY_SEPARATOR . $relativePath);
 
